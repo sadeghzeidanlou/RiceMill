@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Common\Interfaces\Repositories\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Common\Interfaces\Repositories\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Common\Interfaces\Repositories\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RiceMill.Domain\RiceMill.Domain.csproj" />
+    <ProjectReference Include="..\RiceMill.Share\Shared.csproj" />
+  </ItemGroup>
+
+</Project>
