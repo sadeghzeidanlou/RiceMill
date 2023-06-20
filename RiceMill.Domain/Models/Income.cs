@@ -14,12 +14,7 @@ namespace RiceMill.Domain.Models
 
         public float Flour { get; set; }
 
-        //public int Money { get; set; }
-
         public int RiceThreshingId { get; set; }
         public RiceThreshing RiceThreshing { get; set; }
-
-        //public int ConcernId { get; set; }
-        //public Concern Concern { get; set; }
     }
 }

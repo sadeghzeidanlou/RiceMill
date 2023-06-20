@@ -7,6 +7,10 @@ namespace RiceMill.Persistence
 {
     public class RiceMillDbContext : DbContext, IApplicationDbContext
     {
+        public RiceMillDbContext(DbContextOptions<RiceMillDbContext> options) : base(options)
+        {
+        }
+
         public DbSet<Concern> Concerns { get; set; }
 
         public DbSet<Delivery> Deliveries { get; set; }

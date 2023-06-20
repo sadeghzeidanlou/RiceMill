@@ -1,5 +1,5 @@
-﻿using RiceMill.Domain.Enums;
-using RiceMill.Domain.Models.BaseModels;
+﻿using RiceMill.Domain.Models.BaseModels;
+using Shared.Enums;
 
 namespace RiceMill.Domain.Models
 {

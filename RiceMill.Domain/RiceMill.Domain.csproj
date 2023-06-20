@@ -10,4 +10,8 @@
     <Compile Remove="Models\ReceiveType.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RiceMill.Share\Shared.csproj" />
+  </ItemGroup>
+
 </Project>

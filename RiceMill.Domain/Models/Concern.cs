@@ -7,7 +7,5 @@ namespace RiceMill.Domain.Models
         public string Title { get; set; }
 
         public virtual ICollection<Payment> Payment { get; set; }
-
-        //public virtual ICollection<Income> Incomes { get; set; }
     }
 }

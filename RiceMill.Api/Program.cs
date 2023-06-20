@@ -1,3 +1,5 @@
+using RiceMill.Persistence;
+using RiceMill.Infrastructure;
 
 namespace RiceMill.Api
 {
@@ -12,6 +14,8 @@ namespace RiceMill.Api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddPersistenceServices(builder.Configuration).AddInfrastructureServices(builder.Configuration);
 
             var app = builder.Build();
 
