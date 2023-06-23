@@ -2,29 +2,84 @@
 
 namespace RiceMill.Domain.Models
 {
+    /// <summary>
+    /// This class contain all information about a <see cref="Delivery"/>
+    /// </summary>
     public sealed class Delivery : EventBaseModelWithUserAndRiceMill
     {
-        public short UnbrokenRiceAmount { get; set; }
+        /// <summary>
+        /// How much Unbroken Rice delivered in this <see cref="Delivery"/>
+        /// </summary>
+        public short UnbrokenRice { get; set; }
 
-        public short BrokenRiceAmount { get; set; }
+        /// <summary>
+        /// How much Broken Rice delivered in this <see cref="Delivery"/>
+        /// </summary>
+        public short BrokenRice { get; set; }
 
-        public short ChickenRiceAmount { get; set; }
+        /// <summary>
+        /// How much Chicken Rice delivered in this <see cref="Delivery"/>
+        /// </summary>
+        public short ChickenRice { get; set; }
 
-        public short FlourAmount { get; set; }
+        /// <summary>
+        /// How much flour delivered in this <see cref="Delivery"/>
+        /// </summary>
+        public short Flour { get; set; }
 
+        /// <summary>
+        /// Time of this <see cref="Delivery"/>
+        /// </summary>
         public DateTime DeliveryTime { get; set; }
 
+        /// <summary>
+        /// Description of this <see cref="Delivery"/>
+        /// </summary>
         public string Description { get; set; }
 
-        public int DeliveryPersonId { get; set; }
-        public Person DeliveryPerson { get; set; }
+        /// <summary>
+        /// This property used for reference navigation between this class and <see cref="Person"/> that deliverer this <see cref="Delivery"/>
+        /// </summary>
+        public int DelivererPersonId { get; set; }
 
-        public int DriverPersonId { get; set; }
-        public Person Driver { get; set; }
+        /// <summary>
+        /// This property Contain <see cref="Person"/> detail in this class that deliverer this <see cref="Delivery"/>
+        /// </summary>
+        public Person DelivererPerson { get; set; }
 
+        /// <summary>
+        /// This property used for reference navigation between this class and <see cref="Person"/> that receiver this <see cref="Delivery"/>
+        /// </summary>
+        public int ReceiverPersonId { get; set; }
+
+        /// <summary>
+        /// This property Contain <see cref="Person"/> detail in this class that receiver this <see cref="Delivery"/>
+        /// </summary>
+        public Person ReceiverPerson { get; set; }
+
+        /// <summary>
+        /// This property used for reference navigation between this class and <see cref="Person"/> that carrier this <see cref="Delivery"/>
+        /// </summary>
+        public int CarrierPersonId { get; set; }
+
+        /// <summary>
+        /// This property Contain <see cref="Person"/> detail in this class that carrier this <see cref="Delivery"/>
+        /// </summary>
+        public Person CarrierPerson { get; set; }
+
+        /// <summary>
+        /// This property used for reference navigation between this class and <see cref="Vehicle"/> that carrier used for transfer this <see cref="Delivery"/>
+        /// </summary>
         public int VehicleId { get; set; }
+
+        /// <summary>
+        /// This property Contain <see cref="Vehicle"/> detail in this class that carrier used for transfer this <see cref="Delivery"/>
+        /// </summary>
         public Vehicle Vehicle { get; set; }
 
+        /// <summary>
+        /// Collection of <see cref="RiceThreshing"/> that delivered in this <see cref="Delivery"/>
+        /// </summary>
         public ICollection<RiceThreshing> RiceThreshings { get; set; }
     }
 }
