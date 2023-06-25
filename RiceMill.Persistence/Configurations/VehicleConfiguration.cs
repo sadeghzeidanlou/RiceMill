@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RiceMill.Domain.Models;
-using RiceMill.Persistence.DataBaseExpression;
 using Shared.Enums;
 
 namespace RiceMill.Persistence.Configurations
@@ -33,18 +32,26 @@ namespace RiceMill.Persistence.Configurations
                 .HasConversion(vt => vt.ToString(), vt => (VehicleTypeEnum)Enum.Parse(typeof(VehicleTypeEnum), vt))
                 .IsRequired();
 
-
             builder.Property(v => v.IsDeleted)
-                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.Property(v => v.CreateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder.Property(v => v.UpdateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
+
+            builder
+                .HasOne(v => v.RiceMill)
+                .WithMany(rm => rm.Vehicles)
+                .HasForeignKey(v => v.RiceMillId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(v => v.User)
+                .WithMany(u => u.Vehicles)
+                .HasForeignKey(v => v.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

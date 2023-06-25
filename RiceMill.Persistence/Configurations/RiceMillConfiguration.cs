@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RiceMill.Persistence.DataBaseExpression;
 
 namespace RiceMill.Persistence.Configurations
 {
@@ -39,21 +38,26 @@ namespace RiceMill.Persistence.Configurations
                 .HasMaxLength(200);
 
             builder.Property(r => r.IsDeleted)
-                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.Property(r => r.CreateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder.Property(r => r.UpdateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder
                 .HasOne(rm => rm.OwnerPerson)
                 .WithMany(op => op.OwnedRiceMills)
-                .HasForeignKey(rm => rm.OwnerPersonId);
+                .HasForeignKey(rm => rm.OwnerPersonId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasMany(rm => rm.Users)
+                .WithOne(u => u.RiceMill)
+                .HasForeignKey(u => u.RiceMillId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

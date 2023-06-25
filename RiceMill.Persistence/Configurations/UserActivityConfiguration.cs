@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RiceMill.Domain.Models;
-using RiceMill.Persistence.DataBaseExpression;
 using Shared.Enums;
 
 namespace RiceMill.Persistence.Configurations
@@ -40,16 +39,19 @@ namespace RiceMill.Persistence.Configurations
                 .IsUnicode();
 
             builder.Property(ua => ua.IsDeleted)
-                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.Property(ua => ua.CreateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder.Property(ua => ua.UpdateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
+
+            builder
+                .HasOne(ua => ua.User)
+                .WithMany(u => u.UserActivities)
+                .HasForeignKey(ua => ua.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

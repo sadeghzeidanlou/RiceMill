@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RiceMill.Domain.Models;
-using RiceMill.Persistence.DataBaseExpression;
 
 namespace RiceMill.Persistence.Configurations
 {
@@ -11,7 +10,7 @@ namespace RiceMill.Persistence.Configurations
         {
             builder.HasKey(d => d.Id);
 
-            builder.Property(d=>d.Id)
+            builder.Property(d => d.Id)
                 .ValueGeneratedOnAdd();
 
             builder.Property(d => d.Title)
@@ -20,16 +19,25 @@ namespace RiceMill.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(d => d.IsDeleted)
-                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.Property(d => d.CreateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder.Property(d => d.UpdateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
+
+            builder
+                .HasOne(d => d.RiceMill)
+                .WithMany(rm => rm.Dryers)
+                .HasForeignKey(d => d.RiceMillId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(d => d.User)
+                .WithMany(u => u.Dryers)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

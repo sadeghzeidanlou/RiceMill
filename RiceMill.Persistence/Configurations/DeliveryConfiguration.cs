@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RiceMill.Domain.Models;
-using RiceMill.Persistence.DataBaseExpression;
 
 namespace RiceMill.Persistence.Configurations
 {
@@ -15,19 +14,15 @@ namespace RiceMill.Persistence.Configurations
                 .ValueGeneratedOnAdd();
 
             builder.Property(d => d.UnbrokenRice)
-                .HasDefaultValue(0)
                 .IsRequired();
 
             builder.Property(d => d.BrokenRice)
-                .HasDefaultValue(0)
                 .IsRequired();
 
             builder.Property(d => d.ChickenRice)
-                .HasDefaultValue(0)
                 .IsRequired();
 
             builder.Property(d => d.Flour)
-                .HasDefaultValue(0)
                 .IsRequired();
 
             builder.Property(d => d.Description)
@@ -35,19 +30,15 @@ namespace RiceMill.Persistence.Configurations
                 .HasMaxLength(200);
 
             builder.Property(d => d.IsDeleted)
-                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.Property(d => d.DeliveryTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder.Property(d => d.CreateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder.Property(d => d.UpdateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder
@@ -56,9 +47,34 @@ namespace RiceMill.Persistence.Configurations
                 .HasForeignKey(d => d.CarrierPersonId);
 
             builder
-               .HasOne(d => d.DelivererPerson)
-               .WithMany(p => p.DelivererDeliveries)
-               .HasForeignKey(d => d.DelivererPersonId);
+                .HasOne(d => d.DelivererPerson)
+                .WithMany(p => p.DelivererDeliveries)
+                .HasForeignKey(d => d.DelivererPersonId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(d => d.ReceiverPerson)
+                .WithMany(p => p.ReceiverDeliveries)
+                .HasForeignKey(d => d.ReceiverPersonId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(d => d.RiceMill)
+                .WithMany(rm => rm.Deliveries)
+                .HasForeignKey(d => d.RiceMillId)
+                .OnDelete(DeleteBehavior.NoAction);
+            
+            builder
+                .HasOne(d => d.User)
+                .WithMany(u => u.Deliveries)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(d => d.Vehicle)
+                .WithMany(v => v.Deliveries)
+                .HasForeignKey(d => d.VehicleId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

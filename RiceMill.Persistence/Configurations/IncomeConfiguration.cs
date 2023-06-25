@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RiceMill.Domain.Models;
-using RiceMill.Persistence.DataBaseExpression;
 
 namespace RiceMill.Persistence.Configurations
 {
@@ -19,37 +18,42 @@ namespace RiceMill.Persistence.Configurations
                 .HasMaxLength(200);
 
             builder.Property(i => i.UnbrokenRice)
-               .HasDefaultValue(0)
-               .IsRequired();
+                .IsRequired();
 
             builder.Property(i => i.BrokenRice)
-               .HasDefaultValue(0)
-               .IsRequired();
+                .IsRequired();
 
             builder.Property(i => i.Flour)
-               .HasDefaultValue(0)
-               .IsRequired();
+                .IsRequired();
 
             builder.Property(i => i.IsDeleted)
-                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.Property(i => i.IncomeTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder.Property(i => i.CreateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder.Property(i => i.UpdateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder
-               .HasOne(i => i.RiceThreshing)
-               .WithOne(rt => rt.Income)
-               .HasForeignKey<RiceThreshing>(il => il.IncomeId);
+                .HasOne(i => i.RiceThreshing)
+                .WithOne(rt => rt.Income)
+                .HasForeignKey<RiceThreshing>(il => il.IncomeId);
+
+            builder
+                .HasOne(i => i.RiceMill)
+                .WithMany(rm => rm.Incomes)
+                .HasForeignKey(i => i.RiceMillId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(i => i.User)
+                .WithMany(u => u.Incomes)
+                .HasForeignKey(i => i.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

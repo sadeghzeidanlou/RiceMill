@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RiceMill.Domain.Models;
-using RiceMill.Persistence.DataBaseExpression;
 
 namespace RiceMill.Persistence.Configurations
 {
@@ -15,19 +14,15 @@ namespace RiceMill.Persistence.Configurations
                 .ValueGeneratedOnAdd();
 
             builder.Property(p => p.UnbrokenRice)
-                .HasDefaultValue(0)
                 .IsRequired();
 
             builder.Property(p => p.BrokenRice)
-                .HasDefaultValue(0)
                 .IsRequired();
 
             builder.Property(p => p.Flour)
-                .HasDefaultValue(0)
                 .IsRequired();
 
             builder.Property(p => p.Money)
-                .HasDefaultValue(0)
                 .IsRequired();
 
             builder.Property(p => p.Description)
@@ -35,20 +30,34 @@ namespace RiceMill.Persistence.Configurations
                 .HasMaxLength(200);
 
             builder.Property(p => p.PaymentTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder.Property(p => p.IsDeleted)
-                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.Property(p => p.CreateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
 
             builder.Property(p => p.UpdateTime)
-                .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
+
+            builder
+                .HasOne(p => p.PaidPerson)
+                .WithMany(p => p.Payments)
+                .HasForeignKey(p => p.PaidPersonId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(p => p.RiceMill)
+                .WithMany(p => p.Payments)
+                .HasForeignKey(p => p.RiceMillId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(p => p.User)
+                .WithMany(p => p.Payments)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
