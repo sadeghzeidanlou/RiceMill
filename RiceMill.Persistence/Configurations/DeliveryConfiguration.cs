@@ -12,7 +12,7 @@ namespace RiceMill.Persistence.Configurations
             builder.HasKey(d => d.Id);
 
             builder.Property(d => d.Id)
-                .UseIdentityColumn();
+                .ValueGeneratedOnAdd();
 
             builder.Property(d => d.UnbrokenRice)
                 .HasDefaultValue(0)
@@ -49,6 +49,16 @@ namespace RiceMill.Persistence.Configurations
             builder.Property(d => d.UpdateTime)
                 .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
+
+            builder
+                .HasOne(d => d.CarrierPerson)
+                .WithMany(p => p.CarrierDeliveries)
+                .HasForeignKey(d => d.CarrierPersonId);
+
+            builder
+               .HasOne(d => d.DelivererPerson)
+               .WithMany(p => p.DelivererDeliveries)
+               .HasForeignKey(d => d.DelivererPersonId);
         }
     }
 }

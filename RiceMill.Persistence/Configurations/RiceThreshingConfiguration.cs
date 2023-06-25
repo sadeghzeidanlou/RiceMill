@@ -12,7 +12,7 @@ namespace RiceMill.Persistence.Configurations
             builder.HasKey(rt => rt.Id);
 
             builder.Property(rt => rt.Id)
-                .UseIdentityColumn();
+                .ValueGeneratedOnAdd();
 
             builder.Property(rt => rt.RiceThreshingStart)
                 .HasDefaultValueSql(SqlExpressions.CurrentDateTime)

@@ -31,7 +31,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Person"/> that determine this <see cref="User"/> has owned by who <see cref="Person"/>
         /// </summary>
-        public int UserPersonId { get; set; }
+        public Guid UserPersonId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="Person"/> detail in this class that determine this <see cref="User"/> is owned by who <see cref="Person"/>
@@ -41,7 +41,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="User"/> that determine which <see cref="User"/> create this <see cref="User"/> 
         /// </summary>
-        public int ParentUserId { get; set; }
+        public Guid ParentUserId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="User"/> detail in this class that determine which <see cref="User"/> is created this <see cref="User"/>
@@ -51,7 +51,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="RiceMill"/> that determine this <see cref="User"/> is member of which <see cref="RiceMill"/>
         /// </summary>
-        public int RiceMillId { get; set; }
+        public Guid RiceMillId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="RiceMill"/> detail in this class

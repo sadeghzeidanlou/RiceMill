@@ -33,11 +33,6 @@ namespace RiceMill.Domain.Models
         public float Flour { get; set; }
 
         /// <summary>
-        /// This property used for reference navigation between this class and <see cref="RiceThreshing"/> that determine this earned from which <see cref="RiceThreshing"/>
-        /// </summary>
-        public int RiceThreshingId { get; set; }
-
-        /// <summary>
         /// This property Contain <see cref="RiceThreshing"/> detail in this class that determine this earned from which <see cref="RiceThreshing"/>
         /// </summary>
         public RiceThreshing RiceThreshing { get; set; }

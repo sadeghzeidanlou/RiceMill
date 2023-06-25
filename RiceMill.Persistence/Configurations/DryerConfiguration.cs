@@ -12,7 +12,7 @@ namespace RiceMill.Persistence.Configurations
             builder.HasKey(d => d.Id);
 
             builder.Property(d=>d.Id)
-                .UseIdentityColumn();
+                .ValueGeneratedOnAdd();
 
             builder.Property(d => d.Title)
                 .HasMaxLength(30)

@@ -44,6 +44,11 @@ namespace RiceMill.Domain.Models
         public string FatherName { get; set; }
 
         /// <summary>
+        /// This property Contain <see cref="User"/> detail in this class that determine which <see cref="User"/> related to this <see cref="Person"/> 
+        /// </summary>
+        public User RelatedUser { get; set; }
+
+        /// <summary>
         /// Collection of <see cref="Payment"/> that paid to this <see cref="Person"/>
         /// </summary>
         public ICollection<Payment> Payments { get; set; }
@@ -52,7 +57,7 @@ namespace RiceMill.Domain.Models
         /// Collection of <see cref="Delivery"/> that this <see cref="Person"/> Deliverer Delivery 
         /// </summary>
         public ICollection<Delivery> DelivererDeliveries { get; set; }
-        
+
         /// <summary>
         /// Collection of <see cref="Delivery"/> that this <see cref="Person"/> Receiver Delivery 
         /// </summary>

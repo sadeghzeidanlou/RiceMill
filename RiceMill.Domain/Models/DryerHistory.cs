@@ -26,7 +26,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Dryer"/> that <see cref="DryerHistory"/> operated on that
         /// </summary>
-        public int DryerId { get; set; }
+        public Guid DryerId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="Dryer"/> detail in this class that <see cref="DryerHistory"/> operated on that
@@ -36,7 +36,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="RiceThreshing"/> that <see cref="DryerHistory"/> operated on that
         /// </summary>
-        public int RiceThreshingId { get; set; }
+        public Guid RiceThreshingId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="RiceThreshing"/> detail in this class that <see cref="DryerHistory"/> operated on that

@@ -12,7 +12,7 @@ namespace RiceMill.Persistence.Configurations
             builder.HasKey(i => i.Id);
 
             builder.Property(i => i.Id)
-                .UseIdentityColumn();
+                .ValueGeneratedOnAdd();
 
             builder.Property(i => i.Description)
                 .IsUnicode()
@@ -45,6 +45,11 @@ namespace RiceMill.Persistence.Configurations
             builder.Property(i => i.UpdateTime)
                 .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
+
+            builder
+               .HasOne(i => i.RiceThreshing)
+               .WithOne(rt => rt.Income)
+               .HasForeignKey<RiceThreshing>(il => il.IncomeId);
         }
     }
 }

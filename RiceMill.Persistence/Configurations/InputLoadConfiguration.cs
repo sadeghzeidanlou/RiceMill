@@ -12,8 +12,8 @@ namespace RiceMill.Persistence.Configurations
         {
             builder.HasKey(il => il.Id);
 
-            builder.Property(il=>il.Id)
-                .UseIdentityColumn();
+            builder.Property(il => il.Id)
+                .ValueGeneratedOnAdd();
 
             builder.Property(il => il.NumberOfBags)
                 .HasDefaultValue(0)
@@ -46,6 +46,26 @@ namespace RiceMill.Persistence.Configurations
             builder.Property(il => il.UpdateTime)
                 .HasDefaultValueSql(SqlExpressions.CurrentDateTime)
                 .IsRequired();
+
+            builder
+                .HasOne(il => il.CarrierPerson)
+                .WithMany(p => p.CarrierInputLoads)
+                .HasForeignKey(il => il.CarrierPersonId);
+
+            builder
+                .HasOne(il => il.DelivererPerson)
+                .WithMany(p => p.DelivererInputLoads)
+                .HasForeignKey(il => il.DelivererPersonId);
+
+            builder
+                .HasOne(il => il.OwnerPerson)
+                .WithMany(p => p.OwnedInputLoads)
+                .HasForeignKey(il => il.OwnerPersonId);
+
+            builder
+              .HasOne(il => il.Payment)
+              .WithOne(p => p.InputLoad)
+              .HasForeignKey<Payment>(p => p.InputLoadId);
         }
     }
 }

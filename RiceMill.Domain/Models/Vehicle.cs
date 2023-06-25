@@ -31,7 +31,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Person"/> that determine this <see cref="Vehicle"/> is owned by who <see cref="Person"/>
         /// </summary>
-        public int OwnerPersonId { get; set; }
+        public Guid OwnerPersonId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="Person"/> detail in this class that determine this <see cref="Vehicle"/> is owned by who <see cref="Person"/>

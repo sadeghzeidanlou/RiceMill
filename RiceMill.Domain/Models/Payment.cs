@@ -40,7 +40,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Person"/> that paid to this <see cref="Payment"/>
         /// </summary>
-        public int PaidPersonId { get; set; }
+        public Guid PaidPersonId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="Person"/> detail in this class that paid to this <see cref="Payment"/>
@@ -50,7 +50,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Concern"/> of this <see cref="Payment"/>
         /// </summary>
-        public int ConcernId { get; set; }
+        public Guid ConcernId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="Concern"/> detail in this class that paid to this <see cref="Payment"/>
@@ -60,7 +60,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="InputLoad"/> that paid to this <see cref="Payment"/>
         /// </summary>
-        public int InputLoadId { get; set; }
+        public Guid InputLoadId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="InputLoad"/> detail in this class that paid to this <see cref="Payment"/>

@@ -12,7 +12,7 @@ namespace RiceMill.Persistence.Configurations
             builder.HasKey(p => p.Id);
 
             builder.Property(p => p.Id)
-                .UseIdentityColumn();
+                .ValueGeneratedOnAdd();
 
             builder.Property(p => p.UnbrokenRice)
                 .HasDefaultValue(0)

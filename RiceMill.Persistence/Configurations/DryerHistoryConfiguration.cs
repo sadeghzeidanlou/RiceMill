@@ -13,7 +13,7 @@ namespace RiceMill.Persistence.Configurations
             builder.HasKey(dh => dh.Id);
 
             builder.Property(dh => dh.Id)
-                .UseIdentityColumn();
+                .ValueGeneratedOnAdd();
 
             builder.Property(dh => dh.Operation)
                 .HasConversion(o => o.ToString(), o => (DryerOperationEnum)Enum.Parse(typeof(DryerOperationEnum), o))

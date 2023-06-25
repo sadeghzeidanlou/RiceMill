@@ -50,7 +50,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="RiceThreshing"/> that determine <see cref="Income"/> info from this <see cref="RiceThreshing"/>
         /// </summary>
-        public int IncomeId { get; set; }
+        public Guid IncomeId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="Income"/> detail in this class that show <see cref="Income"/> info from this <see cref="RiceThreshing"/>

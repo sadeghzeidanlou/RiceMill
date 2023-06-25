@@ -5,7 +5,7 @@
         /// <summary>
         /// This property used for reference navigation between any class and RiceMill
         /// </summary>
-        public int RiceMillId { get; set; }
+        public Guid RiceMillId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="RiceMill"/> detail in any other classes that have relation with <see cref="RiceMill"/>
@@ -15,7 +15,7 @@
         /// <summary>
         /// This property used for reference navigation between any class and User
         /// </summary>
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="User"/> detail in any other classes that have relation with <see cref="User"/>

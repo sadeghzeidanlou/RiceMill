@@ -40,7 +40,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Person"/> that deliverer this <see cref="Delivery"/>
         /// </summary>
-        public int DelivererPersonId { get; set; }
+        public Guid DelivererPersonId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="Person"/> detail in this class that deliverer this <see cref="Delivery"/>
@@ -50,7 +50,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Person"/> that receiver this <see cref="Delivery"/>
         /// </summary>
-        public int ReceiverPersonId { get; set; }
+        public Guid ReceiverPersonId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="Person"/> detail in this class that receiver this <see cref="Delivery"/>
@@ -60,7 +60,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Person"/> that carrier this <see cref="Delivery"/>
         /// </summary>
-        public int CarrierPersonId { get; set; }
+        public Guid CarrierPersonId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="Person"/> detail in this class that carrier this <see cref="Delivery"/>
@@ -70,7 +70,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Vehicle"/> that carrier used for transfer this <see cref="Delivery"/>
         /// </summary>
-        public int VehicleId { get; set; }
+        public Guid VehicleId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="Vehicle"/> detail in this class that carrier used for transfer this <see cref="Delivery"/>
