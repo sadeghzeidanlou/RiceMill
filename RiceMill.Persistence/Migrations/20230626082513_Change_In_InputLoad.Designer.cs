@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RiceMill.Persistence;
 
@@ -11,9 +12,11 @@ using RiceMill.Persistence;
 namespace RiceMill.Persistence.Migrations
 {
     [DbContext(typeof(RiceMillDbContext))]
-    partial class RiceMillDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230626082513_Change_In_InputLoad")]
+    partial class Change_In_InputLoad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -340,8 +343,7 @@ namespace RiceMill.Persistence.Migrations
                         .HasColumnType("smallint");
 
                     b.Property<short>("NumberOfBagsInDryer")
-                        .HasColumnType("smallint")
-                        .HasColumnOrder(4);
+                        .HasColumnType("smallint");
 
                     b.Property<Guid>("OwnerPersonId")
                         .HasColumnType("uniqueidentifier");

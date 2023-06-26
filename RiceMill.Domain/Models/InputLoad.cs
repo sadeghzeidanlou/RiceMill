@@ -14,9 +14,9 @@ namespace RiceMill.Domain.Models
         public short NumberOfBags { get; set; }
 
         /// <summary>
-        /// Determine this <see cref="InputLoad"/> loaded into a <see cref="Dryer"/>
+        /// Determine number of bags from this <see cref="InputLoad"/> that loaded into a <see cref="Dryer"/>
         /// </summary>
-        public bool IsInDryer { get; set; }
+        public short NumberOfBagsInDryer { get; set; }
 
         /// <summary>
         /// Description of this <see cref="InputLoad"/>

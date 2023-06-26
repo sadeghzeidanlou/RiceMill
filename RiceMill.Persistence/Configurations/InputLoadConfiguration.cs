@@ -21,8 +21,9 @@ namespace RiceMill.Persistence.Configurations
                 .IsUnicode()
                 .HasMaxLength(200);
 
-            builder.Property(il => il.IsInDryer)
-                .IsRequired();
+            builder.Property(il => il.NumberOfBagsInDryer)
+                .IsRequired()
+                .HasColumnOrder(4);
 
             builder.Property(il => il.ReceiveTime)
                 .IsRequired();
