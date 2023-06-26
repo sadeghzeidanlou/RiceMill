@@ -4,8 +4,13 @@ namespace RiceMill.Application.Common.Models.ResultObject
 {
     public class Error
     {
-        public ResultStatusEnum ResultStatus { get; set; }
+        public Error(ResultStatusEnum error)
+        {
+            ResultStatus = error;
+            Message = ErrorDictionary.ResultStatusMessage[error];
+        }
+        public ResultStatusEnum ResultStatus { get; }
 
-        public string Message { get; set; }
+        public string Message { get; }
     }
 }

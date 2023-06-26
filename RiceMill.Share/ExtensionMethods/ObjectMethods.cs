@@ -1,23 +1,34 @@
-﻿using Newtonsoft.Json;
-using System.Reflection;
+﻿using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Shared.ExtensionMethods
 {
     public static class ObjectMethods
     {
+        private static JsonSerializerOptions serializerOptions = new() { ReferenceHandler = ReferenceHandler.IgnoreCycles, WriteIndented = true };
+
         /// <summary>
         /// Serialize an object
         /// </summary>
         /// <param name="source">Input object that serialized</param>
         /// <returns></returns>
-        public static string SerializeObject(this object source) => JsonConvert.SerializeObject(source);
+        public static string SerializeObject(this object source) => JsonSerializer.Serialize(source);
+
+        /// <summary>
+        /// Serialize an object
+        /// </summary>
+        /// <param name="source">Input object that serialized</param>
+        /// <param name="serializerOptions">Option for serialize input object</param>
+        /// <returns></returns>
+        public static string SerializeObject(this object source, JsonSerializerOptions serializerOptions) => JsonSerializer.Serialize(source);
 
         /// <summary>
         /// Deserialize an object from string
         /// </summary>
         /// <param name="source">Input string that will be Deserialized</param>
         /// <returns></returns>
-        public static T? DeserializeObject<T>(this string source) where T : class => JsonConvert.DeserializeObject<T>(source);
+        public static T? DeserializeObject<T>(this string source) where T : class => JsonSerializer.Deserialize<T>(source);
 
         /// <summary>
         /// Clones An Object
@@ -25,8 +36,7 @@ namespace Shared.ExtensionMethods
         /// <typeparam name="T">Target object</typeparam>
         /// <param name="source">Input object</param>
         /// <returns></returns>
-        public static T? CloneObject<T>(this T source) where T : class => JsonConvert.DeserializeObject<T>(
-            JsonConvert.SerializeObject(source, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+        public static T? CloneObject<T>(this T source) where T : class => source.SerializeObject(serializerOptions).DeserializeObject<T>();
 
         /// <summary>
         /// Compares 2 Objects
@@ -35,11 +45,7 @@ namespace Shared.ExtensionMethods
         /// <param name="obj1">First object</param>
         /// <param name="obj2">Second object</param>
         /// <returns>true if values of all properties are equal</returns>
-        public static bool IsEqual<T>(this T obj1, T obj2) where T : class =>
-            JsonConvert.SerializeObject(obj1, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }) ==
-            JsonConvert.SerializeObject(obj2, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-
-        public static TOut? MapTo<TOut>(this object input) => JsonConvert.DeserializeObject<TOut>(JsonConvert.SerializeObject(input, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+        public static bool IsEqual<T>(this T obj1, T obj2) where T : class => obj1.SerializeObject(serializerOptions) == obj2.SerializeObject(serializerOptions);
 
         /// <summary>
         /// Get changed properties of object1 based on object2
