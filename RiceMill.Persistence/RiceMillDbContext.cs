@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Domain.Models;
+using RiceMill.Domain.Models.BaseModels;
 using System.Reflection;
 
 namespace RiceMill.Persistence
 {
     public class RiceMillDbContext : DbContext, IApplicationDbContext
     {
-        public RiceMillDbContext(DbContextOptions<RiceMillDbContext> options) : base(options)
+        public RiceMillDbContext(DbContextOptions<RiceMillDbContext> options, ICacheService cacheService) : base(options)
         {
         }
 
@@ -41,11 +42,29 @@ namespace RiceMill.Persistence
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            var entities = ChangeTracker.Entries<EventBaseModel>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+            var currentTime = DateTime.Now;
+            foreach (var entity in entities)
+            {
+                entity.Entity.UpdateTime = currentTime;
+                if (entity.State == EntityState.Added)
+                    entity.Entity.CreateTime = currentTime;
+
+                if (entity.State == EntityState.Deleted)
+                {
+                    entity.Entity.DeleteTime = currentTime;
+                    entity.Entity.IsDeleted = true;
+                    entity.State = EntityState.Modified;
+                }
+            }
             return await base.SaveChangesAsync(cancellationToken);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<EventBaseModel>()
+                .HasQueryFilter(ebm => !ebm.IsDeleted);
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }

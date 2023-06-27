@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.RiceThreshingServices.Dto;
 
@@ -7,7 +7,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
 {
     public interface IRiceThreshingQueries : IBaseUseCaseQueries
     {
-        Task<Result<DtoRiceThreshing>> GetAsync(int id);
+        Task<Result<DtoRiceThreshing>> GetAsync(Guid id);
 
         Task<Result<List<DtoRiceThreshing>>> GetAllAsync();
     }
@@ -23,7 +23,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoRiceThreshing>> GetAsync(int id)
+        public Task<Result<DtoRiceThreshing>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

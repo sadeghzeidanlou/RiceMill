@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.VillageServices.Dto;
 
@@ -23,12 +23,7 @@ namespace RiceMill.Application.UseCases.VillageServices
             throw new NotImplementedException();
         }
 
-        public Task<Result<int>> DeleteAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<bool>> DeleteAsync(int id)
+        public Task<Result<bool>> DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }

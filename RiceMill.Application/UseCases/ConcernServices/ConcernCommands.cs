@@ -1,11 +1,13 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
+﻿using Mapster;
+using RiceMill.Application.Common.ExtensionMethods;
 using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.Enums;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
-using RiceMill.Application.Common.Models.Enums;
-using System.Net;
-using Mapster;
 using RiceMill.Domain.Models;
+using Shared.ExtensionMethods;
+using System.Net;
 
 namespace RiceMill.Application.UseCases.ConcernServices
 {
@@ -22,40 +24,55 @@ namespace RiceMill.Application.UseCases.ConcernServices
 
         private readonly ICurrentRequestService _currentRequestService;
 
-        public ConcernCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService)
+        private readonly ICacheService _cacheService;
+
+        public ConcernCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService)
         {
             _applicationDbContext = applicationDbContext;
             _currentRequestService = currentRequestService;
+            _cacheService = cacheService;
         }
 
         public Task<Result<DtoConcern>> CreateAsync(DtoCreateConcern createConcern)
         {
-            if (!_currentRequestService.IsAuthenticated)
-                return Task.FromResult(Result<DtoConcern>.Failure(new Error(ResultStatusEnum.NotAuthenticated), HttpStatusCode.Unauthorized));
-
-            if (!createConcern.IsValid)
-                return Task.FromResult(Result<DtoConcern>.Failure(new Error(ResultStatusEnum.ConcernTitleIsNotValid), HttpStatusCode.BadRequest));
+            var validationResult = createConcern.Validate();
+            if (!validationResult.IsValid)
+                return Task.FromResult(Result<DtoConcern>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
 
             var concern = createConcern.Adapt<Concern>();
+            concern.UserId = _currentRequestService.UserId;
+            concern.RiceMillId = _currentRequestService.RiceMillId;
             _applicationDbContext.Concerns.Add(concern);
-            _applicationDbContext.SaveChangesAsync();
-            concern.Id = Guid.NewGuid();
+            _applicationDbContext.SaveChangesAsync().ConfigureAwait(false);
+            _cacheService.Set(concern.Id.ToString(), concern);
             return Task.FromResult(Result<DtoConcern>.Success(concern.Adapt<DtoConcern>()));
         }
 
-        public Task<Result<int>> DeleteAllAsync()
+        public Task<Result<bool>> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var concern = _applicationDbContext.Concerns.FirstOrDefault(c => c.Id == id && c.RiceMillId == _currentRequestService.RiceMillId);
+            if (concern == null)
+                return Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound));
+
+            _applicationDbContext.Concerns.Remove(concern);
+            _applicationDbContext.SaveChangesAsync().ConfigureAwait(false);
+            _cacheService.Remove(id.ToString());
+            return Task.FromResult(Result<bool>.Success(true));
         }
 
-        public Task<Result<bool>> DeleteAsync(int id)
+        public Task<Result<DtoConcern>> UpdateAsync(DtoUpdateConcern updateConcern)
         {
-            throw new NotImplementedException();
-        }
+            var validationResult = updateConcern.Validate();
+            if (!validationResult.IsValid)
+                return Task.FromResult(Result<DtoConcern>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
 
-        public Task<Result<DtoConcern>> UpdateAsync(DtoUpdateConcern Concern)
-        {
-            throw new NotImplementedException();
+            var concern = _applicationDbContext.Concerns.FirstOrDefault(c => c.Id == updateConcern.Id && c.RiceMillId == _currentRequestService.RiceMillId);
+            concern.UserId = _currentRequestService.UserId;
+            concern.RiceMillId = _currentRequestService.RiceMillId;
+            _applicationDbContext.Concerns.Add(concern);
+            _applicationDbContext.SaveChangesAsync().ConfigureAwait(false);
+            _cacheService.Set(concern.Id.ToString(), concern);
+            return Task.FromResult(Result<DtoConcern>.Success(concern.Adapt<DtoConcern>()));
         }
     }
 }

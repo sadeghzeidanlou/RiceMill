@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
 
@@ -7,7 +7,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
 {
     public interface IConcernQueries : IBaseUseCaseQueries
     {
-        Task<Result<DtoConcern>> GetAsync(int id);
+        Task<Result<DtoConcern>> GetAsync(Guid id);
 
         Task<Result<List<DtoConcern>>> GetAllAsync();
     }
@@ -23,7 +23,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoConcern>> GetAsync(int id)
+        public Task<Result<DtoConcern>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

@@ -23,12 +23,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> DeleteAllAsync()
+        public Task<Result<bool>> DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }

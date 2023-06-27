@@ -11,4 +11,12 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RiceMill.Application\RiceMill.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ExternalServices\" />
+  </ItemGroup>
+
 </Project>

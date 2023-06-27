@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.VehicleServices.Dto;
 
@@ -7,7 +7,7 @@ namespace RiceMill.Application.UseCases.VehicleServices
 {
     public interface IVehicleQueries : IBaseUseCaseQueries
     {
-        Task<Result<DtoVehicle>> GetAsync(int id);
+        Task<Result<DtoVehicle>> GetAsync(Guid id);
 
         Task<Result<List<DtoVehicle>>> GetAllAsync();
     }
@@ -23,7 +23,7 @@ namespace RiceMill.Application.UseCases.VehicleServices
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoVehicle>> GetAsync(int id)
+        public Task<Result<DtoVehicle>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

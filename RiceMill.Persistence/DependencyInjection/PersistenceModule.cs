@@ -3,9 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RiceMill.Application.Common.Interfaces;
 
-namespace RiceMill.Persistence
+namespace RiceMill.Persistence.DependencyInjection
 {
-    public static class DependencyInjection
+    public static class PersistenceModule
     {
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {

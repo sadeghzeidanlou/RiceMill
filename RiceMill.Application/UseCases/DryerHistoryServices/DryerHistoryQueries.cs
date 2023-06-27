@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.DryerHistoryServices.Dto;
 
@@ -7,7 +7,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
 {
     public interface IDryerHistoryQueries : IBaseUseCaseQueries
     {
-        Task<Result<DtoDryerHistory>> GetAsync(int id);
+        Task<Result<DtoDryerHistory>> GetAsync(Guid id);
 
         Task<Result<List<DtoDryerHistory>>> GetAllAsync();
     }
@@ -23,7 +23,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoDryerHistory>> GetAsync(int id)
+        public Task<Result<DtoDryerHistory>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

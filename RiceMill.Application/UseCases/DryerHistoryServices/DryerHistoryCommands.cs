@@ -23,12 +23,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             throw new NotImplementedException();
         }
 
-        public Task<Result<int>> DeleteAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<bool>> DeleteAsync(int id)
+        public Task<Result<bool>> DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }

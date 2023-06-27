@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.IncomeServices.Dto;
 
@@ -7,7 +7,7 @@ namespace RiceMill.Application.UseCases.IncomeServices
 {
     public interface IIncomeQueries : IBaseUseCaseQueries
     {
-        Task<Result<DtoIncome>> GetAsync(int id);
+        Task<Result<DtoIncome>> GetAsync(Guid id);
 
         Task<Result<List<DtoIncome>>> GetAllAsync();
     }
@@ -23,7 +23,7 @@ namespace RiceMill.Application.UseCases.IncomeServices
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoIncome>> GetAsync(int id)
+        public Task<Result<DtoIncome>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using RiceMill.Persistence;
-using RiceMill.Infrastructure;
+using RiceMill.Infrastructure.DependencyInjection;
+using RiceMill.Persistence.DependencyInjection;
 
 namespace RiceMill.Ui
 {

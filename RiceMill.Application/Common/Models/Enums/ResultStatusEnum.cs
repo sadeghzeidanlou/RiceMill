@@ -12,7 +12,10 @@
 
         #region Concern 500 To 599
 
-        ConcernTitleIsNotValid = 500,
+        ConcernNotFound = 500,
+        ConcernIdIsNotValid,
+        ConcernTitleIsNotValid,
+        ConcernTitleLengthIsNotValid,
 
         #endregion
     }
@@ -35,7 +38,10 @@
 
                 #region Concern
                 
-                {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل معتبر نمی باشد" }
+                {ResultStatusEnum.ConcernNotFound, "دلیل یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل معتبر نمی باشد" }
                 
                 #endregion
             };

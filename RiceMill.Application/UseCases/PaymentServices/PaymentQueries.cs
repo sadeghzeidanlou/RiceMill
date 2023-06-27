@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.PaymentServices.Dto;
 
@@ -7,7 +7,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
 {
     public interface IPaymentQueries : IBaseUseCaseQueries
     {
-        Task<Result<DtoPayment>> GetAsync(int id);
+        Task<Result<DtoPayment>> GetAsync(Guid id);
 
         Task<Result<List<DtoPayment>>> GetAllAsync();
     }
@@ -18,7 +18,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
 
         public PaymentQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<DtoPayment>> GetAsync(int id)
+        public Task<Result<DtoPayment>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
