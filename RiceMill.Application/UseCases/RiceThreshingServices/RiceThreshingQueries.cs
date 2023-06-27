@@ -1,13 +1,12 @@
 ﻿using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.RiceThreshingServices.Dto;
 
 namespace RiceMill.Application.UseCases.RiceThreshingServices
 {
-    public interface IRiceThreshingQueries : IBaseUseCaseQueries
+    public interface IRiceThreshingQueries
     {
-        Task<Result<DtoRiceThreshing>> GetAsync(Guid id);
+        Task<Result<int>> GetCountAsync();
 
         Task<Result<List<DtoRiceThreshing>>> GetAllAsync();
     }
@@ -19,11 +18,6 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
         public RiceThreshingQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
         public Task<Result<List<DtoRiceThreshing>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<DtoRiceThreshing>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

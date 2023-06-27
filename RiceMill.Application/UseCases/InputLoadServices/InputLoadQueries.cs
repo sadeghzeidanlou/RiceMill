@@ -1,13 +1,12 @@
 ﻿using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.InputLoadServices.Dto;
 
 namespace RiceMill.Application.UseCases.InputLoadServices
 {
-    public interface IInputLoadQueries : IBaseUseCaseQueries
+    public interface IInputLoadQueries
     {
-        Task<Result<DtoInputLoad>> GetAsync(Guid id);
+        Task<Result<int>> GetCountAsync();
 
         Task<Result<List<DtoInputLoad>>> GetAllAsync();
     }
@@ -19,11 +18,6 @@ namespace RiceMill.Application.UseCases.InputLoadServices
         public InputLoadQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
         public Task<Result<List<DtoInputLoad>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<DtoInputLoad>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

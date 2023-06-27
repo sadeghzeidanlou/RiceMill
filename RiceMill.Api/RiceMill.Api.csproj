@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RiceMill.Application\RiceMill.Application.csproj" />
     <ProjectReference Include="..\RiceMill.Infrastructure\RiceMill.Infrastructure.csproj" />
     <ProjectReference Include="..\RiceMill.Persistence\RiceMill.Persistence.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RiceMill.Application.DependencyInjection;
 using RiceMill.Infrastructure.DependencyInjection;
 using RiceMill.Persistence.DependencyInjection;
 
@@ -21,7 +22,11 @@ namespace RiceMill.Ui
             builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddPersistenceServices(builder.Configuration).AddInfrastructureServices(builder.Configuration);
+            builder.Services
+                .AddPersistenceServices(builder.Configuration)
+                .AddInfrastructureServices(builder.Configuration)
+                .AddApplicationServices();
+
             return builder.Build();
         }
     }

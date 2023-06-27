@@ -67,9 +67,10 @@ namespace RiceMill.Application.UseCases.ConcernServices
                 return Task.FromResult(Result<DtoConcern>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
 
             var concern = _applicationDbContext.Concerns.FirstOrDefault(c => c.Id == updateConcern.Id && c.RiceMillId == _currentRequestService.RiceMillId);
-            concern.UserId = _currentRequestService.UserId;
-            concern.RiceMillId = _currentRequestService.RiceMillId;
-            _applicationDbContext.Concerns.Add(concern);
+            if (concern == null)
+                return Task.FromResult(Result<DtoConcern>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound));
+
+            concern = updateConcern.Adapt(concern);
             _applicationDbContext.SaveChangesAsync().ConfigureAwait(false);
             _cacheService.Set(concern.Id.ToString(), concern);
             return Task.FromResult(Result<DtoConcern>.Success(concern.Adapt<DtoConcern>()));

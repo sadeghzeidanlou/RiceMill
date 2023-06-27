@@ -16,6 +16,20 @@
         ConcernIdIsNotValid,
         ConcernTitleIsNotValid,
         ConcernTitleLengthIsNotValid,
+        ConcernUserIdIsNotValid,
+        ConcernRiceMillIdIsNotValid,
+
+        #endregion
+
+        #region User 600 To 699
+
+        UserIdIsNotValid = 600,
+
+        #endregion
+
+        #region RiceMill 700 To 799
+
+        RiceMillIdIsNotValid = 700,
 
         #endregion
     }
@@ -39,9 +53,23 @@
                 #region Concern
                 
                 {ResultStatusEnum.ConcernNotFound, "دلیل یافت نشد یا شما مجاز به دسترسی نمی باشید" },
-                {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل معتبر نمی باشد" }
+                {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل، معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل، معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل، معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernUserIdIsNotValid, "شناسه کاربر دلیل، معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernRiceMillIdIsNotValid, "شناسه کارخانه دلیل، معتبر نمی باشد" },
+
+                #endregion
+
+                #region User
+
+                {ResultStatusEnum.UserIdIsNotValid, "شناسه کاربر معتبر نمی باشد" },
+
+                #endregion
+
+                #region RiceMill
+
+                {ResultStatusEnum.RiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
                 
                 #endregion
             };

@@ -1,13 +1,12 @@
 ﻿using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.PersonServices.Dto;
 
 namespace RiceMill.Application.UseCases.PersonServices
 {
-    public interface IPersonQueries : IBaseUseCaseQueries
+    public interface IPersonQueries
     {
-        Task<Result<DtoPerson>> GetAsync(Guid id);
+        Task<Result<int>> GetCountAsync();
 
         Task<Result<List<DtoPerson>>> GetAllAsync();
     }
@@ -19,11 +18,6 @@ namespace RiceMill.Application.UseCases.PersonServices
         public PersonQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
         public Task<Result<List<DtoPerson>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<DtoPerson>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

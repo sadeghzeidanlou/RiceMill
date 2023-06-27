@@ -1,3 +1,4 @@
+using RiceMill.Application.DependencyInjection;
 using RiceMill.Infrastructure.DependencyInjection;
 using RiceMill.Persistence.DependencyInjection;
 
@@ -12,10 +13,12 @@ namespace RiceMill.Api
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            builder.Services.AddPersistenceServices(builder.Configuration).AddInfrastructureServices(builder.Configuration);
+            builder.Services
+                .AddSwaggerGen()
+                .AddEndpointsApiExplorer()
+                .AddPersistenceServices(builder.Configuration)
+                .AddInfrastructureServices(builder.Configuration)
+                .AddApplicationServices();
 
             var app = builder.Build();
 

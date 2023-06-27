@@ -1,13 +1,12 @@
 ﻿using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.UserActivityServices.Dto;
 
 namespace RiceMill.Application.UseCases.UserActivityServices
 {
-    public interface IUserActivityQueries : IBaseUseCaseQueries
+    public interface IUserActivityQueries
     {
-        Task<Result<DtoUserActivity>> GetAsync(Guid id);
+        Task<Result<int>> GetCountAsync();
 
         Task<Result<List<DtoUserActivity>>> GetAllAsync();
     }
@@ -19,11 +18,6 @@ namespace RiceMill.Application.UseCases.UserActivityServices
         public UserActivityQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
         public Task<Result<List<DtoUserActivity>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<DtoUserActivity>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

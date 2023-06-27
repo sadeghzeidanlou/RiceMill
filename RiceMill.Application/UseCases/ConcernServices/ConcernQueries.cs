@@ -2,35 +2,45 @@
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
+using RiceMill.Domain.Models;
+using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.ConcernServices
 {
-    public interface IConcernQueries : IBaseUseCaseQueries
+    public interface IConcernQueries
     {
-        Task<Result<DtoConcern>> GetAsync(Guid id);
+        Task<Result<List<DtoConcern>>> GetAllAsync(DtoConcernFilter filter);
 
-        Task<Result<List<DtoConcern>>> GetAllAsync();
+        Task<Result<int>> GetCountAsync(DtoConcernFilter filter);
     }
 
     public class ConcernQueries : IConcernQueries
     {
         private readonly IApplicationDbContext _applicationDbContext;
 
-        public ConcernQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
+        private readonly ICurrentRequestService _currentRequestService;
 
-        public Task<Result<List<DtoConcern>>> GetAllAsync()
+        private readonly ICacheService _cacheService;
+
+        public ConcernQueries(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService)
+        {
+            _applicationDbContext = applicationDbContext;
+            _currentRequestService = currentRequestService;
+            _cacheService = cacheService;
+        }
+
+        public Task<Result<List<DtoConcern>>> GetAllAsync(DtoConcernFilter filter)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoConcern>> GetAsync(Guid id)
+        public Task<Result<int>> GetCountAsync(DtoConcernFilter filter)
         {
-            throw new NotImplementedException();
-        }
+            var concerns = _applicationDbContext.Concerns.Where(c => c.RiceMillId == _currentRequestService.RiceMillId).AsQueryable();
+            if (filter != null && filter.Title.IsNotNullOrEmpty())
+                concerns = concerns.Where(c => c.Title.Contains(filter.Title));
 
-        public Task<Result<int>> GetCountAsync()
-        {
-            throw new NotImplementedException();
+            return Task.FromResult(Result<int>.Success(concerns.Count()));
         }
     }
 }

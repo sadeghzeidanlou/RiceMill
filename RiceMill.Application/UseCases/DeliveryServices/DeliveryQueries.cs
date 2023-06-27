@@ -1,13 +1,12 @@
 ﻿using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.DeliveryServices.Dto;
 
 namespace RiceMill.Application.UseCases.DeliveryServices
 {
-    public interface IDeliveryQueries : IBaseUseCaseQueries
+    public interface IDeliveryQueries
     {
-        Task<Result<DtoDelivery>> GetAsync(Guid id);
+        Task<Result<int>> GetCountAsync();
 
         Task<Result<List<DtoDelivery>>> GetAllAsync();
     }
@@ -19,11 +18,6 @@ namespace RiceMill.Application.UseCases.DeliveryServices
         public DeliveryQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
         public Task<Result<List<DtoDelivery>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<DtoDelivery>> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
