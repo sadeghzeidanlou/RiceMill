@@ -24,13 +24,10 @@ namespace RiceMill.Application.UseCases.ConcernServices
 
         private readonly ICurrentRequestService _currentRequestService;
 
-        private readonly ICacheService _cacheService;
-
-        public ConcernCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService)
+        public ConcernCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService)
         {
             _applicationDbContext = applicationDbContext;
             _currentRequestService = currentRequestService;
-            _cacheService = cacheService;
         }
 
         public Task<Result<DtoConcern>> CreateAsync(DtoCreateConcern createConcern)
@@ -44,7 +41,6 @@ namespace RiceMill.Application.UseCases.ConcernServices
             concern.RiceMillId = _currentRequestService.RiceMillId;
             _applicationDbContext.Concerns.Add(concern);
             _applicationDbContext.SaveChangesAsync().ConfigureAwait(false);
-            _cacheService.Set(concern.Id.ToString(), concern);
             return Task.FromResult(Result<DtoConcern>.Success(concern.Adapt<DtoConcern>()));
         }
 
@@ -56,7 +52,6 @@ namespace RiceMill.Application.UseCases.ConcernServices
 
             _applicationDbContext.Concerns.Remove(concern);
             _applicationDbContext.SaveChangesAsync().ConfigureAwait(false);
-            _cacheService.Remove(id.ToString());
             return Task.FromResult(Result<bool>.Success(true));
         }
 
@@ -72,7 +67,6 @@ namespace RiceMill.Application.UseCases.ConcernServices
 
             concern = updateConcern.Adapt(concern);
             _applicationDbContext.SaveChangesAsync().ConfigureAwait(false);
-            _cacheService.Set(concern.Id.ToString(), concern);
             return Task.FromResult(Result<DtoConcern>.Success(concern.Adapt<DtoConcern>()));
         }
     }

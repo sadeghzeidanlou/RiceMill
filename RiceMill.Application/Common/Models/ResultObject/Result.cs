@@ -8,8 +8,6 @@ namespace RiceMill.Application.Common.Models.ResultObject
 
         private List<Error> Errors { get; set; }
 
-        private PaginatedList<T> Paging { get; set; }
-
         private T Data { get; set; }
 
         private HttpStatusCode HttpStatusCode { get; set; }

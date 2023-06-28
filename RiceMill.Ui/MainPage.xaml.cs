@@ -1,16 +1,27 @@
-﻿namespace RiceMill.Ui
+﻿using RiceMill.Application.UseCases.ConcernServices;
+using RiceMill.Application.UseCases.ConcernServices.Dto;
+
+namespace RiceMill.Ui
 {
     public partial class MainPage : ContentPage
     {
         int count = 0;
 
-        public MainPage()
+        private readonly IConcernQueries _concernQuery;
+        private readonly IConcernCommands _concernCommands;
+
+        public MainPage(/*IConcernQueries concernQueries, IConcernCommands concernCommands*/)
         {
             InitializeComponent();
+            //_concernQuery = concernQueries;
+            //_concernCommands = concernCommands;
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
         {
+
+            var list = _concernCommands.CreateAsync(new DtoCreateConcern("تست"));
+
             count++;
 
             if (count == 1)
