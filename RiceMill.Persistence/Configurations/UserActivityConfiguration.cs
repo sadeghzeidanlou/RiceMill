@@ -9,7 +9,7 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<UserActivity> builder)
         {
-            builder.HasKey(ua => ua.Id);
+            //builder.HasKey(ua => ua.Id);
 
             builder.Property(ua => ua.Id)
                 .ValueGeneratedOnAdd();
@@ -46,6 +46,9 @@ namespace RiceMill.Persistence.Configurations
 
             builder.Property(ua => ua.UpdateTime)
                 .IsRequired();
+
+            builder
+                .HasQueryFilter(ua => !ua.IsDeleted);
 
             builder
                 .HasOne(ua => ua.User)

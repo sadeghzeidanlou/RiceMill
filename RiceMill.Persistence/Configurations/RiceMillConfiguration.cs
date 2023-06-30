@@ -7,44 +7,50 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Domain.Models.RiceMill> builder)
         {
-            builder.HasKey(r => r.Id);
+            //builder.HasKey(r => r.Id);
 
-            builder.Property(r => r.Id)
+            builder.Property(rm => rm.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(r => r.Title)
+            builder.Property(rm => rm.Title)
                 .IsUnicode()
                 .HasMaxLength(60)
                 .IsRequired();
 
-            builder.Property(r => r.Address)
+            builder.Property(rm => rm.Address)
                 .IsUnicode()
                 .HasMaxLength(200)
                 .IsRequired();
 
-            builder.Property(r => r.Wage)
+            builder.Property(rm => rm.Wage)
                 .IsRequired();
 
-            builder.Property(r => r.Phone)
+            builder.Property(rm => rm.Phone)
                 .IsFixedLength()
                 .HasMaxLength(11);
 
-            builder.Property(r => r.PostalCode)
+            builder.Property(rm => rm.PostalCode)
                 .IsFixedLength()
                 .HasMaxLength(10);
 
-            builder.Property(r => r.Description)
+            builder.Property(rm => rm.Description)
                 .IsUnicode()
                 .HasMaxLength(200);
 
-            builder.Property(r => r.IsDeleted)
+            builder.Property(rm => rm.IsDeleted)
                 .IsRequired();
 
-            builder.Property(r => r.CreateTime)
+            builder.Property(rm => rm.CreateTime)
                 .IsRequired();
 
-            builder.Property(r => r.UpdateTime)
+            builder.Property(rm => rm.UpdateTime)
                 .IsRequired();
+
+            builder.Property(rm => rm.OwnerPersonId)
+                .IsRequired(false);
+
+            builder
+                .HasQueryFilter(rm => !rm.IsDeleted);
 
             builder
                 .HasOne(rm => rm.OwnerPerson)

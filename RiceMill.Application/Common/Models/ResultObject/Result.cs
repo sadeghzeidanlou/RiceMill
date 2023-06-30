@@ -4,13 +4,13 @@ namespace RiceMill.Application.Common.Models.ResultObject
 {
     public class Result<T>
     {
-        private bool IsSucceeded { get; set; }
+        public bool IsSucceeded { get; set; }
 
-        private List<Error> Errors { get; set; }
+        public List<Error> Errors { get; set; }
 
-        private T Data { get; set; }
+        public T Data { get; set; }
 
-        private HttpStatusCode HttpStatusCode { get; set; }
+        public HttpStatusCode HttpStatusCode { get; set; }
 
         public static Result<T> Failure(Error error, HttpStatusCode httpStatusCode) => new() { Errors = new List<Error> { error }, HttpStatusCode = httpStatusCode };
 

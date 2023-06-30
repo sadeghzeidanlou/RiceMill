@@ -7,21 +7,13 @@ namespace RiceMill.Ui
     {
         int count = 0;
 
-        private readonly IConcernQueries _concernQuery;
-        private readonly IConcernCommands _concernCommands;
-
-        public MainPage(/*IConcernQueries concernQueries, IConcernCommands concernCommands*/)
+        public MainPage()
         {
             InitializeComponent();
-            //_concernQuery = concernQueries;
-            //_concernCommands = concernCommands;
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
         {
-
-            var list = _concernCommands.CreateAsync(new DtoCreateConcern("تست"));
-
             count++;
 
             if (count == 1)

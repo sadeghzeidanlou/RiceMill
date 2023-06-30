@@ -9,7 +9,7 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<DryerHistory> builder)
         {
-            builder.HasKey(dh => dh.Id);
+            //builder.HasKey(dh => dh.Id);
 
             builder.Property(dh => dh.Id)
                 .ValueGeneratedOnAdd();
@@ -29,6 +29,9 @@ namespace RiceMill.Persistence.Configurations
 
             builder.Property(dh => dh.UpdateTime)
                 .IsRequired();
+
+            builder
+                .HasQueryFilter(dh => !dh.IsDeleted);
 
             builder
                 .HasOne(dh => dh.RiceThreshing)

@@ -42,7 +42,7 @@ namespace RiceMill.Persistence
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var entities = ChangeTracker.Entries<EventBaseModel>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+            var entities = ChangeTracker.Entries<EventBaseModel>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified || e.State == EntityState.Deleted);
             var currentTime = DateTime.Now;
             foreach (var entity in entities)
             {
@@ -62,9 +62,7 @@ namespace RiceMill.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<EventBaseModel>()
-                .HasQueryFilter(ebm => !ebm.IsDeleted);
-
+            modelBuilder.Ignore<EventBaseModel>();
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }

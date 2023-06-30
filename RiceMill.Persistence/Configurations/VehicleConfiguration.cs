@@ -9,7 +9,7 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Vehicle> builder)
         {
-            builder.HasKey(v => v.Id);
+            //builder.HasKey(v => v.Id);
 
             builder.Property(v => v.Id)
                 .ValueGeneratedOnAdd();
@@ -40,6 +40,9 @@ namespace RiceMill.Persistence.Configurations
 
             builder.Property(v => v.UpdateTime)
                 .IsRequired();
+
+            builder
+                .HasQueryFilter(v => !v.IsDeleted);
 
             builder
                 .HasOne(v => v.RiceMill)

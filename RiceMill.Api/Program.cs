@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using RiceMill.Api.DependencyInjection;
 using RiceMill.Application.DependencyInjection;
 using RiceMill.Infrastructure.DependencyInjection;
 using RiceMill.Persistence.DependencyInjection;
@@ -17,8 +20,16 @@ namespace RiceMill.Api
                 .AddSwaggerGen()
                 .AddEndpointsApiExplorer()
                 .AddPersistenceServices(builder.Configuration)
-                .AddInfrastructureServices(builder.Configuration)
-                .AddApplicationServices();
+                .AddInfrastructureServices()
+                .AddApplicationServices()
+                .AddApiServices()
+                .AddApiVersioning(v =>
+                {
+                    v.AssumeDefaultVersionWhenUnspecified = true;
+                    v.ReportApiVersions = true;
+                    v.DefaultApiVersion = new ApiVersion(1, 0);
+                    v.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("api-version"));
+                });
 
             var app = builder.Build();
 

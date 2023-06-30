@@ -8,7 +8,7 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
-            builder.HasKey(p => p.Id);
+            //builder.HasKey(p => p.Id);
 
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
@@ -40,6 +40,9 @@ namespace RiceMill.Persistence.Configurations
 
             builder.Property(p => p.UpdateTime)
                 .IsRequired();
+
+            builder
+                .HasQueryFilter(p => !p.IsDeleted);
 
             builder
                 .HasOne(p => p.PaidPerson)

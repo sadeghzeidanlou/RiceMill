@@ -17,8 +17,8 @@ namespace RiceMill.Application.Common.Models.ResultObject
 
         public static void ApplyPaging<T>(T filter, out int pageNumber, out int pageSize)
         {
-            pageNumber = DefaultPageNumber;
-            pageSize = DefaultPageSize;
+            pageNumber = 0;
+            pageSize = 0;
             if (filter != null)
             {
                 var propertyPageNumber = typeof(T).GetProperty(nameof(PageNumber));
@@ -29,6 +29,8 @@ namespace RiceMill.Application.Common.Models.ResultObject
                 if (propertyPageSize != null)
                     pageSize = (int)propertyPageSize.GetValue(filter);
             }
+            pageNumber = pageNumber == 0 ? DefaultPageNumber : pageNumber;
+            pageSize = pageSize == 0 || pageSize > MaximumPageSize ? DefaultPageSize : pageSize;
         }
     }
 }

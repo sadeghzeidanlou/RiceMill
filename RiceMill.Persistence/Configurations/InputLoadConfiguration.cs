@@ -9,7 +9,7 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<InputLoad> builder)
         {
-            builder.HasKey(il => il.Id);
+            //builder.HasKey(il => il.Id);
 
             builder.Property(il => il.Id)
                 .ValueGeneratedOnAdd();
@@ -22,8 +22,7 @@ namespace RiceMill.Persistence.Configurations
                 .HasMaxLength(200);
 
             builder.Property(il => il.NumberOfBagsInDryer)
-                .IsRequired()
-                .HasColumnOrder(4);
+                .IsRequired();
 
             builder.Property(il => il.ReceiveTime)
                 .IsRequired();
@@ -40,6 +39,9 @@ namespace RiceMill.Persistence.Configurations
 
             builder.Property(il => il.UpdateTime)
                 .IsRequired();
+
+            builder
+                .HasQueryFilter(il => !il.IsDeleted);
 
             builder
                 .HasOne(il => il.CarrierPerson)

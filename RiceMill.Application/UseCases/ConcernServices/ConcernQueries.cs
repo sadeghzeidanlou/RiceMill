@@ -29,21 +29,21 @@ namespace RiceMill.Application.UseCases.ConcernServices
         public Task<Result<PaginatedList<DtoConcern>>> GetAllAsync(DtoConcernFilter filter)
         {
             var concerns = _applicationDbContext.Concerns.Where(c => c.RiceMillId == _currentRequestService.RiceMillId).AsQueryable();
-            ApplyFilter(concerns, filter);
+            concerns = GetFilter(concerns, filter);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var tempResult = PaginatedList<Concern>.CreateAsync(concerns, pageNumber, pageSize).Result;
-            var result = new PaginatedList<DtoConcern>(tempResult.Items.Adapt<IReadOnlyCollection<DtoConcern>>(), tempResult.TotalCount, pageNumber, pageSize);
+            var result = new PaginatedList<DtoConcern>(tempResult.Items.Adapt<List<DtoConcern>>(), tempResult.TotalCount, pageNumber, pageSize);
             return Task.FromResult(Result<PaginatedList<DtoConcern>>.Success(result));
         }
 
         public Task<Result<int>> GetCountAsync(DtoConcernFilter filter)
         {
             var concerns = _applicationDbContext.Concerns.Where(c => c.RiceMillId == _currentRequestService.RiceMillId).AsQueryable();
-            ApplyFilter(concerns, filter);
+            concerns = GetFilter(concerns, filter);
             return Task.FromResult(Result<int>.Success(concerns.Count()));
         }
 
-        private static IQueryable<Concern> ApplyFilter(IQueryable<Concern> concerns, DtoConcernFilter filter)
+        private static IQueryable<Concern> GetFilter(IQueryable<Concern> concerns, DtoConcernFilter filter)
         {
             if (filter != null && filter.Title.IsNotNullOrEmpty())
                 concerns = concerns.Where(c => c.Title.Contains(filter.Title));

@@ -8,7 +8,7 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Delivery> builder)
         {
-            builder.HasKey(d => d.Id);
+            //builder.HasKey(d => d.Id);
 
             builder.Property(d => d.Id)
                 .ValueGeneratedOnAdd();
@@ -40,6 +40,9 @@ namespace RiceMill.Persistence.Configurations
 
             builder.Property(d => d.UpdateTime)
                 .IsRequired();
+
+            builder
+                .HasQueryFilter(d => !d.IsDeleted);
 
             builder
                 .HasOne(d => d.CarrierPerson)

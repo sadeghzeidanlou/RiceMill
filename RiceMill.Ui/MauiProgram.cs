@@ -24,7 +24,7 @@ namespace RiceMill.Ui
 
             builder.Services
                 .AddPersistenceServices(builder.Configuration)
-                .AddInfrastructureServices(builder.Configuration)
+                .AddInfrastructureServices()
                 .AddApplicationServices();
 
             return builder.Build();
