@@ -7,8 +7,9 @@ namespace RiceMill.Application.Common.Models.ResultObject
         public Error(ResultStatusEnum error)
         {
             ResultStatus = error;
-            Message = ErrorDictionary.ResultStatusMessage[error];
+            Message = ErrorDictionary.GetErrorMessage(error);
         }
+
         public ResultStatusEnum ResultStatus { get; }
 
         public string Message { get; }

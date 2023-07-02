@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 {
     public interface IRiceMillQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoRiceMill>>> GetAllAsync();
+        Task<Result<PaginatedList<DtoRiceMill>>> GetAllAsync(DtoRiceMillFilter riceMillFilter);
     }
 
     public class RiceMillQueries : IRiceMillQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 
         public RiceMillQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoRiceMill>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Task<Result<PaginatedList<DtoRiceMill>>> GetAllAsync(DtoRiceMillFilter riceMillFilter)
         {
             throw new NotImplementedException();
         }

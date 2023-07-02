@@ -36,11 +36,7 @@
 
     public class ErrorDictionary
     {
-        public static Dictionary<ResultStatusEnum, string> ResultStatusMessage;
-
-        public ErrorDictionary()
-        {
-            ResultStatusMessage = new Dictionary<ResultStatusEnum, string>()
+        private static Dictionary<ResultStatusEnum, string> ResultStatusMessage = new()
             {
                 #region Genearl
                 
@@ -55,7 +51,7 @@
                 {ResultStatusEnum.ConcernNotFound, "دلیل یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل، معتبر نمی باشد" },
                 {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل، معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل، معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل بیش از حد مجاز است" },
                 {ResultStatusEnum.ConcernUserIdIsNotValid, "شناسه کاربر دلیل، معتبر نمی باشد" },
                 {ResultStatusEnum.ConcernRiceMillIdIsNotValid, "شناسه کارخانه دلیل، معتبر نمی باشد" },
 
@@ -73,6 +69,7 @@
                 
                 #endregion
             };
-        }
+
+        public static string GetErrorMessage(ResultStatusEnum resultStatus) => ResultStatusMessage[resultStatus];
     }
 }

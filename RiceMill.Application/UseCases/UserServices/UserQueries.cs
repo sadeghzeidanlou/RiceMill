@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.UserServices
 {
     public interface IUserQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoUser>>> GetAllAsync();
+        Task<Result<PaginatedList<DtoUser>>> GetAllAsync(DtoUserFilter dtoUserFilter);
     }
 
     public class UserQueries : IUserQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.UserServices
 
         public UserQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoUser>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Task<Result<PaginatedList<DtoUser>>> GetAllAsync(DtoUserFilter dtoUserFilter)
         {
             throw new NotImplementedException();
         }

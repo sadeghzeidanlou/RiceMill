@@ -46,16 +46,16 @@ namespace RiceMill.Persistence
             var currentTime = DateTime.Now;
             foreach (var entity in entities)
             {
-                entity.Entity.UpdateTime = currentTime;
-                if (entity.State == EntityState.Added)
-                    entity.Entity.CreateTime = currentTime;
-
                 if (entity.State == EntityState.Deleted)
                 {
                     entity.Entity.DeleteTime = currentTime;
                     entity.Entity.IsDeleted = true;
                     entity.State = EntityState.Modified;
+                    continue;
                 }
+                entity.Entity.UpdateTime = currentTime;
+                if (entity.State == EntityState.Added)
+                    entity.Entity.CreateTime = currentTime;
             }
             return await base.SaveChangesAsync(cancellationToken);
         }
