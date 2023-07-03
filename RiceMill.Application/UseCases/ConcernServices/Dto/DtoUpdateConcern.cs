@@ -1,16 +1,18 @@
 ﻿using FluentValidation;
 using RiceMill.Application.Common.Models.Enums;
+using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.ConcernServices.Dto
 {
-    public record DtoUpdateConcern(Guid Id, string Title);
+    public record DtoUpdateConcern(Guid Id) : DtoCreateConcern(string.Empty);
 
     public class DtoUpdateConcernValidator : AbstractValidator<DtoUpdateConcern>
     {
         public DtoUpdateConcernValidator()
         {
             RuleFor(dto => dto.Id)
-               .NotEmpty().WithMessage(ResultStatusEnum.ConcernIdIsNotValid.ToString());
+                .Must((id) => { return id.IsNotNullOrEmpty(); }).WithErrorCode(ResultStatusEnum.ConcernIdIsNotValid.ToString());
+
 
             RuleFor(dto => dto.Title)
                 .NotEmpty().WithMessage(ResultStatusEnum.ConcernTitleIsNotValid.ToString())

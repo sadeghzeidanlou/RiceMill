@@ -8,10 +8,10 @@ namespace Shared.ExtensionMethods
     {
         public static string EncryptStringAes(this string plainText, string sharedSecret)
         {
-            if (string.IsNullOrEmpty(plainText))
+            if (plainText.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(plainText));
 
-            if (string.IsNullOrEmpty(sharedSecret))
+            if (sharedSecret.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(sharedSecret));
 
             string outStr;
@@ -42,10 +42,10 @@ namespace Shared.ExtensionMethods
 
         public static string DecryptStringAes(this string cipherText, string sharedSecret)
         {
-            if (string.IsNullOrEmpty(cipherText))
+            if (cipherText.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(cipherText));
 
-            if (string.IsNullOrEmpty(sharedSecret))
+            if (sharedSecret.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(sharedSecret));
 
             Aes aesAlg = Aes.Create();
@@ -59,8 +59,8 @@ namespace Shared.ExtensionMethods
                 using var msDecrypt = new MemoryStream(bytes);
                 aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
                 aesAlg.IV = msDecrypt.ToArray();
-                var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-                using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+                var decryption = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+                using var csDecrypt = new CryptoStream(msDecrypt, decryption, CryptoStreamMode.Read);
                 using var srDecrypt = new StreamReader(csDecrypt);
                 plaintext = srDecrypt.ReadToEnd();
             }
@@ -235,5 +235,13 @@ namespace Shared.ExtensionMethods
 
             return inputParameter.ExtractInt64();
         }
+
+        public static bool IsNotNullOrEmpty(this Guid? guid) => guid.HasValue && guid.Value != Guid.Empty && guid.Value != default;
+
+        public static bool IsNullOrEmpty(this Guid? guid) => !guid.HasValue || guid.Value == Guid.Empty || guid.Value == default;
+
+        public static bool IsNotNullOrEmpty(this Guid guid) => guid != Guid.Empty && guid != default;
+
+        public static bool IsNullOrEmpty(this Guid guid) => guid == Guid.Empty || guid == default;
     }
 }
