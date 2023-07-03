@@ -2,6 +2,7 @@
 using RiceMill.Application.UseCases.ConcernServices.Dto;
 using RiceMill.Application.UseCases.InputLoadServices.Dto;
 using RiceMill.Application.UseCases.PersonServices.Dto;
+using Shared.Attributes;
 
 namespace RiceMill.Application.UseCases.PaymentServices.Dto
 {
@@ -21,14 +22,17 @@ namespace RiceMill.Application.UseCases.PaymentServices.Dto
 
         public Guid PaidPersonId { get; set; }
 
+        [SwaggerExclude]
         public DtoPerson PaidPerson { get; set; }
 
         public Guid ConcernId { get; set; }
 
+        [SwaggerExclude]
         public DtoConcern Concern { get; set; }
 
         public Guid InputLoadId { get; set; }
 
+        [SwaggerExclude]
         public DtoInputLoad InputLoad { get; set; }
     }
 }

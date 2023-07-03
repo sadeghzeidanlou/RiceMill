@@ -2,6 +2,7 @@
 using RiceMill.Application.UseCases.DeliveryServices.Dto;
 using RiceMill.Application.UseCases.InputLoadServices.Dto;
 using RiceMill.Application.UseCases.PersonServices.Dto;
+using Shared.Attributes;
 using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.VehicleServices.Dto
@@ -18,10 +19,13 @@ namespace RiceMill.Application.UseCases.VehicleServices.Dto
 
         public Guid OwnerPersonId { get; set; }
 
+        [SwaggerExclude]
         public DtoPerson OwnerPerson { get; set; }
 
+        [SwaggerExclude]
         public ICollection<DtoDelivery> Deliveries { get; set; }
 
+        [SwaggerExclude]
         public ICollection<DtoInputLoad> InputLoads { get; set; }
     }
 }

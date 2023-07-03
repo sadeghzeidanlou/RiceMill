@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using RiceMill.Api.DependencyInjection;
+using RiceMill.Api.Swagger;
+using RiceMill.Api.Versioning;
 using RiceMill.Application.DependencyInjection;
 using RiceMill.Infrastructure.DependencyInjection;
 using RiceMill.Persistence.DependencyInjection;
@@ -12,24 +12,16 @@ namespace RiceMill.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            // Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services
-                .AddSwaggerGen()
                 .AddEndpointsApiExplorer()
                 .AddPersistenceServices(builder.Configuration)
                 .AddInfrastructureServices()
                 .AddApplicationServices()
                 .AddApiServices()
-                .AddApiVersioning(v =>
-                {
-                    v.AssumeDefaultVersionWhenUnspecified = true;
-                    v.ReportApiVersions = true;
-                    v.DefaultApiVersion = new ApiVersion(1, 0);
-                    v.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("api-version"));
-                });
+                .AddSwaggerConfiguration()
+                .AddApiVersioningConfiguration()
+                .AddControllers();
 
             var app = builder.Build();
 

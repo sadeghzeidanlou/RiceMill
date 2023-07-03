@@ -25,6 +25,7 @@ namespace RiceMill.Api.Controllers
         [HttpPost]
         public Result<DtoUser> Post([FromBody] DtoCreateUser dtoCreateUser) => _userCommands.CreateAsync(dtoCreateUser).Result;
 
+        [HttpPut]
         public Result<DtoUser> Put([FromBody] DtoUpdateUser dtoUpdateUser) => _userCommands.UpdateAsync(dtoUpdateUser).Result;
 
         [HttpDelete("{id}")]

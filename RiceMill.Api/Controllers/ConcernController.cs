@@ -21,7 +21,7 @@ namespace RiceMill.Api.Controllers
 
         [HttpGet]
         public Result<PaginatedList<DtoConcern>> Get([FromQuery] DtoConcernFilter filter) => _concernQueries.GetAllAsync(filter).Result;
-        
+
         [HttpPost]
         public Result<DtoConcern> Post([FromBody] DtoCreateConcern dtoCreateConcern) => _concernCommands.CreateAsync(dtoCreateConcern).Result;
 

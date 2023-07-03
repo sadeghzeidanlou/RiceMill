@@ -1,4 +1,5 @@
 ﻿using RiceMill.Application.UseCases.PaymentServices.Dto;
+using Shared.Attributes;
 
 namespace RiceMill.Application.UseCases.ConcernServices.Dto
 {
@@ -12,6 +13,7 @@ namespace RiceMill.Application.UseCases.ConcernServices.Dto
 
         public Guid RiceMillId { get; set; }
 
+        [SwaggerExclude]
         public ICollection<DtoPayment> Payments { get; set; }
     }
 }

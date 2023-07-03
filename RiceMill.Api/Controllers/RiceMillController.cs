@@ -25,6 +25,7 @@ namespace RiceMill.Api.Controllers
         [HttpPost]
         public Result<DtoRiceMill> Post([FromBody] DtoCreateRiceMill dtoCreateRiceMill) => _riceMillCommands.CreateAsync(dtoCreateRiceMill).Result;
 
+        [HttpPut]
         public Result<DtoRiceMill> Put([FromBody] DtoUpdateRiceMill dtoUpdateRiceMill) => _riceMillCommands.UpdateAsync(dtoUpdateRiceMill).Result;
 
         [HttpDelete("{id}")]
