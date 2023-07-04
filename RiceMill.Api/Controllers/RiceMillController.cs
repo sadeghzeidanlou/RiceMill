@@ -28,7 +28,7 @@ namespace RiceMill.Api.Controllers
         [HttpPut]
         public Result<DtoRiceMill> Put([FromBody] DtoUpdateRiceMill dtoUpdateRiceMill) => _riceMillCommands.UpdateAsync(dtoUpdateRiceMill).Result;
 
-        [HttpDelete("{id}")]
-        public Result<bool> Delete(Guid id) => _riceMillCommands.DeleteAsync(id).Result;
+        [HttpDelete("{id}/{riceMillId}")]
+        public Result<bool> Delete(Guid id, Guid riceMillId) => _riceMillCommands.DeleteAsync(id, riceMillId).Result;
     }
 }

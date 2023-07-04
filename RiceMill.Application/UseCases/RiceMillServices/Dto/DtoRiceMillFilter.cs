@@ -4,6 +4,8 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
 {
     public class DtoRiceMillFilter : PagingInfo
     {
+        public Guid? Id { get; set; }
+
         public string Title { get; set; }
 
         public string Address { get; set; }
@@ -11,7 +13,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
         public byte? Wage { get; set; }
 
         public byte? WageGreeterThan { get; set; }
-        
+
         public byte? WageLowerThan { get; set; }
 
         public string Phone { get; set; }

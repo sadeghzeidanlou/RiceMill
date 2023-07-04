@@ -4,7 +4,7 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.ConcernServices.Dto
 {
-    public record DtoUpdateConcern(Guid Id) : DtoCreateConcern(string.Empty);
+    public record DtoUpdateConcern(Guid Id) : DtoCreateConcern(string.Empty, Guid.Empty);
 
     public class DtoUpdateConcernValidator : AbstractValidator<DtoUpdateConcern>
     {
@@ -12,7 +12,6 @@ namespace RiceMill.Application.UseCases.ConcernServices.Dto
         {
             RuleFor(dto => dto.Id)
                 .Must((id) => id.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.ConcernIdIsNotValid.ToString());
-
 
             RuleFor(dto => dto.Title)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.ConcernTitleIsNotValid.ToString())

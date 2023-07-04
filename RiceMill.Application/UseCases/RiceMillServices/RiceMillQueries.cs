@@ -22,52 +22,65 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             _currentRequestService = currentRequestService;
         }
 
-        public Task<Result<PaginatedList<DtoRiceMill>>> GetAllAsync(DtoRiceMillFilter filter)
+        public async Task<Result<PaginatedList<DtoRiceMill>>> GetAllAsync(DtoRiceMillFilter filter)
         {
             if (!_currentRequestService.HasAccessToRiceMills)
-                return Task.FromResult(Result<PaginatedList<DtoRiceMill>>.Failure(new Error(Common.Models.Enums.ResultStatusEnum.Forbidden), System.Net.HttpStatusCode.Forbidden));
+                return await Task.FromResult(Result<PaginatedList<DtoRiceMill>>.Failure(new Error(Common.Models.Enums.ResultStatusEnum.Forbidden), System.Net.HttpStatusCode.Forbidden));
 
-            var riceMilles = _applicationDbContext.RiceMills.AsQueryable();
-            riceMilles = GetFilter(riceMilles, filter);
+            var riceMilles = GetFilter(filter);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var tempResult = PaginatedList<Domain.Models.RiceMill>.CreateAsync(riceMilles, pageNumber, pageSize).Result;
             var result = new PaginatedList<DtoRiceMill>(tempResult.Items.Adapt<List<DtoRiceMill>>(), tempResult.TotalCount, pageNumber, pageSize);
-            return Task.FromResult(Result<PaginatedList<DtoRiceMill>>.Success(result));
+            return await Task.FromResult(Result<PaginatedList<DtoRiceMill>>.Success(result));
         }
 
-        private IQueryable<Domain.Models.RiceMill> GetFilter(IQueryable<Domain.Models.RiceMill> riceMill, DtoRiceMillFilter filter)
+        private IQueryable<Domain.Models.RiceMill> GetFilter(DtoRiceMillFilter filter)
         {
-            if (_currentRequestService.IsManager)
-                riceMill = riceMill.Where(rm => rm.Id == _currentRequestService.RiceMillId);
+            var riceMilles = _applicationDbContext.RiceMills.AsQueryable();
+            if (_currentRequestService.IsNotAdmin)
+            {
+                var currentUser = _applicationDbContext.Users.Where(u => u.Id == _currentRequestService.UserId).FirstOrDefault();
+                if (currentUser == null)
+                    return riceMilles.Where(rm => false);
 
+                riceMilles = riceMilles.Where(rm => rm.Id == currentUser.RiceMillId.Value);
+            }
+            else
+            {
+                if (filter != null && filter.Id.IsNotNullOrEmpty())
+                    riceMilles = riceMilles.Where(rm => rm.Id == filter.Id.Value);
+            }
             if (filter == null)
-                return riceMill;
+                return riceMilles;
 
             if (filter.Title.IsNotNullOrEmpty())
-                riceMill = riceMill.Where(c => c.Title.Contains(filter.Title));
+                riceMilles = riceMilles.Where(rm => rm.Title.Contains(filter.Title));
 
             if (filter.Address.IsNotNullOrEmpty())
-                riceMill = riceMill.Where(c => c.Address.Contains(filter.Address));
+                riceMilles = riceMilles.Where(rm => rm.Address.Contains(filter.Address));
 
             if (filter.Wage.HasValue)
-                riceMill = riceMill.Where(c => c.Wage == filter.Wage.Value);
+                riceMilles = riceMilles.Where(rm => rm.Wage == filter.Wage.Value);
 
             if (filter.WageGreeterThan.HasValue)
-                riceMill = riceMill.Where(c => c.Wage > filter.WageGreeterThan.Value);
+                riceMilles = riceMilles.Where(rm => rm.Wage > filter.WageGreeterThan.Value);
 
             if (filter.WageLowerThan.HasValue)
-                riceMill = riceMill.Where(c => c.Wage < filter.WageLowerThan.Value);
+                riceMilles = riceMilles.Where(rm => rm.Wage < filter.WageLowerThan.Value);
 
             if (filter.Phone.IsNotNullOrEmpty())
-                riceMill = riceMill.Where(c => c.Phone.Contains(filter.Phone));
+                riceMilles = riceMilles.Where(rm => rm.Phone.Contains(filter.Phone));
 
             if (filter.PostalCode.IsNotNullOrEmpty())
-                riceMill = riceMill.Where(c => c.PostalCode.Contains(filter.PostalCode));
+                riceMilles = riceMilles.Where(rm => rm.PostalCode.Contains(filter.PostalCode));
 
             if (filter.Description.IsNotNullOrEmpty())
-                riceMill = riceMill.Where(c => c.Description.Contains(filter.Description));
+                riceMilles = riceMilles.Where(rm => rm.Description.Contains(filter.Description));
 
-            return riceMill;
+            if (filter.OwnerPersonId.IsNotNullOrEmpty())
+                riceMilles = riceMilles.Where(rm => rm.OwnerPersonId == filter.OwnerPersonId.Value);
+
+            return riceMilles;
         }
     }
 }

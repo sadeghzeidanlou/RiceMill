@@ -26,51 +26,52 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             _applicationDbContext = applicationDbContext;
             _currentRequestService = currentRequestService;
         }
-        public Task<Result<DtoRiceMill>> CreateAsync(DtoCreateRiceMill createRiceMill)
+
+        public async Task<Result<DtoRiceMill>> CreateAsync(DtoCreateRiceMill createRiceMill)
         {
             if (_currentRequestService.IsNotAdmin)
-                return Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+                return await Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
 
             var validationResult = createRiceMill.Validate();
             if (!validationResult.IsValid)
-                return Task.FromResult(Result<DtoRiceMill>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
+                return await Task.FromResult(Result<DtoRiceMill>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
 
             var riceMill = createRiceMill.Adapt<Domain.Models.RiceMill>();
             _applicationDbContext.RiceMills.Add(riceMill);
-            Task.WaitAny(_applicationDbContext.SaveChangesAsync());
-            return Task.FromResult(Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>()));
+            await _applicationDbContext.SaveChangesAsync();
+            return await Task.FromResult(Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>()));
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
+        public async Task<Result<bool>> DeleteAsync(Guid id, Guid riceMillId)
         {
             if (_currentRequestService.IsNotAdmin)
-                return Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+                return await Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
 
             var riceMill = _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id == id);
             if (riceMill == null)
-                return Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound));
+                return await Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound));
 
             _applicationDbContext.RiceMills.Remove(riceMill);
-            Task.WaitAny(_applicationDbContext.SaveChangesAsync());
-            return Task.FromResult(Result<bool>.Success(true));
+            await _applicationDbContext.SaveChangesAsync();
+            return await Task.FromResult(Result<bool>.Success(true));
         }
 
-        public Task<Result<DtoRiceMill>> UpdateAsync(DtoUpdateRiceMill updateRiceMill)
+        public async Task<Result<DtoRiceMill>> UpdateAsync(DtoUpdateRiceMill updateRiceMill)
         {
             if (_currentRequestService.IsNotAdmin)
-                return Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+                return await Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
 
             var validationResult = updateRiceMill.Validate();
             if (!validationResult.IsValid)
-                return Task.FromResult(Result<DtoRiceMill>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
+                return await Task.FromResult(Result<DtoRiceMill>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
 
             var riceMill = _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id == updateRiceMill.Id);
             if (riceMill == null)
-                return Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound));
+                return await Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound));
 
             riceMill = updateRiceMill.Adapt(riceMill);
-            Task.WaitAny(_applicationDbContext.SaveChangesAsync());
-            return Task.FromResult(Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>()));
+            await _applicationDbContext.SaveChangesAsync();
+            return await Task.FromResult(Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>()));
         }
     }
 }

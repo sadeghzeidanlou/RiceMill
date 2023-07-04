@@ -54,7 +54,7 @@
                 {ResultStatusEnum.Success,"عملیات '{0}' با موفقیت انجام شد" },
                 {ResultStatusEnum.Fail,"عملیات '{0}' دچار خطا شده است" },
                 {ResultStatusEnum.Unauthorized, "احراز هویت بدرستی انجام نشده است" },
-                {ResultStatusEnum.Forbidden, "شما مجاز به دسترسی نمی باشد" },
+                {ResultStatusEnum.Forbidden, "شما مجاز به ادامه عملیات نمی باشد" },
                 
                 #endregion
 
@@ -79,8 +79,8 @@
 
                 {ResultStatusEnum.RiceMillNotFound, "کارخانه یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.RiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
-                {ResultStatusEnum.RiceMillTitleIsNotValid, "نام کارخانه معتبر نمی باشد" },
-                {ResultStatusEnum.RiceMillTitleLengthIsNotValid, "طول نام کارخانه بیش از حد مجاز است" },
+                {ResultStatusEnum.RiceMillTitleIsNotValid, "عنوان کارخانه معتبر نمی باشد" },
+                {ResultStatusEnum.RiceMillTitleLengthIsNotValid, "طول عنوان کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillAddressIsNotValid, "آدرس کارخانه معتبر نمی باشد" },
                 {ResultStatusEnum.RiceMillAddressLengthIsNotValid, "طول آدرس کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillWageValueIsNotValid, "مقدار کارمزد کارخانه معتبر نمی باشد" },

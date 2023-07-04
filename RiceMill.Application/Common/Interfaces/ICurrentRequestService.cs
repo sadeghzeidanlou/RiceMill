@@ -7,11 +7,11 @@ namespace RiceMill.Application.Common.Interfaces
     {
         public Guid UserId { get; }
 
-        public Guid RiceMillId { get; }
-
         public RoleEnum UserRole { get; set; }
 
         bool IsAuthenticated => UserId.IsNotNullOrEmpty();
+
+        bool IsNotAuthenticated => UserId.IsNullOrEmpty();
 
         bool HaveWriteAccess => UserRole != RoleEnum.User;
 
@@ -21,8 +21,12 @@ namespace RiceMill.Application.Common.Interfaces
 
         bool IsNotAdmin => UserRole != RoleEnum.Admin;
 
-        bool IsManager => UserRole == RoleEnum.RiceMillManager && RiceMillId.IsNotNullOrEmpty();
+        bool IsManager => UserRole == RoleEnum.RiceMillManager;
 
         bool HasAccessToRiceMills => (IsAdmin || UserRole == RoleEnum.RiceMillManager) && IsAuthenticated;
+
+        bool HaveAccessDoAnyThing => HaveWriteAccess && IsAuthenticated;
+
+        bool HaveNotAccessDoAnyThing => HaveNotWriteAccess ||  IsNotAuthenticated;
     }
 }
