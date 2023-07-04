@@ -29,7 +29,17 @@
 
         #region RiceMill 700 To 799
 
-        RiceMillIdIsNotValid = 700,
+        RiceMillNotFound = 700,
+        RiceMillIdIsNotValid,
+        RiceMillTitleIsNotValid,
+        RiceMillTitleLengthIsNotValid,
+        RiceMillAddressIsNotValid,
+        RiceMillAddressLengthIsNotValid,
+        RiceMillWageValueIsNotValid,
+        RiceMillPhoneLengthIsNotValid,
+        RiceMillPostalCodeLengthIsNotValid,
+        RiceMillDescriptionLengthIsNotValid,
+        RiceMillOwnerPersonIdIsNotValid,
 
         #endregion
     }
@@ -49,11 +59,11 @@
                 #region Concern
                 
                 {ResultStatusEnum.ConcernNotFound, "دلیل یافت نشد یا شما مجاز به دسترسی نمی باشید" },
-                {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل، معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل، معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل معتبر نمی باشد" },
                 {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل بیش از حد مجاز است" },
-                {ResultStatusEnum.ConcernUserIdIsNotValid, "شناسه کاربر دلیل، معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernRiceMillIdIsNotValid, "شناسه کارخانه دلیل، معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernUserIdIsNotValid, "شناسه کاربر برای این دلیل معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernRiceMillIdIsNotValid, "شناسه کارخانه برای این دلیل معتبر نمی باشد" },
 
                 #endregion
 
@@ -65,8 +75,18 @@
 
                 #region RiceMill
 
+                {ResultStatusEnum.RiceMillNotFound, "کارخانه یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.RiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
-                
+                {ResultStatusEnum.RiceMillTitleIsNotValid, "نام کارخانه معتبر نمی باشد" },
+                {ResultStatusEnum.RiceMillTitleLengthIsNotValid, "طول نام کارخانه بیش از حد مجاز است" },
+                {ResultStatusEnum.RiceMillAddressIsNotValid, "آدرس کارخانه معتبر نمی باشد" },
+                {ResultStatusEnum.RiceMillAddressLengthIsNotValid, "طول آدرس کارخانه بیش از حد مجاز است" },
+                {ResultStatusEnum.RiceMillWageValueIsNotValid, "مقدار کارمزد کارخانه معتبر نمی باشد" },
+                {ResultStatusEnum.RiceMillPhoneLengthIsNotValid, "طول شماره تماس کارخانه بیش از حد مجاز است" },
+                {ResultStatusEnum.RiceMillPostalCodeLengthIsNotValid, "طول کد پستی کارخانه بیش از حد مجاز است" },
+                {ResultStatusEnum.RiceMillDescriptionLengthIsNotValid, "طول توضیحات کارخانه بیش از حد مجاز است" },
+                {ResultStatusEnum.RiceMillOwnerPersonIdIsNotValid, "شناسه صاحب کارخانه معتبر نمی باشد" },
+
                 #endregion
             };
 
