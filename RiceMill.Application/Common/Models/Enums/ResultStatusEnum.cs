@@ -36,7 +36,7 @@
 
     public class ErrorDictionary
     {
-        private static Dictionary<ResultStatusEnum, string> ResultStatusMessage = new()
+        private static readonly Dictionary<ResultStatusEnum, string> ResultStatusMessage = new()
             {
                 #region Genearl
                 
