@@ -8,7 +8,11 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
 
         public string Address { get; set; }
 
-        public byte Wage { get; set; }
+        public byte? Wage { get; set; }
+
+        public byte? WageGreeterThan { get; set; }
+        
+        public byte? WageLowerThan { get; set; }
 
         public string Phone { get; set; }
 

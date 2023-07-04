@@ -1,7 +1,11 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
+﻿using Mapster;
+using RiceMill.Application.Common.ExtensionMethods;
 using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.Enums;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.RiceMillServices.Dto;
+using System.Net;
 
 namespace RiceMill.Application.UseCases.RiceMillServices
 {
@@ -15,22 +19,58 @@ namespace RiceMill.Application.UseCases.RiceMillServices
     public class RiceMillCommands : IRiceMillCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
+        private readonly ICurrentRequestService _currentRequestService;
 
-        public RiceMillCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
-
-        public Task<Result<DtoRiceMill>> CreateAsync(DtoCreateRiceMill riceMill)
+        public RiceMillCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService)
         {
-            throw new NotImplementedException();
+            _applicationDbContext = applicationDbContext;
+            _currentRequestService = currentRequestService;
+        }
+        public Task<Result<DtoRiceMill>> CreateAsync(DtoCreateRiceMill createRiceMill)
+        {
+            if (_currentRequestService.IsNotAdmin)
+                return Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+
+            var validationResult = createRiceMill.Validate();
+            if (!validationResult.IsValid)
+                return Task.FromResult(Result<DtoRiceMill>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
+
+            var riceMill = createRiceMill.Adapt<Domain.Models.RiceMill>();
+            _applicationDbContext.RiceMills.Add(riceMill);
+            Task.WaitAny(_applicationDbContext.SaveChangesAsync());
+            return Task.FromResult(Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>()));
         }
 
         public Task<Result<bool>> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            if (_currentRequestService.IsNotAdmin)
+                return Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+
+            var riceMill = _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id == id);
+            if (riceMill == null)
+                return Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound));
+
+            _applicationDbContext.RiceMills.Remove(riceMill);
+            Task.WaitAny(_applicationDbContext.SaveChangesAsync());
+            return Task.FromResult(Result<bool>.Success(true));
         }
 
-        public Task<Result<DtoRiceMill>> UpdateAsync(DtoUpdateRiceMill riceMill)
+        public Task<Result<DtoRiceMill>> UpdateAsync(DtoUpdateRiceMill updateRiceMill)
         {
-            throw new NotImplementedException();
+            if (_currentRequestService.IsNotAdmin)
+                return Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+
+            var validationResult = updateRiceMill.Validate();
+            if (!validationResult.IsValid)
+                return Task.FromResult(Result<DtoRiceMill>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
+
+            var riceMill = _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id == updateRiceMill.Id);
+            if (riceMill == null)
+                return Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound));
+
+            riceMill = updateRiceMill.Adapt(riceMill);
+            Task.WaitAny(_applicationDbContext.SaveChangesAsync());
+            return Task.FromResult(Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>()));
         }
     }
 }

@@ -43,6 +43,9 @@ namespace RiceMill.Persistence.Configurations
             builder.Property(u => u.UserPersonId)
                 .IsRequired(false);
 
+            builder.Property(u => u.RiceMillId)
+               .IsRequired(false);
+
             builder
                 .HasQueryFilter(u => !u.IsDeleted);
 

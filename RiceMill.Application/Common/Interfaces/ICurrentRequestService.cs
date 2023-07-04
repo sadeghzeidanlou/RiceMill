@@ -1,4 +1,5 @@
 ﻿using Shared.Enums;
+using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.Common.Interfaces
 {
@@ -10,8 +11,18 @@ namespace RiceMill.Application.Common.Interfaces
 
         public RoleEnum UserRole { get; set; }
 
-        bool IsAuthenticated => UserId != Guid.Empty && UserId != default;
+        bool IsAuthenticated => UserId.IsNotNullOrEmpty();
 
         bool HaveWriteAccess => UserRole != RoleEnum.User;
+
+        bool HaveNotWriteAccess => UserRole == RoleEnum.User;
+
+        bool IsAdmin => UserRole == RoleEnum.Admin;
+
+        bool IsNotAdmin => UserRole != RoleEnum.Admin;
+
+        bool IsManager => UserRole == RoleEnum.RiceMillManager && RiceMillId.IsNotNullOrEmpty();
+
+        bool HasAccessToRiceMills => (IsAdmin || UserRole == RoleEnum.RiceMillManager) && IsAuthenticated;
     }
 }

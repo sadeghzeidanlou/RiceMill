@@ -6,7 +6,7 @@ namespace Shared.ExtensionMethods
 {
     public static class ObjectMethods
     {
-        private static JsonSerializerOptions serializerOptions = new() { ReferenceHandler = ReferenceHandler.IgnoreCycles, WriteIndented = true };
+        private static readonly JsonSerializerOptions SerializerOptions = new() { ReferenceHandler = ReferenceHandler.IgnoreCycles, WriteIndented = true };
 
         /// <summary>
         /// Serialize an object
@@ -21,7 +21,7 @@ namespace Shared.ExtensionMethods
         /// <param name="source">Input object that serialized</param>
         /// <param name="serializerOptions">Option for serialize input object</param>
         /// <returns></returns>
-        public static string SerializeObject(this object source, JsonSerializerOptions serializerOptions) => JsonSerializer.Serialize(source);
+        public static string SerializeObject(this object source, JsonSerializerOptions serializerOptions) => JsonSerializer.Serialize(source, serializerOptions);
 
         /// <summary>
         /// Deserialize an object from string
@@ -36,7 +36,7 @@ namespace Shared.ExtensionMethods
         /// <typeparam name="T">Target object</typeparam>
         /// <param name="source">Input object</param>
         /// <returns></returns>
-        public static T? CloneObject<T>(this T source) where T : class => source.SerializeObject(serializerOptions).DeserializeObject<T>();
+        public static T? CloneObject<T>(this T source) where T : class => source.SerializeObject(SerializerOptions).DeserializeObject<T>();
 
         /// <summary>
         /// Compares 2 Objects
@@ -45,7 +45,7 @@ namespace Shared.ExtensionMethods
         /// <param name="obj1">First object</param>
         /// <param name="obj2">Second object</param>
         /// <returns>true if values of all properties are equal</returns>
-        public static bool IsEqual<T>(this T obj1, T obj2) where T : class => obj1.SerializeObject(serializerOptions) == obj2.SerializeObject(serializerOptions);
+        public static bool IsEqual<T>(this T obj1, T obj2) where T : class => obj1.SerializeObject(SerializerOptions) == obj2.SerializeObject(SerializerOptions);
 
         /// <summary>
         /// Get changed properties of object1 based on object2

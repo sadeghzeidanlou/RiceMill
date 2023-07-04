@@ -20,7 +20,7 @@ namespace RiceMill.Api.Controllers
         }
 
         [HttpGet]
-        public Result<PaginatedList<DtoRiceMill>> Get(DtoRiceMillFilter dtoRiceMillFilter) => _riceMillQueries.GetAllAsync(dtoRiceMillFilter).Result;
+        public Result<PaginatedList<DtoRiceMill>> Get([FromQuery] DtoRiceMillFilter dtoRiceMillFilter) => _riceMillQueries.GetAllAsync(dtoRiceMillFilter).Result;
 
         [HttpPost]
         public Result<DtoRiceMill> Post([FromBody] DtoCreateRiceMill dtoCreateRiceMill) => _riceMillCommands.CreateAsync(dtoCreateRiceMill).Result;

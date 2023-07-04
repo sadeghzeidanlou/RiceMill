@@ -30,22 +30,22 @@ namespace RiceMill.Persistence
             }
         }
 
-        public async Task SeedAsync()
-        {
-            try
-            {
-                await TrySeedAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while seeding the database.");
-                throw;
-            }
-        }
+        //public async Task SeedAsync()
+        //{
+        //    try
+        //    {
+        //        await TrySeedAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "An error occurred while seeding the database.");
+        //        throw;
+        //    }
+        //}
 
-        public async Task TrySeedAsync()
-        {
-            await Task.CompletedTask;
-        }
+        //public async Task TrySeedAsync()
+        //{
+        //    await Task.CompletedTask;
+        //}
     }
 }

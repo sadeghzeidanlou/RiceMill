@@ -2,11 +2,12 @@
 {
     public enum ResultStatusEnum
     {
-        #region General 1 To 499
+        #region General 0 To 499
 
-        Success = 1,
+        Success,
         Fail,
-        NotAuthenticated,
+        Unauthorized,
+        Forbidden,
 
         #endregion
 
@@ -44,7 +45,7 @@
         #endregion
     }
 
-    public class ErrorDictionary
+    public static class ErrorDictionary
     {
         private static readonly Dictionary<ResultStatusEnum, string> ResultStatusMessage = new()
             {
@@ -52,7 +53,8 @@
                 
                 {ResultStatusEnum.Success,"عملیات '{0}' با موفقیت انجام شد" },
                 {ResultStatusEnum.Fail,"عملیات '{0}' دچار خطا شده است" },
-                {ResultStatusEnum.NotAuthenticated, "احراز هویت بدرستی انجام نشده است" },
+                {ResultStatusEnum.Unauthorized, "احراز هویت بدرستی انجام نشده است" },
+                {ResultStatusEnum.Forbidden, "شما مجاز به دسترسی نمی باشد" },
                 
                 #endregion
 
@@ -90,6 +92,6 @@
                 #endregion
             };
 
-        public static string GetErrorMessage(ResultStatusEnum resultStatus) => ResultStatusMessage[resultStatus];
+        public static string GetErrorMessage(this ResultStatusEnum resultStatus) => ResultStatusMessage[resultStatus];
     }
 }

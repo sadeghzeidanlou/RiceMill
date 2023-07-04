@@ -20,7 +20,7 @@ namespace RiceMill.Api.Controllers
         }
 
         [HttpGet]
-        public Result<PaginatedList<DtoUser>> Get(DtoUserFilter dtoUserFilter) => _userQueries.GetAllAsync(dtoUserFilter).Result;
+        public Result<PaginatedList<DtoUser>> Get([FromQuery] DtoUserFilter dtoUserFilter) => _userQueries.GetAllAsync(dtoUserFilter).Result;
 
         [HttpPost]
         public Result<DtoUser> Post([FromBody] DtoCreateUser dtoCreateUser) => _userCommands.CreateAsync(dtoCreateUser).Result;

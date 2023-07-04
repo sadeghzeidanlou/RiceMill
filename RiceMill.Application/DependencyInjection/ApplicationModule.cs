@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using RiceMill.Application.UseCases.ConcernServices;
+using RiceMill.Application.UseCases.RiceMillServices;
 using System.Reflection;
 
 namespace RiceMill.Application.DependencyInjection
@@ -16,6 +17,9 @@ namespace RiceMill.Application.DependencyInjection
         {
             services.AddTransient<IConcernCommands, ConcernCommands>();
             services.AddTransient<IConcernQueries, ConcernQueries>();
+
+            services.AddTransient<IRiceMillCommands, RiceMillCommands>();
+            services.AddTransient<IRiceMillQueries, RiceMillQueries>();
 
             AddMapsTerConfig();
 

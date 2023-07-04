@@ -11,7 +11,9 @@
         /// <param name="key">Key object</param>
         /// <param name="value">Value object</param>
         /// <exception cref="ArgumentNullException"></exception>
+#pragma warning disable CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
         public static void SafeAdd<T1, T2>(this Dictionary<T1, T2> sourceDictionary, T1 key, T2 value)
+#pragma warning restore CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
         {
             if (sourceDictionary is null)
                 throw new ArgumentNullException(nameof(sourceDictionary));

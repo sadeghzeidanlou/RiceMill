@@ -3,6 +3,7 @@
 namespace RiceMill.Api.Controllers
 {
     [ApiController]
+    [Produces("application/json")]
     public class BaseController : ControllerBase
     {
     }

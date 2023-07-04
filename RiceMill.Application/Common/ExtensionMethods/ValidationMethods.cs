@@ -15,8 +15,8 @@ namespace RiceMill.Application.Common.ExtensionMethods
 
         public static List<Error> GetErrorEnums(this List<ValidationFailure> validationFailures)
         {
-            return validationFailures.Select(e => new Error(Enum.IsDefined(typeof(ResultStatusEnum), e.ErrorMessage)
-                ? (ResultStatusEnum)Enum.Parse(typeof(ResultStatusEnum), e.ErrorMessage) : ResultStatusEnum.Fail)).ToList();
+            return validationFailures.Select(e => new Error(Enum.IsDefined(typeof(ResultStatusEnum), e.ErrorCode)
+                ? (ResultStatusEnum)Enum.Parse(typeof(ResultStatusEnum), e.ErrorCode) : ResultStatusEnum.Fail)).ToList();
         }
 
         private static Type ValidatorType<T>(this T input) => Type.GetType($"{typeof(T).FullName}Validator");

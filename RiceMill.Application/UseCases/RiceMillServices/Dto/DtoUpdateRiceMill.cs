@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
         public DtoUpdateRiceMillValidator()
         {
             RuleFor(dto => dto.Id)
-               .Must((id) => { return id.IsNotNullOrEmpty(); }).WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
+               .Must((id) => id.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
 
             RuleFor(dto => dto.Title)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.RiceMillTitleIsNotValid.ToString())
@@ -34,7 +34,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
                 .MaximumLength(200).WithErrorCode(ResultStatusEnum.RiceMillDescriptionLengthIsNotValid.ToString());
 
             RuleFor(dto => dto.OwnerPersonId)
-                .Must((o) => { return o.IsNullOrEmpty() || o.HasValue && o.IsNotNullOrEmpty(); }).WithErrorCode(ResultStatusEnum.RiceMillOwnerPersonIdIsNotValid.ToString());
+                .Must((opi) => opi.IsNullOrEmpty() || opi.HasValue && opi.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.RiceMillOwnerPersonIdIsNotValid.ToString());
         }
     }
 }

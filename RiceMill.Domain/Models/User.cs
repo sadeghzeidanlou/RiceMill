@@ -51,7 +51,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="RiceMill"/> that determine this <see cref="User"/> is member of which <see cref="RiceMill"/>
         /// </summary>
-        public Guid RiceMillId { get; set; }
+        public Guid? RiceMillId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="RiceMill"/> detail in this class

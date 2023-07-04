@@ -11,12 +11,12 @@ namespace RiceMill.Application.UseCases.ConcernServices.Dto
         public DtoUpdateConcernValidator()
         {
             RuleFor(dto => dto.Id)
-                .Must((id) => { return id.IsNotNullOrEmpty(); }).WithErrorCode(ResultStatusEnum.ConcernIdIsNotValid.ToString());
+                .Must((id) => id.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.ConcernIdIsNotValid.ToString());
 
 
             RuleFor(dto => dto.Title)
-                .NotEmpty().WithMessage(ResultStatusEnum.ConcernTitleIsNotValid.ToString())
-                .MaximumLength(50).WithMessage(ResultStatusEnum.ConcernTitleLengthIsNotValid.ToString());
+                .NotEmpty().WithErrorCode(ResultStatusEnum.ConcernTitleIsNotValid.ToString())
+                .MaximumLength(50).WithErrorCode(ResultStatusEnum.ConcernTitleLengthIsNotValid.ToString());
         }
     }
 }
