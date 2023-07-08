@@ -8,8 +8,6 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
-            //builder.HasKey(p => p.Id);
-
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
 

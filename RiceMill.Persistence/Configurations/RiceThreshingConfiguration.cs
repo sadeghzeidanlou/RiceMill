@@ -8,8 +8,6 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<RiceThreshing> builder)
         {
-            //builder.HasKey(rt => rt.Id);
-
             builder.Property(rt => rt.Id)
                 .ValueGeneratedOnAdd();
 

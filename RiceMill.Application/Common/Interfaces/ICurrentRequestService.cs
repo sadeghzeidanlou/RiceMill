@@ -25,6 +25,8 @@ namespace RiceMill.Application.Common.Interfaces
 
         bool HasAccessToRiceMills => (IsAdmin || IsManager) && IsAuthenticated;
 
+        bool HasNotAccessToRiceMills => !HasAccessToRiceMills;
+        
         bool HaveAccessToWrite => HaveWriteAccess && IsAuthenticated;
 
         bool HaveNotAccessToWrite => IsNotAuthenticated || JustCanRead;

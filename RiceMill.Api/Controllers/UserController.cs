@@ -29,6 +29,6 @@ namespace RiceMill.Api.Controllers
         public Result<DtoUser> Put([FromBody] DtoUpdateUser dtoUpdateUser) => _userCommands.UpdateAsync(dtoUpdateUser).Result;
 
         [HttpDelete("{id}")]
-        public Result<bool> Delete(Guid id, Guid riceMillId) => _userCommands.DeleteAsync(id).Result;
+        public Result<bool> Delete(Guid id) => _userCommands.DeleteAsync(id).Result;
     }
 }

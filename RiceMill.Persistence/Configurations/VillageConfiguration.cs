@@ -8,8 +8,6 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Village> builder)
         {
-            //builder.HasKey(v => v.Id);
-
             builder.Property(v => v.Id)
                 .ValueGeneratedOnAdd();
 

@@ -19,7 +19,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
                 .MaximumLength(200).WithErrorCode(ResultStatusEnum.RiceMillAddressLengthIsNotValid.ToString());
 
             RuleFor(dto => dto.Wage)
-                .Must((model, height) => model.Wage >= 0 && model.Wage < byte.MaxValue).WithErrorCode(ResultStatusEnum.RiceMillWageValueIsNotValid.ToString());
+                .Must((model, height) => model.Wage >= 0 && model.Wage < byte.MaxValue).WithErrorCode(ResultStatusEnum.RiceMillWageIsNotValid.ToString());
 
             RuleFor(dto => dto.Phone)
                 .MaximumLength(11).WithErrorCode(ResultStatusEnum.RiceMillPhoneLengthIsNotValid.ToString());

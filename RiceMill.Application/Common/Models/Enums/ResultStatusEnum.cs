@@ -24,7 +24,15 @@
 
         #region User 600 To 699
 
-        UserIdIsNotValid = 600,
+        UserNotFound = 600,
+        UserIdIsNotValid,
+        UserUsernameIsNotValid,
+        UserUsernameLengthIsNotValid,
+        UserPasswordIsNotValid,
+        UserRoleIsNotValid,
+        UserUserPersonIdIsNotValid,
+        UserParentUserIdIsNotValid,
+        UserRiceMillIdIsNotValid,
 
         #endregion
 
@@ -36,7 +44,7 @@
         RiceMillTitleLengthIsNotValid,
         RiceMillAddressIsNotValid,
         RiceMillAddressLengthIsNotValid,
-        RiceMillWageValueIsNotValid,
+        RiceMillWageIsNotValid,
         RiceMillPhoneLengthIsNotValid,
         RiceMillPostalCodeLengthIsNotValid,
         RiceMillDescriptionLengthIsNotValid,
@@ -71,7 +79,15 @@
 
                 #region User
 
+                {ResultStatusEnum.UserNotFound, "کاربر یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.UserIdIsNotValid, "شناسه کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserUsernameIsNotValid, "نام کاربری کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserUsernameLengthIsNotValid, "طول نام کاربری کاربر بیش از حد مجاز است" },
+                {ResultStatusEnum.UserPasswordIsNotValid, "رمز عبور کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserRoleIsNotValid, "نقش کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserUserPersonIdIsNotValid, "شناسه فردی کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserParentUserIdIsNotValid, "شناسه کاربری ایجاد کننده کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserRiceMillIdIsNotValid, "شناسه کارخانه کاربر معتبر نمی باشد" },
 
                 #endregion
 
@@ -83,7 +99,7 @@
                 {ResultStatusEnum.RiceMillTitleLengthIsNotValid, "طول عنوان کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillAddressIsNotValid, "آدرس کارخانه معتبر نمی باشد" },
                 {ResultStatusEnum.RiceMillAddressLengthIsNotValid, "طول آدرس کارخانه بیش از حد مجاز است" },
-                {ResultStatusEnum.RiceMillWageValueIsNotValid, "مقدار کارمزد کارخانه معتبر نمی باشد" },
+                {ResultStatusEnum.RiceMillWageIsNotValid, "مقدار کارمزد کارخانه معتبر نمی باشد" },
                 {ResultStatusEnum.RiceMillPhoneLengthIsNotValid, "طول شماره تماس کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillPostalCodeLengthIsNotValid, "طول کد پستی کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillDescriptionLengthIsNotValid, "طول توضیحات کارخانه بیش از حد مجاز است" },

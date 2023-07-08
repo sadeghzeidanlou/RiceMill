@@ -58,7 +58,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 
         public async Task<Result<DtoRiceMill>> UpdateAsync(DtoUpdateRiceMill updateRiceMill)
         {
-            if (_currentRequestService.IsNotAdmin)
+            if (_currentRequestService.HasNotAccessToRiceMills)
                 return await Task.FromResult(Result<DtoRiceMill>.Forbidden());
 
             var validationResult = updateRiceMill.Validate();

@@ -1,4 +1,4 @@
-﻿using Mapster;
+﻿using Microsoft.EntityFrameworkCore;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
@@ -15,7 +15,6 @@ namespace RiceMill.Application.UseCases.ConcernServices
     public class ConcernQueries : IConcernQueries
     {
         private readonly IApplicationDbContext _applicationDbContext;
-
         private readonly ICurrentRequestService _currentRequestService;
 
         public ConcernQueries(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService)
@@ -28,25 +27,18 @@ namespace RiceMill.Application.UseCases.ConcernServices
         {
             var concerns = GetFilter(filter);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
-            var tempResult = PaginatedList<Concern>.CreateAsync(concerns, pageNumber, pageSize).Result;
-            var result = new PaginatedList<DtoConcern>(tempResult.Items.Adapt<List<DtoConcern>>(), tempResult.TotalCount, pageNumber, pageSize);
+            var result = PaginatedList<DtoConcern>.CreateAsync(concerns, pageNumber, pageSize).Result;
             return await Task.FromResult(Result<PaginatedList<DtoConcern>>.Success(result));
         }
 
         private IQueryable<Concern> GetFilter(DtoConcernFilter filter)
         {
-            var concerns = _applicationDbContext.Concerns.AsQueryable();
+            var concerns = _applicationDbContext.Concerns.AsNoTracking().AsQueryable();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return concerns.Where(c => false);
 
-            if (_currentRequestService.IsNotAdmin)
-            {
-                concerns = concerns.Where(c => c.RiceMillId == filter.RiceMillId.Value);
-            }
-            else if (_currentRequestService.IsAdmin && filter.RiceMillId.IsNotNullOrEmpty())
-            {
-                concerns = concerns.Where(c => c.RiceMillId == filter.RiceMillId.Value);
-            }
+            if (filter.RiceMillId.IsNotNullOrEmpty())
+                concerns = concerns.Where(c => c.RiceMillId.Equals(filter.RiceMillId));
 
             if (filter.Title.IsNotNullOrEmpty())
                 concerns = concerns.Where(c => c.Title.Contains(filter.Title));

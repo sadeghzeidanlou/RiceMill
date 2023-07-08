@@ -9,8 +9,6 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<InputLoad> builder)
         {
-            //builder.HasKey(il => il.Id);
-
             builder.Property(il => il.Id)
                 .ValueGeneratedOnAdd();
 

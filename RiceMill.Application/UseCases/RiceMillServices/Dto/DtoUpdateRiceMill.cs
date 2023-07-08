@@ -4,7 +4,7 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.RiceMillServices.Dto
 {
-    public record DtoUpdateRiceMill(Guid Id) : DtoCreateRiceMill(string.Empty, string.Empty, 0, string.Empty, string.Empty, string.Empty, Guid.Empty);
+    public record DtoUpdateRiceMill(Guid Id, string Title, string Address, byte Wage, string Phone, string PostalCode, string Description, Guid? OwnerPersonId);
 
     public class DtoUpdateRiceMillValidator : AbstractValidator<DtoUpdateRiceMill>
     {
@@ -22,7 +22,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
                 .MaximumLength(200).WithErrorCode(ResultStatusEnum.RiceMillAddressLengthIsNotValid.ToString());
 
             RuleFor(dto => dto.Wage)
-                .Must((model, height) => model.Wage >= 0 && model.Wage < byte.MaxValue).WithErrorCode(ResultStatusEnum.RiceMillWageValueIsNotValid.ToString());
+                .Must((model, height) => model.Wage >= 0 && model.Wage < byte.MaxValue).WithErrorCode(ResultStatusEnum.RiceMillWageIsNotValid.ToString());
 
             RuleFor(dto => dto.Phone)
                 .MaximumLength(11).WithErrorCode(ResultStatusEnum.RiceMillPhoneLengthIsNotValid.ToString());

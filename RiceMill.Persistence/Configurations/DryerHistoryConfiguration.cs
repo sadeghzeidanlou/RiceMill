@@ -9,8 +9,6 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<DryerHistory> builder)
         {
-            //builder.HasKey(dh => dh.Id);
-
             builder.Property(dh => dh.Id)
                 .ValueGeneratedOnAdd();
 

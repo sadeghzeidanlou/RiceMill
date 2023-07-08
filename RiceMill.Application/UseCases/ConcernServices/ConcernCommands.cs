@@ -1,5 +1,4 @@
 ﻿using Mapster;
-using Microsoft.EntityFrameworkCore;
 using RiceMill.Application.Common.ExtensionMethods;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.Enums;
@@ -21,7 +20,6 @@ namespace RiceMill.Application.UseCases.ConcernServices
     public class ConcernCommands : IConcernCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
-
         private readonly ICurrentRequestService _currentRequestService;
 
         public ConcernCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService)
@@ -39,10 +37,6 @@ namespace RiceMill.Application.UseCases.ConcernServices
             if (!validationResult.IsValid)
                 return await Task.FromResult(Result<DtoConcern>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
 
-            var user = _applicationDbContext.Users.AsNoTracking().FirstOrDefault(c => c.Id == _currentRequestService.UserId);
-            if (user == null)
-                return await Task.FromResult(Result<DtoConcern>.Forbidden());
-
             var concern = createConcern.Adapt<Concern>();
             concern.UserId = _currentRequestService.UserId;
             _applicationDbContext.Concerns.Add(concern);
@@ -59,10 +53,6 @@ namespace RiceMill.Application.UseCases.ConcernServices
             if (!validationResult.IsValid)
                 return await Task.FromResult(Result<DtoConcern>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
 
-            var user = _applicationDbContext.Users.AsNoTracking().FirstOrDefault(c => c.Id == _currentRequestService.UserId);
-            if (user == null)
-                return await Task.FromResult(Result<DtoConcern>.Forbidden());
-
             var concern = _applicationDbContext.Concerns.FirstOrDefault(c => c.Id == updateConcern.Id);
             if (concern == null)
                 return await Task.FromResult(Result<DtoConcern>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound));
@@ -75,10 +65,6 @@ namespace RiceMill.Application.UseCases.ConcernServices
         public async Task<Result<bool>> DeleteAsync(Guid id)
         {
             if (_currentRequestService.HaveNotAccessToWrite)
-                return await Task.FromResult(Result<bool>.Forbidden());
-
-            var user = _applicationDbContext.Users.AsNoTracking().FirstOrDefault(c => c.Id == _currentRequestService.UserId);
-            if (user == null)
                 return await Task.FromResult(Result<bool>.Forbidden());
 
             var concern = _applicationDbContext.Concerns.Where(c => c.Id == id).FirstOrDefault();

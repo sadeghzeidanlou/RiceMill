@@ -9,8 +9,6 @@ namespace RiceMill.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<UserActivity> builder)
         {
-            //builder.HasKey(ua => ua.Id);
-
             builder.Property(ua => ua.Id)
                 .ValueGeneratedOnAdd();
 

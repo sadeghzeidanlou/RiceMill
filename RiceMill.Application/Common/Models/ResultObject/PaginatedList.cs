@@ -1,15 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace RiceMill.Application.Common.Models.ResultObject
 {
-    public class PaginatedList<T>
+    public class PaginatedList<TOut>
     {
-        public List<T> Items { get; }
+        public List<TOut> Items { get; }
         public int PageNumber { get; }
         public int TotalPages { get; }
         public int TotalCount { get; }
 
-        public PaginatedList(List<T> items, int count, int pageNumber, int pageSize)
+        public PaginatedList(List<TOut> items, int count, int pageNumber, int pageSize)
         {
             PageNumber = pageNumber;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
@@ -21,11 +22,11 @@ namespace RiceMill.Application.Common.Models.ResultObject
 
         public bool HasNextPage => PageNumber < TotalPages;
 
-        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
+        public static async Task<PaginatedList<TOut>> CreateAsync<TIn>(IQueryable<TIn> source, int pageNumber, int pageSize)
         {
             var count = await source.CountAsync();
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-            return new PaginatedList<T>(items, count, pageNumber, pageSize);
+            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ProjectToType<TOut>().ToListAsync();
+            return new PaginatedList<TOut>(items, count, pageNumber, pageSize);
         }
     }
 }
