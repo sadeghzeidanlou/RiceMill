@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using RiceMill.Application.Common.Models.Enums;
+using System.Net;
 
 namespace RiceMill.Application.Common.Models.ResultObject
 {
@@ -13,6 +14,8 @@ namespace RiceMill.Application.Common.Models.ResultObject
         public HttpStatusCode HttpStatusCode { get; set; }
 
         public static Result<T> Failure(Error error, HttpStatusCode httpStatusCode) => new() { Errors = new List<Error> { error }, HttpStatusCode = httpStatusCode };
+        
+        public static Result<T> Forbidden() => new() { Errors = new List<Error> { new Error(ResultStatusEnum.Forbidden) }, HttpStatusCode = HttpStatusCode.Forbidden };
 
         public static Result<T> Failure(List<Error> errors, HttpStatusCode httpStatusCode) => new() { Errors = errors, HttpStatusCode = httpStatusCode };
 

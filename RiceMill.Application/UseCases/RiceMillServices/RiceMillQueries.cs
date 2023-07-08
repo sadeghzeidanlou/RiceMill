@@ -1,8 +1,10 @@
 ﻿using Mapster;
 using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.RiceMillServices.Dto;
 using Shared.ExtensionMethods;
+using System.Net;
 
 namespace RiceMill.Application.UseCases.RiceMillServices
 {
@@ -25,7 +27,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
         public async Task<Result<PaginatedList<DtoRiceMill>>> GetAllAsync(DtoRiceMillFilter filter)
         {
             if (!_currentRequestService.HasAccessToRiceMills)
-                return await Task.FromResult(Result<PaginatedList<DtoRiceMill>>.Failure(new Error(Common.Models.Enums.ResultStatusEnum.Forbidden), System.Net.HttpStatusCode.Forbidden));
+                return await Task.FromResult(Result<PaginatedList<DtoRiceMill>>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
 
             var riceMilles = GetFilter(filter);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);

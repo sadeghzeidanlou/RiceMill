@@ -40,7 +40,13 @@ namespace RiceMill.Application.UseCases.ConcernServices
                 return concerns.Where(c => false);
 
             if (_currentRequestService.IsNotAdmin)
+            {
                 concerns = concerns.Where(c => c.RiceMillId == filter.RiceMillId.Value);
+            }
+            else if (_currentRequestService.IsAdmin && filter.RiceMillId.IsNotNullOrEmpty())
+            {
+                concerns = concerns.Where(c => c.RiceMillId == filter.RiceMillId.Value);
+            }
 
             if (filter.Title.IsNotNullOrEmpty())
                 concerns = concerns.Where(c => c.Title.Contains(filter.Title));

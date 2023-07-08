@@ -26,8 +26,6 @@ namespace RiceMill.Application.UseCases.UserServices.Dto
 
         public RoleEnum Role { get; set; }
 
-        public bool IsActive { get; set; }
-
         public Guid? UserPersonId { get; set; }
 
         [SwaggerExclude]

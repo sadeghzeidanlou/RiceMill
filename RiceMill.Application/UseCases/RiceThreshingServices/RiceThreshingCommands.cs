@@ -23,7 +23,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id, Guid riceMillId)
+        public Task<Result<bool>> DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }

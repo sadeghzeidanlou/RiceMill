@@ -28,9 +28,6 @@ namespace RiceMill.Persistence.Configurations
                 .HasConversion(r => r.ToString(), r => (RoleEnum)Enum.Parse(typeof(RoleEnum), r))
                 .IsRequired();
 
-            builder.Property(u => u.IsActive)
-                .IsRequired();
-
             builder.Property(u => u.IsDeleted)
                 .IsRequired();
 

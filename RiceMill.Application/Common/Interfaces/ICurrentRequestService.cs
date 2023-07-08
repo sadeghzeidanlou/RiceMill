@@ -15,7 +15,7 @@ namespace RiceMill.Application.Common.Interfaces
 
         bool HaveWriteAccess => UserRole != RoleEnum.User;
 
-        bool HaveNotWriteAccess => UserRole == RoleEnum.User;
+        bool JustCanRead => UserRole == RoleEnum.User;
 
         bool IsAdmin => UserRole == RoleEnum.Admin;
 
@@ -23,10 +23,10 @@ namespace RiceMill.Application.Common.Interfaces
 
         bool IsManager => UserRole == RoleEnum.RiceMillManager;
 
-        bool HasAccessToRiceMills => (IsAdmin || UserRole == RoleEnum.RiceMillManager) && IsAuthenticated;
+        bool HasAccessToRiceMills => (IsAdmin || IsManager) && IsAuthenticated;
 
-        bool HaveAccessDoAnyThing => HaveWriteAccess && IsAuthenticated;
+        bool HaveAccessToWrite => HaveWriteAccess && IsAuthenticated;
 
-        bool HaveNotAccessDoAnyThing => HaveNotWriteAccess ||  IsNotAuthenticated;
+        bool HaveNotAccessToWrite => IsNotAuthenticated || JustCanRead;
     }
 }

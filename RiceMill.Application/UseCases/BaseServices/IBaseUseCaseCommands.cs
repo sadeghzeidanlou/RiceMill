@@ -4,6 +4,6 @@ namespace RiceMill.Application.UseCases.BaseServices
 {
     public interface IBaseUseCaseCommands
     {
-        Task<Result<bool>> DeleteAsync(Guid id, Guid riceMillId);
+        Task<Result<bool>> DeleteAsync(Guid id);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.EntityFrameworkCore;
 using RiceMill.Application.Common.ExtensionMethods;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.Enums;
@@ -31,12 +32,16 @@ namespace RiceMill.Application.UseCases.ConcernServices
 
         public async Task<Result<DtoConcern>> CreateAsync(DtoCreateConcern createConcern)
         {
-            if (_currentRequestService.HaveNotAccessDoAnyThing)
-                return await Task.FromResult(Result<DtoConcern>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+            if (_currentRequestService.HaveNotAccessToWrite)
+                return await Task.FromResult(Result<DtoConcern>.Forbidden());
 
             var validationResult = createConcern.Validate();
             if (!validationResult.IsValid)
                 return await Task.FromResult(Result<DtoConcern>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
+
+            var user = _applicationDbContext.Users.AsNoTracking().FirstOrDefault(c => c.Id == _currentRequestService.UserId);
+            if (user == null)
+                return await Task.FromResult(Result<DtoConcern>.Forbidden());
 
             var concern = createConcern.Adapt<Concern>();
             concern.UserId = _currentRequestService.UserId;
@@ -45,36 +50,44 @@ namespace RiceMill.Application.UseCases.ConcernServices
             return await Task.FromResult(Result<DtoConcern>.Success(concern.Adapt<DtoConcern>()));
         }
 
-        public async Task<Result<bool>> DeleteAsync(Guid id, Guid riceMillId)
-        {
-            if (_currentRequestService.HaveNotAccessDoAnyThing)
-                return await Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
-
-            var concern = _applicationDbContext.Concerns.Where(c => c.Id == id && _currentRequestService.IsNotAdmin ? c.RiceMillId == riceMillId : true).FirstOrDefault();
-            if (concern == null)
-                return await Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound));
-
-            _applicationDbContext.Concerns.Remove(concern);
-            await _applicationDbContext.SaveChangesAsync();
-            return await Task.FromResult(Result<bool>.Success(true));
-        }
-
         public async Task<Result<DtoConcern>> UpdateAsync(DtoUpdateConcern updateConcern)
         {
-            if (_currentRequestService.HaveNotAccessDoAnyThing)
-                return await Task.FromResult(Result<DtoConcern>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+            if (_currentRequestService.HaveNotAccessToWrite)
+                return await Task.FromResult(Result<DtoConcern>.Forbidden());
 
             var validationResult = updateConcern.Validate();
             if (!validationResult.IsValid)
                 return await Task.FromResult(Result<DtoConcern>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
 
-            var concern = _applicationDbContext.Concerns.FirstOrDefault(c => c.Id == updateConcern.Id && _currentRequestService.IsNotAdmin ? c.RiceMillId == updateConcern.RiceMillId : true);
+            var user = _applicationDbContext.Users.AsNoTracking().FirstOrDefault(c => c.Id == _currentRequestService.UserId);
+            if (user == null)
+                return await Task.FromResult(Result<DtoConcern>.Forbidden());
+
+            var concern = _applicationDbContext.Concerns.FirstOrDefault(c => c.Id == updateConcern.Id);
             if (concern == null)
                 return await Task.FromResult(Result<DtoConcern>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound));
 
             concern = updateConcern.Adapt(concern);
             await _applicationDbContext.SaveChangesAsync();
             return await Task.FromResult(Result<DtoConcern>.Success(concern.Adapt<DtoConcern>()));
+        }
+
+        public async Task<Result<bool>> DeleteAsync(Guid id)
+        {
+            if (_currentRequestService.HaveNotAccessToWrite)
+                return await Task.FromResult(Result<bool>.Forbidden());
+
+            var user = _applicationDbContext.Users.AsNoTracking().FirstOrDefault(c => c.Id == _currentRequestService.UserId);
+            if (user == null)
+                return await Task.FromResult(Result<bool>.Forbidden());
+
+            var concern = _applicationDbContext.Concerns.Where(c => c.Id == id).FirstOrDefault();
+            if (concern == null)
+                return await Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound));
+
+            _applicationDbContext.Concerns.Remove(concern);
+            await _applicationDbContext.SaveChangesAsync();
+            return await Task.FromResult(Result<bool>.Success(true));
         }
     }
 }

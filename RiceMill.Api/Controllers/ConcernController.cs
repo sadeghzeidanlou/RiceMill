@@ -30,6 +30,6 @@ namespace RiceMill.Api.Controllers
         public Result<DtoConcern> Put([FromBody] DtoUpdateConcern dtoUpdateConcern) => _concernCommands.UpdateAsync(dtoUpdateConcern).Result;
 
         [HttpDelete("{id}/{riceMillId}")]
-        public Result<bool> Delete(Guid id, Guid riceMillId) => _concernCommands.DeleteAsync(id, riceMillId).Result;
+        public Result<bool> Delete(Guid id, Guid riceMillId) => _concernCommands.DeleteAsync(id).Result;
     }
 }

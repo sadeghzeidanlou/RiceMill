@@ -30,7 +30,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
         public async Task<Result<DtoRiceMill>> CreateAsync(DtoCreateRiceMill createRiceMill)
         {
             if (_currentRequestService.IsNotAdmin)
-                return await Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+                return await Task.FromResult(Result<DtoRiceMill>.Forbidden());
 
             var validationResult = createRiceMill.Validate();
             if (!validationResult.IsValid)
@@ -42,10 +42,10 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             return await Task.FromResult(Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>()));
         }
 
-        public async Task<Result<bool>> DeleteAsync(Guid id, Guid riceMillId)
+        public async Task<Result<bool>> DeleteAsync(Guid id)
         {
             if (_currentRequestService.IsNotAdmin)
-                return await Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+                return await Task.FromResult(Result<bool>.Forbidden());
 
             var riceMill = _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id == id);
             if (riceMill == null)
@@ -59,7 +59,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
         public async Task<Result<DtoRiceMill>> UpdateAsync(DtoUpdateRiceMill updateRiceMill)
         {
             if (_currentRequestService.IsNotAdmin)
-                return await Task.FromResult(Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.Forbidden), HttpStatusCode.Forbidden));
+                return await Task.FromResult(Result<DtoRiceMill>.Forbidden());
 
             var validationResult = updateRiceMill.Validate();
             if (!validationResult.IsValid)

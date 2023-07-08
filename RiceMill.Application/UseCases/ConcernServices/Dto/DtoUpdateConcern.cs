@@ -4,7 +4,7 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.ConcernServices.Dto
 {
-    public record DtoUpdateConcern(Guid Id) : DtoCreateConcern(string.Empty, Guid.Empty);
+    public record DtoUpdateConcern(Guid Id, string Title);
 
     public class DtoUpdateConcernValidator : AbstractValidator<DtoUpdateConcern>
     {

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using RiceMill.Application.UseCases.ConcernServices;
 using RiceMill.Application.UseCases.RiceMillServices;
+using RiceMill.Application.UseCases.UserServices;
 using System.Reflection;
 
 namespace RiceMill.Application.DependencyInjection
@@ -20,6 +21,9 @@ namespace RiceMill.Application.DependencyInjection
 
             services.AddTransient<IRiceMillCommands, RiceMillCommands>();
             services.AddTransient<IRiceMillQueries, RiceMillQueries>();
+
+            services.AddTransient<IUserCommands, UserCommands>();
+            services.AddTransient<IUserQueries, UserQueries>();
 
             AddMapsTerConfig();
 

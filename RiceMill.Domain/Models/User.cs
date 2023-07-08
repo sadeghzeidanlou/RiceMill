@@ -24,11 +24,6 @@ namespace RiceMill.Domain.Models
         public RoleEnum Role { get; set; }
 
         /// <summary>
-        /// Determine a <see cref="User"/> is active or not
-        /// </summary>
-        public bool IsActive { get; set; }
-
-        /// <summary>
         /// This property used for reference navigation between this class and <see cref="Person"/> that determine this <see cref="User"/> has owned by who <see cref="Person"/>
         /// </summary>
         public Guid? UserPersonId { get; set; }
