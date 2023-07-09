@@ -8,6 +8,7 @@
         Fail,
         Unauthorized,
         Forbidden,
+        NotImplemented,
 
         #endregion
 
@@ -51,6 +52,19 @@
         RiceMillOwnerPersonIdIsNotValid,
 
         #endregion
+
+        #region UserActivity 800 To 899
+
+        UserActivityUserIdIsNotValid = 800,
+        UserActivityIpIsNotValid,
+        UserActivityUserActivityTypeIsNotValid,
+        UserActivityEntityTypeIsNotValid,
+        UserActivityApplicationIdIsNotValid,
+        UserActivityBeforeEditIsNotValid,
+        UserActivityAfterEditIsNotValid,
+        UserActivityRiceMillIdIsNotValid,
+
+        #endregion
     }
 
     public static class ErrorDictionary
@@ -63,6 +77,7 @@
                 {ResultStatusEnum.Fail,"عملیات '{0}' دچار خطا شده است" },
                 {ResultStatusEnum.Unauthorized, "احراز هویت بدرستی انجام نشده است" },
                 {ResultStatusEnum.Forbidden, "شما مجاز به ادامه عملیات نمی باشد" },
+                {ResultStatusEnum.NotImplemented, "درحال حاضر عملیات مورد نظر در سیستم پشتیبانی نمی شود" },
                 
                 #endregion
 
@@ -104,6 +119,19 @@
                 {ResultStatusEnum.RiceMillPostalCodeLengthIsNotValid, "طول کد پستی کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillDescriptionLengthIsNotValid, "طول توضیحات کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillOwnerPersonIdIsNotValid, "شناسه صاحب کارخانه معتبر نمی باشد" },
+
+                #endregion
+
+                #region User
+
+                {ResultStatusEnum.UserActivityUserIdIsNotValid, "شناسه کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserActivityIpIsNotValid, "آی پی کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserActivityUserActivityTypeIsNotValid, "نوع فعالیت کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserActivityEntityTypeIsNotValid, "نوع آبجکت معتبر نمی باشد" },
+                {ResultStatusEnum.UserActivityApplicationIdIsNotValid, "برنامه استفاده شده معتبر نمی باشد" },
+                {ResultStatusEnum.UserActivityBeforeEditIsNotValid, "اطلاعات قبل از تغییر معتبر نمی باشد" },
+                {ResultStatusEnum.UserActivityAfterEditIsNotValid, "اطلاعات بعد از تغییر معتبر نمی باشد" },
+                {ResultStatusEnum.UserActivityRiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
 
                 #endregion
             };

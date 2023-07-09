@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.UserActivityServices.Dto;
 
@@ -20,17 +20,11 @@ namespace RiceMill.Application.UseCases.UserActivityServices
 
         public Task<Result<DtoUserActivity>> CreateAsync(DtoCreateUserActivity userActivity)
         {
-            throw new NotImplementedException();
+
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Result<bool>> DeleteAsync(Guid id) => await Task.FromResult(Result<bool>.NotImplemented());
 
-        public Task<Result<DtoUserActivity>> UpdateAsync(DtoUpdateUserActivity userActivity)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Result<DtoUserActivity>> UpdateAsync(DtoUpdateUserActivity userActivity) => await Task.FromResult(Result<DtoUserActivity>.NotImplemented());
     }
 }

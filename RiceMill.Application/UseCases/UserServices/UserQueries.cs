@@ -25,9 +25,6 @@ namespace RiceMill.Application.UseCases.UserServices
 
         public async Task<Result<PaginatedList<DtoUser>>> GetAllAsync(DtoUserFilter filter)
         {
-            if (_currentRequestService.HasNotAccessToRiceMills)
-                return await Task.FromResult(Result<PaginatedList<DtoUser>>.Forbidden());
-
             var users = GetFilter(filter);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoUser>.CreateAsync(users, pageNumber, pageSize).Result;

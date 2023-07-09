@@ -14,15 +14,12 @@ using RiceMill.Application.UseCases.VehicleServices.Dto;
 using RiceMill.Application.UseCases.VillageServices.Dto;
 using Shared.Attributes;
 using Shared.Enums;
-using System.Text.Json.Serialization;
 
 namespace RiceMill.Application.UseCases.UserServices.Dto
 {
     public class DtoUser : DtoEventBase
     {
         public string Username { get; set; }
-
-        public string Password { get; set; }
 
         public RoleEnum Role { get; set; }
 

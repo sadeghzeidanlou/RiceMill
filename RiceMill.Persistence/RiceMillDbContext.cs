@@ -2,15 +2,14 @@
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Domain.Models;
 using RiceMill.Domain.Models.BaseModels;
+using Shared.ExtensionMethods;
 using System.Reflection;
 
 namespace RiceMill.Persistence
 {
     public class RiceMillDbContext : DbContext, IApplicationDbContext
     {
-        public RiceMillDbContext(DbContextOptions<RiceMillDbContext> options) : base(options)
-        {
-        }
+        public RiceMillDbContext(DbContextOptions<RiceMillDbContext> options) : base(options) { }
 
         public DbSet<Concern> Concerns { get; set; }
 
@@ -42,7 +41,11 @@ namespace RiceMill.Persistence
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var entities = ChangeTracker.Entries<EventBaseModel>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified || e.State == EntityState.Deleted);
+            var entities = ChangeTracker.Entries<EventBaseModel>()
+                .Where(e => e.State == EntityState.Added ||
+                            e.State == EntityState.Modified ||
+                            e.State == EntityState.Deleted);
+
             var currentTime = DateTime.Now;
             foreach (var entity in entities)
             {
@@ -57,6 +60,7 @@ namespace RiceMill.Persistence
                 if (entity.State == EntityState.Added)
                     entity.Entity.CreateTime = currentTime;
             }
+            ApplyPasswordHashing();
             return await base.SaveChangesAsync(cancellationToken);
         }
 
@@ -65,6 +69,16 @@ namespace RiceMill.Persistence
             modelBuilder.Ignore<EventBaseModel>();
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
+        }
+
+        private void ApplyPasswordHashing()
+        {
+            var entitiesWithPassword = ChangeTracker.Entries<User>()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
+                .Select(e => e.Entity);
+
+            foreach (var user in entitiesWithPassword)
+                user.Password = user.Password.ToSha512();
         }
     }
 }

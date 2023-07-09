@@ -8,12 +8,8 @@ namespace Shared.ExtensionMethods
     {
         public static string EncryptStringAes(this string plainText, string sharedSecret)
         {
-            if (plainText.IsNullOrEmpty())
-                throw new ArgumentNullException(nameof(plainText));
-
-            if (sharedSecret.IsNullOrEmpty())
-                throw new ArgumentNullException(nameof(sharedSecret));
-
+            ArgumentException.ThrowIfNullOrEmpty(plainText);
+            ArgumentException.ThrowIfNullOrEmpty(sharedSecret);
             string outStr;
             Aes aesAlg = Aes.Create();
             try
@@ -42,12 +38,8 @@ namespace Shared.ExtensionMethods
 
         public static string DecryptStringAes(this string cipherText, string sharedSecret)
         {
-            if (cipherText.IsNullOrEmpty())
-                throw new ArgumentNullException(nameof(cipherText));
-
-            if (sharedSecret.IsNullOrEmpty())
-                throw new ArgumentNullException(nameof(sharedSecret));
-
+            ArgumentException.ThrowIfNullOrEmpty(cipherText);
+            ArgumentException.ThrowIfNullOrEmpty(sharedSecret);
             Aes aesAlg = Aes.Create();
             string plaintext;
             try
@@ -73,10 +65,9 @@ namespace Shared.ExtensionMethods
 
         public static string ToSha512(this string inputString)
         {
-            var result = new StringBuilder();
-            var bytesOfValue = SHA512.HashData(Encoding.UTF8.GetBytes(inputString)).ToList();
-            bytesOfValue.ForEach(x => result.Append(x.ToString("x2")));
-            return result.ToString();
+            ArgumentException.ThrowIfNullOrEmpty(inputString);
+            byte[] hashedBytes = SHA512.HashData(Encoding.UTF8.GetBytes(inputString));
+            return Convert.ToBase64String(hashedBytes);
         }
 
         public static bool IsAllDigit(this string str) => str.ToCharArray().Any(x => !char.IsDigit(x));
