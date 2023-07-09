@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RiceMill.Persistence;
 
@@ -11,9 +12,11 @@ using RiceMill.Persistence;
 namespace RiceMill.Persistence.Migrations
 {
     [DbContext(typeof(RiceMillDbContext))]
-    partial class RiceMillDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230709124153_Remove_IsActiveUser")]
+    partial class Remove_IsActiveUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
