@@ -5,6 +5,7 @@ using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
+using RiceMill.Application.UseCases.UserActivityServices;
 using RiceMill.Domain.Models;
 using System.Net;
 
@@ -21,11 +22,15 @@ namespace RiceMill.Application.UseCases.ConcernServices
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;
+        private readonly ICacheService _cacheService;
+        private readonly IUserActivityCommands _userActivityCommands;
 
-        public ConcernCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService)
+        public ConcernCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService,IUserActivityCommands userActivityCommands)
         {
             _applicationDbContext = applicationDbContext;
             _currentRequestService = currentRequestService;
+            _cacheService = cacheService;
+            _userActivityCommands = userActivityCommands;
         }
 
         public async Task<Result<DtoConcern>> CreateAsync(DtoCreateConcern createConcern)

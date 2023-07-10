@@ -1,7 +1,12 @@
-﻿using RiceMill.Application.Common.Interfaces;
+﻿using Mapster;
+using RiceMill.Application.Common.ExtensionMethods;
+using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.UserActivityServices.Dto;
+using RiceMill.Domain.Models;
+using Shared.Enums;
+using System.Net;
 
 namespace RiceMill.Application.UseCases.UserActivityServices
 {
@@ -15,12 +20,27 @@ namespace RiceMill.Application.UseCases.UserActivityServices
     public class UserActivityCommands : IUserActivityCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
+        private readonly ICurrentRequestService _currentRequestService;
+        private readonly ICacheService _cacheService;
 
-        public UserActivityCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
-
-        public Task<Result<DtoUserActivity>> CreateAsync(DtoCreateUserActivity userActivity)
+        public UserActivityCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService)
         {
-            throw new NotImplementedException();
+            _applicationDbContext = applicationDbContext;
+            _currentRequestService = currentRequestService;
+            _cacheService = cacheService;
+        }
+
+        public async Task<Result<DtoUserActivity>> CreateAsync(DtoCreateUserActivity createUserActivity)
+        {
+            var validationResult = createUserActivity.Validate();
+            if (!validationResult.IsValid)
+                return await Task.FromResult(Result<DtoUserActivity>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
+
+            var userActivity = createUserActivity.Adapt<UserActivity>();
+            _applicationDbContext.UserActivities.Add(userActivity);
+            await _applicationDbContext.SaveChangesAsync();
+            _cacheService.Add(nameof(EntityTypeEnum.UserActivities), userActivity);
+            return await Task.FromResult(Result<DtoUserActivity>.Success(userActivity.Adapt<DtoUserActivity>()));
         }
 
         public async Task<Result<bool>> DeleteAsync(Guid id) => await Task.FromResult(Result<bool>.NotImplemented());

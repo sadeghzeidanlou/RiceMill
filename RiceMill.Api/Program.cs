@@ -5,6 +5,7 @@ using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.DependencyInjection;
 using RiceMill.Infrastructure.DependencyInjection;
 using RiceMill.Persistence.DependencyInjection;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace RiceMill.Api
 {
@@ -37,13 +38,12 @@ namespace RiceMill.Api
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(s => s.DocExpansion(DocExpansion.None));
             }
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

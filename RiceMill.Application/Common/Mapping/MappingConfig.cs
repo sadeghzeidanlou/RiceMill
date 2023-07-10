@@ -1,6 +1,8 @@
 ﻿using Mapster;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
 using RiceMill.Application.UseCases.RiceMillServices.Dto;
+using RiceMill.Application.UseCases.UserActivityServices.Dto;
+using RiceMill.Application.UseCases.UserServices.Dto;
 using RiceMill.Domain.Models;
 
 namespace RiceMill.Application.Common.Mapping
@@ -14,6 +16,14 @@ namespace RiceMill.Application.Common.Mapping
                 .TwoWays();
 
             config.NewConfig<Concern, DtoConcern>()
+                .MaxDepth(2)
+                .TwoWays();
+
+            config.NewConfig<UserActivity, DtoUserActivity>()
+                .MaxDepth(2)
+                .TwoWays();
+
+            config.NewConfig<User, DtoUser>()
                 .MaxDepth(2)
                 .TwoWays();
         }

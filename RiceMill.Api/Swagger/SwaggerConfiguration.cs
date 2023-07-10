@@ -8,9 +8,9 @@ namespace RiceMill.Api.Swagger
     {
         public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
         {
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(s =>
                  {
-                     c.SwaggerDoc("v1", new OpenApiInfo
+                     s.SwaggerDoc("v1", new OpenApiInfo
                      {
                          Title = "Rice Mill Api",
                          Version = "v1",
@@ -36,9 +36,9 @@ namespace RiceMill.Api.Swagger
                              Id = "Bearer"
                          }
                      };
-                     c.AddSecurityDefinition("Bearer", securitySchema);
-                     c.AddSecurityRequirement(new OpenApiSecurityRequirement { { securitySchema, Array.Empty<string>() } });
-                     c.SchemaFilter<SwaggerExcludeFilter>();
+                     s.AddSecurityDefinition("Bearer", securitySchema);
+                     s.AddSecurityRequirement(new OpenApiSecurityRequirement { { securitySchema, Array.Empty<string>() } });
+                     s.SchemaFilter<SwaggerExcludeFilter>();
                      //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                      //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                      //c.IncludeXmlComments(xmlPath);
