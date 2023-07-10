@@ -22,11 +22,11 @@ namespace RiceMill.Application.Common.Models.ResultObject
 
         public bool HasNextPage => PageNumber < TotalPages;
 
-        public static async Task<PaginatedList<TOut>> CreateAsync<TIn>(IQueryable<TIn> source, int pageNumber, int pageSize)
+        public static Task<PaginatedList<TOut>> CreateAsync<TIn>(IEnumerable<TIn> source, int pageNumber, int pageSize)
         {
-            var count = await source.CountAsync();
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ProjectToType<TOut>().ToListAsync();
-            return new PaginatedList<TOut>(items, count, pageNumber, pageSize);
+            var count = source.Count();
+            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().Adapt<List<TOut>>();
+            return Task.FromResult(new PaginatedList<TOut>(items, count, pageNumber, pageSize));
         }
     }
 }

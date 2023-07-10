@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.UserServices.Dto;
 using RiceMill.Domain.Models;
+using Shared.Enums;
 using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.UserServices
@@ -14,12 +14,12 @@ namespace RiceMill.Application.UseCases.UserServices
 
     public class UserQueries : IUserQueries
     {
-        private readonly IApplicationDbContext _applicationDbContext;
+        private readonly ICacheService _cacheService;
         private readonly ICurrentRequestService _currentRequestService;
 
-        public UserQueries(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService)
+        public UserQueries(ICacheService cacheService, ICurrentRequestService currentRequestService)
         {
-            _applicationDbContext = applicationDbContext;
+            _cacheService = cacheService;
             _currentRequestService = currentRequestService;
         }
 
@@ -33,7 +33,7 @@ namespace RiceMill.Application.UseCases.UserServices
 
         private IQueryable<User> GetFilter(DtoUserFilter filter)
         {
-            var users = _applicationDbContext.Users.AsNoTracking().AsQueryable();
+            var users = _cacheService.Get<List<User>>(nameof(EntityTypeEnum.Users)).Where(c => !c.IsDeleted).AsQueryable();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return users.Where(u => false);
 

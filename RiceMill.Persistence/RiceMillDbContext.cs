@@ -2,6 +2,7 @@
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Domain.Models;
 using RiceMill.Domain.Models.BaseModels;
+using Shared.Enums;
 using Shared.ExtensionMethods;
 using System.Reflection;
 
@@ -79,6 +80,28 @@ namespace RiceMill.Persistence
 
             foreach (var user in entitiesWithPassword)
                 user.Password = user.Password.ToSha512();
+        }
+
+        public Dictionary<string, object> GetAllData()
+        {
+            var data = new Dictionary<string, object>
+            {
+                {nameof(EntityTypeEnum.Concerns), Concerns.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.Deliveries), Deliveries.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.DryerHistories), DryerHistories.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.Dryers), Dryers.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.Incomes),Incomes.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.InputLoads), InputLoads.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.Payments),Payments.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.People),People.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.RiceMills),RiceMills.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.RiceThreshings),RiceThreshings.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.UserActivities),UserActivities.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.Users),Users.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.Vehicles),Vehicles.IgnoreQueryFilters().ToList() },
+                {nameof(EntityTypeEnum.Villages),Villages.IgnoreQueryFilters().ToList() }
+            };
+            return data;
         }
     }
 }

@@ -20,6 +20,7 @@ namespace RiceMill.Application.Common.Interfaces
         DbSet<Vehicle> Vehicles { get; }
         DbSet<Village> Villages { get; }
 
+        Dictionary<string, object> GetAllData();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

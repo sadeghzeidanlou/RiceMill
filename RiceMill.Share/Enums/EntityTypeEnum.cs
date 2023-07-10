@@ -2,19 +2,19 @@
 {
     public enum EntityTypeEnum
     {
-        Concern,
-        Delivery,
-        Dryer,
-        DryerHistory,
-        Income,
-        InputLoad,
-        Payment,
-        Person,
-        RiceMill,
-        RiceThreshing,
-        User,
-        UserActivity,
-        Vehicle,
-        Village
+        Concerns,
+        Deliveries,
+        DryerHistories,
+        Dryers,
+        Incomes,
+        InputLoads,
+        Payments,
+        People,
+        RiceMills,
+        RiceThreshings,
+        UserActivities,
+        Users,
+        Vehicles,
+        Villages
     }
 }

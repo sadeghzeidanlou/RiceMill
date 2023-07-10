@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.UserActivityServices
 
         public Task<Result<DtoUserActivity>> CreateAsync(DtoCreateUserActivity userActivity)
         {
-
+            throw new NotImplementedException();
         }
 
         public async Task<Result<bool>> DeleteAsync(Guid id) => await Task.FromResult(Result<bool>.NotImplemented());

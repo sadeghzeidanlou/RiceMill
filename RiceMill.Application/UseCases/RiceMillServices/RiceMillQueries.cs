@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RiceMill.Application.Common.Interfaces;
-using RiceMill.Application.Common.Models.Enums;
+﻿using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.RiceMillServices.Dto;
+using Shared.Enums;
 using Shared.ExtensionMethods;
-using System.Net;
 
 namespace RiceMill.Application.UseCases.RiceMillServices
 {
@@ -15,12 +13,12 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 
     public class RiceMillQueries : IRiceMillQueries
     {
-        private readonly IApplicationDbContext _applicationDbContext;
+        private readonly ICacheService _cacheService;
         private readonly ICurrentRequestService _currentRequestService;
 
-        public RiceMillQueries(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService)
+        public RiceMillQueries(ICacheService cacheService, ICurrentRequestService currentRequestService)
         {
-            _applicationDbContext = applicationDbContext;
+            _cacheService = cacheService;
             _currentRequestService = currentRequestService;
         }
 
@@ -37,7 +35,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 
         private IQueryable<Domain.Models.RiceMill> GetFilter(DtoRiceMillFilter filter)
         {
-            var riceMilles = _applicationDbContext.RiceMills.AsNoTracking().AsQueryable();
+            var riceMilles = _cacheService.Get<List<Domain.Models.RiceMill>>(nameof(EntityTypeEnum.RiceMills)).Where(c => !c.IsDeleted).AsQueryable();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.Id.IsNullOrEmpty()))
                 return riceMilles.Where(rm => false);
 
