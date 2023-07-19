@@ -7,9 +7,9 @@ namespace RiceMill.Application.UseCases.PaymentServices
 {
     public interface IPaymentCommand : IBaseUseCaseCommands
     {
-        Task<Result<DtoPayment>> CreateAsync(DtoCreatePayment payment);
+        Result<DtoPayment> Create(DtoCreatePayment payment);
 
-        Task<Result<DtoPayment>> UpdateAsync(DtoUpdatePayment payment);
+        Result<DtoPayment> Update(DtoUpdatePayment payment);
     }
 
     public class PaymentCommands : IPaymentCommand
@@ -18,17 +18,17 @@ namespace RiceMill.Application.UseCases.PaymentServices
 
         public PaymentCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<DtoPayment>> CreateAsync(DtoCreatePayment payment)
+        public Result<DtoPayment> Create(DtoCreatePayment payment)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
+        public Result<bool> Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoPayment>> UpdateAsync(DtoUpdatePayment Payment)
+        public Result<DtoPayment> Update(DtoUpdatePayment payment)
         {
             throw new NotImplementedException();
         }

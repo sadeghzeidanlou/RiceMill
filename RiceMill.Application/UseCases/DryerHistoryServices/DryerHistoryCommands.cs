@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.DryerHistoryServices.Dto;
 
@@ -7,9 +7,9 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
 {
     public interface IDryerHistoryCommands : IBaseUseCaseCommands
     {
-        Task<Result<DtoDryerHistory>> CreateAsync(DtoCreateDryerHistory dryerHistory);
+        Result<DtoDryerHistory> Create(DtoCreateDryerHistory dryerHistory);
 
-        Task<Result<DtoDryerHistory>> UpdateAsync(DtoUpdateDryerHistory dryerHistory);
+        Result<DtoDryerHistory> Update(DtoUpdateDryerHistory dryerHistory);
     }
 
     public class DryerHistoryCommands : IDryerHistoryCommands
@@ -18,17 +18,17 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
 
         public DryerHistoryCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<DtoDryerHistory>> CreateAsync(DtoCreateDryerHistory dryerHistory)
+        public Result<DtoDryerHistory> Create(DtoCreateDryerHistory dryerHistory)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
+        public Result<bool> Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoDryerHistory>> UpdateAsync(DtoUpdateDryerHistory dryerHistory)
+        public Result<DtoDryerHistory> Update(DtoUpdateDryerHistory dryerHistory)
         {
             throw new NotImplementedException();
         }

@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices
 {
     public interface IDeliveryQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoDelivery>>> GetAllAsync();
+        Result<PaginatedList<DtoDelivery>> GetAll();
     }
 
     public class DeliveryQueries : IDeliveryQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices
 
         public DeliveryQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoDelivery>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Result<PaginatedList<DtoDelivery>> GetAll()
         {
             throw new NotImplementedException();
         }

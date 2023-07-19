@@ -8,7 +8,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 {
     public interface IRiceMillQueries
     {
-        Task<Result<PaginatedList<DtoRiceMill>>> GetAllAsync(DtoRiceMillFilter riceMillFilter);
+        Result<PaginatedList<DtoRiceMill>> GetAll(DtoRiceMillFilter riceMillFilter);
     }
 
     public class RiceMillQueries : IRiceMillQueries
@@ -22,15 +22,15 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             _currentRequestService = currentRequestService;
         }
 
-        public async Task<Result<PaginatedList<DtoRiceMill>>> GetAllAsync(DtoRiceMillFilter filter)
+        public Result<PaginatedList<DtoRiceMill>> GetAll(DtoRiceMillFilter filter)
         {
             if (_currentRequestService.HasNotAccessToRiceMills)
-                return await Task.FromResult(Result<PaginatedList<DtoRiceMill>>.Forbidden());
+                return Result<PaginatedList<DtoRiceMill>>.Forbidden();
 
             var riceMilles = GetFilter(filter);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
-            var result = PaginatedList<DtoRiceMill>.CreateAsync(riceMilles, pageNumber, pageSize).Result;
-            return await Task.FromResult(Result<PaginatedList<DtoRiceMill>>.Success(result));
+            var result = PaginatedList<DtoRiceMill>.Create(riceMilles, pageNumber, pageSize);
+            return Result<PaginatedList<DtoRiceMill>>.Success(result);
         }
 
         private IQueryable<Domain.Models.RiceMill> GetFilter(DtoRiceMillFilter filter)

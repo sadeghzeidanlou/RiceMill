@@ -12,9 +12,9 @@ namespace RiceMill.Application.UseCases.UserActivityServices
 {
     public interface IUserActivityCommands : IBaseUseCaseCommands
     {
-        Task<Result<DtoUserActivity>> CreateAsync(DtoCreateUserActivity userActivity);
+        Result<DtoUserActivity> Create(DtoCreateUserActivity userActivity);
 
-        Task<Result<DtoUserActivity>> UpdateAsync(DtoUpdateUserActivity userActivity);
+        Result<DtoUserActivity> Update(DtoUpdateUserActivity userActivity);
     }
 
     public class UserActivityCommands : IUserActivityCommands
@@ -30,21 +30,21 @@ namespace RiceMill.Application.UseCases.UserActivityServices
             _cacheService = cacheService;
         }
 
-        public async Task<Result<DtoUserActivity>> CreateAsync(DtoCreateUserActivity createUserActivity)
+        public Result<DtoUserActivity> Create(DtoCreateUserActivity createUserActivity)
         {
             var validationResult = createUserActivity.Validate();
             if (!validationResult.IsValid)
-                return await Task.FromResult(Result<DtoUserActivity>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
+                return Result<DtoUserActivity>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
             var userActivity = createUserActivity.Adapt<UserActivity>();
             _applicationDbContext.UserActivities.Add(userActivity);
-            await _applicationDbContext.SaveChangesAsync();
+            _applicationDbContext.SaveChanges();
             _cacheService.Add(nameof(EntityTypeEnum.UserActivities), userActivity);
-            return await Task.FromResult(Result<DtoUserActivity>.Success(userActivity.Adapt<DtoUserActivity>()));
+            return Result<DtoUserActivity>.Success(userActivity.Adapt<DtoUserActivity>());
         }
 
-        public async Task<Result<bool>> DeleteAsync(Guid id) => await Task.FromResult(Result<bool>.NotImplemented());
+        public Result<bool> Delete(Guid id) => Result<bool>.NotImplemented();
 
-        public async Task<Result<DtoUserActivity>> UpdateAsync(DtoUpdateUserActivity userActivity) => await Task.FromResult(Result<DtoUserActivity>.NotImplemented());
+        public Result<DtoUserActivity> Update(DtoUpdateUserActivity userActivity) => Result<DtoUserActivity>.NotImplemented();
     }
 }

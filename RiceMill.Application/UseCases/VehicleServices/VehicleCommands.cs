@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.VehicleServices.Dto;
 
@@ -7,9 +7,9 @@ namespace RiceMill.Application.UseCases.VehicleServices
 {
     public interface IVehicleCommands : IBaseUseCaseCommands
     {
-        Task<Result<DtoVehicle>> CreateAsync(DtoCreateVehicle vehicle);
+        Result<DtoVehicle> Create(DtoCreateVehicle vehicle);
 
-        Task<Result<DtoVehicle>> UpdateAsync(DtoUpdateVehicle vehicle);
+        Result<DtoVehicle> Update(DtoUpdateVehicle vehicle);
     }
 
     public class VehicleCommands : IVehicleCommands
@@ -18,17 +18,17 @@ namespace RiceMill.Application.UseCases.VehicleServices
 
         public VehicleCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<DtoVehicle>> CreateAsync(DtoCreateVehicle vehicle)
+        public Result<DtoVehicle> Create(DtoCreateVehicle vehicle)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
+        public Result<bool> Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoVehicle>> UpdateAsync(DtoUpdateVehicle vehicle)
+        public Result<DtoVehicle> Update(DtoUpdateVehicle vehicle)
         {
             throw new NotImplementedException();
         }

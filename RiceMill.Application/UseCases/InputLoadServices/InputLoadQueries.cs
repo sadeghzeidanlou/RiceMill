@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.InputLoadServices
 {
     public interface IInputLoadQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoInputLoad>>> GetAllAsync();
+        Result<PaginatedList<DtoInputLoad>> GetAll();
     }
 
     public class InputLoadQueries : IInputLoadQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.InputLoadServices
 
         public InputLoadQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoInputLoad>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Result<PaginatedList<DtoInputLoad>> GetAll()
         {
             throw new NotImplementedException();
         }

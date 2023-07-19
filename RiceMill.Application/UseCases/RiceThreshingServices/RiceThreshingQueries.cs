@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
 {
     public interface IRiceThreshingQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoRiceThreshing>>> GetAllAsync();
+        Result<PaginatedList<DtoRiceThreshing>> GetAll();
     }
 
     public class RiceThreshingQueries : IRiceThreshingQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
 
         public RiceThreshingQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoRiceThreshing>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Result<PaginatedList<DtoRiceThreshing>> GetAll()
         {
             throw new NotImplementedException();
         }

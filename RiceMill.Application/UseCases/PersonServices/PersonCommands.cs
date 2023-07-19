@@ -7,9 +7,9 @@ namespace RiceMill.Application.UseCases.PersonServices
 {
     public interface IPersonCommands : IBaseUseCaseCommands
     {
-        Task<Result<DtoPerson>> CreateAsync(DtoCreatePerson person);
+        Result<DtoPerson> Create(DtoCreatePerson person);
 
-        Task<Result<DtoPerson>> UpdateAsync(DtoUpdatePerson person);
+        Result<DtoPerson> Update(DtoUpdatePerson person);
     }
 
     public class PersonCommands : IPersonCommands
@@ -18,17 +18,17 @@ namespace RiceMill.Application.UseCases.PersonServices
 
         public PersonCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<DtoPerson>> CreateAsync(DtoCreatePerson person)
+        public Result<DtoPerson> Create(DtoCreatePerson person)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
+        public Result<bool> Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoPerson>> UpdateAsync(DtoUpdatePerson person)
+        public Result<DtoPerson> Update(DtoUpdatePerson person)
         {
             throw new NotImplementedException();
         }

@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
 {
     public interface IDryerHistoryQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoDryerHistory>>> GetAllAsync();
+        Result<PaginatedList<DtoDryerHistory>> GetAll();
     }
 
     public class DryerHistoryQueries : IDryerHistoryQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
 
         public DryerHistoryQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoDryerHistory>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Result<PaginatedList<DtoDryerHistory>> GetAll()
         {
             throw new NotImplementedException();
         }

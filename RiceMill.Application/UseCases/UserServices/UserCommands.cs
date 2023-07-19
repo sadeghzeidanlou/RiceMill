@@ -14,9 +14,9 @@ namespace RiceMill.Application.UseCases.UserServices
 {
     public interface IUserCommands : IBaseUseCaseCommands
     {
-        Task<Result<DtoUser>> CreateAsync(DtoCreateUser user);
+        Result<DtoUser> Create(DtoCreateUser user);
 
-        Task<Result<DtoUser>> UpdateAsync(DtoUpdateUser user);
+        Result<DtoUser> Update(DtoUpdateUser user);
     }
 
     public class UserCommands : IUserCommands
@@ -30,67 +30,67 @@ namespace RiceMill.Application.UseCases.UserServices
             _currentRequestService = currentRequestService;
         }
 
-        public async Task<Result<DtoUser>> CreateAsync(DtoCreateUser createUser)
+        public Result<DtoUser> Create(DtoCreateUser createUser)
         {
             if (_currentRequestService.HasNotAccessToRiceMills)
-                return await Task.FromResult(Result<DtoUser>.Forbidden());
+                return Result<DtoUser>.Forbidden();
 
             var validationResult = createUser.Validate();
             if (!validationResult.IsValid)
-                return await Task.FromResult(Result<DtoUser>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
+                return Result<DtoUser>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
             createUser = createUser with { ParentUserId = _currentRequestService.UserId };
-            var validateCreateUserResult = await ValidateCreateUser(createUser);
+            var validateCreateUserResult = ValidateCreateUser(createUser);
             if (validateCreateUserResult != null)
                 return validateCreateUserResult;
 
             var user = createUser.Adapt<User>();
             _applicationDbContext.Users.Add(user);
-            await _applicationDbContext.SaveChangesAsync();
-            return await Task.FromResult(Result<DtoUser>.Success(user.Adapt<DtoUser>()));
+            _applicationDbContext.SaveChanges();
+            return Result<DtoUser>.Success(user.Adapt<DtoUser>());
         }
 
-        public async Task<Result<bool>> DeleteAsync(Guid id)
+        public Result<bool> Delete(Guid id)
         {
             if (_currentRequestService.HasNotAccessToRiceMills)
-                return await Task.FromResult(Result<bool>.Forbidden());
+                return Result<bool>.Forbidden();
 
-            var user = _applicationDbContext.Users.FirstOrDefault(c => c.Id == id);
+            var user = GetUserById(id);
             if (user == null)
-                return await Task.FromResult(Result<bool>.Failure(new Error(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound));
+                return Result<bool>.Failure(new Error(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound);
 
             _applicationDbContext.Users.Remove(user);
-            await _applicationDbContext.SaveChangesAsync();
-            return await Task.FromResult(Result<bool>.Success(true));
+            _applicationDbContext.SaveChanges();
+            return Result<bool>.Success(true);
         }
 
-        public async Task<Result<DtoUser>> UpdateAsync(DtoUpdateUser updateUser)
+        public Result<DtoUser> Update(DtoUpdateUser updateUser)
         {
             if (_currentRequestService.HasNotAccessToRiceMills)
-                return await Task.FromResult(Result<DtoUser>.Forbidden());
+                return Result<DtoUser>.Forbidden();
 
             var validationResult = updateUser.Validate();
             if (!validationResult.IsValid)
-                return await Task.FromResult(Result<DtoUser>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest));
+                return Result<DtoUser>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var user = _applicationDbContext.Users.FirstOrDefault(c => c.Id == updateUser.Id);
+            var user = GetUserById(updateUser.Id);
             if (user == null)
-                return await Task.FromResult(Result<DtoUser>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound));
+                return Result<DtoUser>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
-            var validateCreateUserResult = await ValidateCreateUser(updateUser.Adapt<DtoCreateUser>());
+            var validateCreateUserResult = ValidateCreateUser(updateUser.Adapt<DtoCreateUser>());
             if (validateCreateUserResult != null)
                 return validateCreateUserResult;
 
             user = updateUser.Adapt(user);
-            await _applicationDbContext.SaveChangesAsync();
-            return await Task.FromResult(Result<DtoUser>.Success(user.Adapt<DtoUser>()));
+            _applicationDbContext.SaveChanges();
+            return Result<DtoUser>.Success(user.Adapt<DtoUser>());
         }
 
-        private async Task<Result<DtoUser>> ValidateCreateUser(DtoCreateUser createUser)
+        private Result<DtoUser> ValidateCreateUser(DtoCreateUser createUser)
         {
-            var requestedUser = _applicationDbContext.Users.FirstOrDefault(u => u.Id.Equals(_currentRequestService.UserId));
+            var requestedUser = GetUserById(_currentRequestService.UserId);
             if (requestedUser == null)
-                return await Task.FromResult(Result<DtoUser>.Forbidden());
+                return Result<DtoUser>.Forbidden();
 
             if (requestedUser.Role == RoleEnum.RiceMillManager)
             {
@@ -99,9 +99,11 @@ namespace RiceMill.Application.UseCases.UserServices
             else
             {
                 if (createUser.Role != RoleEnum.Admin && createUser.RiceMillId.IsNullOrEmpty())
-                    return await Task.FromResult(Result<DtoUser>.Failure(new Error(ResultStatusEnum.UserRiceMillIdIsNotValid), HttpStatusCode.BadRequest));
+                    return Result<DtoUser>.Failure(new Error(ResultStatusEnum.UserRiceMillIdIsNotValid), HttpStatusCode.BadRequest);
             }
             return null;
         }
+
+        private User GetUserById(Guid userId) => _applicationDbContext.Users.FirstOrDefault(c => c.Id == userId);
     }
 }

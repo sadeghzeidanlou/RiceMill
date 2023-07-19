@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.IncomeServices
 {
     public interface IIncomeQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoIncome>>> GetAllAsync();
+        Result<PaginatedList<DtoIncome>> GetAll();
     }
 
     public class IncomeQueries : IIncomeQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.IncomeServices
 
         public IncomeQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoIncome>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Result<PaginatedList<DtoIncome>> GetAll()
         {
             throw new NotImplementedException();
         }

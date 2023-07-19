@@ -14,7 +14,7 @@ namespace RiceMill.Persistence.DependencyInjection
                 options.UseSqlServer(configuration.GetConnectionString("RiceMill"), b => b.MigrationsAssembly(typeof(RiceMillDbContext).Assembly.FullName)),
                 ServiceLifetime.Transient);
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<RiceMillDbContext>());
+            services.AddScoped<IApplicationDbContext, RiceMillDbContext>();
             services.AddSingleton<ICacheService, CacheService>();
 
             return services;

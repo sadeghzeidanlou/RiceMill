@@ -7,9 +7,9 @@ namespace RiceMill.Application.UseCases.IncomeServices
 {
     public interface IIncomeCommands : IBaseUseCaseCommands
     {
-        Task<Result<DtoIncome>> CreateAsync(DtoCreateIncome income);
+        Result<DtoIncome> Create(DtoCreateIncome income);
 
-        Task<Result<DtoIncome>> UpdateAsync(DtoUpdateIncome income);
+        Result<DtoIncome> Update(DtoUpdateIncome income);
     }
 
     public class IncomeCommands : IIncomeCommands
@@ -18,17 +18,17 @@ namespace RiceMill.Application.UseCases.IncomeServices
 
         public IncomeCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<DtoIncome>> CreateAsync(DtoCreateIncome income)
+        public Result<DtoIncome> Create(DtoCreateIncome income)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
+        public Result<bool> Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoIncome>> UpdateAsync(DtoUpdateIncome income)
+        public Result<DtoIncome> Update(DtoUpdateIncome income)
         {
             throw new NotImplementedException();
         }

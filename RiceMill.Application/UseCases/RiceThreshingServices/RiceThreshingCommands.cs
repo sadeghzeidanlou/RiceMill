@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.RiceThreshingServices.Dto;
 
@@ -7,9 +7,9 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
 {
     public interface IRiceThreshingCommands : IBaseUseCaseCommands
     {
-        Task<Result<DtoRiceThreshing>> CreateAsync(DtoCreateRiceThreshing riceThreshing);
+        Result<DtoRiceThreshing> Create(DtoCreateRiceThreshing riceThreshing);
 
-        Task<Result<DtoRiceThreshing>> UpdateAsync(DtoUpdateRiceThreshing riceThreshing);
+        Result<DtoRiceThreshing> Update(DtoUpdateRiceThreshing riceThreshing);
     }
 
     public class RiceThreshingCommands : IRiceThreshingCommands
@@ -18,17 +18,17 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
 
         public RiceThreshingCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<DtoRiceThreshing>> CreateAsync(DtoCreateRiceThreshing riceThreshing)
+        public Result<DtoRiceThreshing> Create(DtoCreateRiceThreshing riceThreshing)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
+        public Result<bool> Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoRiceThreshing>> UpdateAsync(DtoUpdateRiceThreshing riceThreshing)
+        public Result<DtoRiceThreshing> Update(DtoUpdateRiceThreshing riceThreshing)
         {
             throw new NotImplementedException();
         }

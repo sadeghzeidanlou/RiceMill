@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.VillageServices
 {
     public interface IVillageQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoVillage>>> GetAllAsync();
+        Result<PaginatedList<DtoVillage>> GetAll();
     }
 
     public class VillageQueries : IVillageQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.VillageServices
 
         public VillageQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoVillage>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Result<PaginatedList<DtoVillage>> GetAll()
         {
             throw new NotImplementedException();
         }

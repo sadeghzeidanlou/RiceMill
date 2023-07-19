@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.InputLoadServices.Dto;
 
@@ -7,9 +7,9 @@ namespace RiceMill.Application.UseCases.InputLoadServices
 {
     public interface IInputLoadCommands : IBaseUseCaseCommands
     {
-        Task<Result<DtoInputLoad>> CreateAsync(DtoCreateInputLoad inputLoad);
+        Result<DtoInputLoad> Create(DtoCreateInputLoad inputLoad);
 
-        Task<Result<DtoInputLoad>> UpdateAsync(DtoUpdateInputLoad inputLoad);
+        Result<DtoInputLoad> Update(DtoUpdateInputLoad inputLoad);
     }
 
     public class InputLoadCommands : IInputLoadCommands
@@ -18,17 +18,17 @@ namespace RiceMill.Application.UseCases.InputLoadServices
 
         public InputLoadCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<DtoInputLoad>> CreateAsync(DtoCreateInputLoad inputLoad)
+        public Result<DtoInputLoad> Create(DtoCreateInputLoad inputLoad)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
+        public Result<bool> Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoInputLoad>> UpdateAsync(DtoUpdateInputLoad inputLoad)
+        public Result<DtoInputLoad> Update(DtoUpdateInputLoad inputLoad)
         {
             throw new NotImplementedException();
         }

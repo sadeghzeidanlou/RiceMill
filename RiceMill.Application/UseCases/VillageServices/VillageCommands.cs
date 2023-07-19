@@ -7,9 +7,9 @@ namespace RiceMill.Application.UseCases.VillageServices
 {
     public interface IVillageCommands : IBaseUseCaseCommands
     {
-        Task<Result<DtoVillage>> CreateAsync(DtoCreateVillage village);
+        Result<DtoVillage> Create(DtoCreateVillage village);
 
-        Task<Result<DtoVillage>> UpdateAsync(DtoUpdateVillage village);
+        Result<DtoVillage> Update(DtoUpdateVillage village);
     }
 
     public class VillageCommands : IVillageCommands
@@ -18,17 +18,17 @@ namespace RiceMill.Application.UseCases.VillageServices
 
         public VillageCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<DtoVillage>> CreateAsync(DtoCreateVillage village)
+        public Result<DtoVillage> Create(DtoCreateVillage village)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
+        public Result<bool> Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoVillage>> UpdateAsync(DtoUpdateVillage village)
+        public Result<DtoVillage> Update(DtoUpdateVillage village)
         {
             throw new NotImplementedException();
         }

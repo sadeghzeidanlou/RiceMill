@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
 {
     public interface IPaymentQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoPayment>>> GetAllAsync();
+        Result<PaginatedList<DtoPayment>> GetAll();
     }
 
     public class PaymentQueries : IPaymentQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
 
         public PaymentQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoPayment>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Result<PaginatedList<DtoPayment>> GetAll()
         {
             throw new NotImplementedException();
         }

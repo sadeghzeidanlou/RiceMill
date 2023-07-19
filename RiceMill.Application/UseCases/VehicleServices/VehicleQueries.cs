@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.VehicleServices
 {
     public interface IVehicleQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoVehicle>>> GetAllAsync();
+        Result<PaginatedList<DtoVehicle>> GetAll();
     }
 
     public class VehicleQueries : IVehicleQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.VehicleServices
 
         public VehicleQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoVehicle>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Result<PaginatedList<DtoVehicle>> GetAll()
         {
             throw new NotImplementedException();
         }

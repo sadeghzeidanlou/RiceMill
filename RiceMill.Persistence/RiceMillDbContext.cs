@@ -40,46 +40,11 @@ namespace RiceMill.Persistence
 
         public DbSet<Village> Villages { get; set; }
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            var entities = ChangeTracker.Entries<EventBaseModel>()
-                .Where(e => e.State == EntityState.Added ||
-                            e.State == EntityState.Modified ||
-                            e.State == EntityState.Deleted);
-
-            var currentTime = DateTime.Now;
-            foreach (var entity in entities)
-            {
-                if (entity.State == EntityState.Deleted)
-                {
-                    entity.Entity.DeleteTime = currentTime;
-                    entity.Entity.IsDeleted = true;
-                    entity.State = EntityState.Modified;
-                    continue;
-                }
-                entity.Entity.UpdateTime = currentTime;
-                if (entity.State == EntityState.Added)
-                    entity.Entity.CreateTime = currentTime;
-            }
-            ApplyPasswordHashing();
-            return await base.SaveChangesAsync(cancellationToken);
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<EventBaseModel>();
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
-        }
-
-        private void ApplyPasswordHashing()
-        {
-            var entitiesWithPassword = ChangeTracker.Entries<User>()
-                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
-                .Select(e => e.Entity);
-
-            foreach (var user in entitiesWithPassword)
-                user.Password = user.Password.ToSha512();
         }
 
         public Dictionary<string, object> GetAllData()
@@ -102,6 +67,52 @@ namespace RiceMill.Persistence
                 {nameof(EntityTypeEnum.Villages),Villages.IgnoreQueryFilters().ToList() }
             };
             return data;
+        }
+
+        public override int SaveChanges()
+        {
+            DoBaseClassOperation();
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            DoBaseClassOperation();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void DoBaseClassOperation()
+        {
+            var entities = ChangeTracker.Entries<EventBaseModel>()
+                .Where(e => e.State == EntityState.Added ||
+                            e.State == EntityState.Modified ||
+                            e.State == EntityState.Deleted);
+
+            var currentTime = DateTime.Now;
+            foreach (var entity in entities)
+            {
+                if (entity.State == EntityState.Deleted)
+                {
+                    entity.Entity.DeleteTime = currentTime;
+                    entity.Entity.IsDeleted = true;
+                    entity.State = EntityState.Modified;
+                    continue;
+                }
+                entity.Entity.UpdateTime = currentTime;
+                if (entity.State == EntityState.Added)
+                    entity.Entity.CreateTime = currentTime;
+            }
+            ApplyPasswordHashing();
+        }
+
+        private void ApplyPasswordHashing()
+        {
+            var entitiesWithPassword = ChangeTracker.Entries<User>()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
+                .Select(e => e.Entity);
+
+            foreach (var user in entitiesWithPassword)
+                user.Password = user.Password.ToSha512();
         }
     }
 }

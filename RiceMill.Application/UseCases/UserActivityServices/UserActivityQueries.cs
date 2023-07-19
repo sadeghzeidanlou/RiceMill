@@ -9,7 +9,7 @@ namespace RiceMill.Application.UseCases.UserActivityServices
 {
     public interface IUserActivityQueries
     {
-        Task<Result<PaginatedList<DtoUserActivity>>> GetAllAsync(DtoUserActivityFilter filter);
+        Result<PaginatedList<DtoUserActivity>> GetAll(DtoUserActivityFilter filter);
     }
 
     public class UserActivityQueries : IUserActivityQueries
@@ -23,15 +23,15 @@ namespace RiceMill.Application.UseCases.UserActivityServices
             _currentRequestService = currentRequestService;
         }
 
-        public async Task<Result<PaginatedList<DtoUserActivity>>> GetAllAsync(DtoUserActivityFilter filter)
+        public Result<PaginatedList<DtoUserActivity>> GetAll(DtoUserActivityFilter filter)
         {
             if (_currentRequestService.HasNotAccessToRiceMills)
-                return await Task.FromResult(Result<PaginatedList<DtoUserActivity>>.Forbidden());
+                return Result<PaginatedList<DtoUserActivity>>.Forbidden();
 
             var userActivities = GetFilter(filter);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
-            var result = PaginatedList<DtoUserActivity>.CreateAsync(userActivities, pageNumber, pageSize).Result;
-            return await Task.FromResult(Result<PaginatedList<DtoUserActivity>>.Success(result));
+            var result = PaginatedList<DtoUserActivity>.Create(userActivities, pageNumber, pageSize);
+            return Result<PaginatedList<DtoUserActivity>>.Success(result);
         }
 
         private IQueryable<UserActivity> GetFilter(DtoUserActivityFilter filter)

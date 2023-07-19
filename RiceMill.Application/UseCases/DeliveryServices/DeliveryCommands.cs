@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.Common.Interfaces;
+﻿using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.DeliveryServices.Dto;
 
@@ -7,9 +7,9 @@ namespace RiceMill.Application.UseCases.DeliveryServices
 {
     public interface IDeliveryCommands : IBaseUseCaseCommands
     {
-        Task<Result<DtoDelivery>> CreateAsync(DtoCreateDelivery delivery);
+        Result<DtoDelivery> Create(DtoCreateDelivery delivery);
 
-        Task<Result<DtoDelivery>> UpdateAsync(DtoUpdateDelivery delivery);
+        Result<DtoDelivery> Update(DtoUpdateDelivery delivery);
     }
 
     public class DeliveryCommands : IDeliveryCommands
@@ -18,17 +18,17 @@ namespace RiceMill.Application.UseCases.DeliveryServices
 
         public DeliveryCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<DtoDelivery>> CreateAsync(DtoCreateDelivery delivery)
+        public Result<DtoDelivery> Create(DtoCreateDelivery delivery)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<bool>> DeleteAsync(Guid id)
+        public Result<bool> Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<DtoDelivery>> UpdateAsync(DtoUpdateDelivery delivery)
+        public Result<DtoDelivery> Update(DtoUpdateDelivery delivery)
         {
             throw new NotImplementedException();
         }

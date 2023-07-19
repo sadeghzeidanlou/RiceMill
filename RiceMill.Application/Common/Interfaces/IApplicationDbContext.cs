@@ -21,6 +21,7 @@ namespace RiceMill.Application.Common.Interfaces
         DbSet<Village> Villages { get; }
 
         Dictionary<string, object> GetAllData();
+        int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -20,15 +20,15 @@ namespace RiceMill.Api.Controllers
         }
 
         [HttpGet]
-        public Result<PaginatedList<DtoUser>> Get(DtoUserFilter dtoUserFilter) => _userQueries.GetAllAsync(dtoUserFilter).Result;
+        public Result<PaginatedList<DtoUser>> Get(DtoUserFilter dtoUserFilter) => _userQueries.GetAll(dtoUserFilter);
 
         [HttpPost]
-        public Result<DtoUser> Post([FromBody] DtoCreateUser dtoCreateUser) => _userCommands.CreateAsync(dtoCreateUser).Result;
+        public Result<DtoUser> Post([FromBody] DtoCreateUser dtoCreateUser) => _userCommands.Create(dtoCreateUser);
 
         [HttpPut]
-        public Result<DtoUser> Put([FromBody] DtoUpdateUser dtoUpdateUser) => _userCommands.UpdateAsync(dtoUpdateUser).Result;
+        public Result<DtoUser> Put([FromBody] DtoUpdateUser dtoUpdateUser) => _userCommands.Update(dtoUpdateUser);
 
         [HttpDelete("{id}")]
-        public Result<bool> Delete(Guid id) => _userCommands.DeleteAsync(id).Result;
+        public Result<bool> Delete(Guid id) => _userCommands.Delete(id);
     }
 }

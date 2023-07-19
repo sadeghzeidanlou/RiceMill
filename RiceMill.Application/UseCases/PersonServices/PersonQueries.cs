@@ -6,9 +6,7 @@ namespace RiceMill.Application.UseCases.PersonServices
 {
     public interface IPersonQueries
     {
-        Task<Result<int>> GetCountAsync();
-
-        Task<Result<List<DtoPerson>>> GetAllAsync();
+        Result<PaginatedList<DtoPerson>> GetAllAsync();
     }
 
     public class PersonQueries : IPersonQueries
@@ -17,12 +15,7 @@ namespace RiceMill.Application.UseCases.PersonServices
 
         public PersonQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
 
-        public Task<Result<List<DtoPerson>>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<int>> GetCountAsync()
+        public Result<PaginatedList<DtoPerson>> GetAllAsync()
         {
             throw new NotImplementedException();
         }

@@ -9,7 +9,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
 {
     public interface IConcernQueries
     {
-        Task<Result<PaginatedList<DtoConcern>>> GetAllAsync(DtoConcernFilter filter);
+        Result<PaginatedList<DtoConcern>> GetAll(DtoConcernFilter filter);
     }
 
     public class ConcernQueries : IConcernQueries
@@ -23,12 +23,12 @@ namespace RiceMill.Application.UseCases.ConcernServices
             _cacheService = cacheService;
         }
 
-        public async Task<Result<PaginatedList<DtoConcern>>> GetAllAsync(DtoConcernFilter filter)
+        public Result<PaginatedList<DtoConcern>> GetAll(DtoConcernFilter filter)
         {
             var concerns = GetFilter(filter);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
-            var result = PaginatedList<DtoConcern>.CreateAsync(concerns, pageNumber, pageSize).Result;
-            return await Task.FromResult(Result<PaginatedList<DtoConcern>>.Success(result));
+            var result = PaginatedList<DtoConcern>.Create(concerns, pageNumber, pageSize);
+            return Result<PaginatedList<DtoConcern>>.Success(result);
         }
 
         private IQueryable<Concern> GetFilter(DtoConcernFilter filter)

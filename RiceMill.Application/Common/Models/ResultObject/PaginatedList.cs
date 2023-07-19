@@ -1,5 +1,4 @@
 ﻿using Mapster;
-using Microsoft.EntityFrameworkCore;
 
 namespace RiceMill.Application.Common.Models.ResultObject
 {
@@ -22,11 +21,11 @@ namespace RiceMill.Application.Common.Models.ResultObject
 
         public bool HasNextPage => PageNumber < TotalPages;
 
-        public static Task<PaginatedList<TOut>> CreateAsync<TIn>(IEnumerable<TIn> source, int pageNumber, int pageSize)
+        public static PaginatedList<TOut> Create<TIn>(IEnumerable<TIn> source, int pageNumber, int pageSize)
         {
             var count = source.Count();
             var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().Adapt<List<TOut>>();
-            return Task.FromResult(new PaginatedList<TOut>(items, count, pageNumber, pageSize));
+            return new PaginatedList<TOut>(items, count, pageNumber, pageSize);
         }
     }
 }

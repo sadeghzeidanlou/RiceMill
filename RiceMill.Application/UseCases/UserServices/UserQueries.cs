@@ -9,7 +9,7 @@ namespace RiceMill.Application.UseCases.UserServices
 {
     public interface IUserQueries
     {
-        Task<Result<PaginatedList<DtoUser>>> GetAllAsync(DtoUserFilter dtoUserFilter);
+        Result<PaginatedList<DtoUser>> GetAll(DtoUserFilter dtoUserFilter);
     }
 
     public class UserQueries : IUserQueries
@@ -23,12 +23,12 @@ namespace RiceMill.Application.UseCases.UserServices
             _currentRequestService = currentRequestService;
         }
 
-        public async Task<Result<PaginatedList<DtoUser>>> GetAllAsync(DtoUserFilter filter)
+        public Result<PaginatedList<DtoUser>> GetAll(DtoUserFilter filter)
         {
             var users = GetFilter(filter);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
-            var result = PaginatedList<DtoUser>.CreateAsync(users, pageNumber, pageSize).Result;
-            return await Task.FromResult(Result<PaginatedList<DtoUser>>.Success(result));
+            var result = PaginatedList<DtoUser>.Create(users, pageNumber, pageSize);
+            return Result<PaginatedList<DtoUser>>.Success(result);
         }
 
         private IQueryable<User> GetFilter(DtoUserFilter filter)
