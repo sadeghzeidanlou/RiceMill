@@ -17,15 +17,15 @@ namespace RiceMill.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(ua => ua.UserActivityType)
-                .HasConversion(uat => uat.ToString(), uat => (UserActivityTypeEnum)Enum.Parse(typeof(UserActivityTypeEnum), uat))
+                .HasConversion(uat => (byte)uat, uat => (UserActivityTypeEnum)uat)
                 .IsRequired();
 
             builder.Property(ua => ua.EntityType)
-                .HasConversion(et => et.ToString(), et => (EntityTypeEnum)Enum.Parse(typeof(EntityTypeEnum), et))
+                .HasConversion(et => (byte)et, et => (EntityTypeEnum)et)
                 .IsRequired();
 
             builder.Property(ua => ua.ApplicationId)
-                .HasConversion(a => a.ToString(), a => (ApplicationIdEnum)Enum.Parse(typeof(ApplicationIdEnum), a))
+                .HasConversion(a => (byte)a, a => (ApplicationIdEnum)a)
                 .IsRequired();
 
             builder.Property(ua => ua.BeforeEdit)

@@ -1,11 +1,13 @@
-﻿namespace RiceMill.Application.Common.Interfaces
+﻿using Shared.Enums;
+
+namespace RiceMill.Application.Common.Interfaces
 {
     public interface ICacheService
     {
-        T Get<T>(string key);
+        T Get<T>(EntityTypeEnum key);
 
-        void Set<T>(string key, T value);
+        void Set<T>(EntityTypeEnum key, T value);
 
-        void Add<T>(string key, T value);
+        void Maintain<T>(EntityTypeEnum key, T value);
     }
 }

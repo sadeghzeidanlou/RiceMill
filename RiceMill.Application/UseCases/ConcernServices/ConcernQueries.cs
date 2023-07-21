@@ -33,7 +33,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
 
         private IQueryable<Concern> GetFilter(DtoConcernFilter filter)
         {
-            var concerns = _cacheService.Get<List<Concern>>(nameof(EntityTypeEnum.Concerns)).Where(c => !c.IsDeleted).AsQueryable();
+            var concerns = _cacheService.Get<List<Concern>>(EntityTypeEnum.Concerns).Where(c => !c.IsDeleted).AsQueryable();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return concerns.Where(c => false);
 

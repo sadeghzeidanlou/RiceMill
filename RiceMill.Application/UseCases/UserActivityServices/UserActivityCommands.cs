@@ -39,7 +39,7 @@ namespace RiceMill.Application.UseCases.UserActivityServices
             var userActivity = createUserActivity.Adapt<UserActivity>();
             _applicationDbContext.UserActivities.Add(userActivity);
             _applicationDbContext.SaveChanges();
-            _cacheService.Add(nameof(EntityTypeEnum.UserActivities), userActivity);
+            _cacheService.Maintain(EntityTypeEnum.UserActivities, userActivity);
             return Result<DtoUserActivity>.Success(userActivity.Adapt<DtoUserActivity>());
         }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RiceMill.Domain.Models;
+using Shared.Enums;
 
 namespace RiceMill.Application.Common.Interfaces
 {
@@ -20,7 +21,7 @@ namespace RiceMill.Application.Common.Interfaces
         DbSet<Vehicle> Vehicles { get; }
         DbSet<Village> Villages { get; }
 
-        Dictionary<string, object> GetAllData();
+        Dictionary<EntityTypeEnum, object> GetAllData();
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

@@ -27,7 +27,7 @@ namespace RiceMill.Persistence.Configurations
                 .IsUnicode();
 
             builder.Property(v => v.VehicleType)
-                .HasConversion(vt => vt.ToString(), vt => (VehicleTypeEnum)Enum.Parse(typeof(VehicleTypeEnum), vt))
+                .HasConversion(vt => (byte)vt, vt => (VehicleTypeEnum)vt)
                 .IsRequired();
 
             builder.Property(v => v.IsDeleted)

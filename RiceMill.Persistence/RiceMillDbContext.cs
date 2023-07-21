@@ -47,24 +47,24 @@ namespace RiceMill.Persistence
             base.OnModelCreating(modelBuilder);
         }
 
-        public Dictionary<string, object> GetAllData()
+        public Dictionary<EntityTypeEnum, object> GetAllData()
         {
-            var data = new Dictionary<string, object>
+            var data = new Dictionary<EntityTypeEnum, object>
             {
-                {nameof(EntityTypeEnum.Concerns), Concerns.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.Deliveries), Deliveries.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.DryerHistories), DryerHistories.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.Dryers), Dryers.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.Incomes),Incomes.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.InputLoads), InputLoads.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.Payments),Payments.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.People),People.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.RiceMills),RiceMills.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.RiceThreshings),RiceThreshings.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.UserActivities),UserActivities.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.Users),Users.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.Vehicles),Vehicles.IgnoreQueryFilters().ToList() },
-                {nameof(EntityTypeEnum.Villages),Villages.IgnoreQueryFilters().ToList() }
+                {EntityTypeEnum.Concerns, Concerns.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.Deliveries, Deliveries.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.DryerHistories, DryerHistories.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.Dryers, Dryers.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.Incomes, Incomes.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.InputLoads, InputLoads.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.Payments, Payments.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.People, People.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.RiceMills, RiceMills.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.RiceThreshings, RiceThreshings.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.UserActivities, UserActivities.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.Users, Users.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.Vehicles, Vehicles.IgnoreQueryFilters().ToList() },
+                {EntityTypeEnum.Villages, Villages.IgnoreQueryFilters().ToList() }
             };
             return data;
         }

@@ -5,6 +5,8 @@ namespace RiceMill.Application.Common.Interfaces
 {
     public interface ICurrentRequestService
     {
+        public string Ip { get; set; }
+
         public Guid UserId { get; }
 
         public RoleEnum UserRole { get; set; }
@@ -26,7 +28,7 @@ namespace RiceMill.Application.Common.Interfaces
         bool HasAccessToRiceMills => (IsAdmin || IsManager) && IsAuthenticated;
 
         bool HasNotAccessToRiceMills => !HasAccessToRiceMills;
-        
+
         bool HaveAccessToWrite => HaveWriteAccess && IsAuthenticated;
 
         bool HaveNotAccessToWrite => IsNotAuthenticated || JustCanRead;

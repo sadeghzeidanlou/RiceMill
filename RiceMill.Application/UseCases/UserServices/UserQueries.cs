@@ -33,7 +33,7 @@ namespace RiceMill.Application.UseCases.UserServices
 
         private IQueryable<User> GetFilter(DtoUserFilter filter)
         {
-            var users = _cacheService.Get<List<User>>(nameof(EntityTypeEnum.Users)).Where(c => !c.IsDeleted).AsQueryable();
+            var users = _cacheService.Get<List<User>>(EntityTypeEnum.Users).Where(c => !c.IsDeleted).AsQueryable();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return users.Where(u => false);
 

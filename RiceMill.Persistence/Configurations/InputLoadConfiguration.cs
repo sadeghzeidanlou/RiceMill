@@ -26,7 +26,7 @@ namespace RiceMill.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(il => il.NoticesType)
-                .HasConversion(n => n.ToString(), n => (NoticesTypeEnum)Enum.Parse(typeof(NoticesTypeEnum), n))
+                .HasConversion(n => (byte)n, n => (NoticesTypeEnum)n)
                 .IsRequired();
 
             builder.Property(il => il.IsDeleted)

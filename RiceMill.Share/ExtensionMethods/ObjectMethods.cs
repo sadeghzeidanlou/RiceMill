@@ -13,7 +13,7 @@ namespace Shared.ExtensionMethods
         /// </summary>
         /// <param name="source">Input object that serialized</param>
         /// <returns></returns>
-        public static string SerializeObject(this object source) => JsonSerializer.Serialize(source);
+        public static string SerializeObject(this object source) => JsonSerializer.Serialize(source, SerializerOptions);
 
         /// <summary>
         /// Serialize an object

@@ -35,7 +35,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 
         private IQueryable<Domain.Models.RiceMill> GetFilter(DtoRiceMillFilter filter)
         {
-            var riceMilles = _cacheService.Get<List<Domain.Models.RiceMill>>(nameof(EntityTypeEnum.RiceMills)).Where(c => !c.IsDeleted).AsQueryable();
+            var riceMilles = _cacheService.Get<List<Domain.Models.RiceMill>>(EntityTypeEnum.RiceMills).Where(c => !c.IsDeleted).AsQueryable();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.Id.IsNullOrEmpty()))
                 return riceMilles.Where(rm => false);
 

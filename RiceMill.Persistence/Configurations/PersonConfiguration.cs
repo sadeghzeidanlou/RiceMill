@@ -23,7 +23,7 @@ namespace RiceMill.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(p => p.Gender)
-                .HasConversion(g => g.ToString(), g => (GenderEnum)Enum.Parse(typeof(GenderEnum), g))
+                .HasConversion(g => (byte)g, g => (GenderEnum)g)
                 .IsRequired();
 
             builder.Property(p => p.MobileNumber)

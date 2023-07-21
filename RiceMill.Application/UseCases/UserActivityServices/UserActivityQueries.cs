@@ -36,7 +36,7 @@ namespace RiceMill.Application.UseCases.UserActivityServices
 
         private IQueryable<UserActivity> GetFilter(DtoUserActivityFilter filter)
         {
-            var userActivities = _cacheService.Get<List<UserActivity>>(nameof(EntityTypeEnum.UserActivities)).Where(c => !c.IsDeleted).AsQueryable();
+            var userActivities = _cacheService.Get<List<UserActivity>>(EntityTypeEnum.UserActivities).Where(c => !c.IsDeleted).AsQueryable();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return userActivities.Where(u => false);
 

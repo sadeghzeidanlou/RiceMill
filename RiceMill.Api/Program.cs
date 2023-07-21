@@ -1,11 +1,12 @@
 using RiceMill.Api.DependencyInjection;
+using RiceMill.Api.Logger;
+using RiceMill.Api.Middleware;
 using RiceMill.Api.Swagger;
 using RiceMill.Api.Versioning;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.DependencyInjection;
 using RiceMill.Infrastructure.DependencyInjection;
 using RiceMill.Persistence.DependencyInjection;
-using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace RiceMill.Api
 {
@@ -26,7 +27,9 @@ namespace RiceMill.Api
                 .AddMemoryCache()
                 .AddControllers();
 
+            builder.AddSeriLog();
             var app = builder.Build();
+
             var cacheService = app.Services.GetService<ICacheService>();
             using (var scope = app.Services.CreateScope())
             {
@@ -35,21 +38,11 @@ namespace RiceMill.Api
                     PreloadCache(cacheService, iApplicationDbContext);
             }
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI(s => s.DocExpansion(DocExpansion.None));
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-            app.MapControllers();
-
+            app.AddMiddlewares();
             app.Run();
         }
 
-        private static void PreloadCache(ICacheService cacheService, IApplicationDbContext applicationDbContext) => applicationDbContext.GetAllData().ToList().ForEach(x => cacheService.Set(x.Key, x.Value));
+        private static void PreloadCache(ICacheService cacheService, IApplicationDbContext applicationDbContext)
+            => applicationDbContext.GetAllData().ToList().ForEach(x => cacheService.Set(x.Key, x.Value));
     }
 }
