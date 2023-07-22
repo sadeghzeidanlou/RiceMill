@@ -6,12 +6,11 @@ namespace RiceMill.Api.Logger
     {
         public static void AddSeriLog(this WebApplicationBuilder builder)
         {
-            var logger = new LoggerConfiguration()
+            Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(builder.Configuration)
-                .Enrich.FromLogContext()
                 .CreateLogger();
 
-            builder.Host.UseSerilog(logger);
+            builder.Host.UseSerilog();
         }
     }
 }

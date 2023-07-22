@@ -2,7 +2,6 @@
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.ConcernServices;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
-using System.ComponentModel.DataAnnotations;
 
 namespace RiceMill.Api.Controllers
 {

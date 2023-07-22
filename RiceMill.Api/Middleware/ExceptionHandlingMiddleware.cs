@@ -2,14 +2,16 @@
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using Serilog;
-using Shared.ExtensionMethods;
 using System.Net;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace RiceMill.Api.Middleware
 {
     public class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly JsonSerializerOptions _jsonSerializerOptions = new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
 
         public ExceptionHandlingMiddleware(RequestDelegate next) => _next = next;
 
@@ -25,7 +27,7 @@ namespace RiceMill.Api.Middleware
                 var error = Result<bool>.Failure(new Error(ResultStatusEnum.DatabaseError), HttpStatusCode.InternalServerError);
                 context.Response.Clear();
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await context.Response.WriteAsync(error.SerializeObject());
+                await context.Response.WriteAsync(JsonSerializer.Serialize(error, _jsonSerializerOptions));
             }
             catch (Exception ex)
             {
@@ -33,7 +35,7 @@ namespace RiceMill.Api.Middleware
                 var error = Result<bool>.Failure(new Error(ResultStatusEnum.UnHandleError), HttpStatusCode.InternalServerError);
                 context.Response.Clear();
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await context.Response.WriteAsync(error.SerializeObject());
+                await context.Response.WriteAsync(JsonSerializer.Serialize(error, _jsonSerializerOptions));
             }
         }
     }
