@@ -18,7 +18,10 @@ namespace RiceMill.Api.Middleware
             stopwatch.Stop();
             var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
             if (elapsedMilliseconds > 300)
+            {
                 Log.Warning($"Request to {context.Request.Path} took {elapsedMilliseconds} ms");
+                //logger.LogInformation($"Request to {context.Request.Path} took {elapsedMilliseconds} ms");
+            }
         }
     }
 }
