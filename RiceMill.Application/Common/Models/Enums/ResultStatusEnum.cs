@@ -9,6 +9,8 @@
         Unauthorized,
         Forbidden,
         NotImplemented,
+        DatabaseError,
+        UnHandleError,
 
         #endregion
 
@@ -78,6 +80,8 @@
                 {ResultStatusEnum.Unauthorized, "احراز هویت بدرستی انجام نشده است" },
                 {ResultStatusEnum.Forbidden, "شما مجاز به ادامه عملیات نمی باشد" },
                 {ResultStatusEnum.NotImplemented, "درحال حاضر عملیات مورد نظر در سیستم پشتیبانی نمی شود" },
+                {ResultStatusEnum.DatabaseError, "خطایی در سمت پایگاه داده رخ داده است" },
+                {ResultStatusEnum.UnHandleError, "خطای پیش بینی نشده اتفاق افتاده است" },
                 
                 #endregion
 
