@@ -6,7 +6,6 @@ using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
 using RiceMill.Application.UseCases.UserActivityServices;
-using RiceMill.Application.UseCases.UserActivityServices.Dto;
 using RiceMill.Domain.Models;
 using Shared.Enums;
 using Shared.ExtensionMethods;
@@ -28,7 +27,6 @@ namespace RiceMill.Application.UseCases.ConcernServices
         private readonly ICacheService _cacheService;
         private readonly IUserActivityCommands _userActivityCommands;
         private readonly EntityTypeEnum _Key = EntityTypeEnum.Concerns;
-        private DtoCreateUserActivity _userActivity;
 
         public ConcernCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService, IUserActivityCommands userActivityCommands)
         {
@@ -36,7 +34,6 @@ namespace RiceMill.Application.UseCases.ConcernServices
             _currentRequestService = currentRequestService;
             _cacheService = cacheService;
             _userActivityCommands = userActivityCommands;
-            _userActivity = new DtoCreateUserActivity(_currentRequestService.UserId, _currentRequestService.Ip, UserActivityTypeEnum.New, _Key, ApplicationIdEnum.Mobile, string.Empty, string.Empty, null);
         }
 
         public Result<DtoConcern> Create(DtoCreateConcern createConcern)
@@ -52,8 +49,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
             concern.UserId = _currentRequestService.UserId;
             _applicationDbContext.Concerns.Add(concern);
             _applicationDbContext.SaveChanges();
-            _userActivity = _userActivity with { BeforeEdit = concern.SerializeObject(), RiceMillId = concern.RiceMillId };
-            _userActivityCommands.Create(_userActivity);
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _Key, string.Empty, concern.SerializeObject(), concern.RiceMillId);
             _cacheService.Maintain(_Key, concern);
             return Result<DtoConcern>.Success(concern.Adapt<DtoConcern>());
         }
@@ -74,8 +70,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
             var beforeEdit = concern.SerializeObject();
             concern = updateConcern.Adapt(concern);
             _applicationDbContext.SaveChanges();
-            _userActivity = _userActivity with { UserActivityType = UserActivityTypeEnum.Edit, BeforeEdit = beforeEdit, AfterEdit = concern.SerializeObject(), RiceMillId = concern.RiceMillId };
-            _userActivityCommands.Create(_userActivity);
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _Key, beforeEdit, concern.SerializeObject(), concern.RiceMillId);
             _cacheService.Maintain(_Key, concern);
             return Result<DtoConcern>.Success(concern.Adapt<DtoConcern>());
         }
@@ -89,11 +84,10 @@ namespace RiceMill.Application.UseCases.ConcernServices
             if (concern == null)
                 return Result<bool>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
 
+            var beforeEdit = concern.SerializeObject();
             _applicationDbContext.Concerns.Remove(concern);
             _applicationDbContext.SaveChanges();
-            var serialized = concern.SerializeObject();
-            _userActivity = _userActivity with { UserActivityType = UserActivityTypeEnum.Delete, BeforeEdit = serialized, AfterEdit = serialized, RiceMillId = concern.RiceMillId };
-            _userActivityCommands.Create(_userActivity);
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Delete, _Key, beforeEdit, concern.SerializeObject(), concern.RiceMillId);
             _cacheService.Maintain(_Key, concern);
             return Result<bool>.Success(true);
         }

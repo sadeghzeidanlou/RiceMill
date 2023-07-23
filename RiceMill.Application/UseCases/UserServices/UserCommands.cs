@@ -4,6 +4,7 @@ using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
+using RiceMill.Application.UseCases.UserActivityServices;
 using RiceMill.Application.UseCases.UserServices.Dto;
 using RiceMill.Domain.Models;
 using Shared.Enums;
@@ -23,11 +24,16 @@ namespace RiceMill.Application.UseCases.UserServices
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;
+        private readonly ICacheService _cacheService;
+        private readonly IUserActivityCommands _userActivityCommands;
+        private readonly EntityTypeEnum _Key = EntityTypeEnum.Users;
 
-        public UserCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService)
+        public UserCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService, IUserActivityCommands userActivityCommands)
         {
             _applicationDbContext = applicationDbContext;
             _currentRequestService = currentRequestService;
+            _userActivityCommands = userActivityCommands;
+            _cacheService = cacheService;
         }
 
         public Result<DtoUser> Create(DtoCreateUser createUser)
@@ -47,6 +53,8 @@ namespace RiceMill.Application.UseCases.UserServices
             var user = createUser.Adapt<User>();
             _applicationDbContext.Users.Add(user);
             _applicationDbContext.SaveChanges();
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _Key, string.Empty, user.SerializeObject(), user.RiceMillId);
+            _cacheService.Maintain(_Key, user);
             return Result<DtoUser>.Success(user.Adapt<DtoUser>());
         }
 
@@ -59,8 +67,11 @@ namespace RiceMill.Application.UseCases.UserServices
             if (user == null)
                 return Result<bool>.Failure(new Error(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound);
 
+            var beforeEdit = user.SerializeObject();
             _applicationDbContext.Users.Remove(user);
             _applicationDbContext.SaveChanges();
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Delete, _Key, beforeEdit, user.SerializeObject(), user.RiceMillId);
+            _cacheService.Maintain(_Key, user);
             return Result<bool>.Success(true);
         }
 
@@ -77,12 +88,15 @@ namespace RiceMill.Application.UseCases.UserServices
             if (user == null)
                 return Result<DtoUser>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
+            var beforeEdit = user.SerializeObject();
             var validateCreateUserResult = ValidateCreateUser(updateUser.Adapt<DtoCreateUser>());
             if (validateCreateUserResult != null)
                 return validateCreateUserResult;
 
             user = updateUser.Adapt(user);
             _applicationDbContext.SaveChanges();
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _Key, beforeEdit, user.SerializeObject(), user.RiceMillId);
+            _cacheService.Maintain(_Key, user);
             return Result<DtoUser>.Success(user.Adapt<DtoUser>());
         }
 

@@ -5,6 +5,9 @@ using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.RiceMillServices.Dto;
+using RiceMill.Application.UseCases.UserActivityServices;
+using Shared.Enums;
+using Shared.ExtensionMethods;
 using System.Net;
 
 namespace RiceMill.Application.UseCases.RiceMillServices
@@ -20,11 +23,16 @@ namespace RiceMill.Application.UseCases.RiceMillServices
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;
+        private readonly ICacheService _cacheService;
+        private readonly IUserActivityCommands _userActivityCommands;
+        private readonly EntityTypeEnum _Key = EntityTypeEnum.RiceMills;
 
-        public RiceMillCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService)
+        public RiceMillCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService, IUserActivityCommands userActivityCommands)
         {
             _applicationDbContext = applicationDbContext;
             _currentRequestService = currentRequestService;
+            _cacheService = cacheService;
+            _userActivityCommands = userActivityCommands;
         }
 
         public Result<DtoRiceMill> Create(DtoCreateRiceMill createRiceMill)
@@ -39,6 +47,8 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             var riceMill = createRiceMill.Adapt<Domain.Models.RiceMill>();
             _applicationDbContext.RiceMills.Add(riceMill);
             _applicationDbContext.SaveChanges();
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _Key, string.Empty, riceMill.SerializeObject(), riceMill.Id);
+            _cacheService.Maintain(_Key, riceMill);
             return Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>());
         }
 
@@ -51,8 +61,11 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             if (riceMill == null)
                 return Result<bool>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
+            var beforeEdit = riceMill.SerializeObject();
             _applicationDbContext.RiceMills.Remove(riceMill);
             _applicationDbContext.SaveChanges();
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Delete, _Key, beforeEdit, riceMill.SerializeObject(), riceMill.Id);
+            _cacheService.Maintain(_Key, riceMill);
             return Result<bool>.Success(true);
         }
 
@@ -69,12 +82,14 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             if (riceMill == null)
                 return Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
+            var beforeEdit = riceMill.SerializeObject();
             riceMill = updateRiceMill.Adapt(riceMill);
             _applicationDbContext.SaveChanges();
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _Key, beforeEdit, riceMill.SerializeObject(), riceMill.Id);
+            _cacheService.Maintain(_Key, riceMill);
             return Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>());
         }
 
         private Domain.Models.RiceMill GetRiceMillById(Guid userId) => _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id == userId);
-
     }
 }

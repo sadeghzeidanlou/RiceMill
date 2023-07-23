@@ -14,6 +14,8 @@ namespace RiceMill.Application.UseCases.UserActivityServices
     {
         Result<DtoUserActivity> Create(DtoCreateUserActivity userActivity);
 
+        Result<DtoUserActivity> CreateGeneral(UserActivityTypeEnum userActivityType, EntityTypeEnum type, string beforeEdit, string afterEdit, Guid? riceMillId);
+
         Result<DtoUserActivity> Update(DtoUpdateUserActivity userActivity);
     }
 
@@ -41,6 +43,12 @@ namespace RiceMill.Application.UseCases.UserActivityServices
             _applicationDbContext.SaveChanges();
             _cacheService.Maintain(EntityTypeEnum.UserActivities, userActivity);
             return Result<DtoUserActivity>.Success(userActivity.Adapt<DtoUserActivity>());
+        }
+
+        public Result<DtoUserActivity> CreateGeneral(UserActivityTypeEnum userActivityType, EntityTypeEnum type, string beforeEdit, string afterEdit, Guid? riceMillId)
+        {
+            var _userActivity = new DtoCreateUserActivity(_currentRequestService.UserId, _currentRequestService.Ip, UserActivityTypeEnum.New, type, ApplicationIdEnum.Mobile, beforeEdit, afterEdit, riceMillId);
+            return Create(_userActivity);
         }
 
         public Result<bool> Delete(Guid id) => Result<bool>.NotImplemented();
