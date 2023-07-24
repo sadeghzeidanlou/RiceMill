@@ -22,6 +22,7 @@ namespace RiceMill.Application.Common.Interfaces
         DbSet<Village> Villages { get; }
 
         Dictionary<EntityTypeEnum, object> GetAllData();
+        object GetAllData(EntityTypeEnum entityType);
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

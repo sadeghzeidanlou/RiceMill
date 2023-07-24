@@ -1,4 +1,6 @@
-﻿namespace Shared.ExtensionMethods
+﻿using Shared.Enums;
+
+namespace Shared.ExtensionMethods
 {
     public sealed class EnumMethods
     {
@@ -43,5 +45,12 @@
                     yield return value;
             }
         }
+
+        /// <summary>
+        /// Get all enum items as a list of that
+        /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <returns></returns>
+        public static List<T> GetList<T>() => Enum.GetValues(typeof(T)).Cast<T>().ToList();
     }
 }

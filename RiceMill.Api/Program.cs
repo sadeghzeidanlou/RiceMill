@@ -7,6 +7,8 @@ using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.DependencyInjection;
 using RiceMill.Infrastructure.DependencyInjection;
 using RiceMill.Persistence.DependencyInjection;
+using Shared.Enums;
+using Shared.ExtensionMethods;
 
 namespace RiceMill.Api
 {
@@ -31,17 +33,16 @@ namespace RiceMill.Api
             var app = builder.Build();
 
             var cacheService = app.Services.GetService<ICacheService>();
-            using (var scope = app.Services.CreateScope())
-            {
-                var iApplicationDbContext = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
-                if (cacheService != null && iApplicationDbContext != null)
-                    PreloadCache(cacheService, iApplicationDbContext);
-            }
-
+            cacheService?.LoadCache(EnumMethods.GetList<EntityTypeEnum>());
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var iApplicationDbContext = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
+            //    if (cacheService != null && iApplicationDbContext != null)
+            //        PreloadCache(cacheService, iApplicationDbContext);
+            //}
             app.AddMiddlewares();
             app.Run();
         }
-
         private static void PreloadCache(ICacheService cacheService, IApplicationDbContext applicationDbContext)
             => applicationDbContext.GetAllData().ToList().ForEach(x => cacheService.Set(x.Key, x.Value));
     }

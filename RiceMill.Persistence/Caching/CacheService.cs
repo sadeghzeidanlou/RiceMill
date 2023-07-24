@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Domain.Models;
 using Shared.Enums;
@@ -8,8 +9,13 @@ namespace RiceMill.Persistence.Caching
     public class CacheService : ICacheService
     {
         private readonly IMemoryCache _cache;
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        public CacheService(IMemoryCache cache) => _cache = cache;
+        public CacheService(IMemoryCache cache, IServiceScopeFactory scopeFactory)
+        {
+            _cache = cache;
+            _scopeFactory = scopeFactory;
+        }
 
         public T Get<T>(EntityTypeEnum key) => _cache.Get<T>(key.ToString());
 
@@ -21,60 +27,87 @@ namespace RiceMill.Persistence.Caching
             {
                 case EntityTypeEnum.Concerns:
                     MaintainConcerns(cacheKey, value as Concern);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Payments });
                     break;
 
                 case EntityTypeEnum.Deliveries:
                     MaintainDelivery(cacheKey, value as Delivery);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Vehicles, EntityTypeEnum.RiceThreshings });
                     break;
 
                 case EntityTypeEnum.DryerHistories:
                     MaintainDryerHistory(cacheKey, value as DryerHistory);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Dryers, EntityTypeEnum.RiceThreshings, EntityTypeEnum.InputLoads });
                     break;
 
                 case EntityTypeEnum.Dryers:
                     MaintainDryer(cacheKey, value as Dryer);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.DryerHistories });
                     break;
 
                 case EntityTypeEnum.Incomes:
                     MaintainIncome(cacheKey, value as Income);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.RiceThreshings });
                     break;
 
                 case EntityTypeEnum.InputLoads:
                     MaintainInputLoad(cacheKey, value as InputLoad);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Villages, EntityTypeEnum.People, EntityTypeEnum.Vehicles,
+                        EntityTypeEnum.Payments, EntityTypeEnum.DryerHistories });
                     break;
 
                 case EntityTypeEnum.Payments:
                     MaintainPayment(cacheKey, value as Payment);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Concerns, EntityTypeEnum.InputLoads });
                     break;
 
                 case EntityTypeEnum.People:
                     MaintainPeople(cacheKey, value as Person);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Payments, EntityTypeEnum.Deliveries, EntityTypeEnum.InputLoads,
+                        EntityTypeEnum.Vehicles });
                     break;
 
                 case EntityTypeEnum.RiceMills:
                     MaintainRiceMill(cacheKey, value as Domain.Models.RiceMill);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.People, EntityTypeEnum.Concerns, EntityTypeEnum.Deliveries, EntityTypeEnum.Dryers,
+                        EntityTypeEnum.DryerHistories, EntityTypeEnum.Incomes, EntityTypeEnum.InputLoads, EntityTypeEnum.Payments, EntityTypeEnum.RiceThreshings,
+                        EntityTypeEnum.UserActivities, EntityTypeEnum.Vehicles, EntityTypeEnum.Villages });
                     break;
 
                 case EntityTypeEnum.RiceThreshings:
                     MaintainRiceThreshing(cacheKey, value as RiceThreshing);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Incomes, EntityTypeEnum.Deliveries, EntityTypeEnum.DryerHistories });
                     break;
 
                 case EntityTypeEnum.UserActivities:
                     MaintainUserActivity(cacheKey, value as UserActivity);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills });
                     break;
 
                 case EntityTypeEnum.Users:
                     MaintainUser(cacheKey, value as User);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Concerns, EntityTypeEnum.Deliveries, EntityTypeEnum.Dryers,
+                        EntityTypeEnum.DryerHistories, EntityTypeEnum.Incomes, EntityTypeEnum.InputLoads, EntityTypeEnum.Payments, EntityTypeEnum.RiceThreshings,
+                        EntityTypeEnum.UserActivities, EntityTypeEnum.Vehicles, EntityTypeEnum.Villages });
                     break;
 
                 case EntityTypeEnum.Vehicles:
                     MaintainVehicle(cacheKey, value as Vehicle);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Deliveries, EntityTypeEnum.InputLoads });
                     break;
 
                 case EntityTypeEnum.Villages:
                     MaintainVillage(cacheKey, value as Village);
+                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.InputLoads });
                     break;
             }
+        }
+
+        public void LoadCache(List<EntityTypeEnum> entityTypes)
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
+            entityTypes.ForEach(e => Set(e, dbContext.GetAllData(e)));
         }
 
         private void MaintainConcerns(EntityTypeEnum cacheKey, Concern concern)
@@ -241,7 +274,6 @@ namespace RiceMill.Persistence.Caching
                 cacheData.Add(village);
             else
                 concernItem = village;
-
             Set(cacheKey, cacheData);
         }
     }

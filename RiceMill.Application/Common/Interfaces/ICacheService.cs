@@ -9,5 +9,7 @@ namespace RiceMill.Application.Common.Interfaces
         void Set<T>(EntityTypeEnum key, T value);
 
         void Maintain<T>(EntityTypeEnum key, T value);
+
+        void LoadCache(List<EntityTypeEnum> entityTypes);
     }
 }

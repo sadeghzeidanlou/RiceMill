@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.EntityFrameworkCore;
 using RiceMill.Application.Common.ExtensionMethods;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.Enums;
@@ -50,7 +51,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
             _applicationDbContext.Concerns.Add(concern);
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _Key, string.Empty, concern.SerializeObject(), concern.RiceMillId);
-            _cacheService.Maintain(_Key, concern);
+            _cacheService.Maintain(_Key, GetWithRelation(concern.Id));
             return Result<DtoConcern>.Success(concern.Adapt<DtoConcern>());
         }
 
@@ -71,7 +72,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
             concern = updateConcern.Adapt(concern);
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _Key, beforeEdit, concern.SerializeObject(), concern.RiceMillId);
-            _cacheService.Maintain(_Key, concern);
+            _cacheService.Maintain(_Key, GetWithRelation(concern.Id));
             return Result<DtoConcern>.Success(concern.Adapt<DtoConcern>());
         }
 
@@ -88,8 +89,17 @@ namespace RiceMill.Application.UseCases.ConcernServices
             _applicationDbContext.Concerns.Remove(concern);
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Delete, _Key, beforeEdit, concern.SerializeObject(), concern.RiceMillId);
-            _cacheService.Maintain(_Key, concern);
+            _cacheService.Maintain(_Key, GetWithRelation(concern.Id));
             return Result<bool>.Success(true);
+        }
+
+        private Concern GetWithRelation(Guid id)
+        {
+            return _applicationDbContext.Concerns
+                .Include(c => c.Payments)
+                .Include(c => c.RiceMill)
+                .Include(c => c.User)
+                .FirstOrDefault(c => c.Id == id);
         }
     }
 }

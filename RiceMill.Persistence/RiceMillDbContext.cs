@@ -69,6 +69,57 @@ namespace RiceMill.Persistence
             return data;
         }
 
+        public object GetAllData(EntityTypeEnum entityType)
+        {
+            switch (entityType)
+            {
+                case EntityTypeEnum.Concerns:
+                    return Concerns.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.Deliveries:
+                    return Deliveries.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.DryerHistories:
+                    return DryerHistories.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.Dryers:
+                    return Dryers.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.Incomes:
+                    return Incomes.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.InputLoads:
+                    return InputLoads.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.Payments:
+                    return Payments.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.People:
+                    return People.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.RiceMills:
+                    return RiceMills.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.RiceThreshings:
+                    return RiceThreshings.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.UserActivities:
+                    return UserActivities.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.Users:
+                    return Users.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.Vehicles:
+                    return Vehicles.IgnoreQueryFilters().ToList();
+
+                case EntityTypeEnum.Villages:
+                    return Villages.IgnoreQueryFilters().ToList();
+
+                default:
+                    throw new ArgumentOutOfRangeException($"{entityType}", "Entity type is not valid");
+            }
+        }
+
         public override int SaveChanges()
         {
             DoBaseClassOperation();
