@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using RiceMill.Api.Services;
+using RiceMill.Application.Common.Implementations;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Mapping;
 
@@ -11,6 +12,7 @@ namespace RiceMill.Api.DependencyInjection
         {
             services.AddTransient<ICurrentRequestService, CurrentRequest>();
             services.AddSingleton<IRegister>(new MappingConfig());
+            services.AddSingleton<ILoggingService, LoggingService>();
 
             return services;
         }

@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.EntityFrameworkCore;
 using RiceMill.Application.Common.ExtensionMethods;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.Enums;
@@ -6,6 +7,7 @@ using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.RiceMillServices.Dto;
 using RiceMill.Application.UseCases.UserActivityServices;
+using RiceMill.Domain.Models;
 using Shared.Enums;
 using Shared.ExtensionMethods;
 using System.Net;
@@ -91,5 +93,14 @@ namespace RiceMill.Application.UseCases.RiceMillServices
         }
 
         private Domain.Models.RiceMill GetRiceMillByUserId(Guid userId) => _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id == userId);
+
+        private Domain.Models.RiceMill GetWithRelation(Guid id)
+        {
+            return _applicationDbContext.RiceMills
+                .Include(c => c.Payments)
+                .Include(c => c.UserActivities)
+                .Include(c => c.Users)
+                .FirstOrDefault(c => c.Id == id);
+        }
     }
 }

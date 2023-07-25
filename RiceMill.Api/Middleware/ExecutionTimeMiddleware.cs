@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using RiceMill.Application.Common.Interfaces;
+using Serilog;
 using System.Diagnostics;
 
 namespace RiceMill.Api.Middleware
@@ -9,7 +10,7 @@ namespace RiceMill.Api.Middleware
 
         public ExecutionTimeMiddleware(RequestDelegate next) => _next = next;
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, ILoggingService logging)
         {
             var stopwatch = Stopwatch.StartNew();
 
@@ -18,7 +19,7 @@ namespace RiceMill.Api.Middleware
             stopwatch.Stop();
             var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
             if (elapsedMilliseconds > 500)
-                Log.Warning($"Request to {context.Request.Path} took {elapsedMilliseconds} ms");
+                logging.Warning($"Request to {context.Request.Path} took {elapsedMilliseconds} ms");
         }
     }
 }

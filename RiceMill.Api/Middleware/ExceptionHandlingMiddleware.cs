@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using Serilog;
@@ -15,7 +16,7 @@ namespace RiceMill.Api.Middleware
 
         public ExceptionHandlingMiddleware(RequestDelegate next) => _next = next;
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, ILoggingService logging)
         {
             try
             {
@@ -23,7 +24,7 @@ namespace RiceMill.Api.Middleware
             }
             catch (DbUpdateException dbEx)
             {
-                Log.Error(dbEx, $"Database update error occurred during request processing. Path: {context.Request.Path}");
+                logging.Error($"Database update error occurred during request processing. Path: {context.Request.Path}", dbEx);
                 var error = Result<bool>.Failure(new Error(ResultStatusEnum.DatabaseError), HttpStatusCode.InternalServerError);
                 context.Response.Clear();
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -31,7 +32,7 @@ namespace RiceMill.Api.Middleware
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Unhandled exception occurred during request processing. Path: {context.Request.Path}");
+                logging.Error($"Unhandled exception occurred during request processing. Path: {context.Request.Path}", ex);
                 var error = Result<bool>.Failure(new Error(ResultStatusEnum.UnHandleError), HttpStatusCode.InternalServerError);
                 context.Response.Clear();
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
