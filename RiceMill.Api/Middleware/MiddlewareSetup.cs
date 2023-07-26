@@ -1,5 +1,4 @@
-﻿using Serilog;
-using Swashbuckle.AspNetCore.SwaggerUI;
+﻿using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace RiceMill.Api.Middleware
 {
@@ -12,7 +11,6 @@ namespace RiceMill.Api.Middleware
                 app.UseSwagger();
                 app.UseSwaggerUI(s => s.DocExpansion(DocExpansion.None));
             }
-            app.UseSerilogRequestLogging();
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseHttpsRedirection();
             app.UseAuthorization();

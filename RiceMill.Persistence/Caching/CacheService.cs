@@ -23,84 +23,83 @@ namespace RiceMill.Persistence.Caching
 
         public void Maintain<T>(EntityTypeEnum cacheKey, T value)
         {
+            var entities = new List<EntityTypeEnum>();
             switch (cacheKey)
             {
                 case EntityTypeEnum.Concerns:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Payments };
                     MaintainGeneral(EntityTypeEnum.Concerns, value as Concern, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Payments });
                     break;
 
                 case EntityTypeEnum.Deliveries:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Vehicles, EntityTypeEnum.RiceThreshings };
                     MaintainGeneral(EntityTypeEnum.Deliveries, value as Delivery, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Vehicles, EntityTypeEnum.RiceThreshings });
                     break;
 
                 case EntityTypeEnum.DryerHistories:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Dryers, EntityTypeEnum.RiceThreshings, EntityTypeEnum.InputLoads };
                     MaintainGeneral(EntityTypeEnum.DryerHistories, value as DryerHistory, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Dryers, EntityTypeEnum.RiceThreshings, EntityTypeEnum.InputLoads });
                     break;
 
                 case EntityTypeEnum.Dryers:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.DryerHistories };
                     MaintainGeneral(EntityTypeEnum.Dryers, value as Dryer, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.DryerHistories });
                     break;
 
                 case EntityTypeEnum.Incomes:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.RiceThreshings };
                     MaintainGeneral(EntityTypeEnum.Incomes, value as Income, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.RiceThreshings });
                     break;
 
                 case EntityTypeEnum.InputLoads:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Villages, EntityTypeEnum.People,
+                        EntityTypeEnum.Vehicles, EntityTypeEnum.Payments, EntityTypeEnum.DryerHistories };
                     MaintainGeneral(EntityTypeEnum.InputLoads, value as InputLoad, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Villages, EntityTypeEnum.People, EntityTypeEnum.Vehicles,
-                        EntityTypeEnum.Payments, EntityTypeEnum.DryerHistories });
                     break;
 
                 case EntityTypeEnum.Payments:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Concerns, EntityTypeEnum.InputLoads };
                     MaintainGeneral(EntityTypeEnum.Payments, value as Payment, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Concerns, EntityTypeEnum.InputLoads });
                     break;
 
                 case EntityTypeEnum.People:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Payments, EntityTypeEnum.Deliveries, EntityTypeEnum.InputLoads, EntityTypeEnum.Vehicles };
                     MaintainGeneral(EntityTypeEnum.People, value as Person, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Payments, EntityTypeEnum.Deliveries, EntityTypeEnum.InputLoads,
-                        EntityTypeEnum.Vehicles });
                     break;
 
                 case EntityTypeEnum.RiceMills:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.People, EntityTypeEnum.Concerns, EntityTypeEnum.Deliveries, EntityTypeEnum.Dryers, EntityTypeEnum.Payments,
+                        EntityTypeEnum.DryerHistories, EntityTypeEnum.Incomes, EntityTypeEnum.InputLoads, EntityTypeEnum.RiceThreshings, EntityTypeEnum.UserActivities, EntityTypeEnum.Vehicles, EntityTypeEnum.Villages };
                     MaintainGeneral(EntityTypeEnum.RiceMills, value as Domain.Models.RiceMill, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.People, EntityTypeEnum.Concerns, EntityTypeEnum.Deliveries, EntityTypeEnum.Dryers,
-                        EntityTypeEnum.DryerHistories, EntityTypeEnum.Incomes, EntityTypeEnum.InputLoads, EntityTypeEnum.Payments, EntityTypeEnum.RiceThreshings,
-                        EntityTypeEnum.UserActivities, EntityTypeEnum.Vehicles, EntityTypeEnum.Villages });
                     break;
 
                 case EntityTypeEnum.RiceThreshings:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Incomes, EntityTypeEnum.Deliveries, EntityTypeEnum.DryerHistories };
                     MaintainGeneral(EntityTypeEnum.RiceThreshings, value as RiceThreshing, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.Incomes, EntityTypeEnum.Deliveries, EntityTypeEnum.DryerHistories });
                     break;
 
                 case EntityTypeEnum.UserActivities:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills };
                     MaintainGeneral(EntityTypeEnum.UserActivities, value as UserActivity, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills });
                     break;
 
                 case EntityTypeEnum.Users:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Concerns, EntityTypeEnum.Deliveries, EntityTypeEnum.Dryers, EntityTypeEnum.Vehicles,
+                        EntityTypeEnum.DryerHistories, EntityTypeEnum.Incomes, EntityTypeEnum.InputLoads, EntityTypeEnum.Payments, EntityTypeEnum.RiceThreshings, EntityTypeEnum.UserActivities, EntityTypeEnum.Villages };
                     MaintainGeneral(EntityTypeEnum.Users, value as User, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Concerns, EntityTypeEnum.Deliveries, EntityTypeEnum.Dryers,
-                        EntityTypeEnum.DryerHistories, EntityTypeEnum.Incomes, EntityTypeEnum.InputLoads, EntityTypeEnum.Payments, EntityTypeEnum.RiceThreshings,
-                        EntityTypeEnum.UserActivities, EntityTypeEnum.Vehicles, EntityTypeEnum.Villages });
                     break;
 
                 case EntityTypeEnum.Vehicles:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Deliveries, EntityTypeEnum.InputLoads };
                     MaintainGeneral(EntityTypeEnum.Vehicles, value as Vehicle, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.People, EntityTypeEnum.Deliveries, EntityTypeEnum.InputLoads });
                     break;
 
                 case EntityTypeEnum.Villages:
+                    entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.InputLoads };
                     MaintainGeneral(EntityTypeEnum.Villages, value as Village, e => e.Id);
-                    LoadCache(new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills, EntityTypeEnum.InputLoads });
                     break;
             }
+            LoadCache(entities);
         }
 
         public void LoadCache(List<EntityTypeEnum> entityTypes)
