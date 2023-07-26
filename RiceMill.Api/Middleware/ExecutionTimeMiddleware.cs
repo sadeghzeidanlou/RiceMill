@@ -57,12 +57,10 @@ namespace RiceMill.Api.Middleware
         {
             responseBody.Seek(0, SeekOrigin.Begin);
             var responseBodyText = new StreamReader(context.Response.Body).ReadToEndAsync().Result;
-            if (responseBodyText.IsNullOrEmpty()) 
+            if (responseBodyText.IsNullOrEmpty())
                 return " Empty";
 
-            return string.Empty;
-            //JToken token = JToken.Parse(responseBodyText);
-            //return $"\n{token.ToString(Formatting.Indented)}".Replace("\n", "\n\t");
+            return $"\n{responseBodyText.ToString(Formatting.Indented)}".Replace("\n", "\n\t");
         }
     }
 }
