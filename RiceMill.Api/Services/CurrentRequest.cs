@@ -11,6 +11,6 @@ namespace RiceMill.Api.Services
         public RoleEnum UserRole { get => _userRole; set => _userRole = RoleEnum.Admin; }
 
         private string _ip;
-        public string Ip { get => _ip; set => _ip = "192.168.10.10"; }
+        public string Ip { get => "192.168.10.10"; set => _ip = "192.168.10.10"; }
     }
 }

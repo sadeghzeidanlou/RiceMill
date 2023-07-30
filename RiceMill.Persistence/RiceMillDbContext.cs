@@ -51,20 +51,20 @@ namespace RiceMill.Persistence
         {
             var data = new Dictionary<EntityTypeEnum, object>
             {
-                {EntityTypeEnum.Concerns, Concerns.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.Deliveries, Deliveries.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.DryerHistories, DryerHistories.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.Dryers, Dryers.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.Incomes, Incomes.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.InputLoads, InputLoads.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.Payments, Payments.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.People, People.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.RiceMills, RiceMills.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.RiceThreshings, RiceThreshings.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.UserActivities, UserActivities.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.Users, Users.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.Vehicles, Vehicles.IgnoreQueryFilters().ToList() },
-                {EntityTypeEnum.Villages, Villages.IgnoreQueryFilters().ToList() }
+                {EntityTypeEnum.Concerns, Concerns.AsNoTracking().ToList() },
+                {EntityTypeEnum.Deliveries, Deliveries.AsNoTracking().ToList() },
+                {EntityTypeEnum.DryerHistories, DryerHistories.AsNoTracking().ToList() },
+                {EntityTypeEnum.Dryers, Dryers.AsNoTracking().ToList() },
+                {EntityTypeEnum.Incomes, Incomes.AsNoTracking().ToList() },
+                {EntityTypeEnum.InputLoads, InputLoads.AsNoTracking().ToList() },
+                {EntityTypeEnum.Payments, Payments.AsNoTracking().ToList() },
+                {EntityTypeEnum.People, People.AsNoTracking().ToList() },
+                {EntityTypeEnum.RiceMills, RiceMills.AsNoTracking().ToList() },
+                {EntityTypeEnum.RiceThreshings, RiceThreshings.AsNoTracking().ToList() },
+                {EntityTypeEnum.UserActivities, UserActivities.AsNoTracking().ToList() },
+                {EntityTypeEnum.Users, Users.AsNoTracking().ToList() },
+                {EntityTypeEnum.Vehicles, Vehicles.AsNoTracking().ToList() },
+                {EntityTypeEnum.Villages, Villages.AsNoTracking().ToList() }
             };
             return data;
         }
@@ -74,46 +74,46 @@ namespace RiceMill.Persistence
             switch (entityType)
             {
                 case EntityTypeEnum.Concerns:
-                    return Concerns.IgnoreQueryFilters().ToList();
+                    return Concerns.AsNoTracking().ToList();
 
                 case EntityTypeEnum.Deliveries:
-                    return Deliveries.IgnoreQueryFilters().ToList();
+                    return Deliveries.AsNoTracking().ToList();
 
                 case EntityTypeEnum.DryerHistories:
-                    return DryerHistories.IgnoreQueryFilters().ToList();
+                    return DryerHistories.AsNoTracking().ToList();
 
                 case EntityTypeEnum.Dryers:
-                    return Dryers.IgnoreQueryFilters().ToList();
+                    return Dryers.AsNoTracking().ToList();
 
                 case EntityTypeEnum.Incomes:
-                    return Incomes.IgnoreQueryFilters().ToList();
+                    return Incomes.AsNoTracking().ToList();
 
                 case EntityTypeEnum.InputLoads:
-                    return InputLoads.IgnoreQueryFilters().ToList();
+                    return InputLoads.AsNoTracking().ToList();
 
                 case EntityTypeEnum.Payments:
-                    return Payments.IgnoreQueryFilters().ToList();
+                    return Payments.AsNoTracking().ToList();
 
                 case EntityTypeEnum.People:
-                    return People.IgnoreQueryFilters().ToList();
+                    return People.AsNoTracking().ToList();
 
                 case EntityTypeEnum.RiceMills:
-                    return RiceMills.IgnoreQueryFilters().ToList();
+                    return RiceMills.AsNoTracking().ToList();
 
                 case EntityTypeEnum.RiceThreshings:
-                    return RiceThreshings.IgnoreQueryFilters().ToList();
+                    return RiceThreshings.AsNoTracking().ToList();
 
                 case EntityTypeEnum.UserActivities:
-                    return UserActivities.IgnoreQueryFilters().ToList();
+                    return UserActivities.AsNoTracking().ToList();
 
                 case EntityTypeEnum.Users:
-                    return Users.IgnoreQueryFilters().ToList();
+                    return Users.AsNoTracking().ToList();
 
                 case EntityTypeEnum.Vehicles:
-                    return Vehicles.IgnoreQueryFilters().ToList();
+                    return Vehicles.AsNoTracking().ToList();
 
                 case EntityTypeEnum.Villages:
-                    return Villages.IgnoreQueryFilters().ToList();
+                    return Villages.AsNoTracking().ToList();
 
                 default:
                     throw new ArgumentOutOfRangeException($"{entityType}", "Entity type is not valid");

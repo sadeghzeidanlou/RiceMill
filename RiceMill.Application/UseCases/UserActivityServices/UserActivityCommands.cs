@@ -47,7 +47,7 @@ namespace RiceMill.Application.UseCases.UserActivityServices
 
         public Result<DtoUserActivity> CreateGeneral(UserActivityTypeEnum userActivityType, EntityTypeEnum type, string beforeEdit, string afterEdit, Guid? riceMillId)
         {
-            var _userActivity = new DtoCreateUserActivity(_currentRequestService.UserId, _currentRequestService.Ip, UserActivityTypeEnum.New, type, ApplicationIdEnum.Mobile, beforeEdit, afterEdit, riceMillId);
+            var _userActivity = new DtoCreateUserActivity(_currentRequestService.UserId, _currentRequestService.Ip, userActivityType, type, ApplicationIdEnum.Mobile, beforeEdit, afterEdit, riceMillId);
             return Create(_userActivity);
         }
 
