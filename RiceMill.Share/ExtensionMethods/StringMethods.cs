@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 namespace Shared.ExtensionMethods
 {
@@ -67,7 +68,7 @@ namespace Shared.ExtensionMethods
         {
             ArgumentException.ThrowIfNullOrEmpty(inputString);
             byte[] hashedBytes = SHA512.HashData(Encoding.UTF8.GetBytes(inputString));
-            return Convert.ToBase64String(hashedBytes);
+            return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
         }
 
         public static bool IsAllDigit(this string str) => str.ToCharArray().Any(x => !char.IsDigit(x));
@@ -234,5 +235,11 @@ namespace Shared.ExtensionMethods
         public static bool IsNotNullOrEmpty(this Guid guid) => guid != Guid.Empty && guid != default;
 
         public static bool IsNullOrEmpty(this Guid guid) => guid == Guid.Empty || guid == default;
+
+        public static string JsonPrettify(this string json)
+        {
+            using var jDoc = JsonDocument.Parse(json);
+            return jDoc.SerializeObject();
+        }
     }
 }

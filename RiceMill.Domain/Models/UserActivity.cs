@@ -6,7 +6,7 @@ namespace RiceMill.Domain.Models
     /// <summary>
     /// This class contain all information about a <see cref="UserActivity"/>
     /// </summary>
-    public sealed class UserActivity : EventBaseModelWithUserAndRiceMill
+    public sealed class UserActivity : EventBaseModel
     {
         /// <summary>
         /// Ip of <see cref="UserActivity"/>
@@ -37,5 +37,25 @@ namespace RiceMill.Domain.Models
         /// Object after edit of <see cref="UserActivity"/>
         /// </summary>
         public string AfterEdit { get; set; }
+
+        /// <summary>
+        /// This property used for reference navigation between this class and <see cref="RiceMill"/> that determine this <see cref="User"/> is member of which <see cref="RiceMill"/>
+        /// </summary>
+        public Guid? RiceMillId { get; set; }
+
+        /// <summary>
+        /// This property Contain <see cref="RiceMill"/> detail in this class
+        /// </summary>
+        public RiceMill RiceMill { get; set; }
+
+        /// <summary>
+        /// This property used for reference navigation between any class and User
+        /// </summary>
+        public Guid UserId { get; set; }
+
+        /// <summary>
+        /// This property Contain <see cref="User"/> detail in any other classes that have relation with <see cref="User"/>
+        /// </summary>
+        public User User { get; set; }
     }
 }

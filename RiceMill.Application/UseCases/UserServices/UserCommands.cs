@@ -45,7 +45,6 @@ namespace RiceMill.Application.UseCases.UserServices
             if (!validationResult.IsValid)
                 return Result<DtoUser>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            createUser = createUser with { ParentUserId = _currentRequestService.UserId };
             var validateCreateUserResult = ValidateCreateUser(createUser);
             if (validateCreateUserResult != null)
                 return validateCreateUserResult;
@@ -108,12 +107,15 @@ namespace RiceMill.Application.UseCases.UserServices
 
             if (requestedUser.Role == RoleEnum.RiceMillManager)
             {
-                createUser = createUser with { RiceMillId = requestedUser.RiceMillId };
+                _ = createUser with { RiceMillId = requestedUser.RiceMillId };
             }
             else
             {
                 if (createUser.Role != RoleEnum.Admin && createUser.RiceMillId.IsNullOrEmpty())
                     return Result<DtoUser>.Failure(new Error(ResultStatusEnum.UserRiceMillIdIsNotValid), HttpStatusCode.BadRequest);
+
+                if (createUser.Role == RoleEnum.Admin)
+                    _ = createUser with { RiceMillId = null };
             }
             return null;
         }

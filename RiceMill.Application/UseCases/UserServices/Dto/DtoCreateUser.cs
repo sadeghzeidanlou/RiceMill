@@ -5,7 +5,7 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.UserServices.Dto
 {
-    public record DtoCreateUser(string Username, string Password, RoleEnum Role, Guid? UserPersonId, Guid ParentUserId, Guid? RiceMillId);
+    public record DtoCreateUser(string Username, string Password, RoleEnum Role, Guid? UserPersonId, Guid? RiceMillId);
 
     public class DtoCreateUserValidator : AbstractValidator<DtoCreateUser>
     {
@@ -23,9 +23,6 @@ namespace RiceMill.Application.UseCases.UserServices.Dto
 
             RuleFor(dto => dto.UserPersonId)
                 .Must((up) => up.IsNullOrEmpty() || up.HasValue && up.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.UserUserPersonIdIsNotValid.ToString());
-
-            RuleFor(dto => dto.ParentUserId)
-                .Must((pu) => pu.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.UserParentUserIdIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)
                 .Must((rm) => rm.IsNullOrEmpty() || rm.HasValue && rm.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.UserRiceMillIdIsNotValid.ToString());

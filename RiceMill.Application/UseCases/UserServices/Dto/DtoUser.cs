@@ -28,11 +28,6 @@ namespace RiceMill.Application.UseCases.UserServices.Dto
         [SwaggerExclude]
         public DtoPerson UserPerson { get; set; }
 
-        public Guid ParentUserId { get; set; }
-
-        [SwaggerExclude]
-        public DtoUser ParentUser { get; set; }
-
         [SwaggerExclude]
         public Guid RiceMillId { get; set; }
 

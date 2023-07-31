@@ -17,7 +17,7 @@ namespace RiceMill.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -514,7 +514,7 @@ namespace RiceMill.Persistence.Migrations
                     b.Property<DateTime>("UpdateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -664,9 +664,6 @@ namespace RiceMill.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("ParentUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -693,14 +690,12 @@ namespace RiceMill.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentUserId")
-                        .IsUnique();
-
                     b.HasIndex("RiceMillId");
 
-                    b.HasIndex("UserPersonId")
-                        .IsUnique()
-                        .HasFilter("[UserPersonId] IS NOT NULL");
+                    b.HasIndex("UserPersonId");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -741,7 +736,7 @@ namespace RiceMill.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("RiceMillId")
+                    b.Property<Guid?>("RiceMillId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdateTime")
@@ -1152,15 +1147,11 @@ namespace RiceMill.Persistence.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("RiceMill.Domain.Models.User", "User")
+                    b.HasOne("RiceMill.Domain.Models.User", null)
                         .WithMany("People")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("RiceMill");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RiceMill.Domain.Models.RiceMill", b =>
@@ -1202,22 +1193,14 @@ namespace RiceMill.Persistence.Migrations
 
             modelBuilder.Entity("RiceMill.Domain.Models.User", b =>
                 {
-                    b.HasOne("RiceMill.Domain.Models.User", "ParentUser")
-                        .WithOne()
-                        .HasForeignKey("RiceMill.Domain.Models.User", "ParentUserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("RiceMill.Domain.Models.RiceMill", "RiceMill")
                         .WithMany("Users")
                         .HasForeignKey("RiceMillId")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("RiceMill.Domain.Models.Person", "UserPerson")
-                        .WithOne("RelatedUser")
-                        .HasForeignKey("RiceMill.Domain.Models.User", "UserPersonId");
-
-                    b.Navigation("ParentUser");
+                        .WithMany()
+                        .HasForeignKey("UserPersonId");
 
                     b.Navigation("RiceMill");
 
@@ -1228,9 +1211,7 @@ namespace RiceMill.Persistence.Migrations
                 {
                     b.HasOne("RiceMill.Domain.Models.RiceMill", "RiceMill")
                         .WithMany("UserActivities")
-                        .HasForeignKey("RiceMillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RiceMillId");
 
                     b.HasOne("RiceMill.Domain.Models.User", "User")
                         .WithMany("UserActivities")
@@ -1330,8 +1311,6 @@ namespace RiceMill.Persistence.Migrations
                     b.Navigation("ReceiverDeliveries");
 
                     b.Navigation("ReceiverInputLoads");
-
-                    b.Navigation("RelatedUser");
                 });
 
             modelBuilder.Entity("RiceMill.Domain.Models.RiceMill", b =>

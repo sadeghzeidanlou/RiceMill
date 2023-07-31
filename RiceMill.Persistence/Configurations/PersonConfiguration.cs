@@ -58,20 +58,9 @@ namespace RiceMill.Persistence.Configurations
                 .HasQueryFilter(p => !p.IsDeleted);
 
             builder
-                .HasOne(il => il.RelatedUser)
-                .WithOne(u => u.UserPerson)
-                .HasForeignKey<User>(il => il.UserPersonId);
-
-            builder
                 .HasOne(p => p.RiceMill)
                 .WithMany(rm => rm.MemberPeople)
                 .HasForeignKey(p => p.RiceMillId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder
-                .HasOne(p => p.User)
-                .WithMany(u => u.People)
-                .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

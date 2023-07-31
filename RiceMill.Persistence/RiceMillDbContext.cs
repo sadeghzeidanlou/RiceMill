@@ -163,7 +163,10 @@ namespace RiceMill.Persistence
                 .Select(e => e.Entity);
 
             foreach (var user in entitiesWithPassword)
-                user.Password = user.Password.ToSha512();
+            {
+                if (user.Password.Length < 100)
+                    user.Password = user.Password.ToSha512();
+            }
         }
     }
 }

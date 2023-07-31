@@ -15,8 +15,6 @@ namespace RiceMill.Application.UseCases.UserServices.Dto
 
         public Guid? UserPersonId { get; set; }
 
-        public Guid? ParentUserId { get; set; }
-
         public Guid? RiceMillId { get; set; }
     }
 }

@@ -34,16 +34,6 @@ namespace RiceMill.Domain.Models
         public Person UserPerson { get; set; }
 
         /// <summary>
-        /// This property used for reference navigation between this class and <see cref="User"/> that determine which <see cref="User"/> create this <see cref="User"/> 
-        /// </summary>
-        public Guid ParentUserId { get; set; }
-
-        /// <summary>
-        /// This property Contain <see cref="User"/> detail in this class that determine which <see cref="User"/> is created this <see cref="User"/>
-        /// </summary>
-        public User ParentUser { get; set; }
-
-        /// <summary>
         /// This property used for reference navigation between this class and <see cref="RiceMill"/> that determine this <see cref="User"/> is member of which <see cref="RiceMill"/>
         /// </summary>
         public Guid? RiceMillId { get; set; }

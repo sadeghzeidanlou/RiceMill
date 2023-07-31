@@ -71,7 +71,7 @@ namespace RiceMill.Persistence.Migrations
                         column: x => x.DeliveriesId,
                         principalTable: "Deliveries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -160,10 +160,10 @@ namespace RiceMill.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     NumberOfBags = table.Column<short>(type: "smallint", nullable: false),
-                    IsInDryer = table.Column<bool>(type: "bit", nullable: false),
+                    NumberOfBagsInDryer = table.Column<short>(type: "smallint", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     ReceiveTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NoticesType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NoticesType = table.Column<byte>(type: "tinyint", nullable: false),
                     VillageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DelivererPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ReceiverPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -227,17 +227,17 @@ namespace RiceMill.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Family = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<byte>(type: "tinyint", nullable: false),
                     MobileNumber = table.Column<string>(type: "nchar(11)", fixedLength: true, maxLength: 11, nullable: false),
                     HomeNumber = table.Column<string>(type: "nchar(11)", fixedLength: true, maxLength: 11, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     FatherName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    RiceMillId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    RiceMillId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -255,7 +255,7 @@ namespace RiceMill.Persistence.Migrations
                     Phone = table.Column<string>(type: "nchar(11)", fixedLength: true, maxLength: 11, nullable: true),
                     PostalCode = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    OwnerPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OwnerPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -278,11 +278,9 @@ namespace RiceMill.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    UserPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ParentUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RiceMillId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Role = table.Column<byte>(type: "tinyint", nullable: false),
+                    UserPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RiceMillId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -295,17 +293,11 @@ namespace RiceMill.Persistence.Migrations
                         name: "FK_Users_People_UserPersonId",
                         column: x => x.UserPersonId,
                         principalTable: "People",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Users_RiceMills_RiceMillId",
                         column: x => x.RiceMillId,
                         principalTable: "RiceMills",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Users_Users_ParentUserId",
-                        column: x => x.ParentUserId,
-                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -358,17 +350,17 @@ namespace RiceMill.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Ip = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    UserActivityType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EntityType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ApplicationId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserActivityType = table.Column<byte>(type: "tinyint", nullable: false),
+                    EntityType = table.Column<byte>(type: "tinyint", nullable: false),
+                    ApplicationId = table.Column<byte>(type: "tinyint", nullable: false),
                     BeforeEdit = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: true),
                     AfterEdit = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: true),
+                    RiceMillId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    RiceMillId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -377,8 +369,7 @@ namespace RiceMill.Persistence.Migrations
                         name: "FK_UserActivities_RiceMills_RiceMillId",
                         column: x => x.RiceMillId,
                         principalTable: "RiceMills",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UserActivities_Users_UserId",
                         column: x => x.UserId,
@@ -394,7 +385,7 @@ namespace RiceMill.Persistence.Migrations
                     Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Plate = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    VehicleType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VehicleType = table.Column<byte>(type: "tinyint", nullable: false),
                     OwnerPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -651,21 +642,20 @@ namespace RiceMill.Persistence.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_ParentUserId",
-                table: "Users",
-                column: "ParentUserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_RiceMillId",
                 table: "Users",
                 column: "RiceMillId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_UserPersonId",
                 table: "Users",
-                column: "UserPersonId",
-                unique: true);
+                column: "UserPersonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_OwnerPersonId",

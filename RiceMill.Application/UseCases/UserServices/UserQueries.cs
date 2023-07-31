@@ -54,7 +54,7 @@ namespace RiceMill.Application.UseCases.UserServices
 
         private IQueryable<User> GetFilter(DtoUserFilter filter)
         {
-            var users = _cacheService.Get<List<User>>(EntityTypeEnum.Users).Where(c => !c.IsDeleted).AsQueryable();
+            var users = _cacheService.Get<List<User>>(EntityTypeEnum.Users).AsQueryable();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return users.Where(u => false);
 
@@ -75,9 +75,6 @@ namespace RiceMill.Application.UseCases.UserServices
 
             if (filter.UserPersonId.IsNotNullOrEmpty())
                 users = users.Where(u => u.UserPersonId.Equals(filter.UserPersonId.Value));
-
-            if (filter.ParentUserId.IsNotNullOrEmpty())
-                users = users.Where(u => u.ParentUserId.Equals(filter.ParentUserId.Value));
 
             return users;
         }

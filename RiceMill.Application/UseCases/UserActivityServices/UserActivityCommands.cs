@@ -2,7 +2,6 @@
 using RiceMill.Application.Common.ExtensionMethods;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.UserActivityServices.Dto;
 using RiceMill.Domain.Models;
 using Shared.Enums;
@@ -10,13 +9,11 @@ using System.Net;
 
 namespace RiceMill.Application.UseCases.UserActivityServices
 {
-    public interface IUserActivityCommands : IBaseUseCaseCommands
+    public interface IUserActivityCommands
     {
         Result<DtoUserActivity> Create(DtoCreateUserActivity userActivity);
 
         Result<DtoUserActivity> CreateGeneral(UserActivityTypeEnum userActivityType, EntityTypeEnum type, string beforeEdit, string afterEdit, Guid? riceMillId);
-
-        Result<DtoUserActivity> Update(DtoUpdateUserActivity userActivity);
     }
 
     public class UserActivityCommands : IUserActivityCommands
@@ -50,9 +47,5 @@ namespace RiceMill.Application.UseCases.UserActivityServices
             var _userActivity = new DtoCreateUserActivity(_currentRequestService.UserId, _currentRequestService.Ip, userActivityType, type, ApplicationIdEnum.Mobile, beforeEdit, afterEdit, riceMillId);
             return Create(_userActivity);
         }
-
-        public Result<bool> Delete(Guid id) => Result<bool>.NotImplemented();
-
-        public Result<DtoUserActivity> Update(DtoUpdateUserActivity userActivity) => Result<DtoUserActivity>.NotImplemented();
     }
 }

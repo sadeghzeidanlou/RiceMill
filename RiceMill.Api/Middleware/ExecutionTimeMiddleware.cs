@@ -1,8 +1,6 @@
 ﻿using RiceMill.Application.Common.Interfaces;
 using Shared.ExtensionMethods;
 using System.Diagnostics;
-using System.Text.Encodings.Web;
-using System.Text.Json;
 
 namespace RiceMill.Api.Middleware
 {
@@ -10,7 +8,6 @@ namespace RiceMill.Api.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILoggingService _loggingService;
-        private readonly JsonSerializerOptions _jsonSerializerOptions = new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
 
         public ExecutionTimeMiddleware(RequestDelegate next, ILoggingService loggingService)
         {
@@ -33,7 +30,7 @@ namespace RiceMill.Api.Middleware
             if (elapsedMilliseconds > 500)
             {
                 var logMessage = $"Request took long.\n\n" +
-                                 $"Request Path: {context.Request.Path}\n\n" +
+                                 $"Request path: {context.Request.Path}\n\n" +
                                  $"Query string:{GetRequestQueryString(context)}\n\n" +
                                  $"Headers:{GetRequestHeaders(context)}\n" +
                                  $"Request body:{GetRequestBody(context)}\n\n" +
@@ -72,7 +69,7 @@ namespace RiceMill.Api.Middleware
         {
             responseBody.Seek(0, SeekOrigin.Begin);
             var responseBodyText = new StreamReader(responseBody).ReadToEndAsync().Result;
-            return responseBodyText.IsNullOrEmpty() ? " Empty" : $"\n{JsonSerializer.Serialize(responseBodyText, _jsonSerializerOptions)}";
+            return responseBodyText.IsNullOrEmpty() ? " Empty" : $"\n{responseBodyText.JsonPrettify()}";
         }
     }
 }

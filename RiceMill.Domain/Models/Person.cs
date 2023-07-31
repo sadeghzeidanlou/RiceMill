@@ -6,7 +6,7 @@ namespace RiceMill.Domain.Models
     /// <summary>
     /// This class contain all information about a <see cref="Person"/>
     /// </summary>
-    public sealed class Person : EventBaseModelWithUserAndRiceMill
+    public sealed class Person : EventBaseModel
     {
         /// <summary>
         /// Name of <see cref="Person"/>
@@ -44,9 +44,14 @@ namespace RiceMill.Domain.Models
         public string FatherName { get; set; }
 
         /// <summary>
-        /// This property Contain <see cref="User"/> detail in this class that determine which <see cref="User"/> related to this <see cref="Person"/> 
+        /// This property used for reference navigation between any class and RiceMill
         /// </summary>
-        public User RelatedUser { get; set; }
+        public Guid RiceMillId { get; set; }
+
+        /// <summary>
+        /// This property Contain <see cref="RiceMill"/> detail in any other classes that have relation with <see cref="RiceMill"/>
+        /// </summary>
+        public RiceMill RiceMill { get; set; }
 
         /// <summary>
         /// Collection of <see cref="Payment"/> that paid to this <see cref="Person"/>
