@@ -25,10 +25,12 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
                 .Must((model, height) => model.Wage >= 0 && model.Wage < byte.MaxValue).WithErrorCode(ResultStatusEnum.RiceMillWageIsNotValid.ToString());
 
             RuleFor(dto => dto.Phone)
-                .MaximumLength(11).WithErrorCode(ResultStatusEnum.RiceMillPhoneLengthIsNotValid.ToString());
+                .MaximumLength(11).WithErrorCode(ResultStatusEnum.RiceMillPhoneLengthIsNotValid.ToString())
+                .Must((p) => p.IsNullOrEmpty() || p.IsNotNullOrEmpty() && !p.IsAllDigit()).WithErrorCode(ResultStatusEnum.RiceMillPhoneIsNotValid.ToString());
 
             RuleFor(dto => dto.PostalCode)
-                .MaximumLength(10).WithErrorCode(ResultStatusEnum.RiceMillPostalCodeLengthIsNotValid.ToString());
+                .MaximumLength(10).WithErrorCode(ResultStatusEnum.RiceMillPostalCodeLengthIsNotValid.ToString())
+                .Must((p) => p.IsNullOrEmpty() || p.IsNotNullOrEmpty() && !p.IsAllDigit()).WithErrorCode(ResultStatusEnum.RiceMillPostalCodeIsNotValid.ToString());
 
             RuleFor(dto => dto.Description)
                 .MaximumLength(200).WithErrorCode(ResultStatusEnum.RiceMillDescriptionLengthIsNotValid.ToString());

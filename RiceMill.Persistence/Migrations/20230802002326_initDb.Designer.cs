@@ -12,8 +12,8 @@ using RiceMill.Persistence;
 namespace RiceMill.Persistence.Migrations
 {
     [DbContext(typeof(RiceMillDbContext))]
-    [Migration("20230731195416_InitDb")]
-    partial class InitDb
+    [Migration("20230802002326_initDb")]
+    partial class initDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

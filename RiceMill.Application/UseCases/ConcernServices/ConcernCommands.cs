@@ -63,7 +63,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
             if (!validationResult.IsValid)
                 return Result<DtoConcern>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var concern = _applicationDbContext.Concerns.FirstOrDefault(c => c.Id == updateConcern.Id);
+            var concern = GetConcernById(updateConcern.Id);
             if (concern == null)
                 return Result<DtoConcern>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
 
@@ -80,7 +80,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
             if (_currentRequestService.HaveNotAccessToWrite)
                 return Result<bool>.Forbidden();
 
-            var concern = _applicationDbContext.Concerns.Where(c => c.Id == id).FirstOrDefault();
+            var concern = GetConcernById(id);
             if (concern == null)
                 return Result<bool>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
 
@@ -91,5 +91,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
             _cacheService.Maintain(_Key, concern);
             return Result<bool>.Success(true);
         }
+
+        private Concern GetConcernById(Guid id) => _applicationDbContext.Concerns.FirstOrDefault(c => c.Id == id);
     }
 }

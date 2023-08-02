@@ -1,6 +1,4 @@
-﻿using RiceMill.Application.UseCases.InputLoadServices.Dto;
-using RiceMill.Domain.Models.BaseModels;
-using Shared.Attributes;
+﻿using RiceMill.Domain.Models.BaseModels;
 
 namespace RiceMill.Application.UseCases.VillageServices.Dto
 {
@@ -8,7 +6,7 @@ namespace RiceMill.Application.UseCases.VillageServices.Dto
     {
         public string Title { get; set; }
 
-        [SwaggerExclude]
-        public ICollection<DtoInputLoad> InputLoads { get; set; }
+        //[SwaggerExclude]
+        //public ICollection<DtoInputLoad> InputLoads { get; set; }
     }
 }

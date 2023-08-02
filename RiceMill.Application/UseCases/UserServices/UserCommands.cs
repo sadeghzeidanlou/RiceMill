@@ -87,11 +87,11 @@ namespace RiceMill.Application.UseCases.UserServices
             if (user == null)
                 return Result<DtoUser>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
-            var beforeEdit = user.SerializeObject();
             var validateCreateUserResult = ValidateCreateUser(updateUser.Adapt<DtoCreateUser>());
             if (validateCreateUserResult != null)
                 return validateCreateUserResult;
 
+            var beforeEdit = user.SerializeObject();
             user = updateUser.Adapt(user);
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _Key, beforeEdit, user.SerializeObject(), user.RiceMillId);
@@ -120,6 +120,6 @@ namespace RiceMill.Application.UseCases.UserServices
             return null;
         }
 
-        private User GetUserById(Guid userId) => _applicationDbContext.Users.FirstOrDefault(c => c.Id == userId);
+        private User GetUserById(Guid id) => _applicationDbContext.Users.FirstOrDefault(c => c.Id == id);
     }
 }

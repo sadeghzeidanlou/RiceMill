@@ -1,8 +1,4 @@
 ﻿using RiceMill.Application.UseCases.BaseDto;
-using RiceMill.Application.UseCases.DeliveryServices.Dto;
-using RiceMill.Application.UseCases.DryerHistoryServices.Dto;
-using RiceMill.Application.UseCases.IncomeServices.Dto;
-using Shared.Attributes;
 
 namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 {
@@ -26,13 +22,13 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 
         public Guid IncomeId { get; set; }
 
-        [SwaggerExclude]
-        public DtoIncome Income { get; set; }
+        //[SwaggerExclude]
+        //public DtoIncome Income { get; set; }
 
-        [SwaggerExclude]
-        public ICollection<DtoDelivery> Deliveries { get; set; }
+        //[SwaggerExclude]
+        //public ICollection<DtoDelivery> Deliveries { get; set; }
 
-        [SwaggerExclude]
-        public ICollection<DtoDryerHistory> DryerHistories { get; set; }
+        //[SwaggerExclude]
+        //public ICollection<DtoDryerHistory> DryerHistories { get; set; }
     }
 }

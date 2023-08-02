@@ -1,8 +1,4 @@
 ﻿using RiceMill.Application.UseCases.BaseDto;
-using RiceMill.Application.UseCases.PersonServices.Dto;
-using RiceMill.Application.UseCases.RiceThreshingServices.Dto;
-using RiceMill.Application.UseCases.VehicleServices.Dto;
-using Shared.Attributes;
 
 namespace RiceMill.Application.UseCases.DeliveryServices.Dto
 {
@@ -22,25 +18,25 @@ namespace RiceMill.Application.UseCases.DeliveryServices.Dto
 
         public Guid DelivererPersonId { get; set; }
 
-        [SwaggerExclude]
-        public DtoPerson DelivererPerson { get; set; }
+        //[SwaggerExclude]
+        //public DtoPerson DelivererPerson { get; set; }
 
         public Guid ReceiverPersonId { get; set; }
 
-        [SwaggerExclude]
-        public DtoPerson ReceiverPerson { get; set; }
+        //[SwaggerExclude]
+        //public DtoPerson ReceiverPerson { get; set; }
 
         public Guid CarrierPersonId { get; set; }
 
-        [SwaggerExclude]
-        public DtoPerson CarrierPerson { get; set; }
+        //[SwaggerExclude]
+        //public DtoPerson CarrierPerson { get; set; }
 
         public Guid VehicleId { get; set; }
 
-        [SwaggerExclude]
-        public DtoVehicle Vehicle { get; set; }
+        //[SwaggerExclude]
+        //public DtoVehicle Vehicle { get; set; }
 
-        [SwaggerExclude]
-        public ICollection<DtoRiceThreshing> RiceThreshings { get; set; }
+        //[SwaggerExclude]
+        //public ICollection<DtoRiceThreshing> RiceThreshings { get; set; }
     }
 }

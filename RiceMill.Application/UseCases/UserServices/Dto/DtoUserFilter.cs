@@ -9,8 +9,6 @@ namespace RiceMill.Application.UseCases.UserServices.Dto
 
         public string Username { get; set; }
 
-        public string Password { get; set; }
-
         public RoleEnum? Role { get; set; }
 
         public Guid? UserPersonId { get; set; }

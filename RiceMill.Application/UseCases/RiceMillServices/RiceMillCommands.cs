@@ -57,7 +57,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             if (_currentRequestService.IsNotAdmin)
                 return Result<bool>.Forbidden();
 
-            var riceMill = GetRiceMillByUserId(id);
+            var riceMill = GetRiceMillById(id);
             if (riceMill == null)
                 return Result<bool>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
@@ -78,7 +78,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             if (!validationResult.IsValid)
                 return Result<DtoRiceMill>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var riceMill = GetRiceMillByUserId(updateRiceMill.Id);
+            var riceMill = GetRiceMillById(updateRiceMill.Id);
             if (riceMill == null)
                 return Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
@@ -90,6 +90,6 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             return Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>());
         }
 
-        private Domain.Models.RiceMill GetRiceMillByUserId(Guid userId) => _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id == userId);
+        private Domain.Models.RiceMill GetRiceMillById(Guid id) => _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id == id);
     }
 }

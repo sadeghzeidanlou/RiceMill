@@ -23,6 +23,7 @@ namespace RiceMill.Application.UseCases.UserServices
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;
         private readonly IUserActivityCommands _userActivityCommands;
+        private readonly EntityTypeEnum _Key = EntityTypeEnum.Users;
 
         public UserQueries(ICacheService cacheService, ICurrentRequestService currentRequestService, IUserActivityCommands userActivityCommands)
         {
@@ -41,20 +42,19 @@ namespace RiceMill.Application.UseCases.UserServices
 
         public Result<DtoUser> Login(DtoLogin login)
         {
-            var user = _cacheService.Get<List<User>>(EntityTypeEnum.Users)
-                .Where(u => !u.IsDeleted && u.Username.Equals(login.UserName, StringComparison.InvariantCultureIgnoreCase) && u.Password.Equals(login.Password, StringComparison.InvariantCulture))
-                .FirstOrDefault();
+            var user = _cacheService.Get<List<User>>(_Key).Where(u => 
+            u.Username.Equals(login.UserName, StringComparison.InvariantCultureIgnoreCase) && u.Password.Equals(login.Password, StringComparison.InvariantCulture)).FirstOrDefault();
 
             if (user == null)
                 return Result<DtoUser>.Failure(new Error(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound);
 
-            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Login, EntityTypeEnum.Users, string.Empty, string.Empty, null);
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Login, _Key, string.Empty, string.Empty, null);
             return Result<DtoUser>.Success(user.Adapt<DtoUser>());
         }
 
         private IQueryable<User> GetFilter(DtoUserFilter filter)
         {
-            var users = _cacheService.Get<List<User>>(EntityTypeEnum.Users).AsQueryable();
+            var users = _cacheService.Get<List<User>>(_Key).AsQueryable();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return users.Where(u => false);
 
@@ -66,9 +66,6 @@ namespace RiceMill.Application.UseCases.UserServices
 
             if (filter.Username.IsNotNullOrEmpty())
                 users = users.Where(u => u.Username.Contains(filter.Username));
-
-            if (filter.Password.IsNotNullOrEmpty())
-                users = users.Where(u => u.Password.Contains(filter.Password));
 
             if (filter.Role.HasValue)
                 users = users.Where(u => u.Role.Equals(filter.Role.Value));

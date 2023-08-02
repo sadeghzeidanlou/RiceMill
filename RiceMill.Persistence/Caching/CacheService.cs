@@ -80,7 +80,7 @@ namespace RiceMill.Persistence.Caching
 
                 case EntityTypeEnum.UserActivities:
                     entities = new List<EntityTypeEnum> { EntityTypeEnum.Users, EntityTypeEnum.RiceMills };
-                    MaintainGeneral(EntityTypeEnum.UserActivities, value as UserActivity, e => e.Id, e => e.IsDeleted);
+                    MaintainGeneral(EntityTypeEnum.UserActivities, value as UserActivity, e => e.Id, e => true);
                     break;
 
                 case EntityTypeEnum.Users:

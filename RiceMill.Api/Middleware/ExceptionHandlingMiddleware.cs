@@ -15,6 +15,10 @@ namespace RiceMill.Api.Middleware
 
         public async Task Invoke(HttpContext context, ILoggingService logging)
         {
+            HttpResponse response = context.Response;
+            var originBody = response.Body;
+            using var newBody = new MemoryStream();
+            response.Body = newBody;
             try
             {
                 await _next(context);
@@ -22,19 +26,29 @@ namespace RiceMill.Api.Middleware
             catch (DbUpdateException dbEx)
             {
                 logging.Error($"Database update error occurred during request processing. Path: {context.Request.Path}", dbEx);
-                var error = Result<bool>.Failure(new Error(ResultStatusEnum.DatabaseError), HttpStatusCode.InternalServerError);
-                context.Response.Clear();
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await context.Response.WriteAsync(error.SerializeObject());
+                await ModifyResponseAsync(newBody, response, ResultStatusEnum.DatabaseError, HttpStatusCode.InternalServerError);
             }
             catch (Exception ex)
             {
                 logging.Error($"Unhandled exception occurred during request processing. Path: {context.Request.Path}", ex);
-                var error = Result<bool>.Failure(new Error(ResultStatusEnum.UnHandleError), HttpStatusCode.InternalServerError);
-                context.Response.Clear();
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await context.Response.WriteAsync(error.SerializeObject());
+                await ModifyResponseAsync(newBody, response, ResultStatusEnum.UnHandleError, HttpStatusCode.InternalServerError);
             }
+            finally
+            {
+                newBody.Seek(0, SeekOrigin.Begin);
+                await newBody.CopyToAsync(originBody);
+                response.Body = originBody;
+            }
+        }
+
+        private static async Task ModifyResponseAsync(Stream stream, HttpResponse response, ResultStatusEnum resultStatus, HttpStatusCode statusCode)
+        {
+            response.StatusCode = (int)statusCode;
+            stream.SetLength(0);
+            var error = Result<bool>.Failure(new Error(resultStatus), statusCode);
+            using var writer = new StreamWriter(stream, leaveOpen: true);
+            await writer.WriteAsync(error.SerializeObject());
+            await writer.FlushAsync();
         }
     }
 }

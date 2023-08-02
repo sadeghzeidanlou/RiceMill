@@ -1,7 +1,4 @@
 ﻿using RiceMill.Application.UseCases.BaseDto;
-using RiceMill.Application.UseCases.RiceThreshingServices.Dto;
-using Shared.Attributes;
-using System.Text.Json.Serialization;
 
 namespace RiceMill.Application.UseCases.IncomeServices.Dto
 {
@@ -17,7 +14,7 @@ namespace RiceMill.Application.UseCases.IncomeServices.Dto
 
         public float Flour { get; set; }
 
-        [SwaggerExclude]
-        public DtoRiceThreshing RiceThreshing { get; set; }
+        //[SwaggerExclude]
+        //public DtoRiceThreshing RiceThreshing { get; set; }
     }
 }

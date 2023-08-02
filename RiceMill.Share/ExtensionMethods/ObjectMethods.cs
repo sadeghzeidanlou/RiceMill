@@ -7,7 +7,12 @@ namespace Shared.ExtensionMethods
 {
     public static class ObjectMethods
     {
-        private static readonly JsonSerializerOptions SerializerOptions = new() { ReferenceHandler = ReferenceHandler.IgnoreCycles, WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+        private static readonly JsonSerializerOptions SerializerOptions = new()
+        {
+            WriteIndented = true,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
 
         /// <summary>
         /// Serialize an object
