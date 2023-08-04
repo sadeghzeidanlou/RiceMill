@@ -1,7 +1,15 @@
-﻿using RiceMill.Application.Common.Interfaces;
+﻿using Mapster;
+using RiceMill.Application.Common.ExtensionMethods;
+using RiceMill.Application.Common.Interfaces;
+using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
+using RiceMill.Application.UseCases.UserActivityServices;
 using RiceMill.Application.UseCases.VehicleServices.Dto;
+using RiceMill.Domain.Models;
+using Shared.Enums;
+using Shared.ExtensionMethods;
+using System.Net;
 
 namespace RiceMill.Application.UseCases.VehicleServices
 {
@@ -15,22 +23,75 @@ namespace RiceMill.Application.UseCases.VehicleServices
     public class VehicleCommands : IVehicleCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
+        private readonly ICurrentRequestService _currentRequestService;
+        private readonly ICacheService _cacheService;
+        private readonly IUserActivityCommands _userActivityCommands;
+        private readonly EntityTypeEnum _Key = EntityTypeEnum.Vehicles;
 
-        public VehicleCommands(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
-
-        public Result<DtoVehicle> Create(DtoCreateVehicle vehicle)
+        public VehicleCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService, IUserActivityCommands userActivityCommands)
         {
-            throw new NotImplementedException();
+            _applicationDbContext = applicationDbContext;
+            _currentRequestService = currentRequestService;
+            _cacheService = cacheService;
+            _userActivityCommands = userActivityCommands;
+        }
+
+        public Result<DtoVehicle> Create(DtoCreateVehicle createVehicle)
+        {
+            if (_currentRequestService.HaveNotAccessToWrite)
+                return Result<DtoVehicle>.Forbidden();
+
+            var validationResult = createVehicle.Validate();
+            if (!validationResult.IsValid)
+                return Result<DtoVehicle>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
+
+            var vehicle = createVehicle.Adapt<Vehicle>();
+            vehicle.UserId = _currentRequestService.UserId;
+            _applicationDbContext.Vehicles.Add(vehicle);
+            _applicationDbContext.SaveChanges();
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _Key, string.Empty, vehicle.SerializeObject(), vehicle.RiceMillId);
+            _cacheService.Maintain(_Key, vehicle);
+            return Result<DtoVehicle>.Success(vehicle.Adapt<DtoVehicle>());
+        }
+
+        public Result<DtoVehicle> Update(DtoUpdateVehicle updateVehicle)
+        {
+            if (_currentRequestService.HaveNotAccessToWrite)
+                return Result<DtoVehicle>.Forbidden();
+
+            var validationResult = updateVehicle.Validate();
+            if (!validationResult.IsValid)
+                return Result<DtoVehicle>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
+
+            var vehicle = GetVehicleById(updateVehicle.Id);
+            if (vehicle == null)
+                return Result<DtoVehicle>.Failure(new Error(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
+
+            var beforeEdit = vehicle.SerializeObject();
+            vehicle = updateVehicle.Adapt(vehicle);
+            _applicationDbContext.SaveChanges();
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _Key, beforeEdit, vehicle.SerializeObject(), vehicle.RiceMillId);
+            _cacheService.Maintain(_Key, vehicle);
+            return Result<DtoVehicle>.Success(vehicle.Adapt<DtoVehicle>());
         }
 
         public Result<bool> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            if (_currentRequestService.HaveNotAccessToWrite)
+                return Result<bool>.Forbidden();
+
+            var vehicle = GetVehicleById(id);
+            if (vehicle == null)
+                return Result<bool>.Failure(new Error(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
+
+            var beforeEdit = vehicle.SerializeObject();
+            _applicationDbContext.Vehicles.Remove(vehicle);
+            _applicationDbContext.SaveChanges();
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Delete, _Key, beforeEdit, vehicle.SerializeObject(), vehicle.RiceMillId);
+            _cacheService.Maintain(_Key, vehicle);
+            return Result<bool>.Success(true);
         }
 
-        public Result<DtoVehicle> Update(DtoUpdateVehicle vehicle)
-        {
-            throw new NotImplementedException();
-        }
+        private Vehicle GetVehicleById(Guid id) => _applicationDbContext.Vehicles.FirstOrDefault(c => c.Id == id);
     }
 }

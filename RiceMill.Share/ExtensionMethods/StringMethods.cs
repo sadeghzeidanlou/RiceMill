@@ -2,10 +2,11 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace Shared.ExtensionMethods
 {
-    public static class StringMethods
+    public static partial class StringMethods
     {
         public static string EncryptStringAes(this string plainText, string sharedSecret)
         {
@@ -241,5 +242,20 @@ namespace Shared.ExtensionMethods
             using var jDoc = JsonDocument.Parse(json);
             return jDoc.SerializeObject();
         }
+
+        [GeneratedRegex("^([0-9]{11})$")]
+        private static partial Regex PhoneNumberRegex();
+
+        public static bool IsPhoneNumber(this string number) => PhoneNumberRegex().Match(number).Success;
+
+        [GeneratedRegex(@"^\d{3}\d{5}$")]
+        private static partial Regex MotorcyclePlateRegex();
+
+        public static bool IsMotorcyclePlate(this string plate) => MotorcyclePlateRegex().Match(plate).Success;
+        
+        [GeneratedRegex(@"^\d{2}[\u0600-\u06FF]\d{3}\d{2}$")]
+        private static partial Regex GeneralPlateRegex();
+
+        public static bool IsGeneralPlate(this string plate) => GeneralPlateRegex().Match(plate).Success;
     }
 }

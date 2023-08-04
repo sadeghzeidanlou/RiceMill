@@ -1,8 +1,9 @@
-﻿using RiceMill.Domain.Models.BaseModels;
+﻿using RiceMill.Application.UseCases.BaseDto;
+using RiceMill.Domain.Models.BaseModels;
 
 namespace RiceMill.Application.UseCases.VillageServices.Dto
 {
-    public class DtoVillage : EventBaseModelWithUserAndRiceMill
+    public class DtoVillage : DtoEventBaseWithUserAndRiceMill
     {
         public string Title { get; set; }
 

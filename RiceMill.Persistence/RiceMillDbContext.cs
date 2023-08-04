@@ -71,53 +71,24 @@ namespace RiceMill.Persistence
 
         public object GetAllData(EntityTypeEnum entityType)
         {
-            switch (entityType)
+            return entityType switch
             {
-                case EntityTypeEnum.Concerns:
-                    return Concerns.AsNoTracking().ToList();
-
-                case EntityTypeEnum.Deliveries:
-                    return Deliveries.AsNoTracking().ToList();
-
-                case EntityTypeEnum.DryerHistories:
-                    return DryerHistories.AsNoTracking().ToList();
-
-                case EntityTypeEnum.Dryers:
-                    return Dryers.AsNoTracking().ToList();
-
-                case EntityTypeEnum.Incomes:
-                    return Incomes.AsNoTracking().ToList();
-
-                case EntityTypeEnum.InputLoads:
-                    return InputLoads.AsNoTracking().ToList();
-
-                case EntityTypeEnum.Payments:
-                    return Payments.AsNoTracking().ToList();
-
-                case EntityTypeEnum.People:
-                    return People.AsNoTracking().ToList();
-
-                case EntityTypeEnum.RiceMills:
-                    return RiceMills.AsNoTracking().ToList();
-
-                case EntityTypeEnum.RiceThreshings:
-                    return RiceThreshings.AsNoTracking().ToList();
-
-                case EntityTypeEnum.UserActivities:
-                    return UserActivities.AsNoTracking().ToList();
-
-                case EntityTypeEnum.Users:
-                    return Users.AsNoTracking().ToList();
-
-                case EntityTypeEnum.Vehicles:
-                    return Vehicles.AsNoTracking().ToList();
-
-                case EntityTypeEnum.Villages:
-                    return Villages.AsNoTracking().ToList();
-
-                default:
-                    throw new ArgumentOutOfRangeException($"{entityType}", "Entity type is not valid");
-            }
+                EntityTypeEnum.Concerns => Concerns.AsNoTracking().ToList(),
+                EntityTypeEnum.Deliveries => Deliveries.AsNoTracking().ToList(),
+                EntityTypeEnum.DryerHistories => DryerHistories.AsNoTracking().ToList(),
+                EntityTypeEnum.Dryers => Dryers.AsNoTracking().ToList(),
+                EntityTypeEnum.Incomes => Incomes.AsNoTracking().ToList(),
+                EntityTypeEnum.InputLoads => InputLoads.AsNoTracking().ToList(),
+                EntityTypeEnum.Payments => Payments.AsNoTracking().ToList(),
+                EntityTypeEnum.People => People.AsNoTracking().ToList(),
+                EntityTypeEnum.RiceMills => RiceMills.AsNoTracking().ToList(),
+                EntityTypeEnum.RiceThreshings => RiceThreshings.AsNoTracking().ToList(),
+                EntityTypeEnum.UserActivities => UserActivities.AsNoTracking().ToList(),
+                EntityTypeEnum.Users => Users.AsNoTracking().ToList(),
+                EntityTypeEnum.Vehicles => Vehicles.AsNoTracking().ToList(),
+                EntityTypeEnum.Villages => Villages.AsNoTracking().ToList(),
+                _ => throw new ArgumentOutOfRangeException($"{entityType}", "Entity type is not valid"),
+            };
         }
 
         public override int SaveChanges()

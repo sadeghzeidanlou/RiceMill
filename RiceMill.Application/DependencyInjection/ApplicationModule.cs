@@ -1,9 +1,12 @@
 ﻿using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using RiceMill.Application.UseCases.ConcernServices;
+using RiceMill.Application.UseCases.PersonServices;
 using RiceMill.Application.UseCases.RiceMillServices;
 using RiceMill.Application.UseCases.UserActivityServices;
 using RiceMill.Application.UseCases.UserServices;
+using RiceMill.Application.UseCases.VehicleServices;
+using RiceMill.Application.UseCases.VillageServices;
 using System.Reflection;
 
 namespace RiceMill.Application.DependencyInjection
@@ -28,6 +31,15 @@ namespace RiceMill.Application.DependencyInjection
 
             services.AddTransient<IUserActivityQueries, UserActivityQueries>();
             services.AddTransient<IUserActivityCommands, UserActivityCommands>();
+
+            services.AddTransient<IVillageQueries, VillageQueries>();
+            services.AddTransient<IVillageCommands, VillageCommands>();
+
+            services.AddTransient<IVehicleQueries, VehicleQueries>();
+            services.AddTransient<IVehicleCommands, VehicleCommands>();
+
+            services.AddTransient<IPersonQueries, PersonQueries>();
+            services.AddTransient<IPersonCommands, PersonCommands>();
 
             AddMapsTerConfig();
 

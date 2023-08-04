@@ -5,8 +5,6 @@ namespace RiceMill.Application.UseCases.VehicleServices.Dto
 {
     public class DtoVehicle : DtoEventBaseWithUserAndRiceMill
     {
-        public string Title { get; set; }
-
         public string Plate { get; set; }
 
         public string Description { get; set; }

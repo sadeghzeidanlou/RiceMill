@@ -14,7 +14,7 @@
 
         #endregion
 
-        #region Concern 500 To 599
+        #region Concern 500 To 549
 
         ConcernNotFound = 500,
         ConcernIdIsNotValid,
@@ -25,9 +25,9 @@
 
         #endregion
 
-        #region User 600 To 699
+        #region User 550 To 599
 
-        UserNotFound = 600,
+        UserNotFound = 550,
         UserIdIsNotValid,
         UserUsernameIsNotValid,
         UserUsernameLengthIsNotValid,
@@ -39,9 +39,9 @@
 
         #endregion
 
-        #region RiceMill 700 To 799
+        #region RiceMill 600 To 649
 
-        RiceMillNotFound = 700,
+        RiceMillNotFound = 600,
         RiceMillIdIsNotValid,
         RiceMillTitleIsNotValid,
         RiceMillTitleLengthIsNotValid,
@@ -57,9 +57,9 @@
 
         #endregion
 
-        #region UserActivity 800 To 899
+        #region UserActivity 650 To 699
 
-        UserActivityUserIdIsNotValid = 800,
+        UserActivityUserIdIsNotValid = 650,
         UserActivityIpIsNotValid,
         UserActivityUserActivityTypeIsNotValid,
         UserActivityEntityTypeIsNotValid,
@@ -69,6 +69,53 @@
         UserActivityRiceMillIdIsNotValid,
 
         #endregion
+
+        #region Vehicle 700 To 749
+
+        VehicleNotFound = 700,
+        VehicleIdIsNotValid,
+        VehiclePlateIsNotValid,
+        VehiclePlateMaximumLengthIsNotValid,
+        VehiclePlateMinimumLengthIsNotValid,
+        VehicleDescriptionLengthIsNotValid,
+        VehicleVehicleTypeIsNotValid,
+        VehicleOwnerPersonIdIsNotValid,
+        VehicleRiceMillIdIsNotValid,
+
+        #endregion
+
+        #region Village 750 To 799
+
+        VillageNotFound = 750,
+        VillageIdIsNotValid,
+        VillageTitleIsNotValid,
+        VillageTitleLengthIsNotValid,
+        VillageUserIdIsNotValid,
+        VillageRiceMillIdIsNotValid,
+
+        #endregion
+
+        #region Person 800 To 849
+
+        PersonNotFound = 800,
+        PersonIdIsNotValid,
+        PersonNameIsNotValid,
+        PersonNameLengthIsNotValid,
+        PersonFamilyIsNotValid,
+        PersonFamilyLengthIsNotValid,
+        PersonGenderIsNotValid,
+        PersonMobileNumberIsNotValid,
+        PersonMobileNumberLengthIsNotValid,
+        PersonHomeNumberIsNotValid,
+        PersonHomeNumberLengthIsNotValid,
+        PersonAddressIsNotValid,
+        PersonAddressLengthIsNotValid,
+        PersonFatherNameIsNotValid,
+        PersonFatherNameLengthIsNotValid,
+        PersonRiceMillIdIsNotValid,
+
+        #endregion
+
     }
 
     public static class ErrorDictionary
@@ -140,6 +187,52 @@
                 {ResultStatusEnum.UserActivityBeforeEditIsNotValid, "اطلاعات قبل از تغییر معتبر نمی باشد" },
                 {ResultStatusEnum.UserActivityAfterEditIsNotValid, "اطلاعات بعد از تغییر معتبر نمی باشد" },
                 {ResultStatusEnum.UserActivityRiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
+
+                #endregion
+
+                #region Vehicle
+
+                {ResultStatusEnum.VehicleNotFound, "وسیله نقلیه یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.VehicleIdIsNotValid, "شناسه وسیله نقلیه معتبر نمی باشد" },
+                {ResultStatusEnum.VehiclePlateIsNotValid, "پلاک وسیله نقلیه معتبر نمی باشد" },
+                {ResultStatusEnum.VehiclePlateMaximumLengthIsNotValid, "طول پلاک وسیله نقلیه بیش از حد مجاز است" },
+                {ResultStatusEnum.VehiclePlateMinimumLengthIsNotValid, "طول پلاک وسیله نقلیه کمتر از حد مجاز است" },
+                {ResultStatusEnum.VehicleDescriptionLengthIsNotValid, "طول توضیحات وسیله نقلیه بیش از حد مجاز است" },
+                {ResultStatusEnum.VehicleVehicleTypeIsNotValid, "نوع وسیله نقلیه معتبر نمی باشد" },
+                {ResultStatusEnum.VehicleOwnerPersonIdIsNotValid, "شناسه صاحب وسیله نقلیه معتبر نمی باشد" },
+                {ResultStatusEnum.VehicleRiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
+
+                #endregion
+
+                #region Village
+                
+                {ResultStatusEnum.VillageNotFound, "مبدا یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.VillageIdIsNotValid, "شناسه مبدا معتبر نمی باشد" },
+                {ResultStatusEnum.VillageTitleIsNotValid, "عنوان مبدا معتبر نمی باشد" },
+                {ResultStatusEnum.VillageTitleLengthIsNotValid, "طول عنوان مبدا بیش از حد مجاز است" },
+                {ResultStatusEnum.VillageUserIdIsNotValid, "شناسه کاربر برای این مبدا معتبر نمی باشد" },
+                {ResultStatusEnum.VillageRiceMillIdIsNotValid, "شناسه کارخانه برای این مبدا معتبر نمی باشد" },
+
+                #endregion
+
+                #region Person
+
+                {ResultStatusEnum.PersonNotFound, "فرد یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.PersonIdIsNotValid, "شناسه فرد معتبر نمی باشد" },
+                {ResultStatusEnum.PersonNameIsNotValid, "نام فرد معتبر نمی باشد" },
+                {ResultStatusEnum.PersonNameLengthIsNotValid, "طول نام فرد بیش از حد مجاز است" },
+                {ResultStatusEnum.PersonFamilyIsNotValid, "نام خانوادگی فرد معتبر نمی باشد" },
+                {ResultStatusEnum.PersonFamilyLengthIsNotValid, "طول نام خانوادگی فرد بیش از حد مجاز است" },
+                {ResultStatusEnum.PersonGenderIsNotValid, "جنسیت فرد معتبر نمی باشد" },
+                {ResultStatusEnum.PersonMobileNumberIsNotValid, "شماره موبایل فرد معتبر نمی باشد" },
+                {ResultStatusEnum.PersonMobileNumberLengthIsNotValid, "طول شماره موبایل فرد بیش از حد مجاز است" },
+                {ResultStatusEnum.PersonHomeNumberIsNotValid, "شماره منزل فرد معتبر نمی باشد" },
+                {ResultStatusEnum.PersonHomeNumberLengthIsNotValid, "طول شماره منزل فرد بیش از حد مجاز است" },
+                {ResultStatusEnum.PersonAddressIsNotValid, "آدرس فرد معتبر نمی باشد" },
+                {ResultStatusEnum.PersonAddressLengthIsNotValid, "طول آدرس فرد بیش از حد مجاز است" },
+                {ResultStatusEnum.PersonFatherNameIsNotValid, "نام پدر فرد معتبر نمی باشد" },
+                {ResultStatusEnum.PersonFatherNameLengthIsNotValid, "طول نام پدر فرد بیش از حد مجاز است" },
+                {ResultStatusEnum.PersonRiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
 
                 #endregion
             };

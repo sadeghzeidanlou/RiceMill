@@ -9,11 +9,6 @@ namespace RiceMill.Domain.Models
     public sealed class Vehicle : EventBaseModelWithUserAndRiceMill
     {
         /// <summary>
-        /// Title of <see cref="Vehicle"/>
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
         /// Plate of <see cref="Vehicle"/>
         /// </summary>
         public string Plate { get; set; }

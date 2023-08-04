@@ -36,9 +36,6 @@ namespace RiceMill.Persistence.Configurations
                 .HasMaxLength(3000)
                 .IsUnicode();
 
-            builder.Property(u => u.RiceMillId)
-                .IsRequired(false);
-
             builder.Property(ua => ua.IsDeleted)
                 .IsRequired();
 

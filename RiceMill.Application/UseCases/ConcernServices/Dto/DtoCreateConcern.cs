@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using RiceMill.Application.Common.Models.Enums;
-using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.ConcernServices.Dto
 {
@@ -15,7 +14,7 @@ namespace RiceMill.Application.UseCases.ConcernServices.Dto
                 .MaximumLength(50).WithErrorCode(ResultStatusEnum.ConcernTitleLengthIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)
-                .Must((id) => id.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.ConcernRiceMillIdIsNotValid.ToString());
+                .NotEmpty().WithErrorCode(ResultStatusEnum.ConcernRiceMillIdIsNotValid.ToString());
         }
     }
 }
