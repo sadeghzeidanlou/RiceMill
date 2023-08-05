@@ -116,6 +116,17 @@
 
         #endregion
 
+        #region Concern 850 To 899
+
+        DryerNotFound = 850,
+        DryerIdIsNotValid,
+        DryerTitleIsNotValid,
+        DryerTitleLengthIsNotValid,
+        DryerUserIdIsNotValid,
+        DryerRiceMillIdIsNotValid,
+
+        #endregion
+
     }
 
     public static class ErrorDictionary
@@ -233,6 +244,17 @@
                 {ResultStatusEnum.PersonFatherNameIsNotValid, "نام پدر فرد معتبر نمی باشد" },
                 {ResultStatusEnum.PersonFatherNameLengthIsNotValid, "طول نام پدر فرد بیش از حد مجاز است" },
                 {ResultStatusEnum.PersonRiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
+
+                #endregion
+
+                 #region Concern
+                
+                {ResultStatusEnum.DryerNotFound, "خشک کن یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.DryerIdIsNotValid, "شناسه خشک کن معتبر نمی باشد" },
+                {ResultStatusEnum.DryerTitleIsNotValid, "عنوان خشک کن معتبر نمی باشد" },
+                {ResultStatusEnum.DryerTitleLengthIsNotValid, "طول عنوان خشک کن بیش از حد مجاز است" },
+                {ResultStatusEnum.DryerUserIdIsNotValid, "شناسه کاربر برای این خشک کن معتبر نمی باشد" },
+                {ResultStatusEnum.DryerRiceMillIdIsNotValid, "شناسه کارخانه برای این خشک کن معتبر نمی باشد" },
 
                 #endregion
             };

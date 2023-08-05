@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
@@ -21,6 +22,7 @@ namespace RiceMill.Api.Middleware
             response.Body = newBody;
             try
             {
+                context.Response.ContentType = ContentType.ApplicationJson.ToString();
                 await _next(context);
             }
             catch (DbUpdateException dbEx)

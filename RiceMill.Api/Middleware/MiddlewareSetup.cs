@@ -14,6 +14,7 @@ namespace RiceMill.Api.Middleware
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseHttpsRedirection();
             app.UseAuthorization();
+            app.UseMiddleware<HttpStatusMiddleware>();
             app.UseMiddleware<ExecutionTimeMiddleware>();
             app.MapControllers();
         }

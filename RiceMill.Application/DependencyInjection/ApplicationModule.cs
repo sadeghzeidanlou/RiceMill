@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using RiceMill.Application.UseCases.ConcernServices;
+using RiceMill.Application.UseCases.DryerServices;
 using RiceMill.Application.UseCases.PersonServices;
 using RiceMill.Application.UseCases.RiceMillServices;
 using RiceMill.Application.UseCases.UserActivityServices;
@@ -40,6 +41,9 @@ namespace RiceMill.Application.DependencyInjection
 
             services.AddTransient<IPersonQueries, PersonQueries>();
             services.AddTransient<IPersonCommands, PersonCommands>();
+
+            services.AddTransient<IDryerQueries, DryerQueries>();
+            services.AddTransient<IDryerCommands, DryerCommands>();
 
             AddMapsTerConfig();
 
