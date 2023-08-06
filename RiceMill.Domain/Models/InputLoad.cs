@@ -1,5 +1,4 @@
 ﻿using RiceMill.Domain.Models.BaseModels;
-using Shared.Enums;
 
 namespace RiceMill.Domain.Models
 {
@@ -27,11 +26,6 @@ namespace RiceMill.Domain.Models
         /// Time of Receive this <see cref="InputLoad"/>
         /// </summary>
         public DateTime ReceiveTime { get; set; }
-
-        /// <summary>
-        /// Determine how notice <see cref="NoticesTypeEnum"/> to customer about this <see cref="InputLoad"/>
-        /// </summary>
-        public NoticesTypeEnum NoticesType { get; set; }
 
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Vehicle"/> that carrier used for transfer this <see cref="Delivery"/>

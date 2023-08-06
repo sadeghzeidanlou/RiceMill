@@ -6,6 +6,11 @@
     public enum NoticesTypeEnum
     {
         /// <summary>
+        /// Don't need to notice
+        /// </summary>
+        None,
+
+        /// <summary>
         /// Notice via <see cref="Email"/>
         /// </summary>
         Email,

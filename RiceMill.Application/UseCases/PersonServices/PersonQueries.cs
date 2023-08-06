@@ -35,34 +35,37 @@ namespace RiceMill.Application.UseCases.PersonServices
         {
             var people = _cacheService.Get<List<Person>>(EntityTypeEnum.People).AsQueryable();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return people.Where(v => false);
+                return people.Where(p => false);
 
             if (filter.Id.IsNotNullOrEmpty())
-                people = people.Where(v => v.Id.Equals(filter.Id));
+                people = people.Where(p => p.Id.Equals(filter.Id));
 
             if (filter.RiceMillId.IsNotNullOrEmpty())
-                people = people.Where(v => v.RiceMillId.Equals(filter.RiceMillId));
+                people = people.Where(p => p.RiceMillId.Equals(filter.RiceMillId));
 
             if (filter.Name.IsNotNullOrEmpty())
-                people = people.Where(v => v.Name.Contains(filter.Name));
+                people = people.Where(p => p.Name.Contains(filter.Name));
 
             if (filter.Family.IsNotNullOrEmpty())
-                people = people.Where(v => v.Family.Contains(filter.Family));
+                people = people.Where(p => p.Family.Contains(filter.Family));
 
             if (filter.Gender.HasValue)
-                people = people.Where(v => v.Gender.Equals(filter.Gender.Value));
+                people = people.Where(p => p.Gender.Equals(filter.Gender.Value));
 
             if (filter.MobileNumber.IsNotNullOrEmpty())
-                people = people.Where(v => v.MobileNumber.Contains(filter.MobileNumber));
+                people = people.Where(p => p.MobileNumber.Contains(filter.MobileNumber));
 
             if (filter.HomeNumber.IsNotNullOrEmpty())
-                people = people.Where(v => v.HomeNumber.Contains(filter.HomeNumber));
+                people = people.Where(p => p.HomeNumber.Contains(filter.HomeNumber));
+
+            if (filter.NoticesType.HasValue)
+                people = people.Where(p => p.NoticesType.Equals(filter.NoticesType.Value));
 
             if (filter.Address.IsNotNullOrEmpty())
-                people = people.Where(v => v.Address.Contains(filter.Address));
+                people = people.Where(p => p.Address.Contains(filter.Address));
 
             if (filter.FatherName.IsNotNullOrEmpty())
-                people = people.Where(v => v.FatherName.Contains(filter.FatherName));
+                people = people.Where(p => p.FatherName.Contains(filter.FatherName));
 
             return people;
         }

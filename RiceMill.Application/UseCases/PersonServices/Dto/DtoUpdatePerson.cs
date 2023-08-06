@@ -5,7 +5,7 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.PersonServices.Dto
 {
-    public record DtoUpdatePerson(Guid Id, string Name, string Family, GenderEnum Gender, string MobileNumber, string HomeNumber, string Address, string FatherName);
+    public record DtoUpdatePerson(Guid Id, string Name, string Family, GenderEnum Gender, string MobileNumber, string HomeNumber, NoticesTypeEnum NoticesType, string Address, string FatherName);
 
     public class DtoUpdatePersonValidator : AbstractValidator<DtoUpdatePerson>
     {
@@ -33,6 +33,9 @@ namespace RiceMill.Application.UseCases.PersonServices.Dto
             RuleFor(dto => dto.HomeNumber)
                 .Must((hn) => hn.IsNullOrEmpty() || hn.IsNotNullOrEmpty() && hn.IsPhoneNumber()).WithErrorCode(ResultStatusEnum.PersonHomeNumberIsNotValid.ToString())
                 .MaximumLength(11).WithErrorCode(ResultStatusEnum.PersonHomeNumberLengthIsNotValid.ToString());
+
+            RuleFor(dto => dto.NoticesType)
+             .IsInEnum().WithErrorCode(ResultStatusEnum.PersonNoticesTypeIsNotValid.ToString());
 
             RuleFor(dto => dto.Address)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.PersonAddressIsNotValid.ToString())

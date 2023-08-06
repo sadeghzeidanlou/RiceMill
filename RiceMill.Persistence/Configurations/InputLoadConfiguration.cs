@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RiceMill.Domain.Models;
-using Shared.Enums;
 
 namespace RiceMill.Persistence.Configurations
 {
@@ -23,10 +22,6 @@ namespace RiceMill.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(il => il.ReceiveTime)
-                .IsRequired();
-
-            builder.Property(il => il.NoticesType)
-                .HasConversion(n => (byte)n, n => (NoticesTypeEnum)n)
                 .IsRequired();
 
             builder.Property(il => il.IsDeleted)

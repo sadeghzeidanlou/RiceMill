@@ -15,6 +15,8 @@ namespace RiceMill.Application.UseCases.PersonServices.Dto
 
         public string HomeNumber { get; set; }
 
+        public NoticesTypeEnum NoticesType { get; set; }
+
         public string Address { get; set; }
 
         public string FatherName { get; set; }

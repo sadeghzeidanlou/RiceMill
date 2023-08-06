@@ -35,6 +35,10 @@ namespace RiceMill.Persistence.Configurations
                 .IsFixedLength()
                 .HasMaxLength(11);
 
+            builder.Property(p => p.NoticesType)
+               .HasConversion(n => (byte)n, n => (NoticesTypeEnum)n)
+               .IsRequired();
+
             builder.Property(p => p.Address)
                 .IsUnicode()
                 .HasMaxLength(200)

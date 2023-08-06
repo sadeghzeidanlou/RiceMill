@@ -34,6 +34,11 @@ namespace RiceMill.Domain.Models
         public string HomeNumber { get; set; }
 
         /// <summary>
+        /// Determine how notice <see cref="NoticesTypeEnum"/> to person about all operation that operate on person/>
+        /// </summary>
+        public NoticesTypeEnum NoticesType { get; set; }
+
+        /// <summary>
         /// Address of <see cref="Person"/>
         /// </summary>
         public string Address { get; set; }

@@ -1,5 +1,5 @@
-﻿using RiceMill.Application.Common.Models.ResultObject;
-using Shared.ExtensionMethods;
+﻿using System.Net;
+using System.Text.Json;
 
 namespace RiceMill.Api.Middleware
 {
@@ -7,32 +7,22 @@ namespace RiceMill.Api.Middleware
     {
         private readonly RequestDelegate _next;
 
-        public HttpStatusMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
+        public HttpStatusMiddleware(RequestDelegate next) => _next = next;
 
         public async Task Invoke(HttpContext context)
         {
-            // Replace the original response stream with a custom stream
             var originalBodyStream = context.Response.Body;
             var responseBodyStream = new MemoryStream();
             context.Response.Body = responseBodyStream;
 
-            // Continue with the request pipeline
             await _next(context);
 
-            // Get the response body from the custom stream
             responseBodyStream.Seek(0, SeekOrigin.Begin);
             var responseBody = await new StreamReader(responseBodyStream).ReadToEndAsync();
+            var result = JsonSerializer.Deserialize<JsonElement>(responseBody, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            if (result.TryGetProperty("httpStatusCode", out var httpStatusCodeElement) && Enum.TryParse<HttpStatusCode>(httpStatusCodeElement.GetRawText(), out var httpStatusCode))
+                context.Response.StatusCode = (int)httpStatusCode;
 
-            // Deserialize the response body into a Result<T> object
-            var result = responseBody.DeserializeObject<Result<object>>();
-
-            // Set the HTTP status code based on the HttpStatusCode property of the Result<T> object
-            context.Response.StatusCode = (int)result.HttpStatusCode;
-
-            // Write the response body back to the original response stream
             responseBodyStream.Seek(0, SeekOrigin.Begin);
             await responseBodyStream.CopyToAsync(originalBodyStream);
             context.Response.Body = originalBodyStream;
