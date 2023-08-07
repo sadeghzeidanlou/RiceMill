@@ -3,6 +3,7 @@ using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.PaymentServices.Dto;
 using RiceMill.Application.UseCases.VillageServices.Dto;
 using RiceMill.Domain.Models;
+using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.PaymentServices
 {
