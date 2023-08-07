@@ -60,7 +60,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="InputLoad"/> that paid to this <see cref="Payment"/>
         /// </summary>
-        public Guid InputLoadId { get; set; }
+        public Guid? InputLoadId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="InputLoad"/> detail in this class that paid to this <see cref="Payment"/>

@@ -39,6 +39,9 @@ namespace RiceMill.Persistence.Configurations
             builder.Property(p => p.UpdateTime)
                 .IsRequired();
 
+            builder.Property(p => p.InputLoadId)
+                .IsRequired(false);
+
             builder
                 .HasQueryFilter(p => !p.IsDeleted);
 

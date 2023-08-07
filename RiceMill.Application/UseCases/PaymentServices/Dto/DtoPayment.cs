@@ -26,7 +26,7 @@ namespace RiceMill.Application.UseCases.PaymentServices.Dto
         //[SwaggerExclude]
         //public DtoConcern Concern { get; set; }
 
-        public Guid InputLoadId { get; set; }
+        public Guid? InputLoadId { get; set; }
 
         //[SwaggerExclude]
         //public DtoInputLoad InputLoad { get; set; }
