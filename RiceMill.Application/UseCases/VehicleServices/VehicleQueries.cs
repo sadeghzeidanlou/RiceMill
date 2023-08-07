@@ -2,7 +2,6 @@
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.VehicleServices.Dto;
 using RiceMill.Domain.Models;
-using Shared.Enums;
 using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.VehicleServices
@@ -33,7 +32,7 @@ namespace RiceMill.Application.UseCases.VehicleServices
 
         private IQueryable<Vehicle> GetFilter(DtoVehicleFilter filter)
         {
-            var vehicles = _cacheService.Get<List<Vehicle>>(EntityTypeEnum.Vehicles).AsQueryable();
+            var vehicles = _cacheService.GetVehicles();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return vehicles.Where(v => false);
 

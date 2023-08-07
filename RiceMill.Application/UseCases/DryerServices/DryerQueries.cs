@@ -2,7 +2,6 @@
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.DryerServices.Dto;
 using RiceMill.Domain.Models;
-using Shared.Enums;
 using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.DryerServices
@@ -33,7 +32,7 @@ namespace RiceMill.Application.UseCases.DryerServices
 
         private IQueryable<Dryer> GetFilter(DtoDryerFilter filter)
         {
-            var dryers = _cacheService.Get<List<Dryer>>(EntityTypeEnum.Dryers).AsQueryable();
+            var dryers = _cacheService.GetDryers();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return dryers.Where(c => false);
 

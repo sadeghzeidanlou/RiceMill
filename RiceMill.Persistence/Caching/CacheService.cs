@@ -17,7 +17,33 @@ namespace RiceMill.Persistence.Caching
             _scopeFactory = scopeFactory;
         }
 
-        public T Get<T>(EntityTypeEnum key) => _cache.Get<T>(key.ToString());
+        public IQueryable<Concern> GetConcerns() => Get<List<Concern>>(EntityTypeEnum.Concerns).AsQueryable();
+
+        public IQueryable<Delivery> GetDeliveries() => Get<List<Delivery>>(EntityTypeEnum.Deliveries).AsQueryable();
+
+        public IQueryable<DryerHistory> GetDryerHistories() => Get<List<DryerHistory>>(EntityTypeEnum.DryerHistories).AsQueryable();
+
+        public IQueryable<Dryer> GetDryers() => Get<List<Dryer>>(EntityTypeEnum.Dryers).AsQueryable();
+
+        public IQueryable<Income> GetIncomes() => Get<List<Income>>(EntityTypeEnum.Incomes).AsQueryable();
+
+        public IQueryable<InputLoad> GetInputLoads() => Get<List<InputLoad>>(EntityTypeEnum.InputLoads).AsQueryable();
+
+        public IQueryable<Payment> GetPayments() => Get<List<Payment>>(EntityTypeEnum.Payments).AsQueryable();
+
+        public IQueryable<Person> GetPeople() => Get<List<Person>>(EntityTypeEnum.People).AsQueryable();
+
+        public IQueryable<Domain.Models.RiceMill> GetRiceMills() => Get<List<Domain.Models.RiceMill>>(EntityTypeEnum.RiceMills).AsQueryable();
+
+        public IQueryable<RiceThreshing> GetRiceThreshings() => Get<List<RiceThreshing>>(EntityTypeEnum.RiceThreshings).AsQueryable();
+
+        public IQueryable<UserActivity> GetUserActivities() => Get<List<UserActivity>>(EntityTypeEnum.UserActivities).AsQueryable();
+
+        public IQueryable<User> GetUsers() => Get<List<User>>(EntityTypeEnum.Users).AsQueryable();
+
+        public IQueryable<Vehicle> GetVehicles() => Get<List<Vehicle>>(EntityTypeEnum.Vehicles).AsQueryable();
+
+        public IQueryable<Village> GetVillages() => Get<List<Village>>(EntityTypeEnum.Villages).AsQueryable()   ;
 
         public void Set<T>(EntityTypeEnum key, T value) => _cache.Set(key.ToString(), value, DateTimeOffset.MaxValue);
 
@@ -119,5 +145,6 @@ namespace RiceMill.Persistence.Caching
 
             Set(cacheKey, cacheData);
         }
+        private T Get<T>(EntityTypeEnum key) => _cache.Get<T>(key.ToString());
     }
 }

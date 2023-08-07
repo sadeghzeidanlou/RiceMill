@@ -1,7 +1,6 @@
 ﻿using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.RiceMillServices.Dto;
-using Shared.Enums;
 using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.RiceMillServices
@@ -35,7 +34,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 
         private IQueryable<Domain.Models.RiceMill> GetFilter(DtoRiceMillFilter filter)
         {
-            var riceMilles = _cacheService.Get<List<Domain.Models.RiceMill>>(EntityTypeEnum.RiceMills).AsQueryable();
+            var riceMilles = _cacheService.GetRiceMills();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.Id.IsNullOrEmpty()))
                 return riceMilles.Where(rm => false);
 

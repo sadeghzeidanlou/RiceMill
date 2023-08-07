@@ -2,7 +2,6 @@
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.UserActivityServices.Dto;
 using RiceMill.Domain.Models;
-using Shared.Enums;
 using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.UserActivityServices
@@ -36,7 +35,7 @@ namespace RiceMill.Application.UseCases.UserActivityServices
 
         private IQueryable<UserActivity> GetFilter(DtoUserActivityFilter filter)
         {
-            var userActivities = _cacheService.Get<List<UserActivity>>(EntityTypeEnum.UserActivities).AsQueryable();
+            var userActivities = _cacheService.GetUserActivities();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return userActivities.Where(u => false);
 

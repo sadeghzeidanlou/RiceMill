@@ -2,7 +2,6 @@
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.VillageServices.Dto;
 using RiceMill.Domain.Models;
-using Shared.Enums;
 using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.VillageServices
@@ -33,7 +32,7 @@ namespace RiceMill.Application.UseCases.VillageServices
 
         private IQueryable<Village> GetFilter(DtoVillageFilter filter)
         {
-            var villages = _cacheService.Get<List<Village>>(EntityTypeEnum.Villages).AsQueryable();
+            var villages = _cacheService.GetVillages();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return villages.Where(c => false);
 

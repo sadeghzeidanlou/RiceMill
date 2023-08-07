@@ -2,7 +2,6 @@
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
 using RiceMill.Domain.Models;
-using Shared.Enums;
 using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.ConcernServices
@@ -33,7 +32,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
 
         private IQueryable<Concern> GetFilter(DtoConcernFilter filter)
         {
-            var concerns = _cacheService.Get<List<Concern>>(EntityTypeEnum.Concerns).AsQueryable();
+            var concerns = _cacheService.GetConcerns();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return concerns.Where(c => false);
 

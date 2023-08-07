@@ -2,7 +2,6 @@
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.PersonServices.Dto;
 using RiceMill.Domain.Models;
-using Shared.Enums;
 using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.PersonServices
@@ -33,7 +32,7 @@ namespace RiceMill.Application.UseCases.PersonServices
 
         private IQueryable<Person> GetFilter(DtoPersonFilter filter)
         {
-            var people = _cacheService.Get<List<Person>>(EntityTypeEnum.People).AsQueryable();
+            var people = _cacheService.GetPeople();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return people.Where(p => false);
 

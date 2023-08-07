@@ -23,7 +23,6 @@ namespace RiceMill.Application.UseCases.UserServices
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;
         private readonly IUserActivityCommands _userActivityCommands;
-        private readonly EntityTypeEnum _Key = EntityTypeEnum.Users;
 
         public UserQueries(ICacheService cacheService, ICurrentRequestService currentRequestService, IUserActivityCommands userActivityCommands)
         {
@@ -42,19 +41,19 @@ namespace RiceMill.Application.UseCases.UserServices
 
         public Result<DtoUser> Login(DtoLogin login)
         {
-            var user = _cacheService.Get<List<User>>(_Key).Where(u => 
+            var user = _cacheService.GetUsers().Where(u =>
             u.Username.Equals(login.UserName, StringComparison.InvariantCultureIgnoreCase) && u.Password.Equals(login.Password, StringComparison.InvariantCulture)).FirstOrDefault();
 
             if (user == null)
                 return Result<DtoUser>.Failure(new Error(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound);
 
-            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Login, _Key, string.Empty, string.Empty, null);
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Login, EntityTypeEnum.Users, string.Empty, string.Empty, null);
             return Result<DtoUser>.Success(user.Adapt<DtoUser>());
         }
 
         private IQueryable<User> GetFilter(DtoUserFilter filter)
         {
-            var users = _cacheService.Get<List<User>>(_Key).AsQueryable();
+            var users = _cacheService.GetUsers();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return users.Where(u => false);
 
