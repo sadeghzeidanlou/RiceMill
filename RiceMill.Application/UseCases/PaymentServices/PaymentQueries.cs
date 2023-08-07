@@ -1,23 +1,51 @@
 ﻿using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.PaymentServices.Dto;
+using RiceMill.Application.UseCases.VillageServices.Dto;
+using RiceMill.Domain.Models;
 
 namespace RiceMill.Application.UseCases.PaymentServices
 {
     public interface IPaymentQueries
     {
-        Result<PaginatedList<DtoPayment>> GetAll();
+        Result<PaginatedList<DtoPayment>> GetAll(DtoPaymentFilter filter);
     }
 
     public class PaymentQueries : IPaymentQueries
     {
-        private readonly IApplicationDbContext _applicationDbContext;
+        private readonly ICurrentRequestService _currentRequestService;
+        private readonly ICacheService _cacheService;
 
-        public PaymentQueries(IApplicationDbContext applicationDbContext) => _applicationDbContext = applicationDbContext;
-
-        public Result<PaginatedList<DtoPayment>> GetAll()
+        public PaymentQueries(ICurrentRequestService currentRequestService, ICacheService cacheService)
         {
-            throw new NotImplementedException();
+            _currentRequestService = currentRequestService;
+            _cacheService = cacheService;
+        }
+
+        public Result<PaginatedList<DtoVillage>> GetAll(DtoVillageFilter filter)
+        {
+            var villages = GetFilter(filter);
+            PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
+            var result = PaginatedList<DtoVillage>.Create(villages, pageNumber, pageSize);
+            return Result<PaginatedList<DtoVillage>>.Success(result);
+        }
+
+        private IQueryable<Village> GetFilter(DtoVillageFilter filter)
+        {
+            var villages = _cacheService.GetVillages();
+            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
+                return villages.Where(c => false);
+
+            if (filter.Id.IsNotNullOrEmpty())
+                villages = villages.Where(c => c.Id.Equals(filter.Id));
+
+            if (filter.RiceMillId.IsNotNullOrEmpty())
+                villages = villages.Where(c => c.RiceMillId.Equals(filter.RiceMillId));
+
+            if (filter.Title.IsNotNullOrEmpty())
+                villages = villages.Where(c => c.Title.Contains(filter.Title));
+
+            return villages;
         }
     }
 }

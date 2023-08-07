@@ -117,7 +117,7 @@
 
         #endregion
 
-        #region Concern 850 To 899
+        #region Dryer 850 To 899
 
         DryerNotFound = 850,
         DryerIdIsNotValid,
@@ -128,6 +128,22 @@
 
         #endregion
 
+        #region Payment 900 To 949
+
+        PaymentNotFound = 900,
+        PaymentIdIsNotValid,
+        PaymentPaymentTimeIsNotValid,
+        PaymentUnbrokenRiceIsNotValid,
+        PaymentBrokenRiceIsNotValid,
+        PaymentFlourIsNotValid,
+        PaymentMoneyIsNotValid,
+        PaymentDescriptionLengthIsNotValid,
+        PaymentPaidPersonIdIsNotValid,
+        PaymentConcernIdIsNotValid,
+        PaymentInputLoadIdIsNotValid,
+        PaymentRiceMillIdIsNotValid,
+
+        #endregion
     }
 
     public static class ErrorDictionary
@@ -152,8 +168,8 @@
                 {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل معتبر نمی باشد" },
                 {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل معتبر نمی باشد" },
                 {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل بیش از حد مجاز است" },
-                {ResultStatusEnum.ConcernUserIdIsNotValid, "شناسه کاربر برای این دلیل معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernRiceMillIdIsNotValid, "شناسه کارخانه برای این دلیل معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernUserIdIsNotValid, "شناسه کاربر برای دلیل معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernRiceMillIdIsNotValid, "شناسه کارخانه برای دلیل معتبر نمی باشد" },
 
                 #endregion
 
@@ -165,9 +181,8 @@
                 {ResultStatusEnum.UserUsernameLengthIsNotValid, "طول نام کاربری کاربر بیش از حد مجاز است" },
                 {ResultStatusEnum.UserPasswordIsNotValid, "رمز عبور کاربر معتبر نمی باشد" },
                 {ResultStatusEnum.UserRoleIsNotValid, "نقش کاربر معتبر نمی باشد" },
-                {ResultStatusEnum.UserUserPersonIdIsNotValid, "شناسه فردی کاربر معتبر نمی باشد" },
-                {ResultStatusEnum.UserParentUserIdIsNotValid, "شناسه کاربری ایجاد کننده کاربر معتبر نمی باشد" },
-                {ResultStatusEnum.UserRiceMillIdIsNotValid, "شناسه کارخانه کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserUserPersonIdIsNotValid, "شناسه فردی برای کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserRiceMillIdIsNotValid, "شناسه کارخانه برای کاربر معتبر نمی باشد" },
 
                 #endregion
 
@@ -189,16 +204,16 @@
 
                 #endregion
 
-                #region User
+                #region UserActivity
 
-                {ResultStatusEnum.UserActivityUserIdIsNotValid, "شناسه کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserActivityUserIdIsNotValid, "شناسه کاربر برای فعالیت کاربر معتبر نمی باشد" },
                 {ResultStatusEnum.UserActivityIpIsNotValid, "آی پی کاربر معتبر نمی باشد" },
                 {ResultStatusEnum.UserActivityUserActivityTypeIsNotValid, "نوع فعالیت کاربر معتبر نمی باشد" },
                 {ResultStatusEnum.UserActivityEntityTypeIsNotValid, "نوع آبجکت معتبر نمی باشد" },
                 {ResultStatusEnum.UserActivityApplicationIdIsNotValid, "برنامه استفاده شده معتبر نمی باشد" },
                 {ResultStatusEnum.UserActivityBeforeEditIsNotValid, "اطلاعات قبل از تغییر معتبر نمی باشد" },
                 {ResultStatusEnum.UserActivityAfterEditIsNotValid, "اطلاعات بعد از تغییر معتبر نمی باشد" },
-                {ResultStatusEnum.UserActivityRiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
+                {ResultStatusEnum.UserActivityRiceMillIdIsNotValid, "شناسه کارخانه برای فعالیت کاربر معتبر نمی باشد" },
 
                 #endregion
 
@@ -212,7 +227,7 @@
                 {ResultStatusEnum.VehicleDescriptionLengthIsNotValid, "طول توضیحات وسیله نقلیه بیش از حد مجاز است" },
                 {ResultStatusEnum.VehicleVehicleTypeIsNotValid, "نوع وسیله نقلیه معتبر نمی باشد" },
                 {ResultStatusEnum.VehicleOwnerPersonIdIsNotValid, "شناسه صاحب وسیله نقلیه معتبر نمی باشد" },
-                {ResultStatusEnum.VehicleRiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
+                {ResultStatusEnum.VehicleRiceMillIdIsNotValid, "شناسه کارخانه برای وسیله نقلیه معتبر نمی باشد" },
 
                 #endregion
 
@@ -222,8 +237,8 @@
                 {ResultStatusEnum.VillageIdIsNotValid, "شناسه مبدا معتبر نمی باشد" },
                 {ResultStatusEnum.VillageTitleIsNotValid, "عنوان مبدا معتبر نمی باشد" },
                 {ResultStatusEnum.VillageTitleLengthIsNotValid, "طول عنوان مبدا بیش از حد مجاز است" },
-                {ResultStatusEnum.VillageUserIdIsNotValid, "شناسه کاربر برای این مبدا معتبر نمی باشد" },
-                {ResultStatusEnum.VillageRiceMillIdIsNotValid, "شناسه کارخانه برای این مبدا معتبر نمی باشد" },
+                {ResultStatusEnum.VillageUserIdIsNotValid, "شناسه کاربر برای مبدا معتبر نمی باشد" },
+                {ResultStatusEnum.VillageRiceMillIdIsNotValid, "شناسه کارخانه برای مبدا معتبر نمی باشد" },
 
                 #endregion
 
@@ -245,18 +260,35 @@
                 {ResultStatusEnum.PersonAddressLengthIsNotValid, "طول آدرس فرد بیش از حد مجاز است" },
                 {ResultStatusEnum.PersonFatherNameIsNotValid, "نام پدر فرد معتبر نمی باشد" },
                 {ResultStatusEnum.PersonFatherNameLengthIsNotValid, "طول نام پدر فرد بیش از حد مجاز است" },
-                {ResultStatusEnum.PersonRiceMillIdIsNotValid, "شناسه کارخانه معتبر نمی باشد" },
+                {ResultStatusEnum.PersonRiceMillIdIsNotValid, "شناسه کارخانه برای فرد معتبر نمی باشد" },
 
                 #endregion
 
-                 #region Concern
+                #region Dryer
                 
                 {ResultStatusEnum.DryerNotFound, "خشک کن یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.DryerIdIsNotValid, "شناسه خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerTitleIsNotValid, "عنوان خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerTitleLengthIsNotValid, "طول عنوان خشک کن بیش از حد مجاز است" },
-                {ResultStatusEnum.DryerUserIdIsNotValid, "شناسه کاربر برای این خشک کن معتبر نمی باشد" },
-                {ResultStatusEnum.DryerRiceMillIdIsNotValid, "شناسه کارخانه برای این خشک کن معتبر نمی باشد" },
+                {ResultStatusEnum.DryerUserIdIsNotValid, "شناسه کاربر برای خشک کن معتبر نمی باشد" },
+                {ResultStatusEnum.DryerRiceMillIdIsNotValid, "شناسه کارخانه برای خشک کن معتبر نمی باشد" },
+
+                #endregion
+
+                #region Payment
+
+                {ResultStatusEnum.PaymentNotFound, "پرداخت یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.PaymentIdIsNotValid, "شناسه پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentPaymentTimeIsNotValid, "زمان پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentUnbrokenRiceIsNotValid, "مقدار برنج سالم برای پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentBrokenRiceIsNotValid, "مقدار برنج شکسته برای پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentFlourIsNotValid, "مقدار آرد برنج برای پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentMoneyIsNotValid, "مقدار پول برای پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentDescriptionLengthIsNotValid, "طول توضیحات پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentPaidPersonIdIsNotValid, "شناسه شخص دریافت کننده معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentConcernIdIsNotValid, "شناسه دلیل پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentInputLoadIdIsNotValid, "شناسه بار ورودی برای پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentRiceMillIdIsNotValid, "شناسه کارخانه برای پرداخت معتبر نمی باشد" },
 
                 #endregion
             };
