@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
 using RiceMill.Application.Common.Models.Enums;
-using RiceMill.Application.UseCases.BaseDto;
-using RiceMill.Application.UseCases.DryerServices.Dto;
 
 namespace RiceMill.Application.UseCases.PaymentServices.Dto
 {
@@ -10,9 +8,8 @@ namespace RiceMill.Application.UseCases.PaymentServices.Dto
     {
         public DtoCreatePaymentValidator()
         {
-            RuleFor(dto => dto.Title)
-                .NotEmpty().WithErrorCode(ResultStatusEnum.DryerTitleIsNotValid.ToString())
-                .MaximumLength(30).WithErrorCode(ResultStatusEnum.DryerTitleLengthIsNotValid.ToString());
+            RuleFor(dto => dto.PaymentTime)
+                .NotEmpty().WithErrorCode(ResultStatusEnum.DryerTitleIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.DryerRiceMillIdIsNotValid.ToString());
