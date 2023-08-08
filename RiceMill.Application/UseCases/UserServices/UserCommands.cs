@@ -45,7 +45,7 @@ namespace RiceMill.Application.UseCases.UserServices
             if (!validationResult.IsValid)
                 return Result<DtoUser>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var validateCreateUserResult = ValidateCreateUser(createUser);
+            var validateCreateUserResult = ValidateUser(createUser);
             if (validateCreateUserResult != null)
                 return validateCreateUserResult;
 
@@ -87,7 +87,7 @@ namespace RiceMill.Application.UseCases.UserServices
             if (user == null)
                 return Result<DtoUser>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
-            var validateCreateUserResult = ValidateCreateUser(updateUser.Adapt<DtoCreateUser>());
+            var validateCreateUserResult = ValidateUser(updateUser.Adapt<DtoCreateUser>());
             if (validateCreateUserResult != null)
                 return validateCreateUserResult;
 
@@ -99,7 +99,7 @@ namespace RiceMill.Application.UseCases.UserServices
             return Result<DtoUser>.Success(user.Adapt<DtoUser>());
         }
 
-        private Result<DtoUser> ValidateCreateUser(DtoCreateUser createUser)
+        private Result<DtoUser> ValidateUser(DtoCreateUser user)
         {
             var requestedUser = GetUserById(_currentRequestService.UserId);
             if (requestedUser == null)
@@ -107,15 +107,15 @@ namespace RiceMill.Application.UseCases.UserServices
 
             if (requestedUser.Role == RoleEnum.RiceMillManager)
             {
-                _ = createUser with { RiceMillId = requestedUser.RiceMillId };
+                _ = user with { RiceMillId = requestedUser.RiceMillId };
             }
             else
             {
-                if (createUser.Role != RoleEnum.Admin && createUser.RiceMillId.IsNullOrEmpty())
+                if (user.Role != RoleEnum.Admin && user.RiceMillId.IsNullOrEmpty())
                     return Result<DtoUser>.Failure(new Error(ResultStatusEnum.UserRiceMillIdIsNotValid), HttpStatusCode.BadRequest);
 
-                if (createUser.Role == RoleEnum.Admin)
-                    _ = createUser with { RiceMillId = null };
+                if (user.Role == RoleEnum.Admin)
+                    _ = user with { RiceMillId = null };
             }
             return null;
         }

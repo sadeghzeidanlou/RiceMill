@@ -6,17 +6,37 @@ namespace RiceMill.Application.UseCases.PaymentServices.Dto
     {
         public Guid? Id { get; set; }
         
+        public DateTime? PaymentTimeLower { get; set; }
+
         public DateTime? PaymentTime { get; set; }
-        
+
+        public DateTime? PaymentTimeGreater { get; set; }
+
         public string Description { get; set; }
+        
+        public float? UnbrokenRiceLower { get; set; }
         
         public float? UnbrokenRice { get; set; }
         
+        public float? UnbrokenRiceGreater { get; set; }
+        
+        public float? BrokenRiceLower { get; set; }
+        
         public float? BrokenRice { get; set; }
+        
+        public float? BrokenRiceGreater { get; set; }
+        
+        public float? FlourLower { get; set; }
         
         public float? Flour { get; set; }
         
+        public float? FlourGreater { get; set; }
+        
+        public int? MoneyLower { get; set; }
+        
         public int? Money { get; set; }
+        
+        public int? MoneyGreater { get; set; }
         
         public Guid? PaidPersonId { get; set; }
         

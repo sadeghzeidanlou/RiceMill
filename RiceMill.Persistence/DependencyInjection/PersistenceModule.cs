@@ -10,9 +10,8 @@ namespace RiceMill.Persistence.DependencyInjection
     {
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<RiceMillDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("RiceMill"), b => b.MigrationsAssembly(typeof(RiceMillDbContext).Assembly.FullName)),
-                ServiceLifetime.Transient);
+            services.AddDbContextPool<RiceMillDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("RiceMill"), b => b.MigrationsAssembly(typeof(RiceMillDbContext).Assembly.FullName)));
 
             services.AddScoped<IApplicationDbContext, RiceMillDbContext>();
             services.AddSingleton<ICacheService, CacheService>();
