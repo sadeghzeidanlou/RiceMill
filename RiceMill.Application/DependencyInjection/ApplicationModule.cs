@@ -47,7 +47,7 @@ namespace RiceMill.Application.DependencyInjection
             services.AddTransient<IDryerCommands, DryerCommands>();
 
             services.AddTransient<IPaymentQueries, PaymentQueries>();
-            services.AddTransient<IPaymentCommand, PaymentCommands>();
+            services.AddTransient<IPaymentCommands, PaymentCommands>();
 
             AddMapsTerConfig();
 
