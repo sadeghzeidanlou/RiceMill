@@ -14,7 +14,7 @@ namespace RiceMill.Application.UseCases.VillageServices.Dto
                 .MaximumLength(50).WithErrorCode(ResultStatusEnum.VillageTitleLengthIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)
-                .NotEmpty().WithErrorCode(ResultStatusEnum.VillageRiceMillIdIsNotValid.ToString());
+                .NotEmpty().WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
         }
     }
 }

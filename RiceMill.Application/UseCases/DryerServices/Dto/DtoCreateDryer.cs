@@ -14,7 +14,7 @@ namespace RiceMill.Application.UseCases.DryerServices.Dto
                 .MaximumLength(30).WithErrorCode(ResultStatusEnum.DryerTitleLengthIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)
-                .NotEmpty().WithErrorCode(ResultStatusEnum.DryerRiceMillIdIsNotValid.ToString());
+                .NotEmpty().WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
         }
     }
 }

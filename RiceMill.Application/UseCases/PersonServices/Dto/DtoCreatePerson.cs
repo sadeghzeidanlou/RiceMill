@@ -42,7 +42,7 @@ namespace RiceMill.Application.UseCases.PersonServices.Dto
                 .MaximumLength(20).WithErrorCode(ResultStatusEnum.PersonFatherNameLengthIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)
-                .Must((opi) => opi.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.PersonRiceMillIdIsNotValid.ToString());
+                .Must((opi) => opi.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
         }
     }
 }

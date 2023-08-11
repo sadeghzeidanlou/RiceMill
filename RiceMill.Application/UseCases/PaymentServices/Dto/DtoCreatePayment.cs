@@ -32,13 +32,13 @@ namespace RiceMill.Application.UseCases.PaymentServices.Dto
                 .NotEmpty().WithErrorCode(ResultStatusEnum.PaymentPaidPersonIdIsNotValid.ToString());
 
             RuleFor(dto => dto.ConcernId)
-                .NotEmpty().WithErrorCode(ResultStatusEnum.PaymentConcernIdIsNotValid.ToString());
+                .NotEmpty().WithErrorCode(ResultStatusEnum.ConcernIdIsNotValid.ToString());
 
             RuleFor(dto => dto.InputLoadId)
-              .Must(il => il.IsNullOrEmpty() || il.HasValue && il.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.PaymentInputLoadIdIsNotValid.ToString());
+              .Must(il => il.IsNullOrEmpty() || il.HasValue && il.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.InputLoadIdIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)
-                .NotEmpty().WithErrorCode(ResultStatusEnum.PaymentRiceMillIdIsNotValid.ToString());
+                .NotEmpty().WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
         }
     }
 }

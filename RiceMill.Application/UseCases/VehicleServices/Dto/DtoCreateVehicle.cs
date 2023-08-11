@@ -30,7 +30,7 @@ namespace RiceMill.Application.UseCases.VehicleServices.Dto
                 .NotEmpty().WithErrorCode(ResultStatusEnum.VehicleOwnerPersonIdIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)
-                .NotEmpty().WithErrorCode(ResultStatusEnum.VehicleRiceMillIdIsNotValid.ToString());
+                .NotEmpty().WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
         }
     }
 }

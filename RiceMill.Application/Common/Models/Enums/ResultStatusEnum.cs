@@ -20,8 +20,6 @@
         ConcernIdIsNotValid,
         ConcernTitleIsNotValid,
         ConcernTitleLengthIsNotValid,
-        ConcernUserIdIsNotValid,
-        ConcernRiceMillIdIsNotValid,
 
         #endregion
 
@@ -34,8 +32,6 @@
         UserPasswordIsNotValid,
         UserRoleIsNotValid,
         UserUserPersonIdIsNotValid,
-        UserParentUserIdIsNotValid,
-        UserRiceMillIdIsNotValid,
 
         #endregion
 
@@ -66,7 +62,6 @@
         UserActivityApplicationIdIsNotValid,
         UserActivityBeforeEditIsNotValid,
         UserActivityAfterEditIsNotValid,
-        UserActivityRiceMillIdIsNotValid,
 
         #endregion
 
@@ -80,7 +75,6 @@
         VehicleDescriptionLengthIsNotValid,
         VehicleVehicleTypeIsNotValid,
         VehicleOwnerPersonIdIsNotValid,
-        VehicleRiceMillIdIsNotValid,
 
         #endregion
 
@@ -90,8 +84,6 @@
         VillageIdIsNotValid,
         VillageTitleIsNotValid,
         VillageTitleLengthIsNotValid,
-        VillageUserIdIsNotValid,
-        VillageRiceMillIdIsNotValid,
 
         #endregion
 
@@ -113,7 +105,6 @@
         PersonAddressLengthIsNotValid,
         PersonFatherNameIsNotValid,
         PersonFatherNameLengthIsNotValid,
-        PersonRiceMillIdIsNotValid,
 
         #endregion
 
@@ -123,8 +114,6 @@
         DryerIdIsNotValid,
         DryerTitleIsNotValid,
         DryerTitleLengthIsNotValid,
-        DryerUserIdIsNotValid,
-        DryerRiceMillIdIsNotValid,
 
         #endregion
 
@@ -139,9 +128,25 @@
         PaymentMoneyIsNotValid,
         PaymentDescriptionLengthIsNotValid,
         PaymentPaidPersonIdIsNotValid,
-        PaymentConcernIdIsNotValid,
-        PaymentInputLoadIdIsNotValid,
-        PaymentRiceMillIdIsNotValid,
+
+        #endregion
+
+        #region InputLoad 950 To 999
+
+        InputLoadNotFound = 950,
+        InputLoadIdIsNotValid,
+        InputLoadNumberOfBagsIsNotValid,
+        InputLoadDescriptionLengthIsNotValid,
+        InputLoadReceiveTimeIsNotValid,
+        InputLoadVillageIdIsNotValid,
+        InputLoadDelivererPersonIdIsNotValid,
+        InputLoadDelivererPersonNotFound,
+        InputLoadReceiverPersonIdIsNotValid,
+        InputLoadReceiverPersonNotFound,
+        InputLoadCarrierPersonIdIsNotValid,
+        InputLoadCarrierPersonNotFound,
+        InputLoadOwnerPersonIdIsNotValid,
+        InputLoadOwnerPersonNotFound,
 
         #endregion
     }
@@ -168,8 +173,6 @@
                 {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل معتبر نمی باشد" },
                 {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل معتبر نمی باشد" },
                 {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل بیش از حد مجاز است" },
-                {ResultStatusEnum.ConcernUserIdIsNotValid, "شناسه کاربر برای دلیل معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernRiceMillIdIsNotValid, "شناسه کارخانه برای دلیل معتبر نمی باشد" },
 
                 #endregion
 
@@ -182,7 +185,6 @@
                 {ResultStatusEnum.UserPasswordIsNotValid, "رمز عبور کاربر معتبر نمی باشد" },
                 {ResultStatusEnum.UserRoleIsNotValid, "نقش کاربر معتبر نمی باشد" },
                 {ResultStatusEnum.UserUserPersonIdIsNotValid, "شناسه فردی برای کاربر معتبر نمی باشد" },
-                {ResultStatusEnum.UserRiceMillIdIsNotValid, "شناسه کارخانه برای کاربر معتبر نمی باشد" },
 
                 #endregion
 
@@ -213,7 +215,6 @@
                 {ResultStatusEnum.UserActivityApplicationIdIsNotValid, "برنامه استفاده شده معتبر نمی باشد" },
                 {ResultStatusEnum.UserActivityBeforeEditIsNotValid, "اطلاعات قبل از تغییر معتبر نمی باشد" },
                 {ResultStatusEnum.UserActivityAfterEditIsNotValid, "اطلاعات بعد از تغییر معتبر نمی باشد" },
-                {ResultStatusEnum.UserActivityRiceMillIdIsNotValid, "شناسه کارخانه برای فعالیت کاربر معتبر نمی باشد" },
 
                 #endregion
 
@@ -227,7 +228,6 @@
                 {ResultStatusEnum.VehicleDescriptionLengthIsNotValid, "طول توضیحات وسیله نقلیه بیش از حد مجاز است" },
                 {ResultStatusEnum.VehicleVehicleTypeIsNotValid, "نوع وسیله نقلیه معتبر نمی باشد" },
                 {ResultStatusEnum.VehicleOwnerPersonIdIsNotValid, "شناسه صاحب وسیله نقلیه معتبر نمی باشد" },
-                {ResultStatusEnum.VehicleRiceMillIdIsNotValid, "شناسه کارخانه برای وسیله نقلیه معتبر نمی باشد" },
 
                 #endregion
 
@@ -237,8 +237,6 @@
                 {ResultStatusEnum.VillageIdIsNotValid, "شناسه مبدا معتبر نمی باشد" },
                 {ResultStatusEnum.VillageTitleIsNotValid, "عنوان مبدا معتبر نمی باشد" },
                 {ResultStatusEnum.VillageTitleLengthIsNotValid, "طول عنوان مبدا بیش از حد مجاز است" },
-                {ResultStatusEnum.VillageUserIdIsNotValid, "شناسه کاربر برای مبدا معتبر نمی باشد" },
-                {ResultStatusEnum.VillageRiceMillIdIsNotValid, "شناسه کارخانه برای مبدا معتبر نمی باشد" },
 
                 #endregion
 
@@ -260,7 +258,6 @@
                 {ResultStatusEnum.PersonAddressLengthIsNotValid, "طول آدرس فرد بیش از حد مجاز است" },
                 {ResultStatusEnum.PersonFatherNameIsNotValid, "نام پدر فرد معتبر نمی باشد" },
                 {ResultStatusEnum.PersonFatherNameLengthIsNotValid, "طول نام پدر فرد بیش از حد مجاز است" },
-                {ResultStatusEnum.PersonRiceMillIdIsNotValid, "شناسه کارخانه برای فرد معتبر نمی باشد" },
 
                 #endregion
 
@@ -270,8 +267,6 @@
                 {ResultStatusEnum.DryerIdIsNotValid, "شناسه خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerTitleIsNotValid, "عنوان خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerTitleLengthIsNotValid, "طول عنوان خشک کن بیش از حد مجاز است" },
-                {ResultStatusEnum.DryerUserIdIsNotValid, "شناسه کاربر برای خشک کن معتبر نمی باشد" },
-                {ResultStatusEnum.DryerRiceMillIdIsNotValid, "شناسه کارخانه برای خشک کن معتبر نمی باشد" },
 
                 #endregion
 
@@ -286,9 +281,27 @@
                 {ResultStatusEnum.PaymentMoneyIsNotValid, "مقدار پول برای پرداخت معتبر نمی باشد" },
                 {ResultStatusEnum.PaymentDescriptionLengthIsNotValid, "طول توضیحات پرداخت معتبر نمی باشد" },
                 {ResultStatusEnum.PaymentPaidPersonIdIsNotValid, "شناسه شخص دریافت کننده معتبر نمی باشد" },
-                {ResultStatusEnum.PaymentConcernIdIsNotValid, "شناسه دلیل پرداخت معتبر نمی باشد" },
-                {ResultStatusEnum.PaymentInputLoadIdIsNotValid, "شناسه بار ورودی برای پرداخت معتبر نمی باشد" },
-                {ResultStatusEnum.PaymentRiceMillIdIsNotValid, "شناسه کارخانه برای پرداخت معتبر نمی باشد" },
+
+                #endregion
+
+                #region InputLoad
+
+                {ResultStatusEnum.InputLoadNotFound, "بار ورودی یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.InputLoadIdIsNotValid, "شناسه بار ورودی معتبر نمی باشد" },
+                {ResultStatusEnum.InputLoadNumberOfBagsIsNotValid, "تعداد کیسه های بار ورودی معتبر نمی باشد" },
+                {ResultStatusEnum.InputLoadDescriptionLengthIsNotValid, "طول توضیحات بار ورودی معتبر نمی باشد" },
+                {ResultStatusEnum.InputLoadReceiveTimeIsNotValid, "زمان دریافت بار ورودی معتبر نمی باشد" },
+                {ResultStatusEnum.InputLoadDelivererPersonIdIsNotValid, "شناسه تحویل دهنده بار ورودی معتبر نمی باشد" },
+                {ResultStatusEnum.InputLoadDelivererPersonNotFound, "تحویل دهنده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
+
+                {ResultStatusEnum.InputLoadReceiverPersonIdIsNotValid, "شناسه دریافت کننده بار ورودی معتبر نمی باشد" },
+                {ResultStatusEnum.InputLoadReceiverPersonNotFound, "دریافت کننده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
+
+                {ResultStatusEnum.InputLoadCarrierPersonIdIsNotValid, "شناسه حمل کننده بار ورودی معتبر نمی باشد" },
+                {ResultStatusEnum.InputLoadCarrierPersonNotFound, "حمل کننده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
+
+                {ResultStatusEnum.InputLoadOwnerPersonIdIsNotValid, "شناسه صاحب بار ورودی معتبر نمی باشد" },
+                {ResultStatusEnum.InputLoadOwnerPersonNotFound, "صاحب بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
 
                 #endregion
             };

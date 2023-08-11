@@ -112,7 +112,7 @@ namespace RiceMill.Application.UseCases.UserServices
             else
             {
                 if (user.Role != RoleEnum.Admin && user.RiceMillId.IsNullOrEmpty())
-                    return Result<DtoUser>.Failure(new Error(ResultStatusEnum.UserRiceMillIdIsNotValid), HttpStatusCode.BadRequest);
+                    return Result<DtoUser>.Failure(new Error(ResultStatusEnum.RiceMillIdIsNotValid), HttpStatusCode.BadRequest);
 
                 if (user.Role == RoleEnum.Admin)
                     _ = user with { RiceMillId = null };

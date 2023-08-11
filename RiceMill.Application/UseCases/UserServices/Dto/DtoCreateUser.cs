@@ -25,7 +25,7 @@ namespace RiceMill.Application.UseCases.UserServices.Dto
                 .Must((up) => up.IsNullOrEmpty() || up.HasValue && up.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.UserUserPersonIdIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)
-                .Must((rm) => rm.IsNullOrEmpty() || rm.HasValue && rm.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.UserRiceMillIdIsNotValid.ToString());
+                .Must((rm) => rm.IsNullOrEmpty() || rm.HasValue && rm.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
         }
     }
 }

@@ -13,8 +13,6 @@ namespace RiceMill.Application.UseCases.InputLoadServices.Dto
 
         public DateTime ReceiveTime { get; set; }
 
-        public NoticesTypeEnum NoticesType { get; set; }
-
         public Guid VillageId { get; set; }
 
         //[SwaggerExclude]

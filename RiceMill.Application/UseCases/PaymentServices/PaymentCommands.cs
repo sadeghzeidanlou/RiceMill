@@ -111,11 +111,10 @@ namespace RiceMill.Application.UseCases.PaymentServices
                 return Result<DtoPayment>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
 
             if (payment.InputLoadId.IsNotNullOrEmpty() && !_cacheService.GetInputLoads().Any(il => il.Id.Equals(payment.InputLoadId.Value)))
-                return Result<DtoPayment>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+                return Result<DtoPayment>.Failure(new Error(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(payment.RiceMillId)))
                 return Result<DtoPayment>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
-
 
             return null;
         }

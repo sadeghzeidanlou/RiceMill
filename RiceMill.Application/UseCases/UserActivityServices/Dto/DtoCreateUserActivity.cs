@@ -27,7 +27,7 @@ namespace RiceMill.Application.UseCases.UserActivityServices.Dto
                 .IsInEnum().WithErrorCode(ResultStatusEnum.UserActivityApplicationIdIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)
-                .Must((rm) => rm.IsNullOrEmpty() || rm.HasValue && rm.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.UserRiceMillIdIsNotValid.ToString());
+                .Must((rm) => rm.IsNullOrEmpty() || rm.HasValue && rm.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
         }
     }
 }

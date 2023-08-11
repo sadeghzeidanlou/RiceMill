@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using RiceMill.Application.UseCases.ConcernServices;
 using RiceMill.Application.UseCases.DryerServices;
+using RiceMill.Application.UseCases.InputLoadServices;
 using RiceMill.Application.UseCases.PaymentServices;
 using RiceMill.Application.UseCases.PersonServices;
 using RiceMill.Application.UseCases.RiceMillServices;
@@ -48,6 +49,9 @@ namespace RiceMill.Application.DependencyInjection
 
             services.AddTransient<IPaymentQueries, PaymentQueries>();
             services.AddTransient<IPaymentCommands, PaymentCommands>();
+
+            services.AddTransient<IInputLoadQueries, InputLoadQueries>();
+            services.AddTransient<IInputLoadCommands, InputLoadCommands>();
 
             AddMapsTerConfig();
 

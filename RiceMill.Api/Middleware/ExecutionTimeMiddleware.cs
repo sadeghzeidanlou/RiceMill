@@ -65,7 +65,7 @@ namespace RiceMill.Api.Middleware
             return requestBody.IsNullOrEmpty() ? " Empty" : $"\n{requestBody}".Replace("\n", "\n\t");
         }
 
-        private string GetResponseBody(MemoryStream responseBody)
+        private static string GetResponseBody(MemoryStream responseBody)
         {
             responseBody.Seek(0, SeekOrigin.Begin);
             var responseBodyText = new StreamReader(responseBody).ReadToEndAsync().Result;
