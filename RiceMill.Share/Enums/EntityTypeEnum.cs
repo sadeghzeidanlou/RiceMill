@@ -15,6 +15,8 @@
         UserActivities,
         Users,
         Vehicles,
-        Villages
+        Villages,
+        DeliveryRiceThreshings,
+        DryerHistoryInputLoads
     }
 }

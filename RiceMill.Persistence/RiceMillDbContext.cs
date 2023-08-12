@@ -16,9 +16,13 @@ namespace RiceMill.Persistence
 
         public DbSet<Delivery> Deliveries { get; set; }
 
+        public DbSet<DeliveryRiceThreshing> DeliveryRiceThreshing { get; set; }
+
         public DbSet<Dryer> Dryers { get; set; }
 
         public DbSet<DryerHistory> DryerHistories { get; set; }
+
+        public DbSet<DryerHistoryInputLoad> DryerHistoryInputLoad { get; set; }
 
         public DbSet<Income> Incomes { get; set; }
 
@@ -64,7 +68,10 @@ namespace RiceMill.Persistence
                 {EntityTypeEnum.UserActivities, UserActivities.AsNoTracking().ToList() },
                 {EntityTypeEnum.Users, Users.AsNoTracking().ToList() },
                 {EntityTypeEnum.Vehicles, Vehicles.AsNoTracking().ToList() },
-                {EntityTypeEnum.Villages, Villages.AsNoTracking().ToList() }
+                {EntityTypeEnum.Villages, Villages.AsNoTracking().ToList() },
+                {EntityTypeEnum.DryerHistoryInputLoads, DryerHistoryInputLoad.AsNoTracking().ToList() },
+                {EntityTypeEnum.DeliveryRiceThreshings, DeliveryRiceThreshing.AsNoTracking().ToList() }
+
             };
             return data;
         }
@@ -87,6 +94,8 @@ namespace RiceMill.Persistence
                 EntityTypeEnum.Users => Users.AsNoTracking().ToList(),
                 EntityTypeEnum.Vehicles => Vehicles.AsNoTracking().ToList(),
                 EntityTypeEnum.Villages => Villages.AsNoTracking().ToList(),
+                EntityTypeEnum.DryerHistoryInputLoads => DryerHistoryInputLoad.AsNoTracking().ToList(),
+                EntityTypeEnum.DeliveryRiceThreshings => DeliveryRiceThreshing.AsNoTracking().ToList(),
                 _ => throw new ArgumentOutOfRangeException($"{entityType}", "Entity type is not valid"),
             };
         }
@@ -95,12 +104,6 @@ namespace RiceMill.Persistence
         {
             DoBaseClassOperation();
             return base.SaveChanges();
-        }
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            DoBaseClassOperation();
-            return await base.SaveChangesAsync(cancellationToken);
         }
 
         private void DoBaseClassOperation()
@@ -122,21 +125,12 @@ namespace RiceMill.Persistence
                 }
                 entity.Entity.UpdateTime = currentTime;
                 if (entity.State == EntityState.Added)
+                {
                     entity.Entity.CreateTime = currentTime;
-            }
-            ApplyPasswordHashing();
-        }
-
-        private void ApplyPasswordHashing()
-        {
-            var entitiesWithPassword = ChangeTracker.Entries<User>()
-                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
-                .Select(e => e.Entity);
-
-            foreach (var user in entitiesWithPassword)
-            {
-                if (user.Password.Length < 100)
-                    user.Password = user.Password.ToSha512();
+                    var addedUsers = ChangeTracker.Entries<User>().Where(e => e.State == EntityState.Added).Select(e => e.Entity);
+                    foreach (var user in addedUsers)
+                        user.Password = user.Password.ToSha512();
+                }
             }
         }
     }

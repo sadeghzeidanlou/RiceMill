@@ -44,8 +44,8 @@ namespace RiceMill.Domain.Models
         public RiceThreshing RiceThreshing { get; set; }
 
         /// <summary>
-        /// Collection of <see cref="InputLoad"/> that used in the <see cref="DryerHistory"/>
+        /// Collection of <see cref="DeliveryRiceThreshing"/> that used in this <see cref="DryerHistory"/>
         /// </summary>
-        public ICollection<InputLoad> InputLoads { get; set; }
+        public ICollection<DryerHistoryInputLoad> DryerHistoryInputLoads { get; set; }
     }
 }

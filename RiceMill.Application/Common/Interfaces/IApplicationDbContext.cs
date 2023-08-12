@@ -24,6 +24,5 @@ namespace RiceMill.Application.Common.Interfaces
         Dictionary<EntityTypeEnum, object> GetAllData();
         object GetAllData(EntityTypeEnum entityType);
         int SaveChanges();
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

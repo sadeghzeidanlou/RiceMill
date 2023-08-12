@@ -78,8 +78,8 @@ namespace RiceMill.Domain.Models
         public Vehicle Vehicle { get; set; }
 
         /// <summary>
-        /// Collection of <see cref="RiceThreshing"/> that delivered in this <see cref="Delivery"/>
+        /// Collection of <see cref="DeliveryRiceThreshing"/> that delivered in this <see cref="Delivery"/>
         /// </summary>
-        public ICollection<RiceThreshing> RiceThreshings { get; set; }
+        public ICollection<DeliveryRiceThreshing> DeliveryRiceThreshings { get; set; }
     }
 }

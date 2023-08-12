@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RiceMill.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class initDb : Migration
+    public partial class InitDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,18 +60,22 @@ namespace RiceMill.Persistence.Migrations
                 name: "DeliveryRiceThreshing",
                 columns: table => new
                 {
-                    DeliveriesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RiceThreshingsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DeliveryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RiceThreshingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DeliveryRiceThreshing", x => new { x.DeliveriesId, x.RiceThreshingsId });
+                    table.PrimaryKey("PK_DeliveryRiceThreshing", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DeliveryRiceThreshing_Deliveries_DeliveriesId",
-                        column: x => x.DeliveriesId,
+                        name: "FK_DeliveryRiceThreshing_Deliveries_DeliveryId",
+                        column: x => x.DeliveryId,
                         principalTable: "Deliveries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -100,18 +104,22 @@ namespace RiceMill.Persistence.Migrations
                 name: "DryerHistoryInputLoad",
                 columns: table => new
                 {
-                    DryerHistoriesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InputLoadsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DryerHistoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InputLoadId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DryerHistoryInputLoad", x => new { x.DryerHistoriesId, x.InputLoadsId });
+                    table.PrimaryKey("PK_DryerHistoryInputLoad", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DryerHistoryInputLoad_DryerHistories_DryerHistoriesId",
-                        column: x => x.DryerHistoriesId,
+                        name: "FK_DryerHistoryInputLoad_DryerHistories_DryerHistoryId",
+                        column: x => x.DryerHistoryId,
                         principalTable: "DryerHistories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -163,7 +171,6 @@ namespace RiceMill.Persistence.Migrations
                     NumberOfBagsInDryer = table.Column<short>(type: "smallint", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     ReceiveTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NoticesType = table.Column<byte>(type: "tinyint", nullable: false),
                     VillageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DelivererPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ReceiverPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -195,7 +202,7 @@ namespace RiceMill.Persistence.Migrations
                     Money = table.Column<int>(type: "int", nullable: false),
                     PaidPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ConcernId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InputLoadId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InputLoadId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -216,8 +223,7 @@ namespace RiceMill.Persistence.Migrations
                         name: "FK_Payments_InputLoads_InputLoadId",
                         column: x => x.InputLoadId,
                         principalTable: "InputLoads",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -230,6 +236,7 @@ namespace RiceMill.Persistence.Migrations
                     Gender = table.Column<byte>(type: "tinyint", nullable: false),
                     MobileNumber = table.Column<string>(type: "nchar(11)", fixedLength: true, maxLength: 11, nullable: false),
                     HomeNumber = table.Column<string>(type: "nchar(11)", fixedLength: true, maxLength: 11, nullable: true),
+                    NoticesType = table.Column<byte>(type: "tinyint", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     FatherName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     RiceMillId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -382,7 +389,6 @@ namespace RiceMill.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Plate = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     VehicleType = table.Column<byte>(type: "tinyint", nullable: false),
@@ -485,9 +491,15 @@ namespace RiceMill.Persistence.Migrations
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeliveryRiceThreshing_RiceThreshingsId",
+                name: "IX_DeliveryRiceThreshing_DeliveryId_RiceThreshingId",
                 table: "DeliveryRiceThreshing",
-                column: "RiceThreshingsId");
+                columns: new[] { "DeliveryId", "RiceThreshingId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeliveryRiceThreshing_RiceThreshingId",
+                table: "DeliveryRiceThreshing",
+                column: "RiceThreshingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DryerHistories_DryerId",
@@ -510,9 +522,15 @@ namespace RiceMill.Persistence.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DryerHistoryInputLoad_InputLoadsId",
+                name: "IX_DryerHistoryInputLoad_DryerHistoryId_InputLoadId",
                 table: "DryerHistoryInputLoad",
-                column: "InputLoadsId");
+                columns: new[] { "DryerHistoryId", "InputLoadId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DryerHistoryInputLoad_InputLoadId",
+                table: "DryerHistoryInputLoad",
+                column: "InputLoadId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dryers_RiceMillId",
@@ -583,7 +601,8 @@ namespace RiceMill.Persistence.Migrations
                 name: "IX_Payments_InputLoadId",
                 table: "Payments",
                 column: "InputLoadId",
-                unique: true);
+                unique: true,
+                filter: "[InputLoadId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_PaidPersonId",
@@ -599,6 +618,12 @@ namespace RiceMill.Persistence.Migrations
                 name: "IX_Payments_UserId",
                 table: "Payments",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_People_MobileNumber_RiceMillId",
+                table: "People",
+                columns: new[] { "MobileNumber", "RiceMillId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_People_RiceMillId",
@@ -741,12 +766,11 @@ namespace RiceMill.Persistence.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_DeliveryRiceThreshing_RiceThreshings_RiceThreshingsId",
+                name: "FK_DeliveryRiceThreshing_RiceThreshings_RiceThreshingId",
                 table: "DeliveryRiceThreshing",
-                column: "RiceThreshingsId",
+                column: "RiceThreshingId",
                 principalTable: "RiceThreshings",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_DryerHistories_Dryers_DryerId",
@@ -779,12 +803,11 @@ namespace RiceMill.Persistence.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_DryerHistoryInputLoad_InputLoads_InputLoadsId",
+                name: "FK_DryerHistoryInputLoad_InputLoads_InputLoadId",
                 table: "DryerHistoryInputLoad",
-                column: "InputLoadsId",
+                column: "InputLoadId",
                 principalTable: "InputLoads",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Dryers_RiceMills_RiceMillId",

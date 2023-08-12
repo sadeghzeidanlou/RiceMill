@@ -25,8 +25,8 @@ namespace RiceMill.Application.Common.Models.ResultObject
         {
             var count = source.Count();
             var start = (pageNumber - 1) * pageSize;
-            var items = source.Take(start..(start + pageSize)).ToList().Adapt<List<TOut>>();
-            //var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().Adapt<List<TOut>>();
+            var end = start + pageSize;
+            var items = source.Take(start..end).ToList().Adapt<List<TOut>>();
             return new PaginatedList<TOut>(items, count, pageNumber, pageSize);
         }
     }

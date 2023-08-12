@@ -12,8 +12,8 @@ using RiceMill.Persistence;
 namespace RiceMill.Persistence.Migrations
 {
     [DbContext(typeof(RiceMillDbContext))]
-    [Migration("20230807163556_EditPayment")]
-    partial class EditPayment
+    [Migration("20230812182546_InitDb")]
+    partial class InitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,36 +24,6 @@ namespace RiceMill.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DeliveryRiceThreshing", b =>
-                {
-                    b.Property<Guid>("DeliveriesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RiceThreshingsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DeliveriesId", "RiceThreshingsId");
-
-                    b.HasIndex("RiceThreshingsId");
-
-                    b.ToTable("DeliveryRiceThreshing");
-                });
-
-            modelBuilder.Entity("DryerHistoryInputLoad", b =>
-                {
-                    b.Property<Guid>("DryerHistoriesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InputLoadsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DryerHistoriesId", "InputLoadsId");
-
-                    b.HasIndex("InputLoadsId");
-
-                    b.ToTable("DryerHistoryInputLoad");
-                });
 
             modelBuilder.Entity("RiceMill.Domain.Models.Concern", b =>
                 {
@@ -167,6 +137,40 @@ namespace RiceMill.Persistence.Migrations
                     b.ToTable("Deliveries");
                 });
 
+            modelBuilder.Entity("RiceMill.Domain.Models.DeliveryRiceThreshing", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("DeliveryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("RiceThreshingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RiceThreshingId");
+
+                    b.HasIndex("DeliveryId", "RiceThreshingId")
+                        .IsUnique();
+
+                    b.ToTable("DeliveryRiceThreshing");
+                });
+
             modelBuilder.Entity("RiceMill.Domain.Models.Dryer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -257,6 +261,40 @@ namespace RiceMill.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("DryerHistories");
+                });
+
+            modelBuilder.Entity("RiceMill.Domain.Models.DryerHistoryInputLoad", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("DryerHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("InputLoadId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InputLoadId");
+
+                    b.HasIndex("DryerHistoryId", "InputLoadId")
+                        .IsUnique();
+
+                    b.ToTable("DryerHistoryInputLoad");
                 });
 
             modelBuilder.Entity("RiceMill.Domain.Models.Income", b =>
@@ -857,36 +895,6 @@ namespace RiceMill.Persistence.Migrations
                     b.ToTable("Villages");
                 });
 
-            modelBuilder.Entity("DeliveryRiceThreshing", b =>
-                {
-                    b.HasOne("RiceMill.Domain.Models.Delivery", null)
-                        .WithMany()
-                        .HasForeignKey("DeliveriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RiceMill.Domain.Models.RiceThreshing", null)
-                        .WithMany()
-                        .HasForeignKey("RiceThreshingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DryerHistoryInputLoad", b =>
-                {
-                    b.HasOne("RiceMill.Domain.Models.DryerHistory", null)
-                        .WithMany()
-                        .HasForeignKey("DryerHistoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RiceMill.Domain.Models.InputLoad", null)
-                        .WithMany()
-                        .HasForeignKey("InputLoadsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("RiceMill.Domain.Models.Concern", b =>
                 {
                     b.HasOne("RiceMill.Domain.Models.RiceMill", "RiceMill")
@@ -957,6 +965,25 @@ namespace RiceMill.Persistence.Migrations
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("RiceMill.Domain.Models.DeliveryRiceThreshing", b =>
+                {
+                    b.HasOne("RiceMill.Domain.Models.Delivery", "Delivery")
+                        .WithMany("DeliveryRiceThreshings")
+                        .HasForeignKey("DeliveryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("RiceMill.Domain.Models.RiceThreshing", "RiceThreshing")
+                        .WithMany("DeliveryRiceThreshings")
+                        .HasForeignKey("RiceThreshingId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Delivery");
+
+                    b.Navigation("RiceThreshing");
+                });
+
             modelBuilder.Entity("RiceMill.Domain.Models.Dryer", b =>
                 {
                     b.HasOne("RiceMill.Domain.Models.RiceMill", "RiceMill")
@@ -1009,6 +1036,25 @@ namespace RiceMill.Persistence.Migrations
                     b.Navigation("RiceThreshing");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RiceMill.Domain.Models.DryerHistoryInputLoad", b =>
+                {
+                    b.HasOne("RiceMill.Domain.Models.DryerHistory", "DryerHistory")
+                        .WithMany("DryerHistoryInputLoads")
+                        .HasForeignKey("DryerHistoryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("RiceMill.Domain.Models.InputLoad", "InputLoad")
+                        .WithMany("DryerHistoryInputLoads")
+                        .HasForeignKey("InputLoadId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("DryerHistory");
+
+                    b.Navigation("InputLoad");
                 });
 
             modelBuilder.Entity("RiceMill.Domain.Models.Income", b =>
@@ -1274,9 +1320,19 @@ namespace RiceMill.Persistence.Migrations
                     b.Navigation("Payments");
                 });
 
+            modelBuilder.Entity("RiceMill.Domain.Models.Delivery", b =>
+                {
+                    b.Navigation("DeliveryRiceThreshings");
+                });
+
             modelBuilder.Entity("RiceMill.Domain.Models.Dryer", b =>
                 {
                     b.Navigation("DryerHistories");
+                });
+
+            modelBuilder.Entity("RiceMill.Domain.Models.DryerHistory", b =>
+                {
+                    b.Navigation("DryerHistoryInputLoads");
                 });
 
             modelBuilder.Entity("RiceMill.Domain.Models.Income", b =>
@@ -1286,6 +1342,8 @@ namespace RiceMill.Persistence.Migrations
 
             modelBuilder.Entity("RiceMill.Domain.Models.InputLoad", b =>
                 {
+                    b.Navigation("DryerHistoryInputLoads");
+
                     b.Navigation("Payment");
                 });
 
@@ -1343,6 +1401,8 @@ namespace RiceMill.Persistence.Migrations
 
             modelBuilder.Entity("RiceMill.Domain.Models.RiceThreshing", b =>
                 {
+                    b.Navigation("DeliveryRiceThreshings");
+
                     b.Navigation("DryerHistories");
                 });
 

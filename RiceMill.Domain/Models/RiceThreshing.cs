@@ -58,13 +58,13 @@ namespace RiceMill.Domain.Models
         public Income Income { get; set; }
 
         /// <summary>
-        /// Collection of <see cref="Delivery"/> for this <see cref="RiceThreshing"/>
-        /// </summary>
-        public ICollection<Delivery> Deliveries { get; set; }
-
-        /// <summary>
         /// Collection of <see cref="DryerHistory"/> for this <see cref="RiceThreshing"/>
         /// </summary>
         public ICollection<DryerHistory> DryerHistories { get; set; }
+
+        /// <summary>
+        /// Collection of <see cref="DeliveryRiceThreshing"/> that delivered in this <see cref="RiceThreshing"/>
+        /// </summary>
+        public ICollection<DeliveryRiceThreshing> DeliveryRiceThreshings { get; set; }
     }
 }
