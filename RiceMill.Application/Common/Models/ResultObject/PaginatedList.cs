@@ -24,7 +24,9 @@ namespace RiceMill.Application.Common.Models.ResultObject
         public static PaginatedList<TOut> Create<TIn>(IQueryable<TIn> source, int pageNumber, int pageSize)
         {
             var count = source.Count();
-            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().Adapt<List<TOut>>();
+            var start = (pageNumber - 1) * pageSize;
+            var items = source.Take(start..(start + pageSize)).ToList().Adapt<List<TOut>>();
+            //var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList().Adapt<List<TOut>>();
             return new PaginatedList<TOut>(items, count, pageNumber, pageSize);
         }
     }
