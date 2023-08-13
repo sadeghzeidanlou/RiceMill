@@ -34,16 +34,19 @@ namespace RiceMill.Application.UseCases.DryerServices
         {
             var dryers = _cacheService.GetDryers();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return dryers.Where(c => false);
+                return dryers.Where(d => false);
 
             if (filter.Id.IsNotNullOrEmpty())
-                dryers = dryers.Where(c => c.Id.Equals(filter.Id));
+                dryers = dryers.Where(d => d.Id.Equals(filter.Id.Value));
+
+            if (filter.Ids.IsCollectionNotNullOrEmpty())
+                dryers = dryers.Where(d => filter.Ids.Contains(d.Id));
 
             if (filter.RiceMillId.IsNotNullOrEmpty())
-                dryers = dryers.Where(c => c.RiceMillId.Equals(filter.RiceMillId));
+                dryers = dryers.Where(d => d.RiceMillId.Equals(filter.RiceMillId));
 
             if (filter.Title.IsNotNullOrEmpty())
-                dryers = dryers.Where(c => c.Title.Contains(filter.Title));
+                dryers = dryers.Where(d => d.Title.Contains(filter.Title));
 
             return dryers;
         }

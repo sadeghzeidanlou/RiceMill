@@ -13,6 +13,8 @@ namespace RiceMill.Domain.Models
         /// </summary>
         public DryerOperationEnum Operation { get; set; }
 
+
+
         /// <summary>
         /// Time of start this operation <see cref="Operation"/>
         /// </summary>
@@ -36,7 +38,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="RiceThreshing"/> that <see cref="DryerHistory"/> operated on that
         /// </summary>
-        public Guid RiceThreshingId { get; set; }
+        public Guid? RiceThreshingId { get; set; }
 
         /// <summary>
         /// This property Contain <see cref="RiceThreshing"/> detail in this class that <see cref="DryerHistory"/> operated on that

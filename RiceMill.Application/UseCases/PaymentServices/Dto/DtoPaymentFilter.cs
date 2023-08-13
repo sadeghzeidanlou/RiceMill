@@ -5,7 +5,9 @@ namespace RiceMill.Application.UseCases.PaymentServices.Dto
     public class DtoPaymentFilter : PagingInfo
     {
         public Guid? Id { get; set; }
-        
+
+        public List<Guid> Ids { get; set; }
+
         public DateTime? PaymentTimeLower { get; set; }
 
         public DateTime? PaymentTime { get; set; }

@@ -5,6 +5,8 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
     public class DtoRiceMillFilter : PagingInfo
     {
         public Guid? Id { get; set; }
+        
+        public List<Guid> Ids { get; set; }
 
         public string Title { get; set; }
 

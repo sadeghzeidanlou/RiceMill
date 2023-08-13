@@ -6,6 +6,8 @@ namespace RiceMill.Application.UseCases.InputLoadServices.Dto
     {
         public Guid? Id { get; set; }
 
+        public List<Guid> Ids { get; set; }
+
         public short? NumberOfBagsLower { get; set; }
 
         public short? NumberOfBags { get; set; }

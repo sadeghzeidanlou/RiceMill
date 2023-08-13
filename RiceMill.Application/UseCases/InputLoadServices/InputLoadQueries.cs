@@ -37,7 +37,10 @@ namespace RiceMill.Application.UseCases.InputLoadServices
                 return inputLoads.Where(il => false);
 
             if (filter.Id.IsNotNullOrEmpty())
-                inputLoads = inputLoads.Where(il => il.Id.Equals(filter.Id));
+                inputLoads = inputLoads.Where(il => il.Id.Equals(filter.Id.Value));
+
+            if (filter.Ids.IsCollectionNotNullOrEmpty())
+                inputLoads = inputLoads.Where(il => filter.Ids.Contains(il.Id));
 
             if (filter.RiceMillId.IsNotNullOrEmpty())
                 inputLoads = inputLoads.Where(il => il.RiceMillId.Equals(filter.RiceMillId));

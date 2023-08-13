@@ -16,6 +16,9 @@ namespace RiceMill.Persistence.Configurations
                 .HasConversion(o => o.ToString(), o => (DryerOperationEnum)Enum.Parse(typeof(DryerOperationEnum), o))
                 .IsRequired();
 
+            builder.Property(dh => dh.RiceThreshingId)
+                .IsRequired(false);
+
             builder.Property(dh => dh.IsDeleted)
                 .IsRequired();
 

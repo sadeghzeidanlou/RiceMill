@@ -7,6 +7,8 @@ namespace RiceMill.Application.UseCases.VehicleServices.Dto
     {
         public Guid? Id { get; set; }
 
+        public List<Guid> Ids { get; set; }
+
         public string Plate { get; set; }
 
         public string Description { get; set; }

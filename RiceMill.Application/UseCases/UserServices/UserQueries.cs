@@ -63,6 +63,9 @@ namespace RiceMill.Application.UseCases.UserServices
             if (filter.Id.IsNotNullOrEmpty())
                 users = users.Where(u => u.Id.Equals(filter.Id.Value));
 
+            if (filter.Ids.IsCollectionNotNullOrEmpty())
+                users = users.Where(u => filter.Ids.Contains(u.Id));
+
             if (filter.Username.IsNotNullOrEmpty())
                 users = users.Where(u => u.Username.Contains(filter.Username));
 

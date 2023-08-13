@@ -1,9 +1,32 @@
 ﻿using RiceMill.Application.Common.Models.ResultObject;
+using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 {
     public class DtoDryerHistoryFilter : PagingInfo
     {
+        public Guid? Id { get; set; }
+
+        public List<Guid> Ids { get; set; }
+
+        public DryerOperationEnum? Operation { get; set; }
+
+        public DateTime? StartTimeLower { get; set; }
+
+        public DateTime? StartTime { get; set; }
+
+        public DateTime? StartTimeGreater { get; set; }
+
+        public DateTime? StopTimeLower { get; set; }
+
+        public DateTime? StopTime { get; set; }
+
+        public DateTime? StopTimeGreater { get; set; }
+
+        public Guid? DryerId { get; set; }
+
+        public Guid? RiceThreshingId { get; set; }
+
         public Guid? RiceMillId { get; set; }
     }
 }

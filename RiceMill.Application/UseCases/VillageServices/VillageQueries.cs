@@ -34,16 +34,19 @@ namespace RiceMill.Application.UseCases.VillageServices
         {
             var villages = _cacheService.GetVillages();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return villages.Where(c => false);
+                return villages.Where(v => false);
 
             if (filter.Id.IsNotNullOrEmpty())
-                villages = villages.Where(c => c.Id.Equals(filter.Id));
+                villages = villages.Where(v => v.Id.Equals(filter.Id.Value));
+
+            if (filter.Ids.IsCollectionNotNullOrEmpty())
+                villages = villages.Where(v => filter.Ids.Contains(v.Id));
 
             if (filter.RiceMillId.IsNotNullOrEmpty())
-                villages = villages.Where(c => c.RiceMillId.Equals(filter.RiceMillId));
+                villages = villages.Where(v => v.RiceMillId.Equals(filter.RiceMillId));
 
             if (filter.Title.IsNotNullOrEmpty())
-                villages = villages.Where(c => c.Title.Contains(filter.Title));
+                villages = villages.Where(v => v.Title.Contains(filter.Title));
 
             return villages;
         }

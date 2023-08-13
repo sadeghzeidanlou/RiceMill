@@ -41,6 +41,9 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             if (filter.Id.IsNotNullOrEmpty())
                 riceMilles = riceMilles.Where(rm => rm.Id.Equals(filter.Id.Value));
 
+            if (filter.Ids.IsCollectionNotNullOrEmpty())
+                riceMilles = riceMilles.Where(rm => filter.Ids.Contains(rm.Id));
+
             if (filter.Title.IsNotNullOrEmpty())
                 riceMilles = riceMilles.Where(rm => rm.Title.Contains(filter.Title));
 

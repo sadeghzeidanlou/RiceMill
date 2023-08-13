@@ -37,7 +37,10 @@ namespace RiceMill.Application.UseCases.ConcernServices
                 return concerns.Where(c => false);
 
             if (filter.Id.IsNotNullOrEmpty())
-                concerns = concerns.Where(c => c.Id.Equals(filter.Id));
+                concerns = concerns.Where(c => c.Id.Equals(filter.Id.Value));
+
+            if (filter.Ids.IsCollectionNotNullOrEmpty())
+                concerns = concerns.Where(c => filter.Ids.Contains(c.Id));
 
             if (filter.RiceMillId.IsNotNullOrEmpty())
                 concerns = concerns.Where(c => c.RiceMillId.Equals(filter.RiceMillId));

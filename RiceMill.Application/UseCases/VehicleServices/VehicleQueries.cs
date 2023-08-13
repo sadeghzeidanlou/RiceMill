@@ -37,7 +37,10 @@ namespace RiceMill.Application.UseCases.VehicleServices
                 return vehicles.Where(v => false);
 
             if (filter.Id.IsNotNullOrEmpty())
-                vehicles = vehicles.Where(v => v.Id.Equals(filter.Id));
+                vehicles = vehicles.Where(v => v.Id.Equals(filter.Id.Value));
+
+            if (filter.Ids.IsCollectionNotNullOrEmpty())
+                vehicles = vehicles.Where(v => filter.Ids.Contains(v.Id));
 
             if (filter.RiceMillId.IsNotNullOrEmpty())
                 vehicles = vehicles.Where(v => v.RiceMillId.Equals(filter.RiceMillId));

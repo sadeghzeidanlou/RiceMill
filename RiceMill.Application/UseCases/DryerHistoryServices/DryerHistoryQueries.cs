@@ -32,20 +32,47 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
 
         private IQueryable<DryerHistory> GetFilter(DtoDryerHistoryFilter filter)
         {
-            var dryers = _cacheService.GetDryerHistories();
+            var dryerHistories = _cacheService.GetDryerHistories();
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return dryers.Where(c => false);
+                return dryerHistories.Where(dh => false);
 
             if (filter.Id.IsNotNullOrEmpty())
-                dryers = dryers.Where(c => c.Id.Equals(filter.Id));
+                dryerHistories = dryerHistories.Where(dh => dh.Id.Equals(filter.Id.Value));
+
+            if (filter.Ids.IsCollectionNotNullOrEmpty())
+                dryerHistories = dryerHistories.Where(dh => filter.Ids.Contains(dh.Id));
 
             if (filter.RiceMillId.IsNotNullOrEmpty())
-                dryers = dryers.Where(c => c.RiceMillId.Equals(filter.RiceMillId));
+                dryerHistories = dryerHistories.Where(dh => dh.RiceMillId.Equals(filter.RiceMillId));
 
-            if (filter.Title.IsNotNullOrEmpty())
-                dryers = dryers.Where(c => c.Title.Contains(filter.Title));
+            if (filter.Operation.HasValue)
+                dryerHistories = dryerHistories.Where(dh => dh.Operation.Equals(filter.Operation.Value));
 
-            return dryers;
+            if (filter.StartTimeLower.HasValue)
+                dryerHistories = dryerHistories.Where(dh => dh.StartTime < filter.StartTimeLower.Value);
+
+            if (filter.StartTime.HasValue)
+                dryerHistories = dryerHistories.Where(dh => dh.StartTime.Equals(filter.StartTime.Value));
+
+            if (filter.StartTimeGreater.HasValue)
+                dryerHistories = dryerHistories.Where(dh => dh.StartTime > filter.StartTimeGreater.Value);
+
+            if (filter.StopTimeLower.HasValue)
+                dryerHistories = dryerHistories.Where(dh => dh.StopTime < filter.StopTimeLower.Value);
+
+            if (filter.StopTime.HasValue)
+                dryerHistories = dryerHistories.Where(dh => dh.StopTime.Equals(filter.StopTime.Value));
+
+            if (filter.StopTimeGreater.HasValue)
+                dryerHistories = dryerHistories.Where(dh => dh.StopTime > filter.StopTimeGreater.Value);
+
+            if (filter.DryerId.IsNotNullOrEmpty())
+                dryerHistories = dryerHistories.Where(dh => dh.DryerId.Equals(filter.DryerId.Value));
+
+            if (filter.RiceThreshingId.IsNotNullOrEmpty())
+                dryerHistories = dryerHistories.Where(dh => dh.RiceThreshingId.Equals(filter.RiceThreshingId.Value));
+
+            return dryerHistories;
         }
     }
 }

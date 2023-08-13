@@ -37,7 +37,10 @@ namespace RiceMill.Application.UseCases.PersonServices
                 return people.Where(p => false);
 
             if (filter.Id.IsNotNullOrEmpty())
-                people = people.Where(p => p.Id.Equals(filter.Id));
+                people = people.Where(p => p.Id.Equals(filter.Id.Value));
+
+            if (filter.Ids.IsCollectionNotNullOrEmpty())
+                people = people.Where(p => filter.Ids.Contains(p.Id));
 
             if (filter.RiceMillId.IsNotNullOrEmpty())
                 people = people.Where(p => p.RiceMillId.Equals(filter.RiceMillId));

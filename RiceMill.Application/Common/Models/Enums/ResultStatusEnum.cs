@@ -149,6 +149,16 @@
         InputLoadOwnerPersonNotFound,
 
         #endregion
+
+        #region DryerHistory 1000 To 1049
+
+        DryerHistoryNotFound = 1000,
+        DryerHistoryIdIsNotValid,
+        DryerHistoryOperationIsNotValid,
+        DryerHistoryStartTimeIsNotValid,
+        DryerHistoryStopTimeIsNotValid,
+
+        #endregion
     }
 
     public static class ErrorDictionary
@@ -302,6 +312,16 @@
 
                 {ResultStatusEnum.InputLoadOwnerPersonIdIsNotValid, "شناسه صاحب بار ورودی معتبر نمی باشد" },
                 {ResultStatusEnum.InputLoadOwnerPersonNotFound, "صاحب بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
+
+                #endregion
+
+                #region DryerHistory
+
+                {ResultStatusEnum.DryerHistoryNotFound, "سابقه خشک کن یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.DryerHistoryIdIsNotValid, "شناسه سابقه خشک کن معتبر نمی باشد" },
+                {ResultStatusEnum.DryerHistoryOperationIsNotValid, "عملیات خشک کن معتبر نمی باشد" },
+                {ResultStatusEnum.DryerHistoryStartTimeIsNotValid, "زمان شروع عملیات خشک کن معتبر نمی باشد" },
+                {ResultStatusEnum.DryerHistoryStopTimeIsNotValid, "زمان پایان عملیات خشک کن معتبر نمی باشد" },
 
                 #endregion
             };
