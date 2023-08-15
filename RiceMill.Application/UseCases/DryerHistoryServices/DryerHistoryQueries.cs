@@ -57,14 +57,14 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             if (filter.StartTimeGreater.HasValue)
                 dryerHistories = dryerHistories.Where(dh => dh.StartTime > filter.StartTimeGreater.Value);
 
-            if (filter.StopTimeLower.HasValue)
-                dryerHistories = dryerHistories.Where(dh => dh.StopTime < filter.StopTimeLower.Value);
+            if (filter.EndTimeLower.HasValue)
+                dryerHistories = dryerHistories.Where(dh => dh.EndTime < filter.EndTimeLower.Value);
 
-            if (filter.StopTime.HasValue)
-                dryerHistories = dryerHistories.Where(dh => dh.StopTime.Equals(filter.StopTime.Value));
+            if (filter.EndTime.HasValue)
+                dryerHistories = dryerHistories.Where(dh => dh.EndTime.Equals(filter.EndTime.Value));
 
-            if (filter.StopTimeGreater.HasValue)
-                dryerHistories = dryerHistories.Where(dh => dh.StopTime > filter.StopTimeGreater.Value);
+            if (filter.EndTimeGreater.HasValue)
+                dryerHistories = dryerHistories.Where(dh => dh.EndTime > filter.EndTimeGreater.Value);
 
             if (filter.DryerId.IsNotNullOrEmpty())
                 dryerHistories = dryerHistories.Where(dh => dh.DryerId.Equals(filter.DryerId.Value));

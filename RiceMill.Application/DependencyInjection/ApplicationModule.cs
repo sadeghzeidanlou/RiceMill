@@ -1,11 +1,15 @@
 ﻿using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using RiceMill.Application.UseCases.ConcernServices;
+using RiceMill.Application.UseCases.DeliveryServices;
+using RiceMill.Application.UseCases.DryerHistoryServices;
 using RiceMill.Application.UseCases.DryerServices;
+using RiceMill.Application.UseCases.IncomeServices;
 using RiceMill.Application.UseCases.InputLoadServices;
 using RiceMill.Application.UseCases.PaymentServices;
 using RiceMill.Application.UseCases.PersonServices;
 using RiceMill.Application.UseCases.RiceMillServices;
+using RiceMill.Application.UseCases.RiceThreshingServices;
 using RiceMill.Application.UseCases.UserActivityServices;
 using RiceMill.Application.UseCases.UserServices;
 using RiceMill.Application.UseCases.VehicleServices;
@@ -52,6 +56,18 @@ namespace RiceMill.Application.DependencyInjection
 
             services.AddTransient<IInputLoadQueries, InputLoadQueries>();
             services.AddTransient<IInputLoadCommands, InputLoadCommands>();
+
+            services.AddTransient<IDryerHistoryQueries, DryerHistoryQueries>();
+            services.AddTransient<IDryerHistoryCommands, DryerHistoryCommands>();
+
+            services.AddTransient<IRiceThreshingQueries, RiceThreshingQueries>();
+            services.AddTransient<IRiceThreshingCommands, RiceThreshingCommands>();
+
+            services.AddTransient<IIncomeQueries, IncomeQueries>();
+            services.AddTransient<IIncomeCommands, IncomeCommands>();
+
+            services.AddTransient<IDeliveryQueries, DeliveryQueries>();
+            services.AddTransient<IDeliveryCommands, DeliveryCommands>();
 
             AddMapsTerConfig();
 

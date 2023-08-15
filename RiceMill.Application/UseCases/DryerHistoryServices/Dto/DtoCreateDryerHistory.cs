@@ -4,7 +4,7 @@ using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 {
-    public record DtoCreateDryerHistory(DryerOperationEnum Operation, DateTime StartTime, DateTime? StopTime, Guid DryerId, Guid? RiceThreshingId, Guid InputLoadId, short NumberOfBagsInDryer, Guid? RiceMillId);
+    public record DtoCreateDryerHistory(DryerOperationEnum Operation, DateTime StartTime, DateTime? EndTime, Guid DryerId, Guid? RiceThreshingId, Guid InputLoadId, short NumberOfBagsInDryer, Guid? RiceMillId);
 
     public class DtoCreateDryerHistoryValidator : AbstractValidator<DtoCreateDryerHistory>
     {
@@ -16,8 +16,8 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
             RuleFor(dto => dto.StartTime)
                 .NotEmpty().NotNull().WithErrorCode(ResultStatusEnum.DryerHistoryStartTimeIsNotValid.ToString());
 
-            RuleFor(dto => new { dto.StopTime, dto.StartTime })
-                .Must(st => !st.StopTime.HasValue || st.StopTime.HasValue && st.StartTime < st.StopTime).WithErrorCode(ResultStatusEnum.DryerHistoryStopTimeIsNotValid.ToString());
+            RuleFor(dto => new { dto.EndTime, dto.StartTime })
+                .Must(st => !st.EndTime.HasValue || st.EndTime.HasValue && st.StartTime < st.EndTime).WithErrorCode(ResultStatusEnum.DryerHistoryStopTimeIsNotValid.ToString());
 
             RuleFor(dto => dto.DryerId)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.DryerIdIsNotValid.ToString());

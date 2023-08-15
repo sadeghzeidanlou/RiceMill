@@ -8,13 +8,13 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 
         public DateTime RiceThreshingEnd { get; set; }
 
-        public short UnbrokenRice { get; set; }
+        public float UnbrokenRice { get; set; }
 
-        public short BrokenRice { get; set; }
+        public float BrokenRice { get; set; }
 
-        public short ChickenRice { get; set; }
+        public float ChickenRice { get; set; }
 
-        public short Flour { get; set; }
+        public float Flour { get; set; }
 
         public string Description { get; set; }
 

@@ -25,6 +25,9 @@ namespace RiceMill.Persistence.Configurations
             builder.Property(dh => dh.StartTime)
                 .IsRequired();
 
+            builder.Property(dh => dh.EndTime)
+                .IsRequired(false);
+
             builder.Property(dh => dh.CreateTime)
                 .IsRequired();
 

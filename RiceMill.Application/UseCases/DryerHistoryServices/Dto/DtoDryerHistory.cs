@@ -9,7 +9,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 
         public DateTime StartTime { get; set; }
 
-        public DateTime? StopTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         public Guid DryerId { get; set; }
 

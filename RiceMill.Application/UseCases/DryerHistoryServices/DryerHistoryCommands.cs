@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.Extensions.Primitives;
 using RiceMill.Application.Common.ExtensionMethods;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.Enums;
@@ -28,6 +29,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
         private readonly IUserActivityCommands _userActivityCommands;
         private readonly EntityTypeEnum _dryerHistoryKey = EntityTypeEnum.DryerHistories;
         private readonly EntityTypeEnum _inputLoadKey = EntityTypeEnum.InputLoads;
+        private readonly EntityTypeEnum _dryerHistoryInputLoadKey = EntityTypeEnum.DryerHistoryInputLoads;
 
         public DryerHistoryCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService, IUserActivityCommands userActivityCommands)
         {
@@ -63,6 +65,13 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _inputLoadKey, beforeEdit, inputLoad.SerializeObject(), inputLoad.RiceMillId);
             _cacheService.Maintain(_inputLoadKey, inputLoad);
+
+            var dryerHistoryInputLoad = new DryerHistoryInputLoad { DryerHistoryId = dryerHistory.Id, InputLoadId = inputLoad.Id };
+            _applicationDbContext.DryerHistoryInputLoad.Add(dryerHistoryInputLoad);
+            _applicationDbContext.SaveChanges();
+            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _dryerHistoryInputLoadKey, string.Empty, dryerHistoryInputLoad.SerializeObject(), inputLoad.RiceMillId);
+            _cacheService.Maintain(_dryerHistoryInputLoadKey, dryerHistoryInputLoad);
+
             return Result<DtoDryerHistory>.Success(dryerHistory.Adapt<DtoDryerHistory>());
         }
 
@@ -117,7 +126,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             if ((isNew && dryerHistory.Operation == DryerOperationEnum.Unload) || (!isNew && dryerHistory.Operation == DryerOperationEnum.Load))
                 return Result<DtoDryerHistory>.Failure(new Error(ResultStatusEnum.DryerHistoryOperationIsNotValid), HttpStatusCode.BadRequest);
 
-            if (dryerHistory.Operation == DryerOperationEnum.Unload && !dryerHistory.StopTime.HasValue)
+            if (dryerHistory.Operation == DryerOperationEnum.Unload && !dryerHistory.EndTime.HasValue)
                 return Result<DtoDryerHistory>.Failure(new Error(ResultStatusEnum.DryerHistoryStopTimeIsNotValid), HttpStatusCode.BadRequest);
 
             if (!_cacheService.GetDryers().Any(c => c.Id.Equals(dryerHistory.DryerId)))

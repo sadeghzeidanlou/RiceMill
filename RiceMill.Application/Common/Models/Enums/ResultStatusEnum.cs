@@ -165,6 +165,13 @@
 
         RiceThreshingNotFound = 1050,
         RiceThreshingIdIsNotValid,
+        RiceThreshingStartTimeIsNotValid,
+        RiceThreshingEndTimeIsNotValid,
+        RiceThreshingUnbrokenRiceIsNotValid,
+        RiceThreshingBrokenRiceIsNotValid,
+        RiceThreshingChickenRiceIsNotValid,
+        RiceThreshingFlourIsNotValid,
+        RiceThreshingDescriptionLengthIsNotValid,
 
         #endregion
 
@@ -352,6 +359,13 @@
 
                 {ResultStatusEnum.RiceThreshingNotFound, "شالیکوبی یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.RiceThreshingIdIsNotValid, "شناسه شالیکوبی معتبر نمی باشد" },
+                {ResultStatusEnum.RiceThreshingStartTimeIsNotValid, "زمان شروع شالیکوبی معتبر نمی باشد" },
+                {ResultStatusEnum.RiceThreshingEndTimeIsNotValid, "زمان پایان شالیکوبی معتبر نمی باشد" },
+                {ResultStatusEnum.RiceThreshingUnbrokenRiceIsNotValid, "مقدار برنج سالم شالیکوبی معتبر نمی باشد" },
+                {ResultStatusEnum.RiceThreshingBrokenRiceIsNotValid, "مقدار برنج شکسته شالیکوبی معتبر نمی باشد" },
+                {ResultStatusEnum.RiceThreshingChickenRiceIsNotValid, "مقدار برنج مرغی شالیکوبی معتبر نمی باشد" },
+                {ResultStatusEnum.RiceThreshingFlourIsNotValid, "مقدار آرد شالیکوبی معتبر نمی باشد" },
+                {ResultStatusEnum.RiceThreshingDescriptionLengthIsNotValid, "طول توضیحات شالیکوبی معتبر نمی باشد" },
 
                 #endregion
 

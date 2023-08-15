@@ -10,32 +10,32 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// Time of start <see cref="RiceThreshing"/>
         /// </summary>
-        public DateTime RiceThreshingStart { get; set; }
+        public DateTime StartTime { get; set; }
 
         /// <summary>
         /// Time of end <see cref="RiceThreshing"/>
         /// </summary>
-        public DateTime RiceThreshingEnd { get; set; }
+        public DateTime EndTime { get; set; }
 
         /// <summary>
         /// How much Unbroken Rice generated in this <see cref="RiceThreshing"/>
         /// </summary>
-        public short UnbrokenRice { get; set; }
+        public float UnbrokenRice { get; set; }
 
         /// <summary>
         /// How much Broken Rice generated in this <see cref="RiceThreshing"/>
         /// </summary>
-        public short BrokenRice { get; set; }
+        public float BrokenRice { get; set; }
 
         /// <summary>
         /// How much Chicken Rice generated in this <see cref="RiceThreshing"/>
         /// </summary>
-        public short ChickenRice { get; set; }
+        public float ChickenRice { get; set; }
 
         /// <summary>
         /// How much Flour generated in this <see cref="RiceThreshing"/>
         /// </summary>
-        public short Flour { get; set; }
+        public float Flour { get; set; }
 
         /// <summary>
         /// Description of this <see cref="RiceThreshing"/>

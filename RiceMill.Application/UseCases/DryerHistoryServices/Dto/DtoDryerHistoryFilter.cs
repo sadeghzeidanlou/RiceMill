@@ -17,11 +17,11 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 
         public DateTime? StartTimeGreater { get; set; }
 
-        public DateTime? StopTimeLower { get; set; }
+        public DateTime? EndTimeLower { get; set; }
 
-        public DateTime? StopTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
-        public DateTime? StopTimeGreater { get; set; }
+        public DateTime? EndTimeGreater { get; set; }
 
         public Guid? DryerId { get; set; }
 

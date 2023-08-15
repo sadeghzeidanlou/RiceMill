@@ -13,8 +13,6 @@ namespace RiceMill.Domain.Models
         /// </summary>
         public DryerOperationEnum Operation { get; set; }
 
-
-
         /// <summary>
         /// Time of start this operation <see cref="Operation"/>
         /// </summary>
@@ -23,7 +21,7 @@ namespace RiceMill.Domain.Models
         /// <summary>
         /// Time of end this operation <see cref="Operation"/>
         /// </summary>
-        public DateTime? StopTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         /// <summary>
         /// This property used for reference navigation between this class and <see cref="Dryer"/> that <see cref="DryerHistory"/> operated on that
