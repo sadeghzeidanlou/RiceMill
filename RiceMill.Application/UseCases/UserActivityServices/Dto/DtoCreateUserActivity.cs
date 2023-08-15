@@ -6,13 +6,13 @@ using Shared.ExtensionMethods;
 namespace RiceMill.Application.UseCases.UserActivityServices.Dto
 {
     public record DtoCreateUserActivity(Guid UserId, string Ip, UserActivityTypeEnum UserActivityType, EntityTypeEnum EntityType, ApplicationIdEnum ApplicationId, string BeforeEdit, string AfterEdit, Guid? RiceMillId);
-    
+
     public class DtoCreateUserActivityValidator : AbstractValidator<DtoCreateUserActivity>
     {
         public DtoCreateUserActivityValidator()
         {
             RuleFor(dto => dto.UserId)
-                .Must((uid) => uid.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.UserActivityUserIdIsNotValid.ToString());
+                .NotEmpty().WithErrorCode(ResultStatusEnum.UserActivityUserIdIsNotValid.ToString());
 
             RuleFor(dto => dto.Ip)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.UserActivityIpIsNotValid.ToString());

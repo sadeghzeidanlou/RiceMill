@@ -136,6 +136,7 @@
         InputLoadNotFound = 950,
         InputLoadIdIsNotValid,
         InputLoadNumberOfBagsIsNotValid,
+        InputLoadNumberOfBagsInDryerIsNotValid,
         InputLoadDescriptionLengthIsNotValid,
         InputLoadReceiveTimeIsNotValid,
         InputLoadVillageIdIsNotValid,
@@ -157,6 +158,27 @@
         DryerHistoryOperationIsNotValid,
         DryerHistoryStartTimeIsNotValid,
         DryerHistoryStopTimeIsNotValid,
+
+        #endregion
+
+        #region RiceThreshing 1050 To 1099
+
+        RiceThreshingNotFound = 1050,
+        RiceThreshingIdIsNotValid,
+
+        #endregion
+
+        #region Income 1100 To 1149
+
+        IncomeNotFound = 1100,
+        IncomeIdIsNotValid,
+
+        #endregion
+
+        #region Delivery 1150 To 1199
+
+        DeliveryNotFound = 1150,
+        DeliveryIdIsNotValid,
 
         #endregion
     }
@@ -299,6 +321,7 @@
                 {ResultStatusEnum.InputLoadNotFound, "بار ورودی یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.InputLoadIdIsNotValid, "شناسه بار ورودی معتبر نمی باشد" },
                 {ResultStatusEnum.InputLoadNumberOfBagsIsNotValid, "تعداد کیسه های بار ورودی معتبر نمی باشد" },
+                {ResultStatusEnum.InputLoadNumberOfBagsInDryerIsNotValid, "تعداد کیسه های داخل خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.InputLoadDescriptionLengthIsNotValid, "طول توضیحات بار ورودی معتبر نمی باشد" },
                 {ResultStatusEnum.InputLoadReceiveTimeIsNotValid, "زمان دریافت بار ورودی معتبر نمی باشد" },
                 {ResultStatusEnum.InputLoadDelivererPersonIdIsNotValid, "شناسه تحویل دهنده بار ورودی معتبر نمی باشد" },
@@ -322,6 +345,27 @@
                 {ResultStatusEnum.DryerHistoryOperationIsNotValid, "عملیات خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerHistoryStartTimeIsNotValid, "زمان شروع عملیات خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerHistoryStopTimeIsNotValid, "زمان پایان عملیات خشک کن معتبر نمی باشد" },
+
+                #endregion
+
+                #region RiceThreshing
+
+                {ResultStatusEnum.RiceThreshingNotFound, "شالیکوبی یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.RiceThreshingIdIsNotValid, "شناسه شالیکوبی معتبر نمی باشد" },
+
+                #endregion
+
+                #region Income
+
+                {ResultStatusEnum.IncomeNotFound, "درآمد یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.IncomeIdIsNotValid, "شناسه درآمد معتبر نمی باشد" },
+
+                #endregion
+
+                #region Delivery
+
+                {ResultStatusEnum.DeliveryNotFound, "تحویل یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.DeliveryIdIsNotValid, "شناسه تحویل معتبر نمی باشد" },
 
                 #endregion
             };

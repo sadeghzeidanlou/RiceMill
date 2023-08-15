@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
         public DtoUpdateRiceMillValidator()
         {
             RuleFor(dto => dto.Id)
-               .Must((id) => id.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
+               .NotEmpty().WithErrorCode(ResultStatusEnum.RiceMillIdIsNotValid.ToString());
 
             RuleFor(dto => dto.Title)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.RiceMillTitleIsNotValid.ToString())

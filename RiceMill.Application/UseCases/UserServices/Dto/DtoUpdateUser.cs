@@ -12,7 +12,7 @@ namespace RiceMill.Application.UseCases.UserServices.Dto
         public DtoUpdateUserValidator()
         {
             RuleFor(dto => dto.Id)
-                 .Must((id) => id.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.UserIdIsNotValid.ToString());
+                .NotEmpty().WithErrorCode(ResultStatusEnum.UserIdIsNotValid.ToString());
 
             RuleFor(dto => dto.Username)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.UserUsernameIsNotValid.ToString())

@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using RiceMill.Application.Common.Models.Enums;
-using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.VillageServices.Dto
 {
@@ -11,7 +10,7 @@ namespace RiceMill.Application.UseCases.VillageServices.Dto
         public DtoUpdateVillageValidator()
         {
             RuleFor(dto => dto.Id)
-                .Must((id) => id.IsNotNullOrEmpty()).WithErrorCode(ResultStatusEnum.VillageIdIsNotValid.ToString());
+                .NotEmpty().WithErrorCode(ResultStatusEnum.VillageIdIsNotValid.ToString());
 
             RuleFor(dto => dto.Title)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.VillageTitleIsNotValid.ToString())

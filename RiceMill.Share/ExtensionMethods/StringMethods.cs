@@ -229,9 +229,9 @@ namespace Shared.ExtensionMethods
             return inputParameter.ExtractInt64();
         }
 
-        public static bool IsNotNullOrEmpty(this Guid? guid) => guid.HasValue && guid.Value != Guid.Empty && guid.Value != default;
+        public static bool IsNotNullOrEmpty(this Guid? guid) => guid.HasValue && guid.Value.IsNotNullOrEmpty();
 
-        public static bool IsNullOrEmpty(this Guid? guid) => !guid.HasValue || guid.Value == Guid.Empty || guid.Value == default;
+        public static bool IsNullOrEmpty(this Guid? guid) => !guid.HasValue || guid.Value.IsNullOrEmpty();
 
         public static bool IsNotNullOrEmpty(this Guid guid) => guid != Guid.Empty && guid != default;
 
@@ -252,7 +252,7 @@ namespace Shared.ExtensionMethods
         private static partial Regex MotorcyclePlateRegex();
 
         public static bool IsMotorcyclePlate(this string plate) => MotorcyclePlateRegex().Match(plate).Success;
-        
+
         [GeneratedRegex(@"^\d{2}[\u0600-\u06FF]\d{3}\d{2}$")]
         private static partial Regex GeneralPlateRegex();
 
