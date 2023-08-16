@@ -11,10 +11,10 @@ namespace RiceMill.Persistence.Configurations
             builder.Property(rt => rt.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(rt => rt.RiceThreshingStart)
+            builder.Property(rt => rt.StartTime)
                 .IsRequired();
 
-            builder.Property(rt => rt.RiceThreshingEnd)
+            builder.Property(rt => rt.EndTime)
                 .IsRequired();
 
             builder.Property(rt => rt.UnbrokenRice)

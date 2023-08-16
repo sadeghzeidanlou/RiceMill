@@ -222,6 +222,9 @@ namespace RiceMill.Persistence.Migrations
                     b.Property<Guid>("DryerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -232,13 +235,10 @@ namespace RiceMill.Persistence.Migrations
                     b.Property<Guid>("RiceMillId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("RiceThreshingId")
+                    b.Property<Guid?>("RiceThreshingId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("StopTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("UpdateTime")
@@ -632,11 +632,11 @@ namespace RiceMill.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<short>("BrokenRice")
-                        .HasColumnType("smallint");
+                    b.Property<float>("BrokenRice")
+                        .HasColumnType("real");
 
-                    b.Property<short>("ChickenRice")
-                        .HasColumnType("smallint");
+                    b.Property<float>("ChickenRice")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2");
@@ -649,8 +649,11 @@ namespace RiceMill.Persistence.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<short>("Flour")
-                        .HasColumnType("smallint");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("Flour")
+                        .HasColumnType("real");
 
                     b.Property<Guid>("IncomeId")
                         .HasColumnType("uniqueidentifier");
@@ -664,14 +667,11 @@ namespace RiceMill.Persistence.Migrations
                     b.Property<Guid>("RiceMillId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("RiceThreshingEnd")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("RiceThreshingStart")
-                        .HasColumnType("datetime2");
-
-                    b.Property<short>("UnbrokenRice")
-                        .HasColumnType("smallint");
+                    b.Property<float>("UnbrokenRice")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("UpdateTime")
                         .HasColumnType("datetime2");
@@ -1017,8 +1017,7 @@ namespace RiceMill.Persistence.Migrations
                     b.HasOne("RiceMill.Domain.Models.RiceThreshing", "RiceThreshing")
                         .WithMany("DryerHistories")
                         .HasForeignKey("RiceThreshingId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("RiceMill.Domain.Models.User", "User")
                         .WithMany("DryerHistories")
