@@ -4,9 +4,9 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 {
     public class DtoRiceThreshing : DtoEventBaseWithUserAndRiceMill
     {
-        public DateTime RiceThreshingStart { get; set; }
+        public DateTime StartTime { get; set; }
 
-        public DateTime RiceThreshingEnd { get; set; }
+        public DateTime EndTime{ get; set; }
 
         public float UnbrokenRice { get; set; }
 

@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
 using RiceMill.Application.Common.Models.Enums;
 using Shared.Enums;
-using System.Data;
 
 namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 {
-    public record DtoUpdateDryerHistory(Guid Id, DryerOperationEnum Operation, DateTime StartTime, DateTime? EndTime, Guid DryerId, Guid? RiceThreshingId, Guid InputLoadId, short NumberOfBagsInDryer);
+    public record DtoUpdateDryerHistory(Guid Id, DryerOperationEnum Operation, DateTime StartTime, DateTime? EndTime, Guid DryerId, Guid? RiceThreshingId, Guid InputLoadId);
 
     public class DtoUpdateDryerHistoryValidator : AbstractValidator<DtoUpdateDryerHistory>
     {
@@ -31,9 +30,6 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 
             RuleFor(dto => dto.InputLoadId)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.InputLoadIdIsNotValid.ToString());
-
-            RuleFor(dto => dto.NumberOfBagsInDryer)
-                .Must(dto => dto > -1).WithErrorCode(ResultStatusEnum.InputLoadNumberOfBagsInDryerIsNotValid.ToString());
         }
     }
 }

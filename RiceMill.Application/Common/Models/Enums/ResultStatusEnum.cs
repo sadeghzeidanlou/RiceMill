@@ -179,6 +179,11 @@
 
         IncomeNotFound = 1100,
         IncomeIdIsNotValid,
+        IncomeIncomeTimeIsNotValid,
+        IncomeUnbrokenRiceIsNotValid,
+        IncomeBrokenRiceIsNotValid,
+        IncomeFlourIsNotValid,
+        IncomeDescriptionLengthIsNotValid,
 
         #endregion
 
@@ -373,6 +378,11 @@
 
                 {ResultStatusEnum.IncomeNotFound, "درآمد یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.IncomeIdIsNotValid, "شناسه درآمد معتبر نمی باشد" },
+                {ResultStatusEnum.IncomeIncomeTimeIsNotValid, "زمان کسب درآمد معتبر نمی باشد" },
+                {ResultStatusEnum.IncomeUnbrokenRiceIsNotValid, "مقدار برنج سالم درآمد معتبر نمی باشد" },
+                {ResultStatusEnum.IncomeBrokenRiceIsNotValid, "مقدار برنج شکسته درآمد معتبر نمی باشد" },
+                {ResultStatusEnum.IncomeFlourIsNotValid, "مقدار آرد درآمد معتبر نمی باشد" },
+                {ResultStatusEnum.IncomeDescriptionLengthIsNotValid, "طول توضیحات درآمد معتبر نمی باشد" },
 
                 #endregion
 

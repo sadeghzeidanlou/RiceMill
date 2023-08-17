@@ -27,6 +27,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
         private readonly ICacheService _cacheService;
         private readonly IUserActivityCommands _userActivityCommands;
         private readonly EntityTypeEnum _riceThreshingKey = EntityTypeEnum.RiceThreshings;
+        private readonly EntityTypeEnum _dryerHistoryKey = EntityTypeEnum.DryerHistories;
 
         public RiceThreshingCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService, IUserActivityCommands userActivityCommands)
         {
@@ -45,7 +46,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
             if (!validationResult.IsValid)
                 return Result<DtoRiceThreshing>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var validateCreateRiceThreshingResult = ValidateRiceThreshing(createRiceThreshing, true);
+            var validateCreateRiceThreshingResult = ValidateRiceThreshing(createRiceThreshing);
             if (validateCreateRiceThreshingResult != null)
                 return validateCreateRiceThreshingResult;
 
@@ -55,20 +56,15 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _riceThreshingKey, string.Empty, riceThreshing.SerializeObject(), riceThreshing.RiceMillId);
             _cacheService.Maintain(_riceThreshingKey, riceThreshing);
-
-            //var inputLoad = GetInputLoadById(createRiceThreshing.InputLoadId);
-            //var beforeEdit = inputLoad.SerializeObject();
-            //inputLoad.NumberOfBagsInDryer += createRiceThreshing.NumberOfBagsInDryer;
-            //_applicationDbContext.SaveChanges();
-            //_userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _inputLoadKey, beforeEdit, inputLoad.SerializeObject(), inputLoad.RiceMillId);
-            //_cacheService.Maintain(_inputLoadKey, inputLoad);
-
-            //var riceThreshingInputLoad = new RiceThreshingInputLoad { RiceThreshingId = riceThreshing.Id, InputLoadId = inputLoad.Id };
-            //_applicationDbContext.RiceThreshingInputLoad.Add(riceThreshingInputLoad);
-            //_applicationDbContext.SaveChanges();
-            //_userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _riceThreshingInputLoadKey, string.Empty, riceThreshingInputLoad.SerializeObject(), inputLoad.RiceMillId);
-            //_cacheService.Maintain(_riceThreshingInputLoadKey, riceThreshingInputLoad);
-
+            foreach (var dryerHistoryId in createRiceThreshing.DryerHistoryIds)
+            {
+                var dryerHistory = GetDryerHistoryById(dryerHistoryId);
+                var beforeEdit = dryerHistory.SerializeObject();
+                dryerHistory.RiceThreshingId = riceThreshing.Id;
+                _applicationDbContext.SaveChanges();
+                _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _dryerHistoryKey, beforeEdit, dryerHistory.SerializeObject(), dryerHistory.RiceMillId);
+                _cacheService.Maintain(_dryerHistoryKey, dryerHistory);
+            }
             return Result<DtoRiceThreshing>.Success(riceThreshing.Adapt<DtoRiceThreshing>());
         }
 
@@ -85,7 +81,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
             if (riceThreshing == null)
                 return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
 
-            var validateCreateRiceThreshingResult = ValidateRiceThreshing(updateRiceThreshing.Adapt<DtoCreateRiceThreshing>(), false);
+            var validateCreateRiceThreshingResult = ValidateRiceThreshing(updateRiceThreshing.Adapt<DtoCreateRiceThreshing>());
             if (validateCreateRiceThreshingResult != null)
                 return validateCreateRiceThreshingResult;
 
@@ -116,27 +112,18 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
 
         private RiceThreshing GetRiceThreshingById(Guid id) => _applicationDbContext.RiceThreshings.FirstOrDefault(c => c.Id == id);
 
-        //private InputLoad GetInputLoadById(Guid id) => _applicationDbContext.InputLoads.FirstOrDefault(c => c.Id == id);
+        private DryerHistory GetDryerHistoryById(Guid id) => _applicationDbContext.DryerHistories.FirstOrDefault(c => c.Id == id);
 
-        private Result<DtoRiceThreshing> ValidateRiceThreshing(DtoCreateRiceThreshing riceThreshing, bool isNew)
+        private Result<DtoRiceThreshing> ValidateRiceThreshing(DtoCreateRiceThreshing riceThreshing)
         {
-            //if ((isNew && riceThreshing.Operation == DryerOperationEnum.Unload) || (!isNew && riceThreshing.Operation == DryerOperationEnum.Load))
-            //    return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.RiceThreshingOperationIsNotValid), HttpStatusCode.BadRequest);
+            if (!_cacheService.GetIncomes().Any(rm => rm.Id.Equals(riceThreshing.IncomeId)))
+                return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.IncomeNotFound), HttpStatusCode.NotFound);
 
-            //if (riceThreshing.Operation == DryerOperationEnum.Unload && !riceThreshing.EndTime.HasValue)
-            //    return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.RiceThreshingStopTimeIsNotValid), HttpStatusCode.BadRequest);
+            if (_cacheService.GetDryerHistories().Select(dh => dh.Id).Intersect(riceThreshing.DryerHistoryIds).Count() != riceThreshing.DryerHistoryIds.Count)
+                return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
 
-            //if (!_cacheService.GetDryers().Any(c => c.Id.Equals(riceThreshing.DryerId)))
-            //    return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.DryerNotFound), HttpStatusCode.NotFound);
-
-            //if (riceThreshing.RiceThreshingId.IsNotNullOrEmpty() && !_cacheService.GetRiceThreshings().Any(rt => rt.Id.Equals(riceThreshing.RiceThreshingId.Value)))
-            //    return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
-
-            //if (!_cacheService.GetInputLoads().Any(c => c.Id.Equals(riceThreshing.InputLoadId)))
-            //    return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
-
-            //if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(riceThreshing.RiceMillId)))
-            //    return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+            if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(riceThreshing.RiceMillId)))
+                return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
             return null;
         }
