@@ -191,6 +191,18 @@
 
         DeliveryNotFound = 1150,
         DeliveryIdIsNotValid,
+        DeliveryDeliveryTimeIsNotValid,
+        DeliveryUnbrokenRiceIsNotValid,
+        DeliveryBrokenRiceIsNotValid,
+        DeliveryChickenRiceIsNotValid,
+        DeliveryFlourIsNotValid,
+        DeliveryDescriptionLengthIsNotValid,
+        DeliveryDelivererPersonIdIsNotValid,
+        DeliveryDelivererPersonNotFound,
+        DeliveryReceiverPersonIdIsNotValid,
+        DeliveryReceiverPersonNotFound,
+        DeliveryCarrierPersonIdIsNotValid,
+        DeliveryCarrierPersonNotFound
 
         #endregion
     }
@@ -324,7 +336,7 @@
                 {ResultStatusEnum.PaymentFlourIsNotValid, "مقدار آرد برنج برای پرداخت معتبر نمی باشد" },
                 {ResultStatusEnum.PaymentMoneyIsNotValid, "مقدار پول برای پرداخت معتبر نمی باشد" },
                 {ResultStatusEnum.PaymentDescriptionLengthIsNotValid, "طول توضیحات پرداخت معتبر نمی باشد" },
-                {ResultStatusEnum.PaymentPaidPersonIdIsNotValid, "شناسه شخص دریافت کننده معتبر نمی باشد" },
+                {ResultStatusEnum.PaymentPaidPersonIdIsNotValid, "شناسه فرد دریافت کننده معتبر نمی باشد" },
 
                 #endregion
 
@@ -337,14 +349,11 @@
                 {ResultStatusEnum.InputLoadDescriptionLengthIsNotValid, "طول توضیحات بار ورودی معتبر نمی باشد" },
                 {ResultStatusEnum.InputLoadReceiveTimeIsNotValid, "زمان دریافت بار ورودی معتبر نمی باشد" },
                 {ResultStatusEnum.InputLoadDelivererPersonIdIsNotValid, "شناسه تحویل دهنده بار ورودی معتبر نمی باشد" },
-                {ResultStatusEnum.InputLoadDelivererPersonNotFound, "تحویل دهنده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
-
+                {ResultStatusEnum.InputLoadDelivererPersonNotFound, "فرد تحویل دهنده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
                 {ResultStatusEnum.InputLoadReceiverPersonIdIsNotValid, "شناسه دریافت کننده بار ورودی معتبر نمی باشد" },
-                {ResultStatusEnum.InputLoadReceiverPersonNotFound, "دریافت کننده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
-
+                {ResultStatusEnum.InputLoadReceiverPersonNotFound, "فرد دریافت کننده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
                 {ResultStatusEnum.InputLoadCarrierPersonIdIsNotValid, "شناسه حمل کننده بار ورودی معتبر نمی باشد" },
-                {ResultStatusEnum.InputLoadCarrierPersonNotFound, "حمل کننده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
-
+                {ResultStatusEnum.InputLoadCarrierPersonNotFound, "فرد حمل کننده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
                 {ResultStatusEnum.InputLoadOwnerPersonIdIsNotValid, "شناسه صاحب بار ورودی معتبر نمی باشد" },
                 {ResultStatusEnum.InputLoadOwnerPersonNotFound, "صاحب بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
 
@@ -390,6 +399,18 @@
 
                 {ResultStatusEnum.DeliveryNotFound, "تحویل یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.DeliveryIdIsNotValid, "شناسه تحویل معتبر نمی باشد" },
+                {ResultStatusEnum.DeliveryDeliveryTimeIsNotValid, "زمان تحویل معتبر نمی باشد" },
+                {ResultStatusEnum.DeliveryUnbrokenRiceIsNotValid, "مقدار برنج سالم برای تحویل معتبر نمی باشد" },
+                {ResultStatusEnum.DeliveryBrokenRiceIsNotValid, "مقدار برنج شکسته برای تحویل معتبر نمی باشد" },
+                {ResultStatusEnum.DeliveryChickenRiceIsNotValid, "مقدار برنج مرغی برای تحویل معتبر نمی باشد" },
+                {ResultStatusEnum.DeliveryFlourIsNotValid, "مقدار آرد برای تحویل معتبر نمی باشد" },
+                {ResultStatusEnum.DeliveryDescriptionLengthIsNotValid, "طول توضیحات تحویل معتبر نمی باشد" },
+                {ResultStatusEnum.DeliveryDelivererPersonIdIsNotValid, "شناسه فرد تحویل دهنده بار معتبر نمی باشد" },
+                {ResultStatusEnum.DeliveryDelivererPersonNotFound, "فرد تحویل دهنده بار یافت نشد یا شما مجاز به دسترسی نیستید" },
+                {ResultStatusEnum.DeliveryReceiverPersonIdIsNotValid, "شناسه فرد تحویل گیرنده بار معتبر نمی باشد" },
+                {ResultStatusEnum.DeliveryReceiverPersonNotFound, "فرد تحویل گیرنده بار یافت نشد یا شما مجاز به دسترسی نیستید" },
+                {ResultStatusEnum.DeliveryCarrierPersonIdIsNotValid, "شناسه فرد حمل کننده بار معتبر نمی باشد" },
+                {ResultStatusEnum.DeliveryCarrierPersonNotFound, "فرد حمل کننده بار تحویلی یافت نشد یا شما مجاز به دسترسی نیستید" }
 
                 #endregion
             };

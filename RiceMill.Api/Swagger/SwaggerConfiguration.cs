@@ -39,9 +39,9 @@ namespace RiceMill.Api.Swagger
                      s.AddSecurityDefinition("Bearer", securitySchema);
                      s.AddSecurityRequirement(new OpenApiSecurityRequirement { { securitySchema, Array.Empty<string>() } });
                      s.SchemaFilter<SwaggerExcludeFilter>();
-                     //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                     //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                     //c.IncludeXmlComments(xmlPath);
+                     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                     s.IncludeXmlComments(xmlPath);
                  });
 
             return services;
