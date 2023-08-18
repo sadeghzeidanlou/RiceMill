@@ -1,8 +1,9 @@
-using RiceMill.Api.Cors;
+using RiceMill.Api.Configurations.Cors;
+using RiceMill.Api.Configurations.Jwt;
+using RiceMill.Api.Configurations.Swagger;
+using RiceMill.Api.Configurations.Versioning;
 using RiceMill.Api.DependencyInjection;
 using RiceMill.Api.Middleware;
-using RiceMill.Api.Swagger;
-using RiceMill.Api.Versioning;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.DependencyInjection;
 using RiceMill.Infrastructure.DependencyInjection;
@@ -27,6 +28,7 @@ namespace RiceMill.Api
                 .AddSwaggerConfiguration()
                 .AddApiVersioningConfiguration()
                 .AddCorsConfiguration()
+                .AddJwtConfiguration()
                 .AddMemoryCache()
                 .AddControllers();
 

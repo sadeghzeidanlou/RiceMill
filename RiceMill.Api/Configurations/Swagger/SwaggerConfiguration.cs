@@ -2,7 +2,7 @@
 using RiceMill.Api.Filter;
 using System.Reflection;
 
-namespace RiceMill.Api.Swagger
+namespace RiceMill.Api.Configurations.Swagger
 {
     public static class SwaggerConfiguration
     {

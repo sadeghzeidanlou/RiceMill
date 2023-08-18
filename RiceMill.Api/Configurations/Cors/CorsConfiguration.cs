@@ -1,4 +1,4 @@
-﻿namespace RiceMill.Api.Cors
+﻿namespace RiceMill.Api.Configurations.Cors
 {
     public static class CorsConfiguration
     {

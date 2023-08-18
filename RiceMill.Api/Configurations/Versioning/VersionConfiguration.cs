@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 
-namespace RiceMill.Api.Versioning
+namespace RiceMill.Api.Configurations.Versioning
 {
     public static class VersionConfiguration
     {
