@@ -10,7 +10,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
         Result<PaginatedList<DtoRiceMill>> GetAll(DtoRiceMillFilter riceMillFilter);
     }
 
-    public class RiceMillQueries : IRiceMillQueries
+    public sealed class RiceMillQueries : IRiceMillQueries
     {
         private readonly ICacheService _cacheService;
         private readonly ICurrentRequestService _currentRequestService;

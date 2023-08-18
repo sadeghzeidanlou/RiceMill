@@ -5,9 +5,9 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.UserActivityServices.Dto
 {
-    public record DtoCreateUserActivity(Guid UserId, string Ip, UserActivityTypeEnum UserActivityType, EntityTypeEnum EntityType, ApplicationIdEnum ApplicationId, string BeforeEdit, string AfterEdit, Guid? RiceMillId);
+    public sealed record DtoCreateUserActivity(Guid UserId, string Ip, UserActivityTypeEnum UserActivityType, EntityTypeEnum EntityType, ApplicationIdEnum ApplicationId, string BeforeEdit, string AfterEdit, Guid? RiceMillId);
 
-    public class DtoCreateUserActivityValidator : AbstractValidator<DtoCreateUserActivity>
+    public sealed class DtoCreateUserActivityValidator : AbstractValidator<DtoCreateUserActivity>
     {
         public DtoCreateUserActivityValidator()
         {

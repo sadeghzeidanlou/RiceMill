@@ -3,7 +3,7 @@ using RiceMill.Domain.Models.BaseModels;
 
 namespace RiceMill.Application.UseCases.VillageServices.Dto
 {
-    public class DtoVillage : DtoEventBaseWithUserAndRiceMill
+    public sealed class DtoVillage : DtoEventBaseWithUserAndRiceMill
     {
         public string Title { get; set; }
 

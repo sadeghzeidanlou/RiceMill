@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.Common.Models.ResultObject
 {
-    public class PaginatedList<TOut>
+    public sealed class PaginatedList<TOut>
     {
         public List<TOut> Items { get; }
         public int PageNumber { get; }

@@ -18,7 +18,7 @@ namespace RiceMill.Application.UseCases.UserServices
         Result<DtoUser> Login(DtoLogin login);
     }
 
-    public class UserQueries : IUserQueries
+    public sealed class UserQueries : IUserQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

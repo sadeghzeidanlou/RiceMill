@@ -7,7 +7,7 @@ using RiceMill.Domain.Models;
 
 namespace RiceMill.Application.Common.Mapping
 {
-    public class MappingConfig : IRegister
+    public sealed class MappingConfig : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {

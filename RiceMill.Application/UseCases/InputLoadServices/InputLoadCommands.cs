@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.InputLoadServices
         Result<DtoInputLoad> Update(DtoUpdateInputLoad inputLoad);
     }
 
-    public class InputLoadCommands : IInputLoadCommands
+    public sealed class InputLoadCommands : IInputLoadCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

@@ -5,9 +5,9 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.VehicleServices.Dto
 {
-    public record DtoCreateVehicle(string Plate, string Description, VehicleTypeEnum VehicleType, Guid OwnerPersonId, Guid RiceMillId);
+    public sealed record DtoCreateVehicle(string Plate, string Description, VehicleTypeEnum VehicleType, Guid OwnerPersonId, Guid RiceMillId);
 
-    public class DtoCreateVehicleValidator : AbstractValidator<DtoCreateVehicle>
+    public sealed class DtoCreateVehicleValidator : AbstractValidator<DtoCreateVehicle>
     {
         public DtoCreateVehicleValidator()
         {

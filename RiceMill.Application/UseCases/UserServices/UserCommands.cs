@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.UserServices
         Result<DtoUser> Update(DtoUpdateUser user);
     }
 
-    public class UserCommands : IUserCommands
+    public sealed class UserCommands : IUserCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

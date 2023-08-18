@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 {
-    public class DtoRiceThreshingFilter : PagingInfo
+    public sealed class DtoRiceThreshingFilter : PagingInfo
     {
         public Guid? Id { get; set; }
 

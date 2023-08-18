@@ -7,7 +7,7 @@ namespace RiceMill.Api.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class UserController : BaseController
+    public sealed class UserController : BaseController
     {
         private readonly IUserCommands _userCommands;
 

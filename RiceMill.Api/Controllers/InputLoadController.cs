@@ -7,7 +7,7 @@ namespace RiceMill.Api.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class InputLoadController : BaseController
+    public sealed class InputLoadController : BaseController
     {
         private readonly IInputLoadCommands _inputLoadCommands;
 

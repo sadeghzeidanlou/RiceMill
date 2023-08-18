@@ -3,9 +3,9 @@ using RiceMill.Application.Common.Models.Enums;
 
 namespace RiceMill.Application.UseCases.IncomeServices.Dto
 {
-    public record DtoUpdateIncome(Guid Id, DateTime IncomeTime, float UnbrokenRice, float BrokenRice, float Flour, string Description, Guid RiceMillId);
+    public sealed record DtoUpdateIncome(Guid Id, DateTime IncomeTime, float UnbrokenRice, float BrokenRice, float Flour, string Description, Guid RiceMillId);
 
-    public class DtoUpdateIncomeValidator : AbstractValidator<DtoUpdateIncome>
+    public sealed class DtoUpdateIncomeValidator : AbstractValidator<DtoUpdateIncome>
     {
         public DtoUpdateIncomeValidator()
         {

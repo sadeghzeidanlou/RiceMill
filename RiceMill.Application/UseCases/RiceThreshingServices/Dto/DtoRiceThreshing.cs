@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 {
-    public class DtoRiceThreshing : DtoEventBaseWithUserAndRiceMill
+    public sealed class DtoRiceThreshing : DtoEventBaseWithUserAndRiceMill
     {
         public DateTime StartTime { get; set; }
 

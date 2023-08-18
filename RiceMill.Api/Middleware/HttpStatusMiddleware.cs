@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace RiceMill.Api.Middleware
 {
-    public class HttpStatusMiddleware
+    public sealed class HttpStatusMiddleware
     {
         private readonly RequestDelegate _next;
 

@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
         Result<DtoPayment> Update(DtoUpdatePayment payment);
     }
 
-    public class PaymentCommands : IPaymentCommands
+    public sealed class PaymentCommands : IPaymentCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
         Result<DtoRiceThreshing> Update(DtoUpdateRiceThreshing riceThreshing);
     }
 
-    public class RiceThreshingCommands : IRiceThreshingCommands
+    public sealed class RiceThreshingCommands : IRiceThreshingCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

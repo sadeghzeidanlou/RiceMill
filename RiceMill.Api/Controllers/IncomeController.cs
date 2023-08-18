@@ -7,7 +7,7 @@ namespace RiceMill.Api.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class IncomeController : BaseController
+    public sealed class IncomeController : BaseController
     {
         private readonly IIncomeCommands _incomeCommands;
 

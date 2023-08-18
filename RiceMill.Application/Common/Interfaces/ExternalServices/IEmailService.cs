@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.Common.Interfaces.ExternalServices
 {
-    internal interface IEmailService
+    public interface IEmailService
     {
         Task Send(DtoEmailDetail emailDetail);
     }

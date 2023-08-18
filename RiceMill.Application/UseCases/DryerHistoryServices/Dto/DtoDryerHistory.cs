@@ -3,7 +3,7 @@ using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 {
-    public class DtoDryerHistory : DtoEventBaseWithUserAndRiceMill
+    public sealed class DtoDryerHistory : DtoEventBaseWithUserAndRiceMill
     {
         public DryerOperationEnum Operation { get; set; }
 

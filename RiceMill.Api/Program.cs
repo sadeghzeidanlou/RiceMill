@@ -1,3 +1,4 @@
+using RiceMill.Api.Cors;
 using RiceMill.Api.DependencyInjection;
 using RiceMill.Api.Middleware;
 using RiceMill.Api.Swagger;
@@ -25,6 +26,7 @@ namespace RiceMill.Api
                 .AddApiServices()
                 .AddSwaggerConfiguration()
                 .AddApiVersioningConfiguration()
+                .AddCorsConfiguration()
                 .AddMemoryCache()
                 .AddControllers();
 

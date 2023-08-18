@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices
         Result<DtoDelivery> Update(DtoUpdateDelivery delivery);
     }
 
-    public class DeliveryCommands : IDeliveryCommands
+    public sealed class DeliveryCommands : IDeliveryCommands
     {
 
         private readonly IApplicationDbContext _applicationDbContext;

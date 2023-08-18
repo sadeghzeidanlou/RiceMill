@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.UseCases.IncomeServices.Dto
 {
-    public class DtoIncome : DtoEventBaseWithUserAndRiceMill
+    public sealed class DtoIncome : DtoEventBaseWithUserAndRiceMill
     {
         public DateTime IncomeTime { get; set; }
 

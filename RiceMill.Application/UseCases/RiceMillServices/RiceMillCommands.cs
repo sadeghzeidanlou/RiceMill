@@ -19,7 +19,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
         Result<DtoRiceMill> Update(DtoUpdateRiceMill riceMill);
     }
 
-    public class RiceMillCommands : IRiceMillCommands
+    public sealed class RiceMillCommands : IRiceMillCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

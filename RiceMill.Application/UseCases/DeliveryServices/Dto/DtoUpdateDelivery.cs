@@ -3,9 +3,9 @@ using RiceMill.Application.Common.Models.Enums;
 
 namespace RiceMill.Application.UseCases.DeliveryServices.Dto
 {
-    public record DtoUpdateDelivery(Guid Id, DateTime DeliveryTime, float UnbrokenRice, float BrokenRice, float ChickenRice, float Flour, string Description, Guid DelivererPersonId, Guid ReceiverPersonId, Guid CarrierPersonId, Guid VehicleId, List<Guid> RiceThreshingIds);
+    public sealed record DtoUpdateDelivery(Guid Id, DateTime DeliveryTime, float UnbrokenRice, float BrokenRice, float ChickenRice, float Flour, string Description, Guid DelivererPersonId, Guid ReceiverPersonId, Guid CarrierPersonId, Guid VehicleId, List<Guid> RiceThreshingIds);
 
-    public class DtoUpdateDeliveryValidator : AbstractValidator<DtoUpdateDelivery>
+    public sealed class DtoUpdateDeliveryValidator : AbstractValidator<DtoUpdateDelivery>
     {
         public DtoUpdateDeliveryValidator()
         {

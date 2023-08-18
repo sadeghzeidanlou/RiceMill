@@ -7,7 +7,7 @@ namespace RiceMill.Api.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class DryerController : BaseController
+    public sealed class DryerController : BaseController
     {
         private readonly IDryerCommands _dryerCommands;
 

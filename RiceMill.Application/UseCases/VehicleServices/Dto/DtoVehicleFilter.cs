@@ -3,7 +3,7 @@ using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.VehicleServices.Dto
 {
-    public class DtoVehicleFilter : PagingInfo
+    public sealed class DtoVehicleFilter : PagingInfo
     {
         public Guid? Id { get; set; }
 

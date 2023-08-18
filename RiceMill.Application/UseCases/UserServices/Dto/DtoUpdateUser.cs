@@ -5,9 +5,9 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.UserServices.Dto
 {
-    public record DtoUpdateUser(Guid Id, string Username, string Password, RoleEnum Role, Guid? UserPersonId, Guid? RiceMillId);
+    public sealed record DtoUpdateUser(Guid Id, string Username, string Password, RoleEnum Role, Guid? UserPersonId, Guid? RiceMillId);
 
-    public class DtoUpdateUserValidator : AbstractValidator<DtoUpdateUser>
+    public sealed class DtoUpdateUserValidator : AbstractValidator<DtoUpdateUser>
     {
         public DtoUpdateUserValidator()
         {

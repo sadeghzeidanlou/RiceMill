@@ -7,7 +7,7 @@ namespace RiceMill.Api.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class VillageController : BaseController
+    public sealed class VillageController : BaseController
     {
         private readonly IVillageCommands _villageCommands;
 

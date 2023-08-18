@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.VehicleServices
         Result<PaginatedList<DtoVehicle>> GetAll(DtoVehicleFilter filter);
     }
 
-    public class VehicleQueries : IVehicleQueries
+    public sealed class VehicleQueries : IVehicleQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

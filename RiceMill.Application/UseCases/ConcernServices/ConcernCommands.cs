@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
         Result<DtoConcern> Update(DtoUpdateConcern Concern);
     }
 
-    public class ConcernCommands : IConcernCommands
+    public sealed class ConcernCommands : IConcernCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

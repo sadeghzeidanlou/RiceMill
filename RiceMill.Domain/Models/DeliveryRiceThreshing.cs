@@ -2,7 +2,7 @@
 
 namespace RiceMill.Domain.Models
 {
-    public class DeliveryRiceThreshing : EventBaseModel
+    public sealed class DeliveryRiceThreshing : EventBaseModel
     {
         public Guid DeliveryId { get; set; }
 

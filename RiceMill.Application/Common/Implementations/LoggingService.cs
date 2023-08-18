@@ -6,7 +6,7 @@ using Serilog.Exceptions;
 
 namespace RiceMill.Application.Common.Implementations
 {
-    public class LoggingService : ILoggingService
+    public sealed class LoggingService : ILoggingService
     {
         private static readonly string _errorLogAddress = AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Error\Error-.Log";
         private static readonly string _warningLogAddress = AppDomain.CurrentDomain.BaseDirectory + @"\Logs\Warning\Warning-.Log";

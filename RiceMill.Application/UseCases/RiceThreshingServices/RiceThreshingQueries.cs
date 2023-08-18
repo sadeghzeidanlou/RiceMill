@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
         Result<PaginatedList<DtoRiceThreshing>> GetAll(DtoRiceThreshingFilter filter);
     }
 
-    public class RiceThreshingQueries : IRiceThreshingQueries
+    public sealed class RiceThreshingQueries : IRiceThreshingQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

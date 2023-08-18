@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace RiceMill.Api.Filter
 {
-    public class SwaggerExcludeFilter : ISchemaFilter
+    public sealed class SwaggerExcludeFilter : ISchemaFilter
     {
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {

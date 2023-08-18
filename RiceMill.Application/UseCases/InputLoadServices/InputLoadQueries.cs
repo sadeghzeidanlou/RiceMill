@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.InputLoadServices
         Result<PaginatedList<DtoInputLoad>> GetAll(DtoInputLoadFilter filter);
     }
 
-    public class InputLoadQueries : IInputLoadQueries
+    public sealed class InputLoadQueries : IInputLoadQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

@@ -4,9 +4,9 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.PaymentServices.Dto
 {
-    public record DtoCreatePayment(DateTime PaymentTime, float UnbrokenRice, float BrokenRice, float Flour, int Money, string Description, Guid PaidPersonId, Guid ConcernId, Guid? InputLoadId, Guid RiceMillId);
+    public sealed record DtoCreatePayment(DateTime PaymentTime, float UnbrokenRice, float BrokenRice, float Flour, int Money, string Description, Guid PaidPersonId, Guid ConcernId, Guid? InputLoadId, Guid RiceMillId);
 
-    public class DtoCreatePaymentValidator : AbstractValidator<DtoCreatePayment>
+    public sealed class DtoCreatePaymentValidator : AbstractValidator<DtoCreatePayment>
     {
         public DtoCreatePaymentValidator()
         {

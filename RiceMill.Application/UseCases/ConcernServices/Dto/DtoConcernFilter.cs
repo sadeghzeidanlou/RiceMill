@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.UseCases.ConcernServices.Dto
 {
-    public class DtoConcernFilter : PagingInfo
+    public sealed class DtoConcernFilter : PagingInfo
     {
         public Guid? Id { get; set; }
 

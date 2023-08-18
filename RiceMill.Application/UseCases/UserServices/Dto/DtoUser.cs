@@ -3,7 +3,7 @@ using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.UserServices.Dto
 {
-    public class DtoUser : DtoEventBase
+    public sealed class DtoUser : DtoEventBase
     {
         public string Username { get; set; }
 

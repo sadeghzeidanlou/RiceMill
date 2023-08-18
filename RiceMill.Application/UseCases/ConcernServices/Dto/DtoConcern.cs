@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.UseCases.ConcernServices.Dto
 {
-    public class DtoConcern : DtoEventBaseWithUserAndRiceMill
+    public sealed class DtoConcern : DtoEventBaseWithUserAndRiceMill
     {
         public string Title { get; set; }
 

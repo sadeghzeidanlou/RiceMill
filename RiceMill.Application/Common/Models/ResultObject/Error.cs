@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.Common.Models.ResultObject
 {
-    public class Error
+    public sealed class Error
     {
         public Error(ResultStatusEnum error)
         {

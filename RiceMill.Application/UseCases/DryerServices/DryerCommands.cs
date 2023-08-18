@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.DryerServices
         Result<DtoDryer> Update(DtoUpdateDryer dryer);
     }
 
-    public class DryerCommands : IDryerCommands
+    public sealed class DryerCommands : IDryerCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

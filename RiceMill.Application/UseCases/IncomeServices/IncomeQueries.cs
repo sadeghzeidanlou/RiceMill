@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.IncomeServices
         Result<PaginatedList<DtoIncome>> GetAll(DtoIncomeFilter filter);
     }
 
-    public class IncomeQueries : IIncomeQueries
+    public sealed class IncomeQueries : IIncomeQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

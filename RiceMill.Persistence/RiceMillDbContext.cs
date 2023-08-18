@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace RiceMill.Persistence
 {
-    public class RiceMillDbContext : DbContext, IApplicationDbContext
+    public sealed class RiceMillDbContext : DbContext, IApplicationDbContext
     {
         public RiceMillDbContext(DbContextOptions<RiceMillDbContext> options) : base(options) { }
 

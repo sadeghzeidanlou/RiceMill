@@ -7,7 +7,7 @@ namespace RiceMill.Api.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class ConcernController : BaseController
+    public sealed class ConcernController : BaseController
     {
         private readonly IConcernCommands _concernCommands;
 

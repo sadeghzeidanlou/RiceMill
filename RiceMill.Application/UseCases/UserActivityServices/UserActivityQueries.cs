@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.UserActivityServices
         Result<PaginatedList<DtoUserActivity>> GetAll(DtoUserActivityFilter filter);
     }
 
-    public class UserActivityQueries : IUserActivityQueries
+    public sealed class UserActivityQueries : IUserActivityQueries
     {
         private readonly ICacheService _cacheService;
         private readonly ICurrentRequestService _currentRequestService;

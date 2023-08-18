@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.PersonServices
         Result<DtoPerson> Update(DtoUpdatePerson person);
     }
 
-    public class PersonCommands : IPersonCommands
+    public sealed class PersonCommands : IPersonCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

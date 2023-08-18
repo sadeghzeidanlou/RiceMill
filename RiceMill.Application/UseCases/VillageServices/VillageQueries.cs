@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.VillageServices
         Result<PaginatedList<DtoVillage>> GetAll(DtoVillageFilter dtoFilter);
     }
 
-    public class VillageQueries : IVillageQueries
+    public sealed class VillageQueries : IVillageQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

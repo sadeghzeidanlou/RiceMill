@@ -4,9 +4,9 @@ using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 {
-    public record DtoUpdateDryerHistory(Guid Id, DryerOperationEnum Operation, DateTime StartTime, DateTime? EndTime, Guid DryerId, Guid? RiceThreshingId, Guid InputLoadId);
+    public sealed record DtoUpdateDryerHistory(Guid Id, DryerOperationEnum Operation, DateTime StartTime, DateTime? EndTime, Guid DryerId, Guid? RiceThreshingId, Guid InputLoadId);
 
-    public class DtoUpdateDryerHistoryValidator : AbstractValidator<DtoUpdateDryerHistory>
+    public sealed class DtoUpdateDryerHistoryValidator : AbstractValidator<DtoUpdateDryerHistory>
     {
         public DtoUpdateDryerHistoryValidator()
         {

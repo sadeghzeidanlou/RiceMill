@@ -21,7 +21,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
         Result<DtoDryerHistory> Update(DtoUpdateDryerHistory dryerHistory);
     }
 
-    public class DryerHistoryCommands : IDryerHistoryCommands
+    public sealed class DryerHistoryCommands : IDryerHistoryCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

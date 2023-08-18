@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
         Result<PaginatedList<DtoPayment>> GetAll(DtoPaymentFilter filter);
     }
 
-    public class PaymentQueries : IPaymentQueries
+    public sealed class PaymentQueries : IPaymentQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

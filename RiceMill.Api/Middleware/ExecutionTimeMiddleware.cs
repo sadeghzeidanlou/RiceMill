@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace RiceMill.Api.Middleware
 {
-    public class ExecutionTimeMiddleware
+    public sealed class ExecutionTimeMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ILoggingService _loggingService;

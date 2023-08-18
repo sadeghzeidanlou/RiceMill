@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.UseCases.PaymentServices.Dto
 {
-    public class DtoPaymentFilter : PagingInfo
+    public sealed class DtoPaymentFilter : PagingInfo
     {
         public Guid? Id { get; set; }
 

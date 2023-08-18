@@ -3,7 +3,7 @@ using System.Net;
 
 namespace RiceMill.Application.Common.Models.ResultObject
 {
-    public class Result<T>
+    public sealed class Result<T>
     {
         public bool IsSucceeded { get; set; }
 

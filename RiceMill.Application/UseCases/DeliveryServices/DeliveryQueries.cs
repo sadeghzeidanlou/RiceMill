@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices
         Result<PaginatedList<DtoDelivery>> GetAll(DtoDeliveryFilter filter);
     }
 
-    public class DeliveryQueries : IDeliveryQueries
+    public sealed class DeliveryQueries : IDeliveryQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

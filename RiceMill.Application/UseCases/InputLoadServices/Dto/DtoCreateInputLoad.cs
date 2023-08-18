@@ -3,9 +3,9 @@ using RiceMill.Application.Common.Models.Enums;
 
 namespace RiceMill.Application.UseCases.InputLoadServices.Dto
 {
-    public record DtoCreateInputLoad(short NumberOfBags, string Description, DateTime ReceiveTime, Guid VillageId, Guid DelivererPersonId, Guid ReceiverPersonId, Guid CarrierPersonId, Guid OwnerPersonId, Guid VehicleId, Guid RiceMillId);
+    public sealed record DtoCreateInputLoad(short NumberOfBags, string Description, DateTime ReceiveTime, Guid VillageId, Guid DelivererPersonId, Guid ReceiverPersonId, Guid CarrierPersonId, Guid OwnerPersonId, Guid VehicleId, Guid RiceMillId);
 
-    public class DtoCreateInputLoadValidator : AbstractValidator<DtoCreateInputLoad>
+    public sealed class DtoCreateInputLoadValidator : AbstractValidator<DtoCreateInputLoad>
     {
         public DtoCreateInputLoadValidator()
         {

@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.UseCases.PaymentServices.Dto
 {
-    public class DtoPayment : DtoEventBaseWithUserAndRiceMill
+    public sealed class DtoPayment : DtoEventBaseWithUserAndRiceMill
     {
         public DateTime PaymentTime { get; set; }
 

@@ -4,9 +4,9 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.RiceMillServices.Dto
 {
-    public record DtoCreateRiceMill(string Title, string Address, byte Wage, string Phone, string PostalCode, string Description, Guid? OwnerPersonId);
+    public sealed record DtoCreateRiceMill(string Title, string Address, byte Wage, string Phone, string PostalCode, string Description, Guid? OwnerPersonId);
 
-    public class DtoCreateRiceMillValidator : AbstractValidator<DtoCreateRiceMill>
+    public sealed class DtoCreateRiceMillValidator : AbstractValidator<DtoCreateRiceMill>
     {
         public DtoCreateRiceMillValidator()
         {

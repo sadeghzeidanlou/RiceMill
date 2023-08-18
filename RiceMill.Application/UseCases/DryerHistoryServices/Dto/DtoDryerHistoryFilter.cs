@@ -3,7 +3,7 @@ using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 {
-    public class DtoDryerHistoryFilter : PagingInfo
+    public sealed class DtoDryerHistoryFilter : PagingInfo
     {
         public Guid? Id { get; set; }
 

@@ -16,7 +16,7 @@ namespace RiceMill.Application.UseCases.UserActivityServices
         Result<DtoUserActivity> CreateGeneral(UserActivityTypeEnum userActivityType, EntityTypeEnum type, string beforeEdit, string afterEdit, Guid? riceMillId);
     }
 
-    public class UserActivityCommands : IUserActivityCommands
+    public sealed class UserActivityCommands : IUserActivityCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

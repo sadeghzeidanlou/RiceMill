@@ -14,7 +14,6 @@ namespace RiceMill.Api.Versioning
                 v.DefaultApiVersion = new ApiVersion(1, 0);
                 v.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("api-version"));
             });
-
             return services;
         }
     }

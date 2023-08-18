@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.VehicleServices
         Result<DtoVehicle> Update(DtoUpdateVehicle vehicle);
     }
 
-    public class VehicleCommands : IVehicleCommands
+    public sealed class VehicleCommands : IVehicleCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

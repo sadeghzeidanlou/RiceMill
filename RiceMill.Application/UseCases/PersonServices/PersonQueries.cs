@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.PersonServices
         Result<PaginatedList<DtoPerson>> GetAll(DtoPersonFilter filter);
     }
 
-    public class PersonQueries : IPersonQueries
+    public sealed class PersonQueries : IPersonQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

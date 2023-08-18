@@ -5,9 +5,9 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.PersonServices.Dto
 {
-    public record DtoCreatePerson(string Name, string Family, GenderEnum Gender, string MobileNumber, string HomeNumber, NoticesTypeEnum NoticesType, string Address, string FatherName, Guid RiceMillId);
+    public sealed record DtoCreatePerson(string Name, string Family, GenderEnum Gender, string MobileNumber, string HomeNumber, NoticesTypeEnum NoticesType, string Address, string FatherName, Guid RiceMillId);
 
-    public class DtoCreatePersonValidator : AbstractValidator<DtoCreatePerson>
+    public sealed class DtoCreatePersonValidator : AbstractValidator<DtoCreatePerson>
     {
         public DtoCreatePersonValidator()
         {

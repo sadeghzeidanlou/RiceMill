@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.VillageServices
         Result<DtoVillage> Update(DtoUpdateVillage village);
     }
 
-    public class VillageCommands : IVillageCommands
+    public sealed class VillageCommands : IVillageCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

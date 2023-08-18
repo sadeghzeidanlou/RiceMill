@@ -3,7 +3,7 @@ using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.InputLoadServices.Dto
 {
-    public class DtoInputLoad : DtoEventBaseWithUserAndRiceMill
+    public sealed class DtoInputLoad : DtoEventBaseWithUserAndRiceMill
     {
         public short NumberOfBags { get; set; }
 

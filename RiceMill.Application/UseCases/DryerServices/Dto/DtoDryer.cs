@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.UseCases.DryerServices.Dto
 {
-    public class DtoDryer : DtoEventBaseWithUserAndRiceMill
+    public sealed class DtoDryer : DtoEventBaseWithUserAndRiceMill
     {
         public string Title { get; set; }
 

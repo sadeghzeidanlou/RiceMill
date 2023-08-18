@@ -20,7 +20,7 @@ namespace RiceMill.Application.UseCases.IncomeServices
         Result<DtoIncome> Update(DtoUpdateIncome income);
     }
 
-    public class IncomeCommands : IIncomeCommands
+    public sealed class IncomeCommands : IIncomeCommands
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly ICurrentRequestService _currentRequestService;

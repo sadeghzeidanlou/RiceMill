@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.UseCases.DeliveryServices.Dto
 {
-    public class DtoDeliveryFilter : PagingInfo
+    public sealed class DtoDeliveryFilter : PagingInfo
     {
         public Guid? Id { get; set; }
 

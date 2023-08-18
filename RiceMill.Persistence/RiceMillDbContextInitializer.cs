@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace RiceMill.Persistence
 {
-    internal class RiceMillDbContextInitializer
+    internal sealed class RiceMillDbContextInitializer
     {
         private readonly ILogger<RiceMillDbContextInitializer> _logger;
         private readonly RiceMillDbContext _context;

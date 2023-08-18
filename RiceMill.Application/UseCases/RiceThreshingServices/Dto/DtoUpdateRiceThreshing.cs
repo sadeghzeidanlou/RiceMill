@@ -3,9 +3,9 @@ using RiceMill.Application.Common.Models.Enums;
 
 namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 {
-    public record DtoUpdateRiceThreshing(Guid Id, DateTime StartTime, DateTime EndTime, float UnbrokenRice, float BrokenRice, float ChickenRice, float Flour, string Description, Guid IncomeId, List<Guid> DryerHistoryIds);
+    public sealed record DtoUpdateRiceThreshing(Guid Id, DateTime StartTime, DateTime EndTime, float UnbrokenRice, float BrokenRice, float ChickenRice, float Flour, string Description, Guid IncomeId, List<Guid> DryerHistoryIds);
 
-    public class DtoUpdateRiceThreshingValidator : AbstractValidator<DtoUpdateRiceThreshing>
+    public sealed class DtoUpdateRiceThreshingValidator : AbstractValidator<DtoUpdateRiceThreshing>
     {
         public DtoUpdateRiceThreshingValidator()
         {

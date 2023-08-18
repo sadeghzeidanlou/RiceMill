@@ -8,7 +8,7 @@ using System.Net;
 
 namespace RiceMill.Api.Middleware
 {
-    public class ExceptionHandlingMiddleware
+    public sealed class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
 

@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
         Result<PaginatedList<DtoConcern>> GetAll(DtoConcernFilter filter);
     }
 
-    public class ConcernQueries : IConcernQueries
+    public sealed class ConcernQueries : IConcernQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

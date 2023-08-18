@@ -6,7 +6,7 @@ using Shared.Enums;
 
 namespace RiceMill.Persistence.Caching
 {
-    public class CacheService : ICacheService
+    public sealed class CacheService : ICacheService
     {
         private readonly IMemoryCache _cache;
         private readonly IServiceScopeFactory _scopeFactory;

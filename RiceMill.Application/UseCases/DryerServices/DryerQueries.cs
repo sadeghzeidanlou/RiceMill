@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.DryerServices
         Result<PaginatedList<DtoDryer>> GetAll(DtoDryerFilter filter);
     }
 
-    public class DryerQueries : IDryerQueries
+    public sealed class DryerQueries : IDryerQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;

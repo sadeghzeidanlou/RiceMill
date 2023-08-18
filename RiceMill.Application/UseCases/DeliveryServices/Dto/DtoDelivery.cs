@@ -2,7 +2,7 @@
 
 namespace RiceMill.Application.UseCases.DeliveryServices.Dto
 {
-    public class DtoDelivery : DtoEventBaseWithUserAndRiceMill
+    public sealed class DtoDelivery : DtoEventBaseWithUserAndRiceMill
     {
         public short UnbrokenRice { get; set; }
 

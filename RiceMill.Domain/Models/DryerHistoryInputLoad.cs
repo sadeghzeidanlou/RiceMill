@@ -2,7 +2,7 @@
 
 namespace RiceMill.Domain.Models
 {
-    public class DryerHistoryInputLoad : EventBaseModel
+    public sealed class DryerHistoryInputLoad : EventBaseModel
     {
         public Guid DryerHistoryId { get; set; }
 

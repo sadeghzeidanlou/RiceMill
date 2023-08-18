@@ -4,9 +4,9 @@ using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.VehicleServices.Dto
 {
-    public record DtoUpdateVehicle(Guid Id, string Plate, string Description, VehicleTypeEnum VehicleType, Guid OwnerPersonId);
+    public sealed record DtoUpdateVehicle(Guid Id, string Plate, string Description, VehicleTypeEnum VehicleType, Guid OwnerPersonId);
 
-    public class DtoUpdateVehicleValidator : AbstractValidator<DtoUpdateVehicle>
+    public sealed class DtoUpdateVehicleValidator : AbstractValidator<DtoUpdateVehicle>
     {
         public DtoUpdateVehicleValidator()
         {

@@ -3,7 +3,7 @@ using Shared.Enums;
 
 namespace RiceMill.Api.Services
 {
-    public class CurrentRequest : ICurrentRequestService
+    public sealed class CurrentRequest : ICurrentRequestService
     {
         public Guid UserId => Guid.Parse("89a69ac3-03a9-49fd-91bb-25c98e63a10c");
 

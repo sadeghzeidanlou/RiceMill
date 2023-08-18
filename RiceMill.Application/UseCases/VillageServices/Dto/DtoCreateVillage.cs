@@ -3,9 +3,9 @@ using RiceMill.Application.Common.Models.Enums;
 
 namespace RiceMill.Application.UseCases.VillageServices.Dto
 {
-    public record DtoCreateVillage(string Title, Guid RiceMillId);
+    public sealed record DtoCreateVillage(string Title, Guid RiceMillId);
 
-    public class DtoCreateVillageValidator : AbstractValidator<DtoCreateVillage>
+    public sealed class DtoCreateVillageValidator : AbstractValidator<DtoCreateVillage>
     {
         public DtoCreateVillageValidator()
         {

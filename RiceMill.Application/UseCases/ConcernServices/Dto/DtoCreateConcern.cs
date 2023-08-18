@@ -3,9 +3,9 @@ using RiceMill.Application.Common.Models.Enums;
 
 namespace RiceMill.Application.UseCases.ConcernServices.Dto
 {
-    public record DtoCreateConcern(string Title, Guid RiceMillId);
+    public sealed record DtoCreateConcern(string Title, Guid RiceMillId);
 
-    public class DtoCreateConcernValidator : AbstractValidator<DtoCreateConcern>
+    public sealed class DtoCreateConcernValidator : AbstractValidator<DtoCreateConcern>
     {
         public DtoCreateConcernValidator()
         {

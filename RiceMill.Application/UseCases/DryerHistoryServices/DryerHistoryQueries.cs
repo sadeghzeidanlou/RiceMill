@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
         Result<PaginatedList<DtoDryerHistory>> GetAll(DtoDryerHistoryFilter filter);
     }
 
-    public class DryerHistoryQueries : IDryerHistoryQueries
+    public sealed class DryerHistoryQueries : IDryerHistoryQueries
     {
         private readonly ICurrentRequestService _currentRequestService;
         private readonly ICacheService _cacheService;
