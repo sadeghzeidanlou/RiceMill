@@ -1,4 +1,6 @@
-﻿namespace RiceMill.Api.Configurations.Cors
+﻿using RiceMill.Application.Common.Models.Resource;
+
+namespace RiceMill.Api.Configurations.Cors
 {
     public static class CorsConfiguration
     {
@@ -7,9 +9,10 @@
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
+                    builder => builder
+                    .AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader());
+                    .WithHeaders(SharedResource.SecurityHeaderName));
             });
             return services;
         }

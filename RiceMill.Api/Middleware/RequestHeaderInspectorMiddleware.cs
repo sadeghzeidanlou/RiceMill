@@ -1,5 +1,6 @@
 ﻿using RiceMill.Application.Common.Models.Resource;
 using Shared.ExtensionMethods;
+using System.Globalization;
 
 namespace RiceMill.Api.Middleware
 {
@@ -10,21 +11,23 @@ namespace RiceMill.Api.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            if (!context.Request.Headers.TryGetValue(SharedResource.SecurityHeaderName, out var headerValue))
+            if (!context.Request.Headers.TryGetValue(SharedResource.SecurityHeaderName, out var encryptedHeaderValue))
                 throw new Exception("Unauthorized: Missing required header");
 
 #pragma warning disable CS8604 // Possible null reference argument.
-            if (!IsValidHeaderValue(headerValue))
+            if (!IsValidHeaderValue(encryptedHeaderValue))
                 throw new Exception("Unauthorized: Missing required header");
 #pragma warning restore CS8604 // Possible null reference argument.
 
             await _next(context);
         }
 
-        private bool IsValidHeaderValue(string headerValue)
+        private bool IsValidHeaderValue(string encryptedHeaderValue)
         {
-            var decrypted = headerValue.DecryptStringAes(SharedResource.TokenKey);
-            return headerValue == "ExpectedHeaderValue";
+            var decryptedHeaderValue = encryptedHeaderValue.DecryptStringAes(SharedResource.HeaderTokenKey).Replace(SharedResource.Audience, string.Empty);
+            DateTime receivedTimestamp = DateTime.ParseExact(decryptedHeaderValue, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
+            TimeSpan maxTimeDifference = TimeSpan.FromSeconds(5);
+            return Math.Abs((DateTime.UtcNow - receivedTimestamp).TotalMilliseconds) <= maxTimeDifference.TotalMilliseconds;
         }
     }
 }
