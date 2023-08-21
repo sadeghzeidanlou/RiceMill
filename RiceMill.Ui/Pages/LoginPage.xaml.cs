@@ -5,6 +5,7 @@
         public LoginPage()
         {
             InitializeComponent();
+            BtnLogin.BackgroundColor = Color.FromHex("3D9970");
         }
 
         private void OnBtnLoginClicked(object sender, EventArgs e)
