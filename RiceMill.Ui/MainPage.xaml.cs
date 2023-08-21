@@ -16,6 +16,7 @@ namespace RiceMill.Ui
         {
             count++;
 
+            var res = DisplayAlert("تاییدیه", "آیا از این درخواست اطمینان دارید؟", "بلی", FlowDirection.LeftToRight);
             if (count == 1)
                 CounterBtn.Text = $"Clicked {count} time";
             else
