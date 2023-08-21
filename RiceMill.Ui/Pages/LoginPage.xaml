@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RiceMill.Ui.LoginPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <Image
+                Source="dordanehricemill.png"
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                Scale="1.7"/>
+
+            <Label
+                Text="به دردانه خوش آمدید"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="Subtitle"
+                HorizontalOptions="Center" />
+
+            <Entry
+                x:Name="TxtUserName"
+                Placeholder="نام کاربری"
+                HorizontalOptions="Center"
+                WidthRequest="200"
+                FlowDirection="RightToLeft"/>
+
+            <Entry
+                x:Name="TxtPassword"
+                Placeholder="رمز عبور"
+                HorizontalOptions="Center"
+                WidthRequest="200"
+                FlowDirection="RightToLeft"/>
+
+            <Button
+                x:Name="BtnLogin"
+                Text="ورود"
+                Clicked="OnBtnLoginClicked"
+                HorizontalOptions="Center"
+                WidthRequest="100"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
