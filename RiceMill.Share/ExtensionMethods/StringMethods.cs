@@ -148,6 +148,10 @@ namespace Shared.ExtensionMethods
 
         public static bool IsNotNullOrEmpty(this string inputString) => !string.IsNullOrEmpty(inputString);
 
+        public static bool IsNullOrEmpty(this StringBuilder inputString) => inputString.Length < 1;
+
+        public static bool IsNotNullOrEmpty(this StringBuilder inputString) => inputString.Length > 0;
+
         public static string ToStringInvariantCulture(this string inputParameter, params object[] args) => inputParameter != null
             ? string.Format(CultureInfo.InvariantCulture, inputParameter, args) : string.Empty;
 

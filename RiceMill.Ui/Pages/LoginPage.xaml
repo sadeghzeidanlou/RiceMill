@@ -61,7 +61,7 @@
         <ActivityIndicator
             x:Name="AciLoginProgress"
             HorizontalOptions="Center"
-            IsRunning="True"
+            IsRunning="False"
             Margin="100"
             Color="ForestGreen"/>
 

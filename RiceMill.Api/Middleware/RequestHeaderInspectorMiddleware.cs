@@ -22,7 +22,7 @@ namespace RiceMill.Api.Middleware
             await _next(context);
         }
 
-        private bool IsValidHeaderValue(string encryptedHeaderValue)
+        private static bool IsValidHeaderValue(string encryptedHeaderValue)
         {
             var decryptedHeaderValue = encryptedHeaderValue.DecryptStringAes(SharedResource.HeaderTokenKey).Replace(SharedResource.Audience, string.Empty);
             DateTime receivedTimestamp = DateTime.ParseExact(decryptedHeaderValue, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);

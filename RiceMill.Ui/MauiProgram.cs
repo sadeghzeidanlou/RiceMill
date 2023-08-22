@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using RiceMill.Ui.DependencyInjection;
 
 namespace RiceMill.Ui
 {
@@ -19,6 +20,8 @@ namespace RiceMill.Ui
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddMauiServices();
             return builder.Build();
         }
     }

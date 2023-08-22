@@ -29,13 +29,12 @@ namespace RiceMill.Api.Middleware
 
             if (elapsedMilliseconds > 500)
             {
-                var logMessage = $"Request took long.\n\n" +
+                var logMessage = $"Request took long time: {elapsedMilliseconds} milliseconds.\n\n" +
                                  $"Request path: {context.Request.Path}\n\n" +
                                  $"Query string:{GetRequestQueryString(context)}\n\n" +
                                  $"Headers:{GetRequestHeaders(context)}\n" +
                                  $"Request body:{GetRequestBody(context)}\n\n" +
-                                 $"Response body:{GetResponseBody(responseBody)}\n\n" +
-                                 $"Response time: {elapsedMilliseconds} milliseconds.\n\n";
+                                 $"Response body:{GetResponseBody(responseBody)}\n\n";
 
                 _loggingService.Warning(logMessage);
             }

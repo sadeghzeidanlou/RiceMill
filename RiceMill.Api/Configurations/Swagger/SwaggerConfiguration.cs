@@ -1,5 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using RiceMill.Api.Filter;
+using RiceMill.Application.Common.Models.Resource;
 using System.Reflection;
 
 namespace RiceMill.Api.Configurations.Swagger
@@ -26,7 +27,7 @@ namespace RiceMill.Api.Configurations.Swagger
                      var securitySchema = new OpenApiSecurityScheme
                      {
                          Description = "JWT Auth Bearer Scheme",
-                         Name = "Authorization",
+                         Name = SharedResource.AuthorizationKeyName,
                          In = ParameterLocation.Header,
                          Type = SecuritySchemeType.Http,
                          Scheme = "Bearer",

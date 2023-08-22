@@ -1,217 +1,10 @@
-﻿namespace RiceMill.Application.Common.Models.Enums
+﻿using RiceMill.Application.Common.Models.Enums;
+
+namespace RiceMill.Ui.Common
 {
-    public enum ResultStatusEnum
+    public static class MessageDictionary
     {
-        #region General 0 To 499
-
-        Success,
-        Fail,
-        Unauthorized,
-        Forbidden,
-        NotImplemented,
-        DatabaseError,
-        UnHandleError,
-        Alert,
-        GoBack,
-
-        #endregion
-
-        #region Concern 500 To 549
-
-        ConcernNotFound = 500,
-        ConcernIdIsNotValid,
-        ConcernTitleIsNotValid,
-        ConcernTitleLengthIsNotValid,
-
-        #endregion
-
-        #region User 550 To 599
-
-        UserNotFound = 550,
-        UserIdIsNotValid,
-        UserUsernameIsNotValid,
-        UserUsernameLengthIsNotValid,
-        UserPasswordIsNotValid,
-        UserRoleIsNotValid,
-        UserUserPersonIdIsNotValid,
-
-        #endregion
-
-        #region RiceMill 600 To 649
-
-        RiceMillNotFound = 600,
-        RiceMillIdIsNotValid,
-        RiceMillTitleIsNotValid,
-        RiceMillTitleLengthIsNotValid,
-        RiceMillAddressIsNotValid,
-        RiceMillAddressLengthIsNotValid,
-        RiceMillWageIsNotValid,
-        RiceMillPhoneIsNotValid,
-        RiceMillPhoneLengthIsNotValid,
-        RiceMillPostalCodeIsNotValid,
-        RiceMillPostalCodeLengthIsNotValid,
-        RiceMillDescriptionLengthIsNotValid,
-        RiceMillOwnerPersonIdIsNotValid,
-
-        #endregion
-
-        #region UserActivity 650 To 699
-
-        UserActivityUserIdIsNotValid = 650,
-        UserActivityIpIsNotValid,
-        UserActivityUserActivityTypeIsNotValid,
-        UserActivityEntityTypeIsNotValid,
-        UserActivityApplicationIdIsNotValid,
-        UserActivityBeforeEditIsNotValid,
-        UserActivityAfterEditIsNotValid,
-
-        #endregion
-
-        #region Vehicle 700 To 749
-
-        VehicleNotFound = 700,
-        VehicleIdIsNotValid,
-        VehiclePlateIsNotValid,
-        VehiclePlateMaximumLengthIsNotValid,
-        VehiclePlateMinimumLengthIsNotValid,
-        VehicleDescriptionLengthIsNotValid,
-        VehicleVehicleTypeIsNotValid,
-        VehicleOwnerPersonIdIsNotValid,
-
-        #endregion
-
-        #region Village 750 To 799
-
-        VillageNotFound = 750,
-        VillageIdIsNotValid,
-        VillageTitleIsNotValid,
-        VillageTitleLengthIsNotValid,
-
-        #endregion
-
-        #region Person 800 To 849
-
-        PersonNotFound = 800,
-        PersonIdIsNotValid,
-        PersonNameIsNotValid,
-        PersonNameLengthIsNotValid,
-        PersonFamilyIsNotValid,
-        PersonFamilyLengthIsNotValid,
-        PersonGenderIsNotValid,
-        PersonMobileNumberIsNotValid,
-        PersonMobileNumberLengthIsNotValid,
-        PersonHomeNumberIsNotValid,
-        PersonHomeNumberLengthIsNotValid,
-        PersonNoticesTypeIsNotValid,
-        PersonAddressIsNotValid,
-        PersonAddressLengthIsNotValid,
-        PersonFatherNameIsNotValid,
-        PersonFatherNameLengthIsNotValid,
-
-        #endregion
-
-        #region Dryer 850 To 899
-
-        DryerNotFound = 850,
-        DryerIdIsNotValid,
-        DryerTitleIsNotValid,
-        DryerTitleLengthIsNotValid,
-
-        #endregion
-
-        #region Payment 900 To 949
-
-        PaymentNotFound = 900,
-        PaymentIdIsNotValid,
-        PaymentPaymentTimeIsNotValid,
-        PaymentUnbrokenRiceIsNotValid,
-        PaymentBrokenRiceIsNotValid,
-        PaymentFlourIsNotValid,
-        PaymentMoneyIsNotValid,
-        PaymentDescriptionLengthIsNotValid,
-        PaymentPaidPersonIdIsNotValid,
-
-        #endregion
-
-        #region InputLoad 950 To 999
-
-        InputLoadNotFound = 950,
-        InputLoadIdIsNotValid,
-        InputLoadNumberOfBagsIsNotValid,
-        InputLoadNumberOfBagsInDryerIsNotValid,
-        InputLoadDescriptionLengthIsNotValid,
-        InputLoadReceiveTimeIsNotValid,
-        InputLoadVillageIdIsNotValid,
-        InputLoadDelivererPersonIdIsNotValid,
-        InputLoadDelivererPersonNotFound,
-        InputLoadReceiverPersonIdIsNotValid,
-        InputLoadReceiverPersonNotFound,
-        InputLoadCarrierPersonIdIsNotValid,
-        InputLoadCarrierPersonNotFound,
-        InputLoadOwnerPersonIdIsNotValid,
-        InputLoadOwnerPersonNotFound,
-
-        #endregion
-
-        #region DryerHistory 1000 To 1049
-
-        DryerHistoryNotFound = 1000,
-        DryerHistoryIdIsNotValid,
-        DryerHistoryOperationIsNotValid,
-        DryerHistoryStartTimeIsNotValid,
-        DryerHistoryStopTimeIsNotValid,
-
-        #endregion
-
-        #region RiceThreshing 1050 To 1099
-
-        RiceThreshingNotFound = 1050,
-        RiceThreshingIdIsNotValid,
-        RiceThreshingStartTimeIsNotValid,
-        RiceThreshingEndTimeIsNotValid,
-        RiceThreshingUnbrokenRiceIsNotValid,
-        RiceThreshingBrokenRiceIsNotValid,
-        RiceThreshingChickenRiceIsNotValid,
-        RiceThreshingFlourIsNotValid,
-        RiceThreshingDescriptionLengthIsNotValid,
-
-        #endregion
-
-        #region Income 1100 To 1149
-
-        IncomeNotFound = 1100,
-        IncomeIdIsNotValid,
-        IncomeIncomeTimeIsNotValid,
-        IncomeUnbrokenRiceIsNotValid,
-        IncomeBrokenRiceIsNotValid,
-        IncomeFlourIsNotValid,
-        IncomeDescriptionLengthIsNotValid,
-
-        #endregion
-
-        #region Delivery 1150 To 1199
-
-        DeliveryNotFound = 1150,
-        DeliveryIdIsNotValid,
-        DeliveryDeliveryTimeIsNotValid,
-        DeliveryUnbrokenRiceIsNotValid,
-        DeliveryBrokenRiceIsNotValid,
-        DeliveryChickenRiceIsNotValid,
-        DeliveryFlourIsNotValid,
-        DeliveryDescriptionLengthIsNotValid,
-        DeliveryDelivererPersonIdIsNotValid,
-        DeliveryDelivererPersonNotFound,
-        DeliveryReceiverPersonIdIsNotValid,
-        DeliveryReceiverPersonNotFound,
-        DeliveryCarrierPersonIdIsNotValid,
-        DeliveryCarrierPersonNotFound
-
-        #endregion
-    }
-
-    public static class ErrorDictionary
-    {
-        private static readonly Dictionary<ResultStatusEnum, string> ResultStatusMessage = new()
+        private static readonly Dictionary<ResultStatusEnum, string> MessageText = new()
             {
                 #region Genearl
                 
@@ -222,6 +15,8 @@
                 {ResultStatusEnum.NotImplemented, "درحال حاضر عملیات مورد نظر در سیستم پشتیبانی نمی شود" },
                 {ResultStatusEnum.DatabaseError, "خطایی در سمت پایگاه داده رخ داده است" },
                 {ResultStatusEnum.UnHandleError, "خطای پیش بینی نشده اتفاق افتاده است" },
+                {ResultStatusEnum.Alert, "هشدار" },
+                {ResultStatusEnum.GoBack, "بازگشت" },
                 
                 #endregion
 
@@ -238,9 +33,9 @@
 
                 {ResultStatusEnum.UserNotFound, "کاربر یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.UserIdIsNotValid, "شناسه کاربر معتبر نمی باشد" },
-                {ResultStatusEnum.UserUsernameIsNotValid, "نام کاربری کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserUsernameIsNotValid, "نام کاربری معتبر نمی باشد" },
                 {ResultStatusEnum.UserUsernameLengthIsNotValid, "طول نام کاربری کاربر بیش از حد مجاز است" },
-                {ResultStatusEnum.UserPasswordIsNotValid, "رمز عبور کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserPasswordIsNotValid, "رمز عبور معتبر نمی باشد" },
                 {ResultStatusEnum.UserRoleIsNotValid, "نقش کاربر معتبر نمی باشد" },
                 {ResultStatusEnum.UserUserPersonIdIsNotValid, "شناسه فردی برای کاربر معتبر نمی باشد" },
 
@@ -417,6 +212,6 @@
                 #endregion
             };
 
-        public static string GetErrorMessage(this ResultStatusEnum resultStatus) => ResultStatusMessage[resultStatus];
+        public static string GetMessageText(this ResultStatusEnum resultStatus) => MessageText[resultStatus];
     }
 }

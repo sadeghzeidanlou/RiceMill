@@ -11,5 +11,9 @@
         public static readonly string HeaderTokenKey = "h3N@Dr0oDLl1M3c1R";
 
         public static readonly string SecurityHeaderName = "ApplicationIdentity";
+
+        public static readonly string AuthorizationKeyName = "Authorization";
+
+        public static readonly string JsonContentTypeName = "application/json";
     }
 }
