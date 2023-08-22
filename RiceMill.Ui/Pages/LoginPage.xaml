@@ -1,48 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RiceMill.Ui.LoginPage">
+             x:Class="RiceMill.Ui.LoginPage"
+             Shell.NavBarIsVisible="False" 
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="10"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <ContentPage.Behaviors>
 
-            <Image
-                Source="dordanehricemill.png"
-                HeightRequest="200"
-                HorizontalOptions="Center"
-                Scale="1.7"/>
+        <mct:StatusBarBehavior 
+            StatusBarColor="#3D9970" />
 
-            <Label
-                Text="به دردانه خوش آمدید"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="Subtitle"
-                HorizontalOptions="Center" />
+    </ContentPage.Behaviors>
 
-            <Entry
-                x:Name="TxtUserName"
-                Placeholder="نام کاربری"
-                HorizontalOptions="Center"
-                WidthRequest="200"
-                FlowDirection="RightToLeft"/>
+    <StackLayout
+        Spacing="15"
+        Padding="5">
 
-            <Entry
-                x:Name="TxtPassword"
-                Placeholder="رمز عبور"
-                HorizontalOptions="Center"
-                WidthRequest="200"
-                FlowDirection="RightToLeft"/>
+        <Image
+            Source="dordanehricemill.png"
+            HeightRequest="270"
+            WidthRequest="250"
+            Scale="9"
+            HorizontalOptions="Center"/>
 
-            <Button
-                x:Name="BtnLogin"
-                Text="ورود"
-                Clicked="OnBtnLoginClicked"
-                HorizontalOptions="Center"
-                WidthRequest="100"/>
+        <Label
+            Text="به دردانه خوش آمدید"
+            FontSize="24"
+            HorizontalOptions="Center" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+        <Label
+            Text=""
+            FontSize="18"
+            HorizontalOptions="Center" />
+
+        <Entry
+            x:Name="TxtUserName"
+            Placeholder="نام کاربری"
+            HorizontalOptions="Center"
+            WidthRequest="200"
+            FlowDirection="RightToLeft"/>
+
+        <Entry
+            x:Name="TxtPassword"
+            Placeholder="رمز عبور"
+            HorizontalOptions="Center"
+            WidthRequest="200"
+            FlowDirection="RightToLeft"
+            IsPassword="True"/>
+
+        <Button
+            x:Name="BtnLogin"
+            Text="ورود"
+            Clicked="OnBtnLoginClicked"
+            HorizontalOptions="Center"
+            WidthRequest="100"
+            BackgroundColor="#3D9970"
+            CornerRadius="20"
+            Margin="20,0"/>
+
+        <ActivityIndicator
+            x:Name="AciLoginProgress"
+            HorizontalOptions="Center"
+            IsRunning="True"
+            Margin="100"
+            Color="ForestGreen"/>
+
+    </StackLayout>
 
 </ContentPage>
