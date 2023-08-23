@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiceMill.Api", "RiceMill.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiceMill.Ui", "RiceMill.Ui\RiceMill.Ui.csproj", "{32A2A5E8-2CBE-44FE-AE71-9BF10A946B0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "RiceMill.Tools\Tools\Tools.csproj", "{CBAAE151-ED28-4F57-A2CA-2FA5E0EEC3DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{32A2A5E8-2CBE-44FE-AE71-9BF10A946B0B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{32A2A5E8-2CBE-44FE-AE71-9BF10A946B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32A2A5E8-2CBE-44FE-AE71-9BF10A946B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBAAE151-ED28-4F57-A2CA-2FA5E0EEC3DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBAAE151-ED28-4F57-A2CA-2FA5E0EEC3DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBAAE151-ED28-4F57-A2CA-2FA5E0EEC3DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBAAE151-ED28-4F57-A2CA-2FA5E0EEC3DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{C60C298B-2F6A-4842-B20E-57EC2C6B709E} = {A609305B-32C3-4882-BBF6-92AEB2E6EF91}
 		{552E81F9-6405-416A-8D87-3F159E56AA1C} = {C60C298B-2F6A-4842-B20E-57EC2C6B709E}
 		{32A2A5E8-2CBE-44FE-AE71-9BF10A946B0B} = {C60C298B-2F6A-4842-B20E-57EC2C6B709E}
+		{CBAAE151-ED28-4F57-A2CA-2FA5E0EEC3DD} = {9E94E673-8E7A-48B9-BB3C-AE2B4982CB82}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9D9D5B6B-CA5B-45F1-9197-274484788683}

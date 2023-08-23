@@ -3,7 +3,7 @@ using RiceMill.Application.Common.Interfaces;
 using RiceMill.Domain.Models;
 using RiceMill.Domain.Models.BaseModels;
 using Shared.Enums;
-using Shared.ExtensionMethods;
+using Shared.UtilityMethods;
 using System.Reflection;
 
 namespace RiceMill.Persistence

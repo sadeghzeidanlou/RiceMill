@@ -6,7 +6,7 @@ namespace RiceMill.Ui.DependencyInjection
     {
         public static IServiceCollection AddMauiServices(this IServiceCollection services)
         {
-            //services.AddTransient<IUserServices, UserServices>();
+            services.AddTransient<IUserServices, UserServices>();
             //services.AddHttpClient();
 
             return services;

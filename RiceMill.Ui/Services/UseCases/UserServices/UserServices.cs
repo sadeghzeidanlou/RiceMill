@@ -10,10 +10,17 @@ namespace RiceMill.Ui.Services.UseCases.UserServices
 
         public UserServices(ISendRequestService sendRequestService) => _sendRequestService = sendRequestService;
 
-        public Result<DtoTokenInfo> GetToken(DtoLogin dtoLogin, DtoSendRequest sendRequest = null)
+        public async Task<Result<DtoTokenInfo>> GetToken(DtoLogin dtoLogin, DtoSendRequest sendRequest = null)
         {
-            sendRequest ??= new DtoSendRequest { HttpMethod = HttpMethod.Post, MethodName = "api/v1/User/GenerateToken" };
-            return _sendRequestService.SendRequest<DtoLogin, Result<DtoTokenInfo>>(dtoLogin, sendRequest);
+            var emptyDictionary = new Dictionary<string, string>();
+            sendRequest ??= new DtoSendRequest
+            {
+                HttpMethod = HttpMethod.Post,
+                MethodName = "api/v1/User/GenerateToken",
+                CustomHeaders = emptyDictionary,
+                QueryString = emptyDictionary
+            };
+            return await _sendRequestService.SendRequestAsync<DtoLogin, Result<DtoTokenInfo>>(dtoLogin, sendRequest);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-ios;net7.0-maccatalyst;net7.0-android33.0</TargetFrameworks>
+		<TargetFrameworks>net7.0-android33.0;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
@@ -31,41 +31,50 @@
 		<PackageIcon></PackageIcon>
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<SignAssembly>False</SignAssembly>
-		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
+		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
-	  <DebugType>none</DebugType>
+	  <DebugType>portable</DebugType>
+	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
-	  <DebugType>none</DebugType>
+	  <DebugType>portable</DebugType>
+	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|AnyCPU'">
-	  <DebugType>none</DebugType>
+	  <DebugType>portable</DebugType>
 	  <AndroidKeyStore>False</AndroidKeyStore>
+	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
-	  <DebugType>none</DebugType>
+	  <DebugType>portable</DebugType>
+	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
-	  <DebugType>none</DebugType>
+	  <DebugType>portable</DebugType>
+	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
-	  <DebugType>none</DebugType>
+	  <DebugType>portable</DebugType>
+	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
-	  <DebugType>none</DebugType>
+	  <DebugType>portable</DebugType>
 	  <AndroidKeyStore>False</AndroidKeyStore>
+	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
-	  <DebugType>none</DebugType>
+	  <DebugType>portable</DebugType>
+	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -87,6 +96,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Pages\Popups\**" />
+	  <EmbeddedResource Remove="Pages\Popups\**" />
+	  <MauiCss Remove="Pages\Popups\**" />
+	  <MauiXaml Remove="Pages\Popups\**" />
+	  <None Remove="Pages\Popups\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
 		  <PrivateAssets>all</PrivateAssets>
@@ -103,7 +120,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Pages\Popups\" />
 	  <Folder Include="Views\" />
 	</ItemGroup>
 

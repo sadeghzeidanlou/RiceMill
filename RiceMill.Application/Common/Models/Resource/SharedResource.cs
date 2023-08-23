@@ -8,7 +8,7 @@
 
         public static readonly string TokenKey = "R1c3M1lLDo0rD@N3h";
 
-        public static readonly string HeaderTokenKey = "h3N@Dr0oDLl1M3c1R";
+        public static readonly string EncryptDecryptKey = "h3N@Dr0oDLl1M3c1R";
 
         public static readonly string SecurityHeaderName = "ApplicationIdentity";
 

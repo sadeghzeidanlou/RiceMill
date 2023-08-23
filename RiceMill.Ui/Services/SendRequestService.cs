@@ -10,38 +10,40 @@ namespace RiceMill.Ui.Services
 {
     public class SendRequestService : ISendRequestService
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        public SendRequestService() { }
 
-        public SendRequestService(IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
-
-        public TOut SendRequest<TIn, TOut>(TIn requestObject, DtoSendRequest sendRequest) where TIn : class where TOut : class
+        public async Task<TOut> SendRequestAsync<TIn, TOut>(TIn requestObject, DtoSendRequest sendRequest)
+            where TIn : class
+            where TOut : class
         {
-            using HttpClient client = _httpClientFactory.CreateClient();
-            client.Timeout = TimeSpan.FromSeconds(sendRequest.TimeOutInSecond);
+            using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(sendRequest.TimeOutInSecond) };
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(SharedResource.JsonContentTypeName));
             foreach (var customHeader in sendRequest.CustomHeaders)
                 client.DefaultRequestHeaders.Add(customHeader.Key, customHeader.Value);
 
-            var getContent = MakeQueryString(sendRequest.QueryString);
-            var postContent = MakeBodyContent(requestObject);
-            using var httpMessage = new HttpRequestMessage(sendRequest.HttpMethod, sendRequest.MethodName) { Content = postContent };
-            httpMessage.Headers.Add(SharedResource.AuthorizationKeyName, ApplicationStaticContext.Token);
+            if (ApplicationStaticContext.Token.IsNotNullOrEmpty())
+                client.DefaultRequestHeaders.Add(SharedResource.AuthorizationKeyName, ApplicationStaticContext.Token);
+
+            var query = MakeQueryString(sendRequest.QueryString);
+            var content = MakeBodyContent(requestObject);
             try
             {
-                using var response = client.Send(httpMessage);
-                var responseText = response.Content.ReadAsStringAsync().Result;
+                var requestUri = new UriBuilder($"{ApplicationStaticContext.ApiBaseAddress}{sendRequest.MethodName}{query}").Uri;
+                using var response = await client.SendAsync(new HttpRequestMessage(sendRequest.HttpMethod, requestUri) { Content = content });
+                var responseText = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode == HttpStatusCode.InternalServerError)
                 {
-                    //TODO When server get back internal server error should manage
-                    //throw new RequestException(response.StatusCode, responseText, response.Content.ToString(), statusCode);
+                    // TODO: Handle internal server error
+                    // throw new RequestException(response.StatusCode, responseText, response.Content.ToString(), statusCode);
                 }
-                if (responseText.IsNullOrEmpty())
-                    return default;
+                if (responseText.IsNotNullOrEmpty())
+                    return responseText.DeserializeObject<TOut>();
 
-                return responseText.DeserializeObject<TOut>();
+                return default;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                // TODO: Handle exceptions or log errors
                 throw;
             }
         }
@@ -53,12 +55,8 @@ namespace RiceMill.Ui.Services
             if (parameters.IsCollectionNullOrEmpty())
                 return string.Empty;
 
-            var sbQueryString = new StringBuilder("?");
-            foreach (var parameter in parameters)
-                sbQueryString.Append($"{parameter.Key}={parameter.Value}&");
-
-            sbQueryString.Length--;
-            return sbQueryString.ToString();
+            var query = string.Join("&", parameters.Select(parameter => $"{parameter.Key}={parameter.Value}"));
+            return "?" + query;
         }
     }
 }

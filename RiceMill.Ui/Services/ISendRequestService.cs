@@ -4,6 +4,6 @@ namespace RiceMill.Ui.Services
 {
     public interface ISendRequestService
     {
-        TOut SendRequest<TIn, TOut>(TIn requestObject, DtoSendRequest sendRequest) where TIn : class where TOut : class;
+        Task<TOut> SendRequestAsync<TIn, TOut>(TIn requestObject, DtoSendRequest sendRequest) where TIn : class where TOut : class;
     }
 }

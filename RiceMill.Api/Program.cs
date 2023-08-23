@@ -4,6 +4,7 @@ using RiceMill.Api.Configurations.Swagger;
 using RiceMill.Api.Configurations.Versioning;
 using RiceMill.Api.DependencyInjection;
 using RiceMill.Api.Middleware;
+using RiceMill.Api.Policies;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.DependencyInjection;
 using RiceMill.Infrastructure.DependencyInjection;
@@ -30,7 +31,11 @@ namespace RiceMill.Api
                 .AddCorsConfiguration()
                 .AddJwtConfiguration()
                 .AddMemoryCache()
-                .AddControllers();
+                .AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = new PascalCaseNamingPolicy();
+                });
 
             var app = builder.Build();
             var cacheService = app.Services.GetService<ICacheService>();

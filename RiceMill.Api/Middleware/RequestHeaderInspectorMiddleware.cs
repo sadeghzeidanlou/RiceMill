@@ -1,5 +1,5 @@
 ﻿using RiceMill.Application.Common.Models.Resource;
-using Shared.ExtensionMethods;
+using Shared.UtilityMethods;
 using System.Globalization;
 
 namespace RiceMill.Api.Middleware
@@ -24,7 +24,7 @@ namespace RiceMill.Api.Middleware
 
         private static bool IsValidHeaderValue(string encryptedHeaderValue)
         {
-            var decryptedHeaderValue = encryptedHeaderValue.DecryptStringAes(SharedResource.HeaderTokenKey).Replace(SharedResource.Audience, string.Empty);
+            var decryptedHeaderValue = encryptedHeaderValue.DecryptStringAes(SharedResource.EncryptDecryptKey).Replace(SharedResource.Audience, string.Empty);
             DateTime receivedTimestamp = DateTime.ParseExact(decryptedHeaderValue, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
             TimeSpan maxTimeDifference = TimeSpan.FromSeconds(5);
             return Math.Abs((DateTime.UtcNow - receivedTimestamp).TotalMilliseconds) <= maxTimeDifference.TotalMilliseconds;

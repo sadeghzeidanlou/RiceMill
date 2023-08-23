@@ -38,7 +38,8 @@
             Placeholder="نام کاربری"
             HorizontalOptions="Center"
             WidthRequest="200"
-            FlowDirection="RightToLeft"/>
+            FlowDirection="RightToLeft"
+            ClearButtonVisibility="WhileEditing"/>
 
         <Entry
             x:Name="TxtPassword"
@@ -46,17 +47,18 @@
             HorizontalOptions="Center"
             WidthRequest="200"
             FlowDirection="RightToLeft"
-            IsPassword="True"/>
+            IsPassword="True"
+            ClearButtonVisibility="WhileEditing"/>
 
         <Button
             x:Name="BtnLogin"
             Text="ورود"
-            Clicked="OnBtnLoginClicked"
             HorizontalOptions="Center"
             WidthRequest="100"
             BackgroundColor="#3D9970"
             CornerRadius="20"
-            Margin="20,0"/>
+            Margin="20,0"
+            Clicked="OnBtnLoginClicked"/>
 
         <ActivityIndicator
             x:Name="AciLoginProgress"

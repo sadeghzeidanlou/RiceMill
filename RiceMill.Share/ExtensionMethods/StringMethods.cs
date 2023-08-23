@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -8,70 +7,6 @@ namespace Shared.ExtensionMethods
 {
     public static partial class StringMethods
     {
-        public static string EncryptStringAes(this string plainText, string sharedSecret)
-        {
-            ArgumentException.ThrowIfNullOrEmpty(plainText);
-            ArgumentException.ThrowIfNullOrEmpty(sharedSecret);
-            string outStr;
-            Aes aesAlg = Aes.Create();
-            try
-            {
-                const int iteration = 1000;
-                var Salt = Encoding.ASCII.GetBytes("o6806642kbM7c5");
-                var key = new Rfc2898DeriveBytes(sharedSecret, Salt, iteration, HashAlgorithmName.SHA512);
-                aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
-                var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-                using var msEncrypt = new MemoryStream();
-                msEncrypt.Write(BitConverter.GetBytes(aesAlg.IV.Length), 0, sizeof(int));
-                msEncrypt.Write(aesAlg.IV, 0, aesAlg.IV.Length);
-                using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                {
-                    using var swEncrypt = new StreamWriter(csEncrypt);
-                    swEncrypt.Write(plainText);
-                }
-                outStr = Convert.ToBase64String(msEncrypt.ToArray());
-            }
-            finally
-            {
-                aesAlg?.Clear();
-            }
-            return outStr;
-        }
-
-        public static string DecryptStringAes(this string cipherText, string sharedSecret)
-        {
-            ArgumentException.ThrowIfNullOrEmpty(cipherText);
-            ArgumentException.ThrowIfNullOrEmpty(sharedSecret);
-            Aes aesAlg = Aes.Create();
-            string plaintext;
-            try
-            {
-                const int iteration = 1000;
-                var Salt = Encoding.ASCII.GetBytes("o6806642kbM7c5");
-                var key = new Rfc2898DeriveBytes(sharedSecret, Salt, iteration, HashAlgorithmName.SHA512);
-                var bytes = Convert.FromBase64String(cipherText);
-                using var msDecrypt = new MemoryStream(bytes);
-                aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
-                aesAlg.IV = msDecrypt.ToArray();
-                var decryption = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-                using var csDecrypt = new CryptoStream(msDecrypt, decryption, CryptoStreamMode.Read);
-                using var srDecrypt = new StreamReader(csDecrypt);
-                plaintext = srDecrypt.ReadToEnd();
-            }
-            finally
-            {
-                aesAlg?.Clear();
-            }
-            return plaintext;
-        }
-
-        public static string ToSha512(this string inputString)
-        {
-            ArgumentException.ThrowIfNullOrEmpty(inputString);
-            byte[] hashedBytes = SHA512.HashData(Encoding.UTF8.GetBytes(inputString));
-            return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-        }
-
         public static bool IsAllDigit(this string str) => str.ToCharArray().Any(x => !char.IsDigit(x));
 
         public static string ToNotNullStandardPersianStringWithPersianNumber(this string inputString)
