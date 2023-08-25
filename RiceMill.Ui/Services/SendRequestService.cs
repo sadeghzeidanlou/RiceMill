@@ -1,7 +1,10 @@
-﻿using RiceMill.Application.Common.Models.Resource;
+﻿using Mapster;
+using RiceMill.Application.Common.Models.Resource;
+using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Ui.Common;
 using RiceMill.Ui.Common.Models;
 using Shared.ExtensionMethods;
+using Shared.UtilityMethods;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
@@ -18,6 +21,7 @@ namespace RiceMill.Ui.Services
         {
             using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(sendRequest.TimeOutInSecond) };
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(SharedResource.JsonContentTypeName));
+            AddSecurityHeader(client.DefaultRequestHeaders);
             foreach (var customHeader in sendRequest.CustomHeaders)
                 client.DefaultRequestHeaders.Add(customHeader.Key, customHeader.Value);
 
@@ -31,24 +35,32 @@ namespace RiceMill.Ui.Services
                 var requestUri = new UriBuilder($"{ApplicationStaticContext.ApiBaseAddress}{sendRequest.MethodName}{query}").Uri;
                 using var response = await client.SendAsync(new HttpRequestMessage(sendRequest.HttpMethod, requestUri) { Content = content });
                 var responseText = await response.Content.ReadAsStringAsync();
-                if (response.StatusCode == HttpStatusCode.InternalServerError)
-                {
-                    // TODO: Handle internal server error
-                    // throw new RequestException(response.StatusCode, responseText, response.Content.ToString(), statusCode);
-                }
-                if (responseText.IsNotNullOrEmpty())
+                if (response.StatusCode == HttpStatusCode.OK && responseText.IsNotNullOrEmpty())
                     return responseText.DeserializeObject<TOut>();
 
-                return default;
+                var result = responseText.DeserializeObject<TOut>();
+                var defaultReturn = new Result<object>();
+                var finalResult = result.Adapt(defaultReturn);
+                throw new ApplicationException(string.Join(Environment.NewLine, finalResult.Errors.Select(e => e.Message)));
             }
-            catch (Exception ex)
+            catch (ApplicationException)
             {
-                // TODO: Handle exceptions or log errors
                 throw;
+            }
+            catch (Exception)
+            {
+                throw new Exception("خطای ناشناخته ای اتفاق افتاده، لطفا دقایقی دیگر امتحان کنید");
             }
         }
 
-        private static StringContent MakeBodyContent<TIn>(TIn requestObject) => new(requestObject.SerializeObject(), Encoding.UTF8, SharedResource.JsonContentTypeName);
+        private static void AddSecurityHeader(HttpRequestHeaders header)
+        {
+            if (header.Contains(SharedResource.SecurityHeaderName))
+                return;
+
+            var SecurityHeaderValue = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss").EncryptStringAes(SharedResource.EncryptDecryptKey);
+            header.Add(SharedResource.SecurityHeaderName, SecurityHeaderValue);
+        }
 
         private static string MakeQueryString(Dictionary<string, string> parameters)
         {
@@ -58,5 +70,7 @@ namespace RiceMill.Ui.Services
             var query = string.Join("&", parameters.Select(parameter => $"{parameter.Key}={parameter.Value}"));
             return "?" + query;
         }
+
+        private static StringContent MakeBodyContent<TIn>(TIn requestObject) => new(requestObject.SerializeObject(), Encoding.UTF8, SharedResource.JsonContentTypeName);
     }
 }

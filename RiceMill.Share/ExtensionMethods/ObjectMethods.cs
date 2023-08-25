@@ -34,7 +34,15 @@ namespace Shared.ExtensionMethods
         /// </summary>
         /// <param name="source">Input string that will be Deserialized</param>
         /// <returns></returns>
-        public static T? DeserializeObject<T>(this string source) where T : class => JsonSerializer.Deserialize<T>(source);
+        public static T? DeserializeObject<T>(this string source) => JsonSerializer.Deserialize<T>(source);
+
+        /// <summary>
+        /// Deserialize an object from string
+        /// </summary>
+        /// <param name="source">Input string that will be Deserialized</param>
+        /// <param name="deserializeOptions">Option for deserialize input object</param>
+        /// <returns></returns>
+        public static T? DeserializeObject<T>(this string source, JsonSerializerOptions deserializeOptions) => JsonSerializer.Deserialize<T>(source, deserializeOptions);
 
         /// <summary>
         /// Clones An Object

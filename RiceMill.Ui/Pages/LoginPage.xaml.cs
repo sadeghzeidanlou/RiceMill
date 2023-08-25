@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.UseCases.UserServices.Dto;
 using RiceMill.Ui.Common;
+using RiceMill.Ui.Pages;
 using RiceMill.Ui.Services.UseCases.UserServices;
 using Shared.ExtensionMethods;
 using Shared.UtilityMethods;
@@ -22,20 +24,29 @@ namespace RiceMill.Ui
 
         private async void OnBtnLoginClicked(object sender, EventArgs e)
         {
-            var errorMessage = new StringBuilder();
-            if (TxtUserName.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.UserUsernameIsNotValid));
-
-            if (TxtPassword.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.UserPasswordIsNotValid));
-
-            if (errorMessage.IsNotNullOrEmpty())
+            try
             {
-                await Toast.Make(errorMessage.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
-                return;
+                var errorMessage = new StringBuilder();
+                if (TxtUserName.Text.IsNullOrEmpty())
+                    errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.UserUsernameIsNotValid));
+
+                if (TxtPassword.Text.IsNullOrEmpty())
+                    errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.UserPasswordIsNotValid));
+
+                if (errorMessage.IsNotNullOrEmpty())
+                {
+                    await Toast.Make(errorMessage.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                    return;
+                }
+                //var userToken = await _userServices.GetToken(new DtoLogin(TxtUserName.Text, TxtPassword.Text.ToSha512()));
+                //ApplicationStaticContext.Token = userToken.Data.Token;
+                await Navigation.PushAsync(new MainTabbedPage());
+                Navigation.RemovePage(this);
             }
-            var result = await _userServices.GetToken(new DtoLogin(TxtUserName.Text, TxtPassword.Text.ToSha512()));
-            var t = 0;
+            catch (Exception ex)
+            {
+                await Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+            }
         }
     }
 }

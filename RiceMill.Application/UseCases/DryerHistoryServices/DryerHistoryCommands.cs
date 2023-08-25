@@ -86,7 +86,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
 
             var dryerHistory = GetDryerHistoryById(updateDryerHistory.Id);
             if (dryerHistory == null)
-                return Result<DtoDryerHistory>.Failure(new Error(ResultStatusEnum.DryerHistoryNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.DryerHistoryNotFound), HttpStatusCode.NotFound);
 
             var validateCreateDryerHistoryResult = ValidateDryerHistory(updateDryerHistory.Adapt<DtoCreateDryerHistory>(), false);
             if (validateCreateDryerHistoryResult != null)
@@ -107,7 +107,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
 
             var dryerHistory = GetDryerHistoryById(id);
             if (dryerHistory == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.DryerHistoryNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.DryerHistoryNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = dryerHistory.SerializeObject();
             _applicationDbContext.DryerHistories.Remove(dryerHistory);
@@ -124,22 +124,22 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
         private Result<DtoDryerHistory> ValidateDryerHistory(DtoCreateDryerHistory dryerHistory, bool isNew)
         {
             if ((isNew && dryerHistory.Operation == DryerOperationEnum.Unload) || (!isNew && dryerHistory.Operation == DryerOperationEnum.Load))
-                return Result<DtoDryerHistory>.Failure(new Error(ResultStatusEnum.DryerHistoryOperationIsNotValid), HttpStatusCode.BadRequest);
+                return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.DryerHistoryOperationIsNotValid), HttpStatusCode.BadRequest);
 
             if (dryerHistory.Operation == DryerOperationEnum.Unload && !dryerHistory.EndTime.HasValue)
-                return Result<DtoDryerHistory>.Failure(new Error(ResultStatusEnum.DryerHistoryStopTimeIsNotValid), HttpStatusCode.BadRequest);
+                return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.DryerHistoryStopTimeIsNotValid), HttpStatusCode.BadRequest);
 
             if (!_cacheService.GetDryers().Any(c => c.Id.Equals(dryerHistory.DryerId)))
-                return Result<DtoDryerHistory>.Failure(new Error(ResultStatusEnum.DryerNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.DryerNotFound), HttpStatusCode.NotFound);
 
             if (dryerHistory.RiceThreshingId.IsNotNullOrEmpty() && !_cacheService.GetRiceThreshings().Any(rt => rt.Id.Equals(dryerHistory.RiceThreshingId.Value)))
-                return Result<DtoDryerHistory>.Failure(new Error(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetInputLoads().Any(c => c.Id.Equals(dryerHistory.InputLoadId)))
-                return Result<DtoDryerHistory>.Failure(new Error(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(dryerHistory.RiceMillId)))
-                return Result<DtoDryerHistory>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
             return null;
         }

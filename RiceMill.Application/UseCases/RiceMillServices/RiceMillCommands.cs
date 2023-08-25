@@ -59,7 +59,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 
             var riceMill = GetRiceMillById(id);
             if (riceMill == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = riceMill.SerializeObject();
             _applicationDbContext.RiceMills.Remove(riceMill);
@@ -80,7 +80,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 
             var riceMill = GetRiceMillById(updateRiceMill.Id);
             if (riceMill == null)
-                return Result<DtoRiceMill>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+                return Result<DtoRiceMill>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = riceMill.SerializeObject();
             riceMill = updateRiceMill.Adapt(riceMill);

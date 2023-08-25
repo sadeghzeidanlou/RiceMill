@@ -20,7 +20,7 @@ namespace RiceMill.Api.Middleware
             responseBodyStream.Seek(0, SeekOrigin.Begin);
             var responseBody = await new StreamReader(responseBodyStream).ReadToEndAsync();
             var result = JsonSerializer.Deserialize<JsonElement>(responseBody, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
-            if (result.TryGetProperty("httpStatusCode", out var httpStatusCodeElement) && Enum.TryParse<HttpStatusCode>(httpStatusCodeElement.GetRawText(), out var httpStatusCode))
+            if (result.TryGetProperty("HttpStatusCode", out var httpStatusCodeElement) && Enum.TryParse<HttpStatusCode>(httpStatusCodeElement.GetRawText(), out var httpStatusCode))
                 context.Response.StatusCode = (int)httpStatusCode;
 
             responseBodyStream.Seek(0, SeekOrigin.Begin);

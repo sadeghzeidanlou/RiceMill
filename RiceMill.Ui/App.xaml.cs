@@ -1,6 +1,5 @@
 ﻿using RiceMill.Ui.Services;
 using RiceMill.Ui.Services.UseCases.UserServices;
-using System.Net.Http;
 
 namespace RiceMill.Ui
 {
@@ -15,7 +14,8 @@ namespace RiceMill.Ui
 
             var userServices = new UserServices(sendRequestService);
             DependencyService.RegisterSingleton<IUserServices>(userServices);
-            MainPage = new LoginPage(userServices);
+
+            MainPage = new NavigationPage(new LoginPage(userServices));
         }
     }
 }

@@ -45,7 +45,7 @@ namespace RiceMill.Application.UseCases.UserServices
             u.Username.Equals(login.UserName, StringComparison.InvariantCultureIgnoreCase) && u.Password.Equals(login.Password, StringComparison.InvariantCulture)).FirstOrDefault();
 
             if (user == null)
-                return Result<DtoUser>.Failure(new Error(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound);
+                return Result<DtoUser>.Failure(Error.CreateError(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound);
 
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Login, EntityTypeEnum.Users, string.Empty, string.Empty, null);
             return Result<DtoUser>.Success(user.Adapt<DtoUser>());

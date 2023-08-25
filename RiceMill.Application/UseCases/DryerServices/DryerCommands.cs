@@ -65,7 +65,7 @@ namespace RiceMill.Application.UseCases.DryerServices
 
             var dryer = GetDryerById(updateDryer.Id);
             if (dryer == null)
-                return Result<DtoDryer>.Failure(new Error(ResultStatusEnum.DryerNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDryer>.Failure(Error.CreateError(ResultStatusEnum.DryerNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = dryer.SerializeObject();
             dryer = updateDryer.Adapt(dryer);
@@ -82,7 +82,7 @@ namespace RiceMill.Application.UseCases.DryerServices
 
             var dryer = GetDryerById(id);
             if (dryer == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.DryerNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.DryerNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = dryer.SerializeObject();
             _applicationDbContext.Dryers.Remove(dryer);

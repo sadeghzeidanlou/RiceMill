@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RiceMill.Ui.LoginPage"
-             Shell.NavBarIsVisible="False" 
+             NavigationPage.HasNavigationBar="False"
              xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui">
 
     <ContentPage.Behaviors>
@@ -39,7 +39,8 @@
             HorizontalOptions="Center"
             WidthRequest="200"
             FlowDirection="RightToLeft"
-            ClearButtonVisibility="WhileEditing"/>
+            ClearButtonVisibility="WhileEditing"
+            Text="Sadegh"/>
 
         <Entry
             x:Name="TxtPassword"
@@ -48,7 +49,8 @@
             WidthRequest="200"
             FlowDirection="RightToLeft"
             IsPassword="True"
-            ClearButtonVisibility="WhileEditing"/>
+            ClearButtonVisibility="WhileEditing"
+            Text="654"/>
 
         <Button
             x:Name="BtnLogin"

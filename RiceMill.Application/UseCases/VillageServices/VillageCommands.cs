@@ -65,7 +65,7 @@ namespace RiceMill.Application.UseCases.VillageServices
 
             var village = GetVillageById(updateVillage.Id);
             if (village == null)
-                return Result<DtoVillage>.Failure(new Error(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
+                return Result<DtoVillage>.Failure(Error.CreateError(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = village.SerializeObject();
             village = updateVillage.Adapt(village);
@@ -82,7 +82,7 @@ namespace RiceMill.Application.UseCases.VillageServices
 
             var village = GetVillageById(id);
             if (village == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = village.SerializeObject();
             _applicationDbContext.Villages.Remove(village);

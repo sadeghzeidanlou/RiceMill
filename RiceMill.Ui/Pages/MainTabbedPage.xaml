@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:RiceMill.Ui.Pages.TabbedPages;assembly=RiceMill.Ui"
+            xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            x:Class="RiceMill.Ui.Pages.MainTabbedPage"
+            xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui">
+
+    <TabbedPage.Behaviors>
+
+        <mct:StatusBarBehavior 
+            StatusBarColor="#3D9970" />
+
+    </TabbedPage.Behaviors>
+
+    <NavigationPage Title="تنظیمات"  >
+        <x:Arguments>
+            <local:SettingPage />
+        </x:Arguments>
+    </NavigationPage>
+    
+    <NavigationPage Title="اطلاعات پایه"  >
+        <x:Arguments>
+            <local:BaseInformationPage />
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="شالیکوبی">
+        <x:Arguments>
+            <local:RiceThreshingPage/>
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="ورود خروج بار" >
+        <x:Arguments>
+            <local:InputOutputPage />
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="داشبورد"  >
+        <x:Arguments>
+            <local:DashboardPage />
+        </x:Arguments>
+    </NavigationPage>
+
+</TabbedPage>

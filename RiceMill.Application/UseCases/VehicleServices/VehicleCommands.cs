@@ -65,7 +65,7 @@ namespace RiceMill.Application.UseCases.VehicleServices
 
             var vehicle = GetVehicleById(updateVehicle.Id);
             if (vehicle == null)
-                return Result<DtoVehicle>.Failure(new Error(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
+                return Result<DtoVehicle>.Failure(Error.CreateError(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = vehicle.SerializeObject();
             vehicle = updateVehicle.Adapt(vehicle);
@@ -82,7 +82,7 @@ namespace RiceMill.Application.UseCases.VehicleServices
 
             var vehicle = GetVehicleById(id);
             if (vehicle == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = vehicle.SerializeObject();
             _applicationDbContext.Vehicles.Remove(vehicle);

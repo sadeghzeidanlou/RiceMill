@@ -79,7 +79,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
 
             var riceThreshing = GetRiceThreshingById(updateRiceThreshing.Id);
             if (riceThreshing == null)
-                return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
+                return Result<DtoRiceThreshing>.Failure(Error.CreateError(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
 
             var validateCreateRiceThreshingResult = ValidateRiceThreshing(updateRiceThreshing.Adapt<DtoCreateRiceThreshing>());
             if (validateCreateRiceThreshingResult != null)
@@ -100,7 +100,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
 
             var riceThreshing = GetRiceThreshingById(id);
             if (riceThreshing == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = riceThreshing.SerializeObject();
             _applicationDbContext.RiceThreshings.Remove(riceThreshing);
@@ -117,13 +117,13 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
         private Result<DtoRiceThreshing> ValidateRiceThreshing(DtoCreateRiceThreshing riceThreshing)
         {
             if (!_cacheService.GetIncomes().Any(rm => rm.Id.Equals(riceThreshing.IncomeId)))
-                return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.IncomeNotFound), HttpStatusCode.NotFound);
+                return Result<DtoRiceThreshing>.Failure(Error.CreateError(ResultStatusEnum.IncomeNotFound), HttpStatusCode.NotFound);
 
             if (_cacheService.GetDryerHistories().Select(dh => dh.Id).Intersect(riceThreshing.DryerHistoryIds).Count() != riceThreshing.DryerHistoryIds.Count)
-                return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
+                return Result<DtoRiceThreshing>.Failure(Error.CreateError(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(riceThreshing.RiceMillId)))
-                return Result<DtoRiceThreshing>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+                return Result<DtoRiceThreshing>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
             return null;
         }

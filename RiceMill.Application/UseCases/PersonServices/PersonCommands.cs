@@ -64,7 +64,7 @@ namespace RiceMill.Application.UseCases.PersonServices
 
             var person = GetPersonById(updatePerson.Id);
             if (person == null)
-                return Result<DtoPerson>.Failure(new Error(ResultStatusEnum.PersonNotFound), HttpStatusCode.NotFound);
+                return Result<DtoPerson>.Failure(Error.CreateError(ResultStatusEnum.PersonNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = person.SerializeObject();
             person = updatePerson.Adapt(person);
@@ -81,7 +81,7 @@ namespace RiceMill.Application.UseCases.PersonServices
 
             var person = GetPersonById(id);
             if (person == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.PersonNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.PersonNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = person.SerializeObject();
             _applicationDbContext.People.Remove(person);

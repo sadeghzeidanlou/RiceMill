@@ -64,7 +64,7 @@ namespace RiceMill.Application.UseCases.UserServices
 
             var user = GetUserById(id);
             if (user == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = user.SerializeObject();
             _applicationDbContext.Users.Remove(user);
@@ -85,7 +85,7 @@ namespace RiceMill.Application.UseCases.UserServices
 
             var user = GetUserById(updateUser.Id);
             if (user == null)
-                return Result<DtoUser>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+                return Result<DtoUser>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
             var validateCreateUserResult = ValidateUser(updateUser.Adapt<DtoCreateUser>());
             if (validateCreateUserResult != null)
@@ -112,7 +112,7 @@ namespace RiceMill.Application.UseCases.UserServices
             else
             {
                 if (user.Role != RoleEnum.Admin && user.RiceMillId.IsNullOrEmpty())
-                    return Result<DtoUser>.Failure(new Error(ResultStatusEnum.RiceMillIdIsNotValid), HttpStatusCode.BadRequest);
+                    return Result<DtoUser>.Failure(Error.CreateError(ResultStatusEnum.RiceMillIdIsNotValid), HttpStatusCode.BadRequest);
 
                 if (user.Role == RoleEnum.Admin)
                     _ = user with { RiceMillId = null };

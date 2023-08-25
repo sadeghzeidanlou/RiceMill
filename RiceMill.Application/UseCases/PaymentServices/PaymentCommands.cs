@@ -69,7 +69,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
 
             var payment = GetPaymentById(updatePayment.Id);
             if (payment == null)
-                return Result<DtoPayment>.Failure(new Error(ResultStatusEnum.PaymentNotFound), HttpStatusCode.NotFound);
+                return Result<DtoPayment>.Failure(Error.CreateError(ResultStatusEnum.PaymentNotFound), HttpStatusCode.NotFound);
 
             var validateCreatePaymentResult = ValidatePayment(updatePayment.Adapt<DtoCreatePayment>());
             if (validateCreatePaymentResult != null)
@@ -90,7 +90,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
 
             var payment = GetPaymentById(id);
             if (payment == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.PaymentNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.PaymentNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = payment.SerializeObject();
             _applicationDbContext.Payments.Remove(payment);
@@ -105,16 +105,16 @@ namespace RiceMill.Application.UseCases.PaymentServices
         private Result<DtoPayment> ValidatePayment(DtoCreatePayment payment)
         {
             if (!_cacheService.GetPeople().Any(c => c.Id.Equals(payment.PaidPersonId)))
-                return Result<DtoPayment>.Failure(new Error(ResultStatusEnum.PersonNotFound), HttpStatusCode.NotFound);
+                return Result<DtoPayment>.Failure(Error.CreateError(ResultStatusEnum.PersonNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetConcerns().Any(c => c.Id.Equals(payment.ConcernId)))
-                return Result<DtoPayment>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
+                return Result<DtoPayment>.Failure(Error.CreateError(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
 
             if (payment.InputLoadId.IsNotNullOrEmpty() && !_cacheService.GetInputLoads().Any(il => il.Id.Equals(payment.InputLoadId.Value)))
-                return Result<DtoPayment>.Failure(new Error(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
+                return Result<DtoPayment>.Failure(Error.CreateError(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(payment.RiceMillId)))
-                return Result<DtoPayment>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+                return Result<DtoPayment>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
             return null;
         }

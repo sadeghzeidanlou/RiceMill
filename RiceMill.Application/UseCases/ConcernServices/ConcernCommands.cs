@@ -65,7 +65,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
 
             var concern = GetConcernById(updateConcern.Id);
             if (concern == null)
-                return Result<DtoConcern>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
+                return Result<DtoConcern>.Failure(Error.CreateError(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = concern.SerializeObject();
             concern = updateConcern.Adapt(concern);
@@ -82,7 +82,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
 
             var concern = GetConcernById(id);
             if (concern == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = concern.SerializeObject();
             _applicationDbContext.Concerns.Remove(concern);

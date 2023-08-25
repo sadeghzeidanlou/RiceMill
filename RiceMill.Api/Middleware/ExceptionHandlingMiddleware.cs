@@ -47,7 +47,7 @@ namespace RiceMill.Api.Middleware
         {
             response.StatusCode = (int)statusCode;
             stream.SetLength(0);
-            var error = Result<bool>.Failure(new Error(resultStatus), statusCode);
+            var error = Result<bool>.Failure(Error.CreateError(resultStatus), statusCode);
             using var writer = new StreamWriter(stream, leaveOpen: true);
             await writer.WriteAsync(error.SerializeObject());
             await writer.FlushAsync();

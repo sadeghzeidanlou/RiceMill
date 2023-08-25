@@ -79,7 +79,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices
 
             var delivery = GetDeliveryById(updateDelivery.Id);
             if (delivery == null)
-                return Result<DtoDelivery>.Failure(new Error(ResultStatusEnum.DeliveryNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDelivery>.Failure(Error.CreateError(ResultStatusEnum.DeliveryNotFound), HttpStatusCode.NotFound);
 
             var validateCreateDeliveryResult = ValidateDelivery(updateDelivery.Adapt<DtoCreateDelivery>());
             if (validateCreateDeliveryResult != null)
@@ -100,7 +100,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices
 
             var delivery = GetDeliveryById(id);
             if (delivery == null)
-                return Result<bool>.Failure(new Error(ResultStatusEnum.DeliveryNotFound), HttpStatusCode.NotFound);
+                return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.DeliveryNotFound), HttpStatusCode.NotFound);
 
             var beforeEdit = delivery.SerializeObject();
             _applicationDbContext.Deliveries.Remove(delivery);
@@ -116,22 +116,22 @@ namespace RiceMill.Application.UseCases.DeliveryServices
         {
             var people = _cacheService.GetPeople().ToList();
             if (!people.Any(c => c.Id.Equals(delivery.DelivererPersonId)))
-                return Result<DtoDelivery>.Failure(new Error(ResultStatusEnum.DeliveryDelivererPersonNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDelivery>.Failure(Error.CreateError(ResultStatusEnum.DeliveryDelivererPersonNotFound), HttpStatusCode.NotFound);
 
             if (!people.Any(c => c.Id.Equals(delivery.ReceiverPersonId)))
-                return Result<DtoDelivery>.Failure(new Error(ResultStatusEnum.DeliveryReceiverPersonNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDelivery>.Failure(Error.CreateError(ResultStatusEnum.DeliveryReceiverPersonNotFound), HttpStatusCode.NotFound);
 
             if (!people.Any(c => c.Id.Equals(delivery.CarrierPersonId)))
-                return Result<DtoDelivery>.Failure(new Error(ResultStatusEnum.DeliveryCarrierPersonNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDelivery>.Failure(Error.CreateError(ResultStatusEnum.DeliveryCarrierPersonNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetVehicles().Any(c => c.Id.Equals(delivery.VehicleId)))
-                return Result<DtoDelivery>.Failure(new Error(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDelivery>.Failure(Error.CreateError(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
 
             if (_cacheService.GetRiceThreshings().Select(rt => rt.Id).Intersect(delivery.RiceThreshingIds).Count() != delivery.RiceThreshingIds.Count)
-                return Result<DtoDelivery>.Failure(new Error(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDelivery>.Failure(Error.CreateError(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(delivery.RiceMillId)))
-                return Result<DtoDelivery>.Failure(new Error(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+                return Result<DtoDelivery>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
             return null;
         }

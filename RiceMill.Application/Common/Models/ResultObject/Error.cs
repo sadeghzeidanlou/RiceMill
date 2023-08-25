@@ -4,14 +4,14 @@ namespace RiceMill.Application.Common.Models.ResultObject
 {
     public sealed class Error
     {
-        public Error(ResultStatusEnum error)
+        public ResultStatusEnum ResultStatus { get; set; }
+
+        public string Message { get; set; }
+
+        public static Error CreateError(ResultStatusEnum error) => new()
         {
-            ResultStatus = error;
-            Message = error.GetErrorMessage();
-        }
-
-        public ResultStatusEnum ResultStatus { get; }
-
-        public string Message { get; }
+            ResultStatus = error,
+            Message = error.GetErrorMessage()
+        };
     }
 }

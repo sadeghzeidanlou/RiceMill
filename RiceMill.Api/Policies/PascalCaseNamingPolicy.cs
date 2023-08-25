@@ -7,7 +7,7 @@ namespace RiceMill.Api.Policies
     {
         public override string ConvertName(string name)
         {
-            if (name.IsNullOrEmpty())
+            if (name.IsNullOrEmpty() || char.IsUpper(name[0]))
                 return name;
 
             return char.ToUpper(name[0]) + name[1..];
