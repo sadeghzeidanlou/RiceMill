@@ -6,4 +6,24 @@ public partial class RiceThreshingPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private void OnBtnIncomesClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void OnBtnPaymentsClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void OnBtnRiceThreshingsClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void OnBtnRiceMillsClicked(object sender, EventArgs e)
+    {
+
+    }
 }

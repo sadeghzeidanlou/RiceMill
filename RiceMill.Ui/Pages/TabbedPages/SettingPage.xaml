@@ -12,14 +12,39 @@
 
     </ContentPage.Behaviors>
 
-    <VerticalStackLayout>
-        <Label
-            Text="به تنظیمات خوش آمدید"
-            FontSize="24"
-            HorizontalOptions="Center" 
-            VerticalOptions="Center"
-            Padding="10"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-    </VerticalStackLayout>
-    
+        <Button x:Name="BtnSetting"
+            Grid.Column="0" 
+            Grid.Row="3" 
+            Text="تنظیمات" 
+            TextColor="White" 
+            BackgroundColor="#3D9970"
+            CornerRadius="30"
+            WidthRequest="150"
+            Margin="40"
+            Clicked="OnBtnSettingClicked"/>
+
+        <Button x:Name="BtnAccounts"
+            Grid.Column="1"
+            Grid.Row="3"
+            Text="حساب کاربری" 
+            TextColor="White"
+            BackgroundColor="#3D9970"
+            CornerRadius="30"
+            WidthRequest="150"
+            Margin="40"
+            Clicked="OnBtnAccountsClicked"/>
+
+    </Grid>
+
 </ContentPage>

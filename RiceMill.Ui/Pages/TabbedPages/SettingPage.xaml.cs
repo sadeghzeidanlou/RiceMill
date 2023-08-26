@@ -6,4 +6,14 @@ public partial class SettingPage : ContentPage
 	{
 		InitializeComponent();
     }
+
+    private void OnBtnSettingClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void OnBtnAccountsClicked(object sender, EventArgs e)
+    {
+
+    }
 }

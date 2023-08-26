@@ -7,19 +7,85 @@
 
     <ContentPage.Behaviors>
 
-    <mct:StatusBarBehavior 
+        <mct:StatusBarBehavior 
             StatusBarColor="#3D9970" />
 
     </ContentPage.Behaviors>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-    <VerticalStackLayout>
-        <Label
-            Text="به اطلاعات پایه خوش آمدید"
-            FontSize="24"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            Padding="10"/>
+        <Button x:Name="BtnUsers"
+                Grid.Column="0" 
+                Grid.Row="0" 
+                Text="کاربران" 
+                TextColor="White" 
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnUsersClicked"/>
 
-    </VerticalStackLayout>
+        <Button x:Name="BtnPeople"
+                Grid.Column="0"
+                Grid.Row="1"
+                Text="افراد" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnPeopleClicked"/>
 
+        <Button x:Name="BtnDryers" 
+                Grid.Column="0" 
+                Grid.Row="2" 
+                Text="خشک کن ها" 
+                TextColor="White" 
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnDryersClicked"/>
+
+        <Button x:Name="BtnConcerns" 
+                Grid.Column="1" 
+                Grid.Row="0" 
+                Text="دلایل" 
+                TextColor="White" 
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnConcernsClicked"/>
+
+        <Button x:Name="BtnVehicles"
+                Grid.Column="1" 
+                Grid.Row="1" 
+                Text="وسایل نقلیه" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnVehiclesClicked"/>
+
+        <Button x:Name="BtnVillages"
+                Grid.Column="1" 
+                Grid.Row="2" 
+                Text="مبداها" 
+                TextColor="White" 
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnVillagesClicked"/>
+    </Grid>
 </ContentPage>

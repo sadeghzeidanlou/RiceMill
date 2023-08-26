@@ -12,14 +12,61 @@
 
     </ContentPage.Behaviors>
 
-    <VerticalStackLayout>
-        <Label
-            Text="به شالیکوبی خوش آمدید"
-            FontSize="24"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            Padding="10"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-    </VerticalStackLayout>
-    
+        <Button x:Name="BtnIncomes"
+                Grid.Column="0" 
+                Grid.Row="3" 
+                Text="درآمد" 
+                TextColor="White" 
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnIncomesClicked"/>
+
+        <Button x:Name="BtnPayments"
+                Grid.Column="1"
+                Grid.Row="3"
+                Text="هزینه ها" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnPaymentsClicked"/>
+
+        <Button x:Name="BtnRiceThreshings"
+                Grid.Column="0"
+                Grid.Row="1"
+                Text="شالیکوبی" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnRiceThreshingsClicked"/>
+
+        <Button x:Name="BtnRiceMill"
+                Grid.Column="1"
+                Grid.Row="1"
+                Text="کارخانه" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnRiceMillsClicked"/>
+
+    </Grid>
+
 </ContentPage>

@@ -5,6 +5,9 @@
             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
             android:TabbedPage.ToolbarPlacement="Bottom"
             x:Class="RiceMill.Ui.Pages.MainTabbedPage"
+            SelectedTabColor="Orange"
+            UnselectedTabColor="#3D9970"
+            BackgroundColor="Gray"
             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui">
 
     <TabbedPage.Behaviors>
@@ -14,34 +17,10 @@
 
     </TabbedPage.Behaviors>
 
-    <NavigationPage Title="تنظیمات"  >
-        <x:Arguments>
-            <local:SettingPage />
-        </x:Arguments>
-    </NavigationPage>
-    
-    <NavigationPage Title="اطلاعات پایه"  >
-        <x:Arguments>
-            <local:BaseInformationPage />
-        </x:Arguments>
-    </NavigationPage>
-
-    <NavigationPage Title="شالیکوبی">
-        <x:Arguments>
-            <local:RiceThreshingPage/>
-        </x:Arguments>
-    </NavigationPage>
-
-    <NavigationPage Title="ورود خروج بار" >
-        <x:Arguments>
-            <local:InputOutputPage />
-        </x:Arguments>
-    </NavigationPage>
-
-    <NavigationPage Title="داشبورد"  >
-        <x:Arguments>
-            <local:DashboardPage />
-        </x:Arguments>
-    </NavigationPage>
+    <local:SettingPage Title="تنظیمات" />
+    <local:BaseInformationPage Title="اطلاعات پایه"/>
+    <local:RiceThreshingPage Title="کارخانه"/>
+    <local:InputOutputPage Title="ورود خروج بار"/>
+    <local:DashboardPage Title="داشبورد" />
 
 </TabbedPage>

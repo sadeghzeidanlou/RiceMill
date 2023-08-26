@@ -6,4 +6,14 @@ public partial class InputOutputPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private void OnBtnDeliveriesClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void OnBtnInputLoadsClicked(object sender, EventArgs e)
+    {
+
+    }
 }

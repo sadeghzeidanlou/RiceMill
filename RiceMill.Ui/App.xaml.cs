@@ -17,5 +17,30 @@ namespace RiceMill.Ui
 
             MainPage = new NavigationPage(new LoginPage(userServices));
         }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+        }
+
+        protected override void OnSleep()
+        {
+            base.OnSleep();
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+        }
+
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+        }
+
+        public override void OpenWindow(Window window)
+        {
+            base.OpenWindow(window);
+        }
     }
 }
