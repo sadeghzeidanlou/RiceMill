@@ -58,7 +58,7 @@ namespace RiceMill.Ui.Services
             if (header.Contains(SharedResource.SecurityHeaderName))
                 return;
 
-            var SecurityHeaderValue = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss").EncryptStringAes(SharedResource.EncryptDecryptKey);
+            var SecurityHeaderValue = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss").EncryptStringAes(SharedResource.EncryptDecryptKey);
             header.Add(SharedResource.SecurityHeaderName, SecurityHeaderValue);
         }
 

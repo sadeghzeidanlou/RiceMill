@@ -27,7 +27,8 @@ namespace RiceMill.Api.Middleware
             var decryptedHeaderValue = encryptedHeaderValue.DecryptStringAes(SharedResource.EncryptDecryptKey).Replace(SharedResource.Audience, string.Empty);
             DateTime receivedTimestamp = DateTime.ParseExact(decryptedHeaderValue, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
             TimeSpan maxTimeDifference = TimeSpan.FromSeconds(5);
-            return Math.Abs((DateTime.UtcNow - receivedTimestamp).TotalMilliseconds) <= maxTimeDifference.TotalMilliseconds;
+            var currentData = DateTime.UtcNow;
+            return Math.Abs((currentData - receivedTimestamp).TotalSeconds) <= maxTimeDifference.TotalSeconds;
         }
     }
 }

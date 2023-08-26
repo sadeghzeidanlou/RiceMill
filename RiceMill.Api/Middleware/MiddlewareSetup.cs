@@ -12,6 +12,9 @@ namespace RiceMill.Api.Middleware
                 app.UseSwaggerUI(s => s.DocExpansion(DocExpansion.None));
             }
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+            if (!app.Environment.IsDevelopment())
+                app.UseMiddleware<RequestHeaderInspectorMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.UseMiddleware<HttpStatusMiddleware>();
