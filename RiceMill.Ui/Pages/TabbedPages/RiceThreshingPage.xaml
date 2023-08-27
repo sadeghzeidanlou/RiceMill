@@ -32,7 +32,11 @@
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnIncomesClicked"/>
+                Clicked="OnBtnIncomesClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
         <Button x:Name="BtnPayments"
                 Grid.Column="1"
@@ -43,7 +47,11 @@
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnPaymentsClicked"/>
+                Clicked="OnBtnPaymentsClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
         <Button x:Name="BtnRiceThreshings"
                 Grid.Column="0"
@@ -54,7 +62,11 @@
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnRiceThreshingsClicked"/>
+                Clicked="OnBtnRiceThreshingsClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
         <Button x:Name="BtnRiceMill"
                 Grid.Column="1"
@@ -65,7 +77,11 @@
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnRiceMillsClicked"/>
+                Clicked="OnBtnRiceMillsClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
     </Grid>
 

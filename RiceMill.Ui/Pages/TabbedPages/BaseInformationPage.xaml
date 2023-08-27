@@ -28,10 +28,15 @@
                 Text="کاربران" 
                 TextColor="White" 
                 BackgroundColor="#3D9970"
+                HorizontalOptions="Center"
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnUsersClicked"/>
+                Clicked="OnBtnUsersClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
         <Button x:Name="BtnPeople"
                 Grid.Column="0"
@@ -39,10 +44,15 @@
                 Text="افراد" 
                 TextColor="White"
                 BackgroundColor="#3D9970"
+                HorizontalOptions="Center"
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnPeopleClicked"/>
+                Clicked="OnBtnPeopleClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
         <Button x:Name="BtnDryers" 
                 Grid.Column="0" 
@@ -50,10 +60,15 @@
                 Text="خشک کن ها" 
                 TextColor="White" 
                 BackgroundColor="#3D9970"
+                HorizontalOptions="Center"
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnDryersClicked"/>
+                Clicked="OnBtnDryersClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
         <Button x:Name="BtnConcerns" 
                 Grid.Column="1" 
@@ -61,10 +76,15 @@
                 Text="دلایل" 
                 TextColor="White" 
                 BackgroundColor="#3D9970"
+                HorizontalOptions="Center"
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnConcernsClicked"/>
+                Clicked="OnBtnConcernsClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
         <Button x:Name="BtnVehicles"
                 Grid.Column="1" 
@@ -72,10 +92,15 @@
                 Text="وسایل نقلیه" 
                 TextColor="White"
                 BackgroundColor="#3D9970"
+                HorizontalOptions="Center"
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnVehiclesClicked"/>
+                Clicked="OnBtnVehiclesClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
         <Button x:Name="BtnVillages"
                 Grid.Column="1" 
@@ -83,9 +108,14 @@
                 Text="مبداها" 
                 TextColor="White" 
                 BackgroundColor="#3D9970"
+                HorizontalOptions="Center"
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnVillagesClicked"/>
+                Clicked="OnBtnVillagesClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
     </Grid>
 </ContentPage>

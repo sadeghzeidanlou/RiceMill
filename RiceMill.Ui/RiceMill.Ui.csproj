@@ -104,6 +104,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\dashboard.png" />
+	  <None Remove="Resources\Images\factory.png" />
+	  <None Remove="Resources\Images\information.png" />
+	  <None Remove="Resources\Images\inputoutput.png" />
+	  <None Remove="Resources\Images\setting.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
 		  <PrivateAssets>all</PrivateAssets>

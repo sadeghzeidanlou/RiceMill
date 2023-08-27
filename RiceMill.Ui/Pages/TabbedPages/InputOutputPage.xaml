@@ -32,7 +32,11 @@
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnDeliveriesClicked"/>
+                Clicked="OnBtnDeliveriesClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
         <Button x:Name="BtnInputLoads"
                 Grid.Column="1"
@@ -43,7 +47,11 @@
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnInputLoadsClicked"/>
+                Clicked="OnBtnInputLoadsClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
     </Grid>
 

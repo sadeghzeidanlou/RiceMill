@@ -12,7 +12,7 @@
 
     </ContentPage.Behaviors>
 
-    <VerticalStackLayout BackgroundColor="Violet">
+    <VerticalStackLayout BackgroundColor="#3D9970">
         <Label
             Text="به داشبورد خوش آمدید"
             FontSize="24"

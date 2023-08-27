@@ -7,7 +7,7 @@
             x:Class="RiceMill.Ui.Pages.MainTabbedPage"
             SelectedTabColor="Orange"
             UnselectedTabColor="#3D9970"
-            BackgroundColor="Gray"
+            BarBackgroundColor="LightGray"
             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui">
 
     <TabbedPage.Behaviors>
@@ -17,10 +17,10 @@
 
     </TabbedPage.Behaviors>
 
-    <local:SettingPage Title="تنظیمات" />
-    <local:BaseInformationPage Title="اطلاعات پایه"/>
-    <local:RiceThreshingPage Title="کارخانه"/>
-    <local:InputOutputPage Title="ورود خروج بار"/>
-    <local:DashboardPage Title="داشبورد" />
+    <local:SettingPage Title="تنظیمات" IconImageSource="{FileImageSource File='setting.png'}"/>
+    <local:BaseInformationPage Title="اطلاعات پایه" IconImageSource="{FileImageSource File='information.png'}"/>
+    <local:RiceThreshingPage Title="کارخانه" IconImageSource="{FileImageSource File='factory.png'}"/>
+    <local:InputOutputPage Title="ورود خروج بار" IconImageSource="{FileImageSource File='inputoutput.png'}"/>
+    <local:DashboardPage Title="داشبورد" IconImageSource="{FileImageSource File='dashboard.png'}"/>
 
 </TabbedPage>
