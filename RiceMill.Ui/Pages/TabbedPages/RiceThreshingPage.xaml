@@ -25,7 +25,7 @@
 
         <Button x:Name="BtnIncomes"
                 Grid.Column="0" 
-                Grid.Row="3" 
+                Grid.Row="2" 
                 Text="درآمد" 
                 TextColor="White" 
                 BackgroundColor="#3D9970"
@@ -40,7 +40,7 @@
 
         <Button x:Name="BtnPayments"
                 Grid.Column="1"
-                Grid.Row="3"
+                Grid.Row="2"
                 Text="هزینه ها" 
                 TextColor="White"
                 BackgroundColor="#3D9970"
@@ -68,21 +68,49 @@
             </Button.Shadow>
         </Button>
 
-        <Button x:Name="BtnRiceMill"
-                Grid.Column="1"
-                Grid.Row="1"
-                Text="کارخانه" 
-                TextColor="White"
+        <Button x:Name="BtnDeliveries"
+                Grid.Column="1" 
+                Grid.Row="1" 
+                Text="تحویل برنج" 
+                TextColor="White" 
                 BackgroundColor="#3D9970"
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnRiceMillsClicked">
+                Clicked="OnBtnDeliveriesClicked">
             <Button.Shadow>
                 <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
             </Button.Shadow>
         </Button>
 
-    </Grid>
+        <Button x:Name="BtnInputLoads"
+                Grid.Column="0"
+                Grid.Row="0"
+                Text="دریافت شالی" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnInputLoadsClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
+        <Button x:Name="BtnDryerHistory"
+                Grid.Column="1"
+                Grid.Row="0"
+                Text="مدیریت خشک کن ها" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnDryerHistoryClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
+    </Grid>
 </ContentPage>

@@ -24,35 +24,78 @@
         </Grid.RowDefinitions>
 
         <Button x:Name="BtnSetting"
-            Grid.Column="0" 
-            Grid.Row="3" 
-            Text="تنظیمات" 
-            TextColor="White" 
-            BackgroundColor="#3D9970"
-            CornerRadius="30"
-            WidthRequest="150"
-            Margin="40"
-            Clicked="OnBtnSettingClicked">
+                Grid.Column="0" 
+                Grid.Row="2" 
+                Text="تنظیمات" 
+                TextColor="White" 
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnSettingClicked">
             <Button.Shadow>
                 <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
             </Button.Shadow>
         </Button>
 
         <Button x:Name="BtnAccounts"
-            Grid.Column="1"
-            Grid.Row="3"
-            Text="حساب کاربری" 
-            TextColor="White"
-            BackgroundColor="#3D9970"
-            CornerRadius="30"
-            WidthRequest="150"
-            Margin="40"
-            Clicked="OnBtnAccountsClicked">
+                Grid.Column="1"
+                Grid.Row="2"
+                Text="حساب کاربری" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnAccountsClicked">
             <Button.Shadow>
                 <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
             </Button.Shadow>
         </Button>
 
-    </Grid>
+        <Button x:Name="BtnUserActivities"
+                Grid.Column="0"
+                Grid.Row="1"
+                Text="فعالیت کاربران" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnUserActivitiesClicked">
+            <Button.Shadow>
+               <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
 
+        <Button x:Name="BtnUsers"
+                Grid.Column="1"
+                Grid.Row="1"
+                Text="کاربران" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnUsersClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
+
+        <Button x:Name="BtnExit"
+                Grid.Column="1"
+                Grid.Row="0"
+                Text="خروج از حساب کاربری" 
+                TextColor="White"
+                BackgroundColor="#3D9970"
+                CornerRadius="30"
+                WidthRequest="150"
+                Margin="40"
+                Clicked="OnBtnExitClicked">
+            <Button.Shadow>
+                <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
+            </Button.Shadow>
+        </Button>
+    </Grid>
 </ContentPage>

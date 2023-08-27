@@ -1,15 +1,13 @@
-using CommunityToolkit.Maui.Alerts;
-
 namespace RiceMill.Ui.Pages.TabbedPages;
 
-public partial class BaseInformationPage : ContentPage
+public partial class RiceMillPage : ContentPage
 {
-	public BaseInformationPage()
+	public RiceMillPage()
 	{
 		InitializeComponent();
-    }
+	}
 
-    private void OnBtnUsersClicked(object sender, EventArgs e)
+    private void OnBtnRiceMillsClicked(object sender, EventArgs e)
     {
 
     }

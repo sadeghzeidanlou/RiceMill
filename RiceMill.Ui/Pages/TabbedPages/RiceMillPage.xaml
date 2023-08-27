@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RiceMill.Ui.Pages.TabbedPages.BaseInformationPage"
+             x:Class="RiceMill.Ui.Pages.TabbedPages.RiceMillPage"
              NavigationPage.HasNavigationBar="False"
              xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui">
 
@@ -11,6 +11,7 @@
             StatusBarColor="#3D9970" />
 
     </ContentPage.Behaviors>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -22,17 +23,16 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="BtnUsers"
-                Grid.Column="0" 
-                Grid.Row="0" 
-                Text="کاربران" 
-                TextColor="White" 
+        <Button x:Name="BtnRiceMill"
+                Grid.Column="1"
+                Grid.Row="0"
+                Text="کارخانه" 
+                TextColor="White"
                 BackgroundColor="#3D9970"
-                HorizontalOptions="Center"
                 CornerRadius="30"
                 WidthRequest="150"
                 Margin="40"
-                Clicked="OnBtnUsersClicked">
+                Clicked="OnBtnRiceMillsClicked">
             <Button.Shadow>
                 <Shadow Brush="Gray" Offset="15,15" Radius="10" Opacity="0.8"/>
             </Button.Shadow>
@@ -40,7 +40,7 @@
 
         <Button x:Name="BtnPeople"
                 Grid.Column="0"
-                Grid.Row="1"
+                Grid.Row="0"
                 Text="افراد" 
                 TextColor="White"
                 BackgroundColor="#3D9970"
@@ -56,7 +56,7 @@
 
         <Button x:Name="BtnDryers" 
                 Grid.Column="0" 
-                Grid.Row="2" 
+                Grid.Row="1" 
                 Text="خشک کن ها" 
                 TextColor="White" 
                 BackgroundColor="#3D9970"
@@ -72,7 +72,7 @@
 
         <Button x:Name="BtnConcerns" 
                 Grid.Column="1" 
-                Grid.Row="0" 
+                Grid.Row="1" 
                 Text="دلایل" 
                 TextColor="White" 
                 BackgroundColor="#3D9970"
@@ -87,8 +87,8 @@
         </Button>
 
         <Button x:Name="BtnVehicles"
-                Grid.Column="1" 
-                Grid.Row="1" 
+                Grid.Column="0" 
+                Grid.Row="2" 
                 Text="وسایل نقلیه" 
                 TextColor="White"
                 BackgroundColor="#3D9970"

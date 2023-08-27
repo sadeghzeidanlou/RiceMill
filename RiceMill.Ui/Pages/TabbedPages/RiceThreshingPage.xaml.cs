@@ -22,7 +22,17 @@ public partial class RiceThreshingPage : ContentPage
 
     }
 
-    private void OnBtnRiceMillsClicked(object sender, EventArgs e)
+    private void OnBtnDeliveriesClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void OnBtnInputLoadsClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void OnBtnDryerHistoryClicked(object sender, EventArgs e)
     {
 
     }

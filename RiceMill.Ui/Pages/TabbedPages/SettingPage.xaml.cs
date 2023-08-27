@@ -16,4 +16,19 @@ public partial class SettingPage : ContentPage
     {
 
     }
+
+    private void OnBtnUserActivitiesClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void OnBtnUsersClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void OnBtnExitClicked(object sender, EventArgs e)
+    {
+
+    }
 }

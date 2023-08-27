@@ -18,9 +18,8 @@
     </TabbedPage.Behaviors>
 
     <local:SettingPage Title="تنظیمات" IconImageSource="{FileImageSource File='setting.png'}"/>
-    <local:BaseInformationPage Title="اطلاعات پایه" IconImageSource="{FileImageSource File='information.png'}"/>
-    <local:RiceThreshingPage Title="کارخانه" IconImageSource="{FileImageSource File='factory.png'}"/>
-    <local:InputOutputPage Title="ورود خروج بار" IconImageSource="{FileImageSource File='inputoutput.png'}"/>
+    <local:RiceMillPage Title="کارخانه" IconImageSource="{FileImageSource File='factory.png'}"/>
+    <local:RiceThreshingPage Title="شالیکوبی" IconImageSource="{FileImageSource File='ricethreshing.png'}"/>
     <local:DashboardPage Title="داشبورد" IconImageSource="{FileImageSource File='dashboard.png'}"/>
 
 </TabbedPage>
