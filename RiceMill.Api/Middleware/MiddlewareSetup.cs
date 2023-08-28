@@ -6,14 +6,14 @@ namespace RiceMill.Api.Middleware
     {
         public static void AddMiddlewares(this WebApplication app)
         {
-            if (app.Environment.IsDevelopment())
-            {
+            //if (app.Environment.IsDevelopment())
+            //{
                 app.UseSwagger();
                 app.UseSwaggerUI(s => s.DocExpansion(DocExpansion.None));
-            }
+            //}
             app.UseMiddleware<ExceptionHandlingMiddleware>();
-            if (!app.Environment.IsDevelopment())
-                app.UseMiddleware<RequestHeaderInspectorMiddleware>();
+            //if (!app.Environment.IsDevelopment())
+                //app.UseMiddleware<RequestHeaderInspectorMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseAuthorization();

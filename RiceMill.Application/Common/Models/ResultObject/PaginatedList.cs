@@ -4,18 +4,13 @@ namespace RiceMill.Application.Common.Models.ResultObject
 {
     public sealed class PaginatedList<TOut>
     {
-        public List<TOut> Items { get; }
-        public int PageNumber { get; }
-        public int TotalPages { get; }
-        public int TotalCount { get; }
+        public List<TOut> Items { get; set; }
 
-        public PaginatedList(List<TOut> items, int count, int pageNumber, int pageSize)
-        {
-            PageNumber = pageNumber;
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            TotalCount = count;
-            Items = items;
-        }
+        public int PageNumber { get; set; }
+
+        public int TotalPages { get; set; }
+
+        public int TotalCount { get; set; }
 
         public bool HasPreviousPage => PageNumber > 1;
 
@@ -23,11 +18,11 @@ namespace RiceMill.Application.Common.Models.ResultObject
 
         public static PaginatedList<TOut> Create<TIn>(IQueryable<TIn> source, int pageNumber, int pageSize)
         {
-            var count = source.Count();
             var start = (pageNumber - 1) * pageSize;
             var end = start + pageSize;
+            var count = source.Count();
             var items = source.Take(start..end).ToList().Adapt<List<TOut>>();
-            return new PaginatedList<TOut>(items, count, pageNumber, pageSize);
+            return new PaginatedList<TOut> { TotalCount = count, Items = items, PageNumber = pageNumber, TotalPages = (int)Math.Ceiling(count / (double)pageSize) };
         }
     }
 }

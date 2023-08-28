@@ -6,6 +6,8 @@ namespace RiceMill.Ui.Services.UseCases.UserServices
 {
     public interface IUserServices
     {
-        Task<Result<DtoTokenInfo>> GetToken(DtoLogin dtoLogin, DtoSendRequest sendRequest = null);
+        Task SetToken(DtoLogin dtoLogin);
+
+        Task<Result<PaginatedList<DtoUser>>> GetUsers(DtoUserFilter filter);
     }
 }

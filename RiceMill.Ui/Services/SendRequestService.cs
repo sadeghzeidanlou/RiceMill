@@ -1,10 +1,13 @@
 ﻿using Mapster;
 using RiceMill.Application.Common.Models.Resource;
 using RiceMill.Application.Common.Models.ResultObject;
+using RiceMill.Application.UseCases.UserServices.Dto;
 using RiceMill.Ui.Common;
 using RiceMill.Ui.Common.Models;
 using Shared.ExtensionMethods;
 using Shared.UtilityMethods;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
@@ -26,9 +29,10 @@ namespace RiceMill.Ui.Services
                 client.DefaultRequestHeaders.Add(customHeader.Key, customHeader.Value);
 
             if (ApplicationStaticContext.Token.IsNotNullOrEmpty())
-                client.DefaultRequestHeaders.Add(SharedResource.AuthorizationKeyName, ApplicationStaticContext.Token);
+                client.DefaultRequestHeaders.Add(SharedResource.AuthorizationKeyName, $"bearer {ApplicationStaticContext.Token}");
 
-            var query = MakeQueryString(sendRequest.QueryString);
+            AddQueryString(requestObject, sendRequest);
+            var query = MakeQueryString(sendRequest);
             var content = MakeBodyContent(requestObject);
             try
             {
@@ -62,14 +66,42 @@ namespace RiceMill.Ui.Services
             header.Add(SharedResource.SecurityHeaderName, SecurityHeaderValue);
         }
 
-        private static string MakeQueryString(Dictionary<string, string> parameters)
+        private static string MakeQueryString(DtoSendRequest sendRequest)
         {
-            if (parameters.IsCollectionNullOrEmpty())
+            if (sendRequest.HttpMethod != HttpMethod.Get || sendRequest.QueryString.IsCollectionNullOrEmpty())
                 return string.Empty;
 
-            var query = string.Join("&", parameters.Select(parameter => $"{parameter.Key}={parameter.Value}"));
+            var query = string.Join("&", sendRequest.QueryString.Select(parameter => $"{parameter.Key}={parameter.Value}"));
             return "?" + query;
         }
+
+        private static void AddQueryString<TIn>(TIn filter, DtoSendRequest sendRequest)
+        {
+            if (sendRequest.HttpMethod != HttpMethod.Get || filter == null)
+                return;
+
+            var queryParams = new Dictionary<string, string>();
+            var properties = filter.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                var value = property.GetValue(filter);
+                if (value != null)
+                {
+                    if (IsCollectionProperty(property.PropertyType))
+                    {
+                        var collectionValues = (IEnumerable)value;
+                        foreach (var item in collectionValues)
+                            queryParams[property.Name] = item.ToString();
+                    }
+                    else
+                    {
+                        queryParams[property.Name] = value.ToString();
+                    }
+                }
+            }
+            sendRequest.QueryString = queryParams;
+        }
+        public static bool IsCollectionProperty(Type propertyType) => typeof(IEnumerable).IsAssignableFrom(propertyType) && propertyType != typeof(string);
 
         private static StringContent MakeBodyContent<TIn>(TIn requestObject) => new(requestObject.SerializeObject(), Encoding.UTF8, SharedResource.JsonContentTypeName);
     }

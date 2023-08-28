@@ -67,7 +67,7 @@
             HorizontalOptions="Center"
             IsRunning="False"
             Margin="100"
-            Color="ForestGreen"/>
+            Color="#FBDA01"/>
 
     </StackLayout>
 

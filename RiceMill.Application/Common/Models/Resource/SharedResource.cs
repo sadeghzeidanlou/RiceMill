@@ -15,5 +15,7 @@
         public static readonly string AuthorizationKeyName = "Authorization";
 
         public static readonly string JsonContentTypeName = "application/json";
+
+        public static readonly string TokenClaimName = "UserId";
     }
 }

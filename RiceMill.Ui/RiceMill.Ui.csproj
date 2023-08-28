@@ -108,6 +108,7 @@
 	  <None Remove="Resources\Images\factory.png" />
 	  <None Remove="Resources\Images\information.png" />
 	  <None Remove="Resources\Images\inputoutput.png" />
+	  <None Remove="Resources\Images\ricepaddy.png" />
 	  <None Remove="Resources\Images\setting.png" />
 	</ItemGroup>
 

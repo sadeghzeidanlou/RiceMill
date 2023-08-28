@@ -19,7 +19,7 @@
 
     <local:SettingPage Title="تنظیمات" IconImageSource="{FileImageSource File='setting.png'}"/>
     <local:RiceMillPage Title="کارخانه" IconImageSource="{FileImageSource File='factory.png'}"/>
-    <local:RiceThreshingPage Title="شالیکوبی" IconImageSource="{FileImageSource File='ricethreshing.png'}"/>
+    <local:RiceThreshingPage Title="شالیکوبی" IconImageSource="{FileImageSource File='ricepaddy.png'}"/>
     <local:DashboardPage Title="داشبورد" IconImageSource="{FileImageSource File='dashboard.png'}"/>
 
 </TabbedPage>
