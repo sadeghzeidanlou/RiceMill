@@ -1,10 +1,12 @@
+using RiceMill.Application.Common.Models.Resource;
+
 namespace RiceMill.Ui.Pages.TabbedPages;
 
 public partial class SettingPage : ContentPage
 {
-	public SettingPage()
-	{
-		InitializeComponent();
+    public SettingPage()
+    {
+        InitializeComponent();
     }
 
     private void OnBtnSettingClicked(object sender, EventArgs e)
@@ -29,6 +31,7 @@ public partial class SettingPage : ContentPage
 
     private void OnBtnExitClicked(object sender, EventArgs e)
     {
-
+        SecureStorage.Default.Remove(SharedResource.TokenKey);
+        System.Diagnostics.Process.GetCurrentProcess().Kill();
     }
 }

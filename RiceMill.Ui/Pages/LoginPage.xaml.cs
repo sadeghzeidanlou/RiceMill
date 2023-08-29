@@ -8,7 +8,6 @@ using RiceMill.Ui.Pages;
 using RiceMill.Ui.Services.UseCases.UserServices;
 using Shared.ExtensionMethods;
 using Shared.UtilityMethods;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 namespace RiceMill.Ui
@@ -16,11 +15,28 @@ namespace RiceMill.Ui
     public partial class LoginPage : ContentPage
     {
         private readonly IUserServices _userServices;
+        public static bool _isFirstView = true;
 
-        public LoginPage(IUserServices userServices)
+        public LoginPage()
         {
             InitializeComponent();
-            _userServices = userServices;
+            _userServices = new UserServices();
+        }
+
+        protected override async void OnAppearing()
+        {
+            if (!_isFirstView)
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+
+            base.OnAppearing();
+            _isFirstView = false;
+            var isAuthenticated =  await _userServices.TokenIsValid();
+            if(isAuthenticated)
+            {
+                Content.IsVisible = false;
+                await AssignCurrentUser();
+                await Navigation.PushAsync(new MainTabbedPage());
+            }
         }
 
         private async void OnBtnLoginClicked(object sender, EventArgs e)
@@ -57,8 +73,7 @@ namespace RiceMill.Ui
 
         private async Task AssignCurrentUser()
         {
-            var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadJwtToken(ApplicationStaticContext.Token);
+            var jwtSecurityToken = _userServices.ReadToken(ApplicationStaticContext.Token);
             if (jwtSecurityToken != null)
             {
                 var claim = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type.Equals(SharedResource.TokenClaimName));

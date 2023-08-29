@@ -5,6 +5,12 @@ public partial class MainTabbedPage : TabbedPage
 	public MainTabbedPage()
 	{
 		InitializeComponent();
-        CurrentPage = Children[3];
+		LoginPage._isFirstView = false;
+    }
+
+    protected override void OnAppearing()
+    {
+        CurrentPage = Children.Contains(Dashboard) ? Dashboard : RiceThreshing;
+        base.OnAppearing();
     }
 }

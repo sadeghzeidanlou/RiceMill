@@ -8,28 +8,24 @@ namespace RiceMill.Ui
         public App()
         {
             InitializeComponent();
-
-            var sendRequestService = new SendRequestService();
-            DependencyService.RegisterSingleton<ISendRequestService>(sendRequestService);
-
-            var userServices = new UserServices(sendRequestService);
-            DependencyService.RegisterSingleton<IUserServices>(userServices);
-
-            MainPage = new NavigationPage(new LoginPage(userServices));
+            MainPage = new NavigationPage(new LoginPage());
         }
 
         protected override void OnStart()
         {
+            LoginPage._isFirstView = true;
             base.OnStart();
         }
 
         protected override void OnSleep()
         {
+            LoginPage._isFirstView = true;
             base.OnSleep();
         }
 
         protected override void OnResume()
         {
+            LoginPage._isFirstView = true;
             base.OnResume();
         }
 
