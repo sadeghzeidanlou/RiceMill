@@ -43,7 +43,6 @@ namespace RiceMill.Ui
                 await _userServices.SetToken(new DtoLogin(TxtUserName.Text, TxtPassword.Text.ToSha512()));
                 await AssignCurrentUser();
                 await Navigation.PushAsync(new MainTabbedPage());
-                Navigation.RemovePage(this);
             }
             catch (Exception ex)
             {

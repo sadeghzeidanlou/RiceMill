@@ -8,21 +8,17 @@ namespace RiceMill.Ui.Common.Models
         {
             MethodName = methodName;
             HttpMethod = httpMethod;
-            CustomHeaders = new Dictionary<string, string>();
             QueryString = new Dictionary<string, string>();
         }
 
-        public DtoSendRequest(string methodName, HttpMethod httpMethod, Dictionary<string, string> customHeaders, Dictionary<string, string> queryString)
+        public DtoSendRequest(string methodName, HttpMethod httpMethod, Dictionary<string, string> queryString)
         {
             MethodName = methodName;
             HttpMethod = httpMethod;
-            CustomHeaders = customHeaders;
             QueryString = queryString;
         }
 
         public string MethodName { get; set; }
-
-        public Dictionary<string, string> CustomHeaders;
 
         public Dictionary<string, string> QueryString;
 
