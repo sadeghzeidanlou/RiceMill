@@ -12,14 +12,14 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>RiceMill.Ui</ApplicationTitle>
+		<ApplicationTitle>Dordaneh</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.ricemill.ui</ApplicationId>
+		<ApplicationId>com.dordaneh.ricemill.ui</ApplicationId>
 		<ApplicationIdGuid>8ac1dc2d-b828-4643-885a-07fce236c38b</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
@@ -76,8 +76,15 @@
 	  <DebugType>portable</DebugType>
 	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
 	</PropertyGroup>
-
-	<ItemGroup>
+  
+  <PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
+    <AndroidSigningKeyStore>..\Dordaneh.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>R1c3M1lLDo0rD@N3h</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>DordanehRiceMillAlias</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>R1c3M1lLDo0rD@N3h</AndroidSigningKeyPass>
+  </PropertyGroup>
+	
+  <ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#3D9970" />
 
