@@ -17,9 +17,9 @@
 
     </TabbedPage.Behaviors>
 
-    <local:SettingPage x:Name="Setting" Title="تنظیمات" IconImageSource="{FileImageSource File='setting.png'}"/>
-    <local:RiceMillPage x:Name="RiceMill" Title="کارخانه" IconImageSource="{FileImageSource File='factory.png'}"/>
-    <local:RiceThreshingPage x:Name="RiceThreshing" Title="شالیکوبی" IconImageSource="{FileImageSource File='ricepaddy.png'}"/>
     <local:DashboardPage x:Name="Dashboard" Title="داشبورد" IconImageSource="{FileImageSource File='dashboard.png'}"/>
+    <local:RiceThreshingPage x:Name="RiceThreshing" Title="شالیکوبی" IconImageSource="{FileImageSource File='ricepaddy.png'}"/>
+    <local:RiceMillPage x:Name="RiceMill" Title="کارخانه" IconImageSource="{FileImageSource File='factory.png'}"/>
+    <local:SettingPage x:Name="Setting" Title="تنظیمات" IconImageSource="{FileImageSource File='setting.png'}"/>
 
 </TabbedPage>

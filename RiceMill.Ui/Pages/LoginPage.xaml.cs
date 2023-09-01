@@ -8,6 +8,7 @@ using RiceMill.Ui.Pages;
 using RiceMill.Ui.Services.UseCases.UserServices;
 using Shared.ExtensionMethods;
 using Shared.UtilityMethods;
+using System.Diagnostics;
 using System.Text;
 
 namespace RiceMill.Ui
@@ -25,25 +26,27 @@ namespace RiceMill.Ui
 
         protected override async void OnAppearing()
         {
+#pragma warning disable CA1416 // Validate platform compatibility
             if (!_isFirstView)
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
+                Process.GetCurrentProcess().Kill();
+#pragma warning restore CA1416 // Validate platform compatibility
 
-            base.OnAppearing();
             _isFirstView = false;
-            var isAuthenticated =  await _userServices.TokenIsValid();
-            if(isAuthenticated)
+            var isAuthenticated = await _userServices.TokenIsValid();
+            if (isAuthenticated)
             {
-                Content.IsVisible = false;
+                AciLoginProgress.IsRunning = true;
                 await AssignCurrentUser();
                 await Navigation.PushAsync(new MainTabbedPage());
+                AciLoginProgress.IsRunning = false;
             }
+            base.OnAppearing();
         }
 
         private async void OnBtnLoginClicked(object sender, EventArgs e)
         {
             try
             {
-                AciLoginProgress.IsRunning = true;
                 var errorMessage = new StringBuilder();
                 if (TxtUserName.Text.IsNullOrEmpty())
                     errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.UserUsernameIsNotValid));
@@ -56,13 +59,13 @@ namespace RiceMill.Ui
                     await Toast.Make(errorMessage.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                     return;
                 }
+                AciLoginProgress.IsRunning = true;
                 await _userServices.SetToken(new DtoLogin(TxtUserName.Text, TxtPassword.Text.ToSha512()));
                 await AssignCurrentUser();
                 await Navigation.PushAsync(new MainTabbedPage());
             }
             catch (Exception ex)
             {
-                AciLoginProgress.IsRunning = false;
                 await Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
             }
             finally

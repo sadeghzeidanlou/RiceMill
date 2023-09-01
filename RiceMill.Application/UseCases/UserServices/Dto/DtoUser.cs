@@ -14,8 +14,7 @@ namespace RiceMill.Application.UseCases.UserServices.Dto
         //[SwaggerExclude]
         //public DtoPerson UserPerson { get; set; }
 
-        //[SwaggerExclude]
-        //public Guid RiceMillId { get; set; }
+        public Guid RiceMillId { get; set; }
 
         //[SwaggerExclude]
         //public DtoRiceMill RiceMill { get; set; }

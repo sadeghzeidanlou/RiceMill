@@ -1,3 +1,5 @@
+using RiceMill.Ui.Pages.Concern;
+
 namespace RiceMill.Ui.Pages.TabbedPages;
 
 public partial class RiceMillPage : ContentPage
@@ -22,10 +24,7 @@ public partial class RiceMillPage : ContentPage
 
     }
 
-    private void OnBtnConcernsClicked(object sender, EventArgs e)
-    {
-
-    }
+    private async void OnBtnConcernsClicked(object sender, EventArgs e) => await Navigation.PushAsync(new ConcernListPage());
 
     private void OnBtnVehiclesClicked(object sender, EventArgs e)
     {

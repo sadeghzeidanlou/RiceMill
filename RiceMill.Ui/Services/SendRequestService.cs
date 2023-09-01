@@ -5,6 +5,7 @@ using RiceMill.Ui.Common;
 using RiceMill.Ui.Common.Models;
 using Shared.ExtensionMethods;
 using Shared.UtilityMethods;
+using System.Collections;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
@@ -20,6 +21,7 @@ namespace RiceMill.Ui.Services
             where TOut : class
         {
             using var client = CreateHttpClient(sendRequest);
+            AddQueryString(requestObject, sendRequest);
             var requestUri = BuildRequestUri(sendRequest);
             var requestMessage = CreateRequestMessage(sendRequest.HttpMethod, requestUri, requestObject);
             using var response = await client.SendAsync(requestMessage);
@@ -70,15 +72,44 @@ namespace RiceMill.Ui.Services
             return requestMessage;
         }
 
+        private static StringContent MakeBodyContent<TIn>(TIn requestObject) => new(requestObject.SerializeObject(), Encoding.UTF8, SharedResource.JsonContentTypeName);
+
         private static string MakeQueryString(DtoSendRequest sendRequest)
         {
-            if (sendRequest.HttpMethod != HttpMethod.Get || sendRequest.QueryString.IsCollectionNullOrEmpty())
+            if (sendRequest.HttpMethod == HttpMethod.Post || sendRequest.HttpMethod == HttpMethod.Put || sendRequest.QueryString.IsCollectionNullOrEmpty())
                 return string.Empty;
 
             var query = string.Join("&", sendRequest.QueryString.Select(parameter => $"{parameter.Key}={parameter.Value}"));
             return "?" + query;
         }
 
-        private static StringContent MakeBodyContent<TIn>(TIn requestObject) => new(requestObject.SerializeObject(), Encoding.UTF8, SharedResource.JsonContentTypeName);
+        private static void AddQueryString<TIn>(TIn filter, DtoSendRequest sendRequest)
+        {
+            if (sendRequest.HttpMethod == HttpMethod.Post || sendRequest.HttpMethod == HttpMethod.Put || filter == null)
+                return;
+
+            var queryParams = new Dictionary<string, string>();
+            var properties = filter.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                var value = property.GetValue(filter);
+                if (value != null)
+                {
+                    if (IsCollectionProperty(property.PropertyType))
+                    {
+                        var collectionValues = (IEnumerable)value;
+                        foreach (var item in collectionValues)
+                            queryParams[property.Name] = item.ToString();
+                    }
+                    else
+                    {
+                        queryParams[property.Name] = value.ToString();
+                    }
+                }
+            }
+            sendRequest.QueryString = queryParams;
+        }
+
+        public static bool IsCollectionProperty(Type propertyType) => typeof(IEnumerable).IsAssignableFrom(propertyType) && propertyType != typeof(string);
     }
 }

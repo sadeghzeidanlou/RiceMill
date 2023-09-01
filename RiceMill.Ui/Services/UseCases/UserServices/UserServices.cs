@@ -10,7 +10,6 @@ namespace RiceMill.Ui.Services.UseCases.UserServices
     public class UserServices : IUserServices
     {
         private readonly ISendRequestService _sendRequestService;
-
         public UserServices() => _sendRequestService = new SendRequestService();
 
         public async Task SetToken(DtoLogin dtoLogin)

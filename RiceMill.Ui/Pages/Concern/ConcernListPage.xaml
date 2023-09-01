@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:RiceMill.Ui.Pages.Concern"
+             x:Class="RiceMill.Ui.Pages.Concern.ConcernListPage"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             Title="دلایل">
+
+    <Frame x:Name="FrmDetail"
+           BorderColor="#3D9970"
+           FlowDirection="RightToLeft"
+           HasShadow="True"
+           Margin="5"
+           CornerRadius="25"
+           Padding="5">
+
+        <Grid x:Name="GridDetail"
+               FlowDirection="RightToLeft"
+               ColumnSpacing="10"
+               MaximumHeightRequest="100">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="LblTitle" 
+                   Text="عنوان" 
+                   Grid.Column="0" 
+                   Grid.Row="0" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Start"
+                   MaximumHeightRequest="25"/>
+
+            <Entry
+                   x:Name="TxtTitle"
+                   HorizontalOptions="Start"
+                   FlowDirection="RightToLeft"
+                   MaxLength="50"
+                   Grid.Column="1" 
+                   Grid.Row="0" 
+                   MaximumHeightRequest="45"
+                   FontAttributes="Bold"
+                   ClearButtonVisibility="WhileEditing"/>
+
+        </Grid>
+        
+    </Frame>
+</ContentPage>
