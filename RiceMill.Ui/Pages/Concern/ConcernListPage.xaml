@@ -7,44 +7,46 @@
              xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
              Title="دلایل">
 
-    <Frame x:Name="FrmDetail"
-           BorderColor="#3D9970"
-           FlowDirection="RightToLeft"
-           HasShadow="True"
-           Margin="5"
-           CornerRadius="25"
-           Padding="5">
-
-        <Grid x:Name="GridDetail"
-               FlowDirection="RightToLeft"
-               ColumnSpacing="10"
-               MaximumHeightRequest="100">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
+    <Grid>
+        <StackLayout VerticalOptions="Start" Padding="20">
             <Label x:Name="LblTitle" 
-                   Text="عنوان" 
-                   Grid.Column="0" 
-                   Grid.Row="0" 
-                   FontAttributes="Bold"
-                   HorizontalOptions="Start"
-                   MaximumHeightRequest="25"/>
-
-            <Entry
-                   x:Name="TxtTitle"
-                   HorizontalOptions="Start"
+                   Text="عنوان"
+                   FontAttributes="Bold" />
+            
+            <Entry x:Name="EntryTitle" 
                    FlowDirection="RightToLeft"
                    MaxLength="50"
-                   Grid.Column="1" 
-                   Grid.Row="0" 
-                   MaximumHeightRequest="45"
                    FontAttributes="Bold"
                    ClearButtonVisibility="WhileEditing"/>
+            
+            <Button Text="ذخیره" 
+                    CornerRadius="25"
+                    Clicked="SaveButton_Clicked" />
+        </StackLayout>
 
-        </Grid>
-        
-    </Frame>
+        <CollectionView VerticalOptions="FillAndExpand" Margin="20">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding}" Margin="0,5" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <StackLayout Grid.Row="1" 
+                     Orientation="Horizontal"
+                     HorizontalOptions="CenterAndExpand"
+                     VerticalOptions="End" 
+                     Padding="20">
+            
+            <Button Text="جدید" 
+                    CornerRadius="25"
+                    Clicked="NewButton_Clicked" />
+            
+            <Button Text="حذف" 
+                    CornerRadius="25"
+                    Clicked="RemoveButton_Clicked" />
+            
+        </StackLayout>
+    </Grid>
+    
 </ContentPage>

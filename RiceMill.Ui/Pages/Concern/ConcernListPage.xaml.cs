@@ -6,4 +6,24 @@ public partial class ConcernListPage : ContentPage
     {
         InitializeComponent();
     }
+
+    private void RemoveButton_Clicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void SaveButton_Clicked(object sender, EventArgs e)
+    {
+ 
+    }
+
+    private void AddButton_Clicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void NewButton_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }
