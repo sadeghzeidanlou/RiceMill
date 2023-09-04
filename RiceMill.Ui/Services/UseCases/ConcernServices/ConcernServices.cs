@@ -1,6 +1,5 @@
 ﻿using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
-using RiceMill.Application.UseCases.UserServices.Dto;
 using RiceMill.Ui.Common.Models;
 
 namespace RiceMill.Ui.Services.UseCases.ConcernServices
@@ -12,12 +11,14 @@ namespace RiceMill.Ui.Services.UseCases.ConcernServices
 
         public async Task<Result<DtoConcern>> Add(DtoCreateConcern dtoCreate)
         {
-            throw new NotImplementedException();
+            var sendRequest = new DtoSendRequest("api/v1/Concern", HttpMethod.Post);
+            return await _sendRequestService.SendRequestAsync<DtoCreateConcern, Result<DtoConcern>>(dtoCreate, sendRequest);
         }
 
         public async Task<Result<bool>> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var sendRequest = new DtoSendRequest($"api/v1/Concern/{id}", HttpMethod.Delete);
+            return await _sendRequestService.SendRequestAsync<object, Result<bool>>(null, sendRequest);
         }
 
         public async Task<Result<PaginatedList<DtoConcern>>> Get(DtoConcernFilter filter)
@@ -28,7 +29,8 @@ namespace RiceMill.Ui.Services.UseCases.ConcernServices
 
         public async Task<Result<DtoConcern>> Update(DtoUpdateConcern dtoUpdate)
         {
-            throw new NotImplementedException();
+            var sendRequest = new DtoSendRequest("api/v1/Concern", HttpMethod.Put);
+            return await _sendRequestService.SendRequestAsync<DtoUpdateConcern, Result<DtoConcern>>(dtoUpdate, sendRequest);
         }
     }
 }

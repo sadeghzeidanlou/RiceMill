@@ -41,7 +41,7 @@
                            VerticalOptions="Center" 
                            FontAttributes="Bold" />
 
-                    <Entry x:Name="EntryTitle"
+                    <Entry x:Name="TxtTitle"
                            Placeholder="عنوان دلیل"
                            MaxLength="50"
                            Grid.Row="0" 
@@ -63,12 +63,13 @@
             </StackLayout>
         </Frame>
 
-        <CollectionView x:Name="ConcernCollectionView"
+        <CollectionView x:Name="CVConcern"
                         VerticalOptions="FillAndExpand"
                         FlowDirection="RightToLeft"
                         Margin="20"
                         Grid.Row="1"
-                        SelectionMode="Single">
+                        SelectionMode="Single"
+                        SelectionChanged="OnCVConcernSelectionChanged">
             
             <CollectionView.ItemTemplate>
                 <DataTemplate>

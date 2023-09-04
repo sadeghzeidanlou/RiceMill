@@ -73,7 +73,7 @@
         <Button x:Name="BtnConcerns" 
                 Grid.Column="1" 
                 Grid.Row="1" 
-                Text="دلایل" 
+                Text="دلایل پرداخت" 
                 TextColor="White" 
                 BackgroundColor="#3D9970"
                 HorizontalOptions="Center"
