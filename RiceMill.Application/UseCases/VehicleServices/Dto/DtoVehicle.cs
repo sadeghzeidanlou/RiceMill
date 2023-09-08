@@ -13,6 +13,10 @@ namespace RiceMill.Application.UseCases.VehicleServices.Dto
 
         public Guid OwnerPersonId { get; set; }
 
+        public string HumaneReadable=> $"{Shared.Enums.VehicleType.GetAll.FirstOrDefault(x => x.Type == VehicleType)?.Title} ({Plate})";
+
+        public string OwnerFullName { get; set; }
+
         //[SwaggerExclude]
         //public DtoPerson OwnerPerson { get; set; }
 

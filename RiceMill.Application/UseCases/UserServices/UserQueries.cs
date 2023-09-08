@@ -45,8 +45,9 @@ namespace RiceMill.Application.UseCases.UserServices
             u.Username.Equals(login.UserName, StringComparison.InvariantCultureIgnoreCase) && u.Password.Equals(login.Password, StringComparison.InvariantCulture)).FirstOrDefault();
 
             if (user == null)
-                return Result<DtoUser>.Failure(Error.CreateError(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound);
+                return Result<DtoUser>.Failure(Error.CreateError(ResultStatusEnum.Unauthorized), HttpStatusCode.Unauthorized);
 
+            _currentRequestService.UserId = user.Id;
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Login, EntityTypeEnum.Users, string.Empty, string.Empty, null);
             return Result<DtoUser>.Success(user.Adapt<DtoUser>());
         }
@@ -54,6 +55,9 @@ namespace RiceMill.Application.UseCases.UserServices
         private IQueryable<User> GetFilter(DtoUserFilter filter)
         {
             var users = _cacheService.GetUsers();
+            if (_currentRequestService.JustCanRead)
+                return users.Where(u => u.Id.Equals(_currentRequestService.UserId));
+            
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return users.Where(u => false);
 

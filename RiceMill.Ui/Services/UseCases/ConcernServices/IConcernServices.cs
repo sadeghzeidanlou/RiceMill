@@ -3,7 +3,7 @@ using RiceMill.Application.UseCases.ConcernServices.Dto;
 
 namespace RiceMill.Ui.Services.UseCases.ConcernServices
 {
-    public interface IConcernServices
+    internal interface IConcernServices
     {
         Task<Result<PaginatedList<DtoConcern>>> Get(DtoConcernFilter filter);
 

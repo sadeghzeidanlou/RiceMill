@@ -7,7 +7,7 @@ namespace RiceMill.Application.Common.Interfaces
     {
         public string Ip { get; set; }
 
-        public Guid UserId { get; }
+        public Guid UserId { get; set; }
 
         public RoleEnum UserRole { get; set; }
 

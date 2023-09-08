@@ -16,6 +16,6 @@
 
         public static readonly string JsonContentTypeName = "application/json";
 
-        public static readonly string TokenClaimName = "UserId";
+        public static readonly string TokenClaimUserIdName = "UserId";
     }
 }

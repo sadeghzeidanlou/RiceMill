@@ -1,3 +1,7 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using Microsoft.Maui.Platform;
+using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.ConcernServices.Dto;
 using RiceMill.Ui.Common;
@@ -11,27 +15,22 @@ public partial class ConcernListPage : ContentPage
     private readonly IConcernServices _concernServices;
     private PaginatedList<DtoConcern> Concerns;
     private bool _isNewConcern = true;
-    private DtoConcern _currentSelectedConcern;
 
     public ConcernListPage()
     {
-        InitializeComponent();
-        _concernServices = new ConcernServices();
-    }
-
-    protected override async void OnAppearing()
-    {
         try
         {
-            var concerns = await _concernServices.Get(new DtoConcernFilter());
-            Concerns = concerns.Data;
+            _concernServices = new ConcernServices();
+            Task.WaitAny(RefreshList());
+            InitializeComponent();
             CVConcern.ItemsSource = Concerns.Items;
-            base.OnAppearing();
+            BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
-            throw;
+            Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
         }
     }
 
@@ -39,11 +38,11 @@ public partial class ConcernListPage : ContentPage
     {
         try
         {
-            if (TxtTitle.Text.IsNullOrEmpty())
+            if (TxtTitle.Text.IsNullOrEmpty() || _isNewConcern && ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty())
+            {
+                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.ConcernTitleIsNotValid), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
-
-            if (_isNewConcern && ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty())
-                return;
+            }
 
             if (_isNewConcern)
             {
@@ -51,18 +50,27 @@ public partial class ConcernListPage : ContentPage
                 await _concernServices.Add(newConcern);
                 return;
             }
-            var updateConcern = new DtoUpdateConcern(_currentSelectedConcern.Id, TxtTitle.Text);
+
+            if (CVConcern.SelectedItem is not DtoConcern selectedConcern)
+                return;
+
+            var updateConcern = new DtoUpdateConcern(selectedConcern.Id, TxtTitle.Text);
             await _concernServices.Update(updateConcern);
             return;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            await Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
         }
         finally
         {
-            OnAppearing();
-            TxtTitle.Text = string.Empty;
+            OnNewBtnClicked(null, null);
+            Task.WaitAny(RefreshList());
+            CVConcern.ItemsSource = Concerns.Items;
+#if ANDROID
+            if (Platform.CurrentActivity.CurrentFocus != null)
+                Platform.CurrentActivity.HideKeyboard(Platform.CurrentActivity.CurrentFocus);
+#endif
         }
     }
 
@@ -71,18 +79,19 @@ public partial class ConcernListPage : ContentPage
         try
         {
             if (CVConcern.SelectedItem is not DtoConcern selectedConcern)
+            {
+                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectConcern), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
+            }
 
             await _concernServices.Delete(selectedConcern.Id);
+            OnNewBtnClicked(null, null);
+            Task.WaitAny(RefreshList());
+            CVConcern.ItemsSource = Concerns.Items;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
-        }
-        finally
-        {
-            OnAppearing();
-            TxtTitle.Text = string.Empty;
+            await Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
         }
     }
 
@@ -90,23 +99,35 @@ public partial class ConcernListPage : ContentPage
     {
         _isNewConcern = true;
         TxtTitle.Text = string.Empty;
+        CVConcern.SelectedItem = null;
     }
 
-    private void OnCVConcernSelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void OnCVConcernSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         try
         {
             if (CVConcern.SelectedItem is not DtoConcern selectedConcern)
                 return;
 
-            _currentSelectedConcern = selectedConcern;
-            TxtTitle.Text = _currentSelectedConcern.Title;
+            TxtTitle.Text = selectedConcern.Title;
             _isNewConcern = false;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
-            throw;
+            await Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
         }
+    }
+
+    private Task RefreshList()
+    {
+        return Task.Run(() =>
+        {
+            var filter = new DtoConcernFilter();
+            if (!ApplicationStaticContext.IsAdmin)
+                filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
+
+            var result = _concernServices.Get(filter);
+            Concerns = result.Result.Data;
+        });
     }
 }

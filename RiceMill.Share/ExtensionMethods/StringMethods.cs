@@ -192,7 +192,7 @@ namespace Shared.ExtensionMethods
 
         public static bool IsMotorcyclePlate(this string plate) => MotorcyclePlateRegex().Match(plate).Success;
 
-        [GeneratedRegex(@"^\d{2}[\u0600-\u06FF]\d{3}\d{2}$")]
+        [GeneratedRegex(@"^\d{2}[\u0600-\u06FF]\d{3}-\d{2}$")]
         private static partial Regex GeneralPlateRegex();
 
         public static bool IsGeneralPlate(this string plate) => GeneralPlateRegex().Match(plate).Success;

@@ -13,7 +13,7 @@ namespace RiceMill.Persistence.Configurations
                 .ValueGeneratedOnAdd();
 
             builder.Property(v => v.Plate)
-                .HasMaxLength(8)
+                .HasMaxLength(9)
                 .IsUnicode()
                 .IsRequired();
 

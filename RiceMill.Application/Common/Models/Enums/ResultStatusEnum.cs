@@ -22,6 +22,7 @@
         ConcernIdIsNotValid,
         ConcernTitleIsNotValid,
         ConcernTitleLengthIsNotValid,
+        PleaseSelectConcern,
 
         #endregion
 
@@ -77,6 +78,7 @@
         VehicleDescriptionLengthIsNotValid,
         VehicleVehicleTypeIsNotValid,
         VehicleOwnerPersonIdIsNotValid,
+        PleaseSelectVehicle,
 
         #endregion
 
@@ -86,6 +88,7 @@
         VillageIdIsNotValid,
         VillageTitleIsNotValid,
         VillageTitleLengthIsNotValid,
+        PleaseSelectVillage,
 
         #endregion
 
@@ -116,6 +119,7 @@
         DryerIdIsNotValid,
         DryerTitleIsNotValid,
         DryerTitleLengthIsNotValid,
+        PleaseSelectDryer,
 
         #endregion
 
@@ -218,7 +222,7 @@
                 {ResultStatusEnum.Success,"عملیات '{0}' با موفقیت انجام شد" },
                 {ResultStatusEnum.Fail,"عملیات '{0}' دچار خطا شده است" },
                 {ResultStatusEnum.Unauthorized, "احراز هویت بدرستی انجام نشده است" },
-                {ResultStatusEnum.Forbidden, "شما مجاز به ادامه عملیات نمی باشد" },
+                {ResultStatusEnum.Forbidden, "شما دسترسی لازم برای انجام اینکار را ندارید" },
                 {ResultStatusEnum.NotImplemented, "درحال حاضر عملیات مورد نظر در سیستم پشتیبانی نمی شود" },
                 {ResultStatusEnum.DatabaseError, "خطایی در سمت پایگاه داده رخ داده است" },
                 {ResultStatusEnum.UnHandleError, "خطای پیش بینی نشده اتفاق افتاده است" },

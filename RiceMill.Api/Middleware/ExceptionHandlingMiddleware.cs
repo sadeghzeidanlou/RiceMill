@@ -5,6 +5,7 @@ using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using Shared.ExtensionMethods;
 using System.Net;
+using System.Text.Json;
 
 namespace RiceMill.Api.Middleware
 {
@@ -13,7 +14,7 @@ namespace RiceMill.Api.Middleware
         private readonly RequestDelegate _next;
 
         public ExceptionHandlingMiddleware(RequestDelegate next) => _next = next;
-
+        
         public async Task Invoke(HttpContext context, ILoggingService logging)
         {
             HttpResponse response = context.Response;
@@ -24,16 +25,17 @@ namespace RiceMill.Api.Middleware
             {
                 context.Response.ContentType = ContentType.ApplicationJson.ToString();
                 await _next(context);
+                await ModifyStatusCode(context, newBody);
             }
             catch (DbUpdateException dbEx)
             {
                 logging.Error($"Database update error occurred during request processing. Path: {context.Request.Path}", dbEx);
-                await ModifyResponseAsync(newBody, response, ResultStatusEnum.DatabaseError, HttpStatusCode.InternalServerError);
+                await ModifyResponse(newBody, response, ResultStatusEnum.DatabaseError, HttpStatusCode.InternalServerError);
             }
             catch (Exception ex)
             {
                 logging.Error($"Unhandled exception occurred during request processing. Path: {context.Request.Path}", ex);
-                await ModifyResponseAsync(newBody, response, ResultStatusEnum.UnHandleError, HttpStatusCode.InternalServerError);
+                await ModifyResponse(newBody, response, ResultStatusEnum.UnHandleError, HttpStatusCode.InternalServerError);
             }
             finally
             {
@@ -43,7 +45,16 @@ namespace RiceMill.Api.Middleware
             }
         }
 
-        private static async Task ModifyResponseAsync(Stream stream, HttpResponse response, ResultStatusEnum resultStatus, HttpStatusCode statusCode)
+        private static async Task ModifyStatusCode(HttpContext context, MemoryStream newBody)
+        {
+            newBody.Seek(0, SeekOrigin.Begin);
+            var responseBody = await new StreamReader(newBody).ReadToEndAsync();
+            var result = JsonSerializer.Deserialize<JsonElement>(responseBody, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            if (result.TryGetProperty("HttpStatusCode", out var httpStatusCodeElement) && Enum.TryParse<HttpStatusCode>(httpStatusCodeElement.GetRawText(), out var httpStatusCode))
+                context.Response.StatusCode = (int)httpStatusCode;
+        }
+
+        private static async Task ModifyResponse(Stream stream, HttpResponse response, ResultStatusEnum resultStatus, HttpStatusCode statusCode)
         {
             response.StatusCode = (int)statusCode;
             stream.SetLength(0);

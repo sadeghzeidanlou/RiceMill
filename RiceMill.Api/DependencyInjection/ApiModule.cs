@@ -11,8 +11,8 @@ namespace RiceMill.Api.DependencyInjection
     {
         public static IServiceCollection AddApiServices(this IServiceCollection services)
         {
-            services.AddTransient<ICurrentRequestService, CurrentRequest>();
-            services.AddTransient<IJwtService, JwtService>();
+            services.AddScoped<ICurrentRequestService, CurrentRequest>();
+            services.AddScoped<IJwtService, JwtService>();
             services.AddSingleton<IRegister>(new MappingConfig());
             services.AddSingleton<ILoggingService, LoggingService>();
 

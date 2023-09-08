@@ -12,7 +12,7 @@ using System.Text;
 
 namespace RiceMill.Ui.Services
 {
-    public class SendRequestService : ISendRequestService
+    internal sealed class SendRequestService : ISendRequestService
     {
         public SendRequestService() { }
 
@@ -41,7 +41,7 @@ namespace RiceMill.Ui.Services
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(SharedResource.JsonContentTypeName));
             AddSecurityHeader(client.DefaultRequestHeaders);
             if (!string.IsNullOrEmpty(ApplicationStaticContext.Token))
-                client.DefaultRequestHeaders.Add(SharedResource.AuthorizationKeyName, $"bearer {ApplicationStaticContext.Token}");
+                client.DefaultRequestHeaders.Add(SharedResource.AuthorizationKeyName, $"Bearer {ApplicationStaticContext.Token}");
 
             return client;
         }

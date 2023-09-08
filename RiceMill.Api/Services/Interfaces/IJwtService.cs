@@ -6,6 +6,6 @@ namespace RiceMill.Api.Services.Interfaces
     {
         string GenerateToken(Guid userId);
 
-        ClaimsPrincipal ValidateToken(string token);
+        ClaimsPrincipal? ValidateToken(string token);
     }
 }

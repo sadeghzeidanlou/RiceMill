@@ -11,7 +11,7 @@ namespace RiceMill.Ui.Common
                 {ResultStatusEnum.Success,"عملیات '{0}' با موفقیت انجام شد" },
                 {ResultStatusEnum.Fail,"عملیات '{0}' دچار خطا شده است" },
                 {ResultStatusEnum.Unauthorized, "احراز هویت بدرستی انجام نشده است" },
-                {ResultStatusEnum.Forbidden, "شما مجاز به ادامه عملیات نمی باشد" },
+                {ResultStatusEnum.Forbidden, "شما دسترسی لازم برای انجام اینکار را ندارید" },
                 {ResultStatusEnum.NotImplemented, "درحال حاضر عملیات مورد نظر در سیستم پشتیبانی نمی شود" },
                 {ResultStatusEnum.DatabaseError, "خطایی در سمت پایگاه داده رخ داده است" },
                 {ResultStatusEnum.UnHandleError, "خطای پیش بینی نشده اتفاق افتاده است" },
@@ -22,10 +22,11 @@ namespace RiceMill.Ui.Common
 
                 #region Concern
                 
-                {ResultStatusEnum.ConcernNotFound, "دلیل یافت نشد یا شما مجاز به دسترسی نمی باشید" },
-                {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل بیش از حد مجاز است" },
+                {ResultStatusEnum.ConcernNotFound, "دلیل پرداخت یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل پرداخت بیش از حد مجاز است" },
+                {ResultStatusEnum.PleaseSelectConcern, "لطفا یک دلیل پرداخت را انتخاب کنید" },
 
                 #endregion
 
@@ -81,6 +82,7 @@ namespace RiceMill.Ui.Common
                 {ResultStatusEnum.VehicleDescriptionLengthIsNotValid, "طول توضیحات وسیله نقلیه بیش از حد مجاز است" },
                 {ResultStatusEnum.VehicleVehicleTypeIsNotValid, "نوع وسیله نقلیه معتبر نمی باشد" },
                 {ResultStatusEnum.VehicleOwnerPersonIdIsNotValid, "شناسه صاحب وسیله نقلیه معتبر نمی باشد" },
+                {ResultStatusEnum.PleaseSelectVehicle, "لطفا یک وسیله نقلیه را انتخاب کنید" },
 
                 #endregion
 
@@ -90,6 +92,7 @@ namespace RiceMill.Ui.Common
                 {ResultStatusEnum.VillageIdIsNotValid, "شناسه مبدا معتبر نمی باشد" },
                 {ResultStatusEnum.VillageTitleIsNotValid, "عنوان مبدا معتبر نمی باشد" },
                 {ResultStatusEnum.VillageTitleLengthIsNotValid, "طول عنوان مبدا بیش از حد مجاز است" },
+                {ResultStatusEnum.PleaseSelectVillage, "لطفا یک مبدا را انتخاب کنید" },
 
                 #endregion
 
@@ -120,6 +123,7 @@ namespace RiceMill.Ui.Common
                 {ResultStatusEnum.DryerIdIsNotValid, "شناسه خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerTitleIsNotValid, "عنوان خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerTitleLengthIsNotValid, "طول عنوان خشک کن بیش از حد مجاز است" },
+                {ResultStatusEnum.PleaseSelectDryer, "لطفا یک خشک کن را انتخاب کنید" },
 
                 #endregion
 

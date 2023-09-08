@@ -4,7 +4,7 @@ using RiceMill.Ui.Common.Models;
 
 namespace RiceMill.Ui.Services.UseCases.ConcernServices
 {
-    public class ConcernServices : IConcernServices
+    internal sealed class ConcernServices : IConcernServices
     {
         private readonly ISendRequestService _sendRequestService;
         public ConcernServices() => _sendRequestService = new SendRequestService();

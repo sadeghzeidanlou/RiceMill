@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using Microsoft.Maui.Platform;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.Resource;
 using RiceMill.Application.UseCases.UserServices.Dto;
@@ -26,10 +27,8 @@ namespace RiceMill.Ui
 
         protected override async void OnAppearing()
         {
-#pragma warning disable CA1416 // Validate platform compatibility
             if (!_isFirstView)
                 Process.GetCurrentProcess().Kill();
-#pragma warning restore CA1416 // Validate platform compatibility
 
             _isFirstView = false;
             var isAuthenticated = await _userServices.TokenIsValid();
@@ -47,6 +46,10 @@ namespace RiceMill.Ui
         {
             try
             {
+#if ANDROID
+                if (Platform.CurrentActivity.CurrentFocus != null)
+                    Platform.CurrentActivity.HideKeyboard(Platform.CurrentActivity.CurrentFocus);
+#endif
                 var errorMessage = new StringBuilder();
                 if (TxtUserName.Text.IsNullOrEmpty())
                     errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.UserUsernameIsNotValid));
@@ -79,7 +82,7 @@ namespace RiceMill.Ui
             var jwtSecurityToken = _userServices.ReadToken(ApplicationStaticContext.Token);
             if (jwtSecurityToken != null)
             {
-                var claim = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type.Equals(SharedResource.TokenClaimName));
+                var claim = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type.Equals(SharedResource.TokenClaimUserIdName));
                 if (claim != null)
                 {
                     var userId = Guid.Parse(claim.Value);

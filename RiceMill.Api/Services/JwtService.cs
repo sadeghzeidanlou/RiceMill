@@ -14,7 +14,7 @@ namespace RiceMill.Api.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim(SharedResource.TokenClaimName, userId.ToString()) }),
+                Subject = new ClaimsIdentity(new[] { new Claim(SharedResource.TokenClaimUserIdName, userId.ToString()) }),
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(JwtConfiguration.Key), SecurityAlgorithms.HmacSha256Signature),
                 IssuedAt = DateTime.Now,
@@ -25,7 +25,7 @@ namespace RiceMill.Api.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public ClaimsPrincipal ValidateToken(string token)
+        public ClaimsPrincipal? ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenValidationParameters = JwtConfiguration.TokenValidationParameters;
