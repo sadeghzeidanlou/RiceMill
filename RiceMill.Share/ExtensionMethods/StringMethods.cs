@@ -187,7 +187,7 @@ namespace Shared.ExtensionMethods
 
         public static bool IsPhoneNumber(this string number) => PhoneNumberRegex().Match(number).Success;
 
-        [GeneratedRegex(@"^\d{3}\d{5}$")]
+        [GeneratedRegex(@"^\d{3}-\d{5}$")]
         private static partial Regex MotorcyclePlateRegex();
 
         public static bool IsMotorcyclePlate(this string plate) => MotorcyclePlateRegex().Match(plate).Success;

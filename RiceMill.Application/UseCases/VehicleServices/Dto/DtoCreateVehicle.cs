@@ -13,8 +13,6 @@ namespace RiceMill.Application.UseCases.VehicleServices.Dto
         {
             RuleFor(dto => dto.Plate)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.VehiclePlateIsNotValid.ToString())
-                .MinimumLength(9).WithErrorCode(ResultStatusEnum.VehiclePlateMinimumLengthIsNotValid.ToString())
-                .MaximumLength(9).WithErrorCode(ResultStatusEnum.VehiclePlateMaximumLengthIsNotValid.ToString())
                 .Must((vehicle, plate) =>
                 {
                     return vehicle.VehicleType == VehicleTypeEnum.Motorcycle ? plate.IsMotorcyclePlate() : plate.IsGeneralPlate();

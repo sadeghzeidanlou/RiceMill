@@ -18,6 +18,8 @@ namespace RiceMill.Application.UseCases.RiceMillServices.Dto
 
         public Guid? OwnerPersonId { get; set; }
 
+        public string OwnerFullName { get; set; }
+
         //[SwaggerExclude]
         //public DtoPerson OwnerPerson { get; set; }
 

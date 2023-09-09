@@ -57,7 +57,8 @@ namespace RiceMill.Ui.Common
                 {ResultStatusEnum.RiceMillPostalCodeLengthIsNotValid, "طول کد پستی کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillDescriptionLengthIsNotValid, "طول توضیحات کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillOwnerPersonIdIsNotValid, "شناسه صاحب کارخانه معتبر نمی باشد" },
-
+                {ResultStatusEnum.PleaseSelectRiceMill, "لطفا یک کارخانه را انتخاب کنید" },
+                
                 #endregion
 
                 #region UserActivity

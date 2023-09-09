@@ -29,23 +29,10 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Label x:Name="LblTitle" 
-                           Text="عنوان :" 
-                           Grid.Row="0" 
-                           Grid.Column="0" 
-                           VerticalOptions="Center" 
-                           FontAttributes="Bold" />
-
                     <Entry x:Name="TxtTitle"
                            Placeholder="عنوان دلیل"
                            MaxLength="50"
                            Grid.Row="0" 
-                           Grid.Column="1"
                            VerticalOptions="Center" 
                            ClearButtonVisibility="WhileEditing"
                            FontAttributes="Bold"/>

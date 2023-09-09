@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using RiceMill.Application.Common.Models.Enums;
 using Shared.Enums;
+using Shared.ExtensionMethods;
 
 namespace RiceMill.Application.UseCases.VehicleServices.Dto
 {
@@ -15,7 +16,10 @@ namespace RiceMill.Application.UseCases.VehicleServices.Dto
 
             RuleFor(dto => dto.Plate)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.VehiclePlateIsNotValid.ToString())
-                .MaximumLength(8).WithErrorCode(ResultStatusEnum.VehiclePlateMaximumLengthIsNotValid.ToString());
+                .Must((vehicle, plate) =>
+                {
+                    return vehicle.VehicleType == VehicleTypeEnum.Motorcycle ? plate.IsMotorcyclePlate() : plate.IsGeneralPlate();
+                }).WithErrorCode(ResultStatusEnum.VehiclePlateIsNotValid.ToString());
 
             RuleFor(dto => dto.Description)
                 .MaximumLength(200).WithErrorCode(ResultStatusEnum.VehicleDescriptionLengthIsNotValid.ToString());

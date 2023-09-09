@@ -53,6 +53,7 @@
         RiceMillPostalCodeLengthIsNotValid,
         RiceMillDescriptionLengthIsNotValid,
         RiceMillOwnerPersonIdIsNotValid,
+        PleaseSelectRiceMill,
 
         #endregion
 

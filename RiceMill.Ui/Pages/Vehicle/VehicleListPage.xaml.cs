@@ -63,7 +63,6 @@ public partial class VehicleListPage : ContentPage
                 await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectVehicle), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
-
             await _vehicleServices.Delete(selectedVehicle.Id);
             OnNewBtnClicked(null, null);
             Task.WaitAny(RefreshVehicleList());
@@ -82,6 +81,10 @@ public partial class VehicleListPage : ContentPage
             if (CVVehicle.SelectedItem is not DtoVehicle selectedVehicle)
                 return;
 
+            TxtDescription.Text = selectedVehicle.Description;
+            TxtPlate.Text = selectedVehicle.Plate;
+            PickerType.SelectedIndex = VehicleType.GetAll.FirstOrDefault(x => x.Type == selectedVehicle.VehicleType).Index;
+            PickerOwner.SelectedItem = People.Items.FirstOrDefault(x => x.Id.Equals(selectedVehicle.OwnerPersonId));
             _isNewVehicle = false;
         }
         catch (Exception ex)
@@ -98,7 +101,6 @@ public partial class VehicleListPage : ContentPage
                 return;
 
             var errorMessage = new StringBuilder();
-
             VehicleType selectedType = null;
             if (PickerType.SelectedItem is VehicleType type)
                 selectedType = type;
@@ -123,15 +125,18 @@ public partial class VehicleListPage : ContentPage
             {
                 var newVehicle = new DtoCreateVehicle(TxtPlate.Text, TxtDescription.Text, selectedType.Type, selectedOwner.Id, ApplicationStaticContext.CurrentUser.RiceMillId);
                 await _vehicleServices.Add(newVehicle);
-                return;
             }
+            else
+            {
+                if (CVVehicle.SelectedItem is not DtoVehicle selectedVehicle)
+                    return;
 
-            if (CVVehicle.SelectedItem is not DtoVehicle selectedVehicle)
-                return;
-
-            var updateVehicle = new DtoUpdateVehicle(selectedVehicle.Id, TxtPlate.Text, TxtDescription.Text, selectedType.Type, selectedOwner.Id);
-            await _vehicleServices.Update(updateVehicle);
-            return;
+                var updateVehicle = new DtoUpdateVehicle(selectedVehicle.Id, TxtPlate.Text, TxtDescription.Text, selectedType.Type, selectedOwner.Id);
+                await _vehicleServices.Update(updateVehicle);
+            }
+            OnNewBtnClicked(null, null);
+            Task.WaitAny(RefreshVehicleList());
+            CVVehicle.ItemsSource = Vehicles.Items;
         }
         catch (Exception ex)
         {
@@ -139,9 +144,6 @@ public partial class VehicleListPage : ContentPage
         }
         finally
         {
-            OnNewBtnClicked(null, null);
-            Task.WaitAny(RefreshVehicleList());
-            CVVehicle.ItemsSource = Vehicles.Items;
 #if ANDROID
             if (Platform.CurrentActivity.CurrentFocus != null)
                 Platform.CurrentActivity.HideKeyboard(Platform.CurrentActivity.CurrentFocus);

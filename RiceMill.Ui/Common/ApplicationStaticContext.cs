@@ -17,6 +17,8 @@ namespace RiceMill.Ui.Common
         
         public static bool IsUser => CurrentUser.Role == RoleEnum.User;
 
+        public static bool HaveAccessToRiceMill => IsManager || IsAdmin;
+
         public static Uri ApiBaseAddress { get; set; } = new Uri("http://128.140.5.91/");
 
         public static readonly double ToastMessageSize = 20.0;
