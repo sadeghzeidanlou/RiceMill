@@ -13,6 +13,7 @@
         UnHandleError,
         Alert,
         GoBack,
+        NoInternetAccess,
 
         #endregion
 

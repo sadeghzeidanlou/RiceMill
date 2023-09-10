@@ -21,16 +21,28 @@ public partial class DryerListPage : ContentPage
         try
         {
             _dryerServices = new DryerServices();
-            Task.WaitAny(RefreshList());
             InitializeComponent();
-            CVDryer.ItemsSource = Dryers.Items;
-            BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
-            BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
-            BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
+            InitializeAsync();
         }
         catch (Exception ex)
         {
             Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+        }
+    }
+
+    private async void InitializeAsync()
+    {
+        try
+        {
+            BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
+            await RefreshList();
+            CVDryer.ItemsSource = Dryers.Items;
+        }
+        catch (Exception ex)
+        {
+            await Toast.Make(ex.InnerException.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
         }
     }
 
@@ -53,7 +65,7 @@ public partial class DryerListPage : ContentPage
 
             await _dryerServices.Delete(selectedDryer.Id);
             OnNewBtnClicked(null, null);
-            Task.WaitAny(RefreshList());
+            await RefreshList();
             CVDryer.ItemsSource = Dryers.Items;
         }
         catch (Exception ex)
@@ -109,7 +121,7 @@ public partial class DryerListPage : ContentPage
         finally
         {
             OnNewBtnClicked(null, null);
-            Task.WaitAny(RefreshList());
+            await RefreshList();
             CVDryer.ItemsSource = Dryers.Items;
 #if ANDROID
             if (Platform.CurrentActivity.CurrentFocus != null)

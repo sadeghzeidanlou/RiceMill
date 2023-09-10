@@ -55,9 +55,12 @@ namespace RiceMill.Application.UseCases.UserServices
         private IQueryable<User> GetFilter(DtoUserFilter filter)
         {
             var users = _cacheService.GetUsers();
-            if (_currentRequestService.JustCanRead)
-                return users.Where(u => u.Id.Equals(_currentRequestService.UserId));
-            
+            if (filter.Id.IsNotNullOrEmpty())
+                return users.Where(u => u.Id.Equals(filter.Id));
+
+            if (filter.Ids.IsCollectionNotNullOrEmpty())
+                return users.Where(u => filter.Ids.Contains(u.Id));
+
             if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
                 return users.Where(u => false);
 

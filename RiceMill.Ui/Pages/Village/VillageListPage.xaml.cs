@@ -21,16 +21,28 @@ public partial class VillageListPage : ContentPage
         try
         {
             _villageServices = new VillageServices();
-            Task.WaitAny(RefreshList());
             InitializeComponent();
-            CVVillage.ItemsSource = Villages.Items;
-            BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
-            BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
-            BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
+            InitializeAsync();
         }
         catch (Exception ex)
         {
             Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+        }
+    }
+
+    private async void InitializeAsync()
+    {
+        try
+        {
+            BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
+            await RefreshList();
+            CVVillage.ItemsSource = Villages.Items;
+        }
+        catch (Exception ex)
+        {
+            await Toast.Make(ex.InnerException.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
         }
     }
 
@@ -52,8 +64,8 @@ public partial class VillageListPage : ContentPage
             }
 
             await _villageServices.Delete(selectedVillage.Id);
-            OnNewBtnClicked(null,null);
-            Task.WaitAny(RefreshList());
+            OnNewBtnClicked(null, null);
+            await RefreshList();
             CVVillage.ItemsSource = Villages.Items;
         }
         catch (Exception ex)
@@ -109,7 +121,7 @@ public partial class VillageListPage : ContentPage
         finally
         {
             OnNewBtnClicked(null, null);
-            Task.WaitAny(RefreshList());
+            await RefreshList();
             CVVillage.ItemsSource = Villages.Items;
 #if ANDROID
             if (Platform.CurrentActivity.CurrentFocus != null)

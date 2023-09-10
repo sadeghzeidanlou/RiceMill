@@ -28,19 +28,31 @@ public partial class VehicleListPage : ContentPage
         {
             _vehicleServices = new VehicleServices();
             _personServices = new PersonServices();
-            Task.WaitAny(LoadPeople());
-            Task.WaitAny(RefreshVehicleList());
             InitializeComponent();
-            CVVehicle.ItemsSource = Vehicles.Items;
-            PickerOwner.ItemsSource = People.Items;
-            PickerType.ItemsSource = VehicleType.GetAll;
-            BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
-            BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
-            BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
+            InitializeAsync();
         }
         catch (Exception ex)
         {
             Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+        }
+    }
+
+    private async void InitializeAsync()
+    {
+        try
+        {
+            BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
+            await LoadPeople();
+            await RefreshVehicleList();
+            CVVehicle.ItemsSource = Vehicles.Items;
+            PickerOwner.ItemsSource = People.Items;
+            PickerType.ItemsSource = VehicleType.GetAll;
+        }
+        catch (Exception ex)
+        {
+            await Toast.Make(ex.InnerException.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
         }
     }
 
@@ -65,7 +77,7 @@ public partial class VehicleListPage : ContentPage
             }
             await _vehicleServices.Delete(selectedVehicle.Id);
             OnNewBtnClicked(null, null);
-            Task.WaitAny(RefreshVehicleList());
+            await RefreshVehicleList();
             CVVehicle.ItemsSource = Vehicles.Items;
         }
         catch (Exception ex)
@@ -135,7 +147,7 @@ public partial class VehicleListPage : ContentPage
                 await _vehicleServices.Update(updateVehicle);
             }
             OnNewBtnClicked(null, null);
-            Task.WaitAny(RefreshVehicleList());
+            await RefreshVehicleList();
             CVVehicle.ItemsSource = Vehicles.Items;
         }
         catch (Exception ex)

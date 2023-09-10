@@ -19,14 +19,15 @@
                CornerRadius="20"
                Margin="5">
 
-            <StackLayout HeightRequest="155" 
-                         Padding="5">
+            <StackLayout Padding="5">
 
                 <Grid FlowDirection="RightToLeft">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
-                        <RowDefinition Height="50" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -34,46 +35,81 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Entry x:Name="TxtPlate"
-                           Placeholder="پلاک"
-                           MaxLength="9"
+                    <Entry x:Name="TxtName"
+                           Placeholder="نام"
+                           MaxLength="20"
+                           Grid.Row="0" 
+                           Grid.Column="0"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"/>
+
+                    <Entry x:Name="TxtFamily"
+                           Placeholder="نام خانوادگی"
+                           MaxLength="20"
                            Grid.Row="0" 
                            Grid.Column="1"
                            VerticalOptions="Center" 
                            ClearButtonVisibility="WhileEditing"
                            FontAttributes="Bold"/>
 
-                    <Picker x:Name="PickerType"
-                            Grid.Row="0" 
-                            Grid.Column="0"
-                            Title="نوع وسیله نقلیه"
-                            VerticalOptions="Center" 
-                            ItemDisplayBinding="{Binding Title}" 
-                            FontAttributes="Bold"/>
-
-                    <Picker x:Name="PickerOwner"
-                            Grid.Row="1" 
-                            Grid.Column="0"
-                            Title="صاحب وسیله نقلیه"
-                            VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
-                            FontAttributes="Bold"/>
-
-                    <Entry x:Name="TxtDescription"
-                           Placeholder="توضیحات"
+                    <Entry x:Name="TxtAddress"
+                           Placeholder="آدرس"
                            MaxLength="200"
-                           Grid.Row="1" 
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"/>
+
+                    <Entry x:Name="TxtFatherName"
+                           Placeholder="نام پدر"
+                           MaxLength="20"
+                           Grid.Row="1"
                            Grid.Column="1"
                            VerticalOptions="Center" 
                            ClearButtonVisibility="WhileEditing"
                            FontAttributes="Bold"/>
+
+                    <Entry x:Name="TxtHomeNumber"
+                           Placeholder="کد پستی"
+                           MaxLength="11"
+                           Grid.Row="2"
+                           Grid.Column="0"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"
+                           Keyboard="Numeric"/>
+
+                    <Entry x:Name="TxtPhoneNumber"
+                           Placeholder="تلفن"
+                           MaxLength="11"
+                           Grid.Row="2"
+                           Grid.Column="1"
+                           VerticalOptions="Center" 
+                           ClearButtonVisibility="WhileEditing"
+                           FontAttributes="Bold"
+                           Keyboard="Numeric"/>
+
+                    <Picker x:Name="PickerGender"
+                            Grid.Row="3" 
+                            Grid.Column="0"
+                            Title="جنسیت"
+                            VerticalOptions="Center"        
+                            ItemDisplayBinding="{Binding Title}" 
+                            FontAttributes="Bold"/>
+
+                    <Picker x:Name="PickerNoticeType"
+                            Grid.Row="3" 
+                            Grid.Column="1"
+                            Title="نوع اطلاع رسانی"
+                            VerticalOptions="Center"        
+                            ItemDisplayBinding="{Binding Title}" 
+                            FontAttributes="Bold"/>
 
                     <Button x:Name="BtnSave"
                             Text="ذخیره" 
                             WidthRequest="150"
                             BackgroundColor="#3D9970"
                             CornerRadius="20"
-                            Grid.Row="2" 
+                            Grid.Row="4" 
                             FontAttributes="Bold"
                             Grid.ColumnSpan="2"
                             Clicked="OnBtnSaveClicked" />
@@ -81,13 +117,13 @@
             </StackLayout>
         </Frame>
 
-        <CollectionView x:Name="CVVehicle"
+        <CollectionView x:Name="CVPerson"
                         VerticalOptions="FillAndExpand"
                         FlowDirection="RightToLeft"
                         Margin="20"
                         Grid.Row="1"
                         SelectionMode="Single"
-                        SelectionChanged="OnCVVehicleSelectionChanged">
+                        SelectionChanged="OnCVPersonSelectionChanged">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -98,14 +134,14 @@
                             <RowDefinition Height="1"/>
                         </Grid.RowDefinitions>
 
-                        <Label Text="{Binding HumaneReadable}"
+                        <Label Text="{Binding FullName}"
                                Padding="3"
                                VerticalTextAlignment="Center"
                                FontAttributes="Bold"
                                Grid.RowSpan="1"
                                Grid.Row="0"/>
 
-                        <Label Text="{Binding OwnerFullName}"
+                        <Label Text="{Binding FatherName}"
                                Padding="6"
                                VerticalTextAlignment="Center"
                                Grid.Row="1"/>

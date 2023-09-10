@@ -27,19 +27,29 @@ namespace RiceMill.Ui
 
         protected override async void OnAppearing()
         {
-            if (!_isFirstView)
-                Process.GetCurrentProcess().Kill();
-
-            _isFirstView = false;
-            var isAuthenticated = await _userServices.TokenIsValid();
-            if (isAuthenticated)
+            try
             {
-                AciLoginProgress.IsRunning = true;
-                await AssignCurrentUser();
-                await Navigation.PushAsync(new MainTabbedPage());
-                AciLoginProgress.IsRunning = false;
+                if (!_isFirstView)
+                    Process.GetCurrentProcess().Kill();
+
+                _isFirstView = false;
+                var isAuthenticated = await _userServices.TokenIsValid();
+                if (isAuthenticated)
+                {
+                    AciLoginProgress.IsRunning = true;
+                    await AssignCurrentUser();
+                    await Navigation.PushAsync(new MainTabbedPage());
+                }
             }
-            base.OnAppearing();
+            catch (Exception ex)
+            {
+                await Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+            }
+            finally
+            {
+                AciLoginProgress.IsRunning = false;
+                base.OnAppearing();
+            }
         }
 
         private async void OnBtnLoginClicked(object sender, EventArgs e)

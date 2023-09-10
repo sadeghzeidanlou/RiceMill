@@ -17,6 +17,7 @@ namespace RiceMill.Ui.Common
                 {ResultStatusEnum.UnHandleError, "خطای پیش بینی نشده اتفاق افتاده است" },
                 {ResultStatusEnum.Alert, "هشدار" },
                 {ResultStatusEnum.GoBack, "بازگشت" },
+                {ResultStatusEnum.NoInternetAccess, "لطفا ارتباط اینترنت خود را بررسی کنید" },
                 
                 #endregion
 

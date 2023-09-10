@@ -19,14 +19,13 @@
                CornerRadius="20"
                Margin="5">
 
-            <StackLayout HeightRequest="155" 
-                         Padding="5">
+            <StackLayout Padding="5">
 
                 <Grid FlowDirection="RightToLeft">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
-                        <RowDefinition Height="50" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>

@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.Resource;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Ui.Common;
@@ -20,6 +21,7 @@ namespace RiceMill.Ui.Services
             where TIn : class
             where TOut : class
         {
+            HaveInternetAccess();
             using var client = CreateHttpClient(sendRequest);
             AddQueryString(requestObject, sendRequest);
             var requestUri = BuildRequestUri(sendRequest);
@@ -111,5 +113,11 @@ namespace RiceMill.Ui.Services
         }
 
         public static bool IsCollectionProperty(Type propertyType) => typeof(IEnumerable).IsAssignableFrom(propertyType) && propertyType != typeof(string);
+
+        private static void HaveInternetAccess()
+        {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+                throw new Exception(MessageDictionary.GetMessageText(ResultStatusEnum.NoInternetAccess));
+        }
     }
 }

@@ -26,8 +26,7 @@ namespace RiceMill.Api.Middleware
 
             stopwatch.Stop();
             var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-
-            if (elapsedMilliseconds > 500)
+            if (elapsedMilliseconds > 750)
             {
                 var logMessage = $"Request took long time: {elapsedMilliseconds} milliseconds.\n\n" +
                                  $"Request path: {context.Request.Path}\n\n" +

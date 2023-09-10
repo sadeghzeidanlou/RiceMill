@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using Microsoft.Maui.Platform;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.PersonServices.Dto;
@@ -26,14 +27,8 @@ public partial class RiceMillListPage : ContentPage
         {
             _riceMillServices = new RiceMillServices();
             _personServices = new PersonServices();
-            Task.WaitAny(LoadPeople());
-            Task.WaitAny(RefreshRiceMillList());
             InitializeComponent();
-            CVRiceMill.ItemsSource = RiceMills.Items;
-            PickerOwner.ItemsSource = People.Items;
-            BtnRemove.IsEnabled = ApplicationStaticContext.IsAdmin;
-            BtnSave.IsEnabled = ApplicationStaticContext.HaveAccessToRiceMill;
-            BtnNew.IsEnabled = ApplicationStaticContext.IsAdmin;
+            InitializeAsync();
         }
         catch (Exception ex)
         {
@@ -41,6 +36,23 @@ public partial class RiceMillListPage : ContentPage
         }
     }
 
+    private async void InitializeAsync()
+    {
+        try
+        {
+            BtnRemove.IsEnabled = ApplicationStaticContext.IsAdmin;
+            BtnSave.IsEnabled = ApplicationStaticContext.HaveAccessToRiceMill;
+            BtnNew.IsEnabled = ApplicationStaticContext.IsAdmin;
+            await LoadPeople();
+            await RefreshRiceMillList();
+            CVRiceMill.ItemsSource = RiceMills.Items;
+            PickerOwner.ItemsSource = People.Items;
+        }
+        catch (Exception ex)
+        {
+            await Toast.Make(ex.InnerException.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+        }
+    }
 
     private void OnNewBtnClicked(object sender, EventArgs e)
     {
@@ -66,7 +78,7 @@ public partial class RiceMillListPage : ContentPage
             }
             await _riceMillServices.Delete(selectedRiceMill.Id);
             OnNewBtnClicked(null, null);
-            Task.WaitAny(RefreshRiceMillList());
+            await RefreshRiceMillList();
             CVRiceMill.ItemsSource = RiceMills.Items;
         }
         catch (Exception ex)
@@ -108,11 +120,15 @@ public partial class RiceMillListPage : ContentPage
             DtoPerson selectedOwner = null;
             if (PickerOwner.SelectedItem is DtoPerson owner)
                 selectedOwner = owner;
-            else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillOwnerPersonIdIsNotValid));
 
-            if (TxtPlate.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillPlateIsNotValid));
+            if (TxtTitle.Text.IsNullOrEmpty())
+                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillTitleIsNotValid));
+
+            if (TxtAddress.Text.IsNullOrEmpty())
+                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillAddressIsNotValid));
+
+            if (TxtWage.Text.IsNullOrEmpty())
+                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillWageIsNotValid));
 
             if (errorMessage.IsNotNullOrEmpty())
             {
@@ -121,7 +137,7 @@ public partial class RiceMillListPage : ContentPage
             }
             if (_isNewRiceMill)
             {
-                var newRiceMill = new DtoCreateRiceMill(TxtPlate.Text, TxtDescription.Text, selectedType.Type, selectedOwner.Id, ApplicationStaticContext.CurrentUser.RiceMillId);
+                var newRiceMill = new DtoCreateRiceMill(TxtTitle.Text, TxtAddress.Text, TxtWage.Text.ToByte(), Txtphone.Text, TxtPostalCode.Text, TxtDescription.Text, selectedOwner?.Id);
                 await _riceMillServices.Add(newRiceMill);
             }
             else
@@ -129,11 +145,11 @@ public partial class RiceMillListPage : ContentPage
                 if (CVRiceMill.SelectedItem is not DtoRiceMill selectedRiceMill)
                     return;
 
-                var updateRiceMill = new DtoUpdateRiceMill(selectedRiceMill.Id, TxtPlate.Text, TxtDescription.Text, selectedType.Type, selectedOwner.Id);
+                var updateRiceMill = new DtoUpdateRiceMill(selectedRiceMill.Id, TxtTitle.Text, TxtAddress.Text, TxtWage.Text.ToByte(), Txtphone.Text, TxtPostalCode.Text, TxtDescription.Text, selectedOwner?.Id);
                 await _riceMillServices.Update(updateRiceMill);
             }
             OnNewBtnClicked(null, null);
-            Task.WaitAny(RefreshRiceMillList());
+            await RefreshRiceMillList();
             CVRiceMill.ItemsSource = RiceMills.Items;
         }
         catch (Exception ex)

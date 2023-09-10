@@ -21,16 +21,28 @@ public partial class ConcernListPage : ContentPage
         try
         {
             _concernServices = new ConcernServices();
-            Task.WaitAny(RefreshList());
             InitializeComponent();
-            CVConcern.ItemsSource = Concerns.Items;
-            BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
-            BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
-            BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
+            InitializeAsync();
         }
         catch (Exception ex)
         {
             Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+        }
+    }
+
+    private async void InitializeAsync()
+    {
+        try
+        {
+            BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
+            await RefreshList();
+            CVConcern.ItemsSource = Concerns.Items;
+        }
+        catch (Exception ex)
+        {
+            await Toast.Make(ex.InnerException.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
         }
     }
 
@@ -65,7 +77,7 @@ public partial class ConcernListPage : ContentPage
         finally
         {
             OnNewBtnClicked(null, null);
-            Task.WaitAny(RefreshList());
+            await RefreshList();
             CVConcern.ItemsSource = Concerns.Items;
 #if ANDROID
             if (Platform.CurrentActivity.CurrentFocus != null)
@@ -86,7 +98,7 @@ public partial class ConcernListPage : ContentPage
 
             await _concernServices.Delete(selectedConcern.Id);
             OnNewBtnClicked(null, null);
-            Task.WaitAny(RefreshList());
+            await RefreshList();
             CVConcern.ItemsSource = Concerns.Items;
         }
         catch (Exception ex)
