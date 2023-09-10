@@ -24,8 +24,8 @@
         </Grid.RowDefinitions>
 
         <Button x:Name="BtnIncomes"
+                Grid.Row="0" 
                 Grid.Column="0" 
-                Grid.Row="2" 
                 Text="درآمد" 
                 TextColor="White" 
                 BackgroundColor="#3D9970"
@@ -39,8 +39,8 @@
         </Button>
 
         <Button x:Name="BtnPayments"
+                Grid.Row="0"
                 Grid.Column="1"
-                Grid.Row="2"
                 Text="هزینه ها" 
                 TextColor="White"
                 BackgroundColor="#3D9970"
@@ -54,8 +54,8 @@
         </Button>
 
         <Button x:Name="BtnRiceThreshings"
-                Grid.Column="0"
                 Grid.Row="1"
+                Grid.Column="0"
                 Text="شالیکوبی" 
                 TextColor="White"
                 BackgroundColor="#3D9970"
@@ -69,8 +69,8 @@
         </Button>
 
         <Button x:Name="BtnDeliveries"
-                Grid.Column="1" 
                 Grid.Row="1" 
+                Grid.Column="1" 
                 Text="تحویل برنج" 
                 TextColor="White" 
                 BackgroundColor="#3D9970"
@@ -84,8 +84,8 @@
         </Button>
 
         <Button x:Name="BtnInputLoads"
+                Grid.Row="2"
                 Grid.Column="0"
-                Grid.Row="0"
                 Text="دریافت شالی" 
                 TextColor="White"
                 BackgroundColor="#3D9970"
@@ -99,8 +99,8 @@
         </Button>
 
         <Button x:Name="BtnDryerHistory"
+                Grid.Row="2"
                 Grid.Column="1"
-                Grid.Row="0"
                 Text="مدیریت خشک کن ها" 
                 TextColor="White"
                 BackgroundColor="#3D9970"

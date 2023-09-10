@@ -1,11 +1,13 @@
+using RiceMill.Ui.Pages.InputLoad;
+
 namespace RiceMill.Ui.Pages.TabbedPages;
 
 public partial class RiceThreshingPage : ContentPage
 {
-	public RiceThreshingPage()
-	{
-		InitializeComponent();
-	}
+    public RiceThreshingPage()
+    {
+        InitializeComponent();
+    }
 
     private void OnBtnIncomesClicked(object sender, EventArgs e)
     {
@@ -27,10 +29,7 @@ public partial class RiceThreshingPage : ContentPage
 
     }
 
-    private void OnBtnInputLoadsClicked(object sender, EventArgs e)
-    {
-
-    }
+    private async void OnBtnInputLoadsClicked(object sender, EventArgs e) => await Navigation.PushAsync(new InputLoadListPage());
 
     private void OnBtnDryerHistoryClicked(object sender, EventArgs e)
     {

@@ -15,4 +15,18 @@
         /// </summary>
         Unload
     }
+
+    public class DryerOperation
+    {
+        public string Title { get; set; } = string.Empty;
+
+        public DryerOperationEnum Operation { get; set; }
+
+        public byte Index { get; set; }
+
+        public static List<DryerOperation> GetAll => new() {
+            new DryerOperation { Operation = DryerOperationEnum.Load, Title = "بارگیری", Index = 0},
+            new DryerOperation { Operation = DryerOperationEnum.Unload, Title = "تخلیه", Index = 1}
+        };
+    }
 }

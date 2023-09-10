@@ -120,6 +120,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Codecell.PersiandatePicker.MAUI" Version="1.2.0" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
 		  <PrivateAssets>all</PrivateAssets>
@@ -146,6 +147,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Dryer\DryerListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\InputLoad\InputLoadListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\MainTabbedPage.xaml">

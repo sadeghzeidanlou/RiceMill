@@ -6,8 +6,10 @@ using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.RiceMillServices.Dto;
 using RiceMill.Application.UseCases.UserActivityServices;
+using RiceMill.Domain.Models;
 using Shared.Enums;
 using Shared.ExtensionMethods;
+using System;
 using System.Net;
 
 namespace RiceMill.Application.UseCases.RiceMillServices
@@ -45,6 +47,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
                 return Result<DtoRiceMill>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
             var riceMill = createRiceMill.Adapt<Domain.Models.RiceMill>();
+            riceMill.PostalCode = riceMill.PostalCode.MakeEmptyStringToNull();
             _applicationDbContext.RiceMills.Add(riceMill);
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _Key, string.Empty, riceMill.SerializeObject(), riceMill.Id);
@@ -84,6 +87,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 
             var beforeEdit = riceMill.SerializeObject();
             riceMill = updateRiceMill.Adapt(riceMill);
+            riceMill.PostalCode = riceMill.PostalCode.MakeEmptyStringToNull();
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _Key, beforeEdit, riceMill.SerializeObject(), riceMill.Id);
             _cacheService.Maintain(_Key, riceMill);

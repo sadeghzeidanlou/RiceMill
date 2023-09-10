@@ -116,6 +116,7 @@ namespace RiceMill.Ui.Common
                 {ResultStatusEnum.PersonAddressLengthIsNotValid, "طول آدرس فرد بیش از حد مجاز است" },
                 {ResultStatusEnum.PersonFatherNameIsNotValid, "نام پدر فرد معتبر نمی باشد" },
                 {ResultStatusEnum.PersonFatherNameLengthIsNotValid, "طول نام پدر فرد بیش از حد مجاز است" },
+                {ResultStatusEnum.PleaseSelectPerson, "لطفا یک نفر را انتخاب کنید" },
 
                 #endregion
 

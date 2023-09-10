@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RiceMill.Ui.Pages.RiceMill.RiceMillListPage"
+             x:Class="RiceMill.Ui.Pages.InputLoad.InputLoadListPage"
              NavigationPage.HasNavigationBar="False"
              xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
-             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui">
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             xmlns:controls="https://codecell.ir/maui/controls/persianDatePicker">
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -35,19 +37,48 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Entry x:Name="TxtTitle"
-                           Placeholder="عنوان"
-                           MaxLength="60"
-                           Grid.Row="0" 
+                    <Entry x:Name="TxtNumberOfBags"
+                           Placeholder="تعداد کیسه دریافتی"
+                           MaxLength="3"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"
+                           android:Entry.ImeOptions="Next"
+                           Keyboard="Numeric"/>
+
+                    <Entry x:Name="TxtNumberOfBagsInDryer"
+                           Placeholder="تعداد کیسه درون خشک کن"
+                           MaxLength="3"
+                           Grid.Row="0"
+                           Grid.Column="1"
+                           VerticalOptions="Center" 
+                           ClearButtonVisibility="WhileEditing"
+                           FontAttributes="Bold"
+                           android:Entry.ImeOptions="Next"
+                           Keyboard="Numeric"/>
+                    
+                    <Entry x:Name="TxtDescription"
+                           Placeholder="توضیحات"
+                           MaxLength="200"
+                           Grid.Row="1" 
                            Grid.Column="0"
                            VerticalOptions="Center" 
                            android:Entry.ImeOptions="Next"
                            FontAttributes="Bold"/>
 
-                    <Entry x:Name="TxtDescription"
-                           Placeholder="توضیحات"
-                           MaxLength="200"
-                           Grid.Row="0" 
+                    <controls:PersianDatePicker PlaceHolder="از تاریخ"
+                           Grid.Row="1" 
+                           Grid.Column="1" />
+
+                    <controls:PersianDatePicker PersianDate="1367/01/20" PlaceHolder="تا تاریخ" 
+                           Grid.Row="2"
+                           Grid.Column="0"/>
+
+                    <!--<Entry x:Name="TxtFamily"
+                           Placeholder="نام خانوادگی"
+                           MaxLength="20"
+                           Grid.Row="1" 
                            Grid.Column="1"
                            VerticalOptions="Center" 
                            ClearButtonVisibility="WhileEditing"
@@ -57,50 +88,36 @@
                     <Entry x:Name="TxtAddress"
                            Placeholder="آدرس"
                            MaxLength="200"
-                           Grid.Row="1"
+                           Grid.Row="2"
                            Grid.Column="0"
                            VerticalOptions="Center" 
+                           android:Entry.ImeOptions="Next"
+                           FontAttributes="Bold"/>-->
+
+                    <Entry x:Name="TxtFatherName"
+                           Placeholder="نام پدر"
+                           MaxLength="20"
+                           Grid.Row="2"
+                           Grid.Column="1"
+                           VerticalOptions="Center" 
+                           ClearButtonVisibility="WhileEditing"
                            android:Entry.ImeOptions="Next"
                            FontAttributes="Bold"/>
 
-                    <Entry x:Name="TxtWage"
-                           Placeholder="کارمزد"
-                           MaxLength="1"
-                           Grid.Row="1"
-                           Grid.Column="1"
-                           VerticalOptions="Center" 
-                           ClearButtonVisibility="WhileEditing"
-                           FontAttributes="Bold"
-                           android:Entry.ImeOptions="Next"
-                           Keyboard="Numeric"/>
-
-                    <Entry x:Name="TxtPostalCode"
-                           Placeholder="کد پستی"
-                           MaxLength="10"
-                           Grid.Row="2"
-                           Grid.Column="0"
-                           VerticalOptions="Center" 
-                           FontAttributes="Bold"
-                           android:Entry.ImeOptions="Next"
-                           Keyboard="Numeric"/>
-
-                    <Entry x:Name="TxtPhone"
-                           Placeholder="تلفن"
-                           MaxLength="11"
-                           Grid.Row="2"
-                           Grid.Column="1"
-                           VerticalOptions="Center" 
-                           ClearButtonVisibility="WhileEditing"
-                           FontAttributes="Bold"
-                           android:Entry.ImeOptions="Next"
-                           Keyboard="Numeric"/>
-
-                    <Picker x:Name="PickerOwner"
+                    <Picker x:Name="PickerGender"
                             Grid.Row="3" 
                             Grid.Column="0"
-                            Title="صاحب کارخانه"
+                            Title="جنسیت"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding Title}" 
+                            FontAttributes="Bold"/>
+
+                    <Picker x:Name="PickerNoticeType"
+                            Grid.Row="3" 
+                            Grid.Column="1"
+                            Title="نوع اطلاع رسانی"
+                            VerticalOptions="Center"        
+                            ItemDisplayBinding="{Binding Title}" 
                             FontAttributes="Bold"/>
 
                     <Button x:Name="BtnSave"
@@ -116,13 +133,13 @@
             </StackLayout>
         </Frame>
 
-        <CollectionView x:Name="CVRiceMill"
+        <CollectionView x:Name="CVInputLoad"
                         VerticalOptions="FillAndExpand"
                         FlowDirection="RightToLeft"
                         Margin="20"
                         Grid.Row="1"
                         SelectionMode="Single"
-                        SelectionChanged="OnCVRiceMillSelectionChanged">
+                        SelectionChanged="OnCVInputLoadSelectionChanged">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -133,14 +150,14 @@
                             <RowDefinition Height="1"/>
                         </Grid.RowDefinitions>
 
-                        <Label Text="{Binding Title}"
+                        <Label Text="{Binding FullName}"
                                Padding="3"
                                VerticalTextAlignment="Center"
                                FontAttributes="Bold"
                                Grid.RowSpan="1"
                                Grid.Row="0"/>
 
-                        <Label Text="{Binding OwnerFullName}"
+                        <Label Text="{Binding FatherName}"
                                Padding="6"
                                VerticalTextAlignment="Center"
                                Grid.Row="1"/>

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using PersianDatePickerMAUI;
 using RiceMill.Ui.DependencyInjection;
 
 namespace RiceMill.Ui
@@ -11,6 +12,7 @@ namespace RiceMill.Ui
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UsePersianDatePickerControl()
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {

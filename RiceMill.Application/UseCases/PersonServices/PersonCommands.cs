@@ -46,6 +46,7 @@ namespace RiceMill.Application.UseCases.PersonServices
                 return Result<DtoPerson>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
             var person = createPerson.Adapt<Person>();
+            person.HomeNumber = person.HomeNumber.MakeEmptyStringToNull();
             _applicationDbContext.People.Add(person);
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _Key, string.Empty, person.SerializeObject(), person.RiceMillId);
@@ -68,6 +69,7 @@ namespace RiceMill.Application.UseCases.PersonServices
 
             var beforeEdit = person.SerializeObject();
             person = updatePerson.Adapt(person);
+            person.HomeNumber = person.HomeNumber.MakeEmptyStringToNull();
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _Key, beforeEdit, person.SerializeObject(), person.RiceMillId);
             _cacheService.Maintain(_Key, person);

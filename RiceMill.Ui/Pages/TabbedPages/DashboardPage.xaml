@@ -12,14 +12,23 @@
 
     </ContentPage.Behaviors>
 
-    <VerticalStackLayout BackgroundColor="#3D9970">
-        <Label
-            Text="به داشبورد خوش آمدید"
-            FontSize="24"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            Padding="10"/>
+    <VerticalStackLayout BackgroundColor="White">
+        <Image Source="dordanehricemill.png"
+               Scale="1.5" 
+               Margin="0,100,0,0" />
 
+        <Label Text="به دردانه خوش آمدید"
+               FontSize="30"
+               HorizontalOptions="Center"
+               Margin="0,20,0,0"/>
+        
+        <Label Text="با دردانه به راحتی کارخانه شالیکوبی خود را مدیریت کنید"
+               FontSize="20"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               Margin="0,20,0,0"/>
     </VerticalStackLayout>
     
 </ContentPage>

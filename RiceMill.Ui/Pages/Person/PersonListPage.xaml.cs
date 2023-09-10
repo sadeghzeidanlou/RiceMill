@@ -1,11 +1,13 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using Microsoft.Maui.Platform;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.PersonServices.Dto;
 using RiceMill.Ui.Common;
 using RiceMill.Ui.Services.UseCases.PersonServices;
 using Shared.Enums;
+using Shared.ExtensionMethods;
 using System.Text;
 
 namespace RiceMill.Ui.Pages.Person;
@@ -37,11 +39,11 @@ public partial class PersonListPage : ContentPage
             BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
-            await LoadPeople();
-            await RefreshRiceMillList();
+            await RefreshPeopleList();
+            await RefreshPeopleList();
             CVPerson.ItemsSource = People.Items;
-            PickerGender.ItemsSource = VehicleType.GetAll;
-            PickerNoticeType.ItemsSource = VehicleType.GetAll;
+            PickerGender.ItemsSource = GenderType.GetAll;
+            PickerNoticeType.ItemsSource = NoticesType.GetAll;
         }
         catch (Exception ex)
         {
@@ -69,12 +71,12 @@ public partial class PersonListPage : ContentPage
         {
             if (CVPerson.SelectedItem is not DtoPerson selectedPerson)
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectRiceMill), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectPerson), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             await _personServices.Delete(selectedPerson.Id);
             OnNewBtnClicked(null, null);
-            await RefreshRiceMillList();
+            await RefreshPeopleList();
             CVPerson.ItemsSource = People.Items;
         }
         catch (Exception ex)
@@ -83,7 +85,7 @@ public partial class PersonListPage : ContentPage
         }
     }
 
-    private async void OnCVRiceMillSelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void OnCVPersonSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         try
         {
@@ -96,7 +98,8 @@ public partial class PersonListPage : ContentPage
             TxtPhoneNumber.Text = selectedPerson.MobileNumber;
             TxtHomeNumber.Text = selectedPerson.HomeNumber;
             TxtFatherName.Text = selectedPerson.FatherName;
-            PickerGender.SelectedItem = People.Items.FirstOrDefault(x => x.Id.Equals(selectedPerson.Id));
+            PickerNoticeType.SelectedIndex = NoticesType.GetAll.FirstOrDefault(x => x.Type == selectedPerson.NoticesType).Index;
+            PickerGender.SelectedIndex = GenderType.GetAll.FirstOrDefault(x => x.Type == selectedPerson.Gender).Index;
             _isNewRiceMill = false;
         }
         catch (Exception ex)
@@ -113,18 +116,32 @@ public partial class PersonListPage : ContentPage
                 return;
 
             var errorMessage = new StringBuilder();
-            DtoPerson selectedOwner = null;
-            if (PickerGender.SelectedItem is DtoPerson owner)
-                selectedOwner = owner;
+            GenderType selectedGender = null;
+            if (PickerGender.SelectedItem is GenderType genderType)
+                selectedGender = genderType;
+            else
+                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonGenderIsNotValid));
 
-            if (TxtTitle.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillTitleIsNotValid));
+            NoticesType selectedNotice = null;
+            if (PickerNoticeType.SelectedItem is NoticesType noticeType)
+                selectedNotice = noticeType;
+            else
+                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonNoticesTypeIsNotValid));
+
+            if (TxtName.Text.IsNullOrEmpty())
+                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonNameIsNotValid));
+
+            if (TxtFamily.Text.IsNullOrEmpty())
+                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonFamilyIsNotValid));
 
             if (TxtAddress.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillAddressIsNotValid));
+                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonAddressIsNotValid));
 
-            if (TxtWage.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillWageIsNotValid));
+            if (TxtPhoneNumber.Text.IsNullOrEmpty())
+                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonMobileNumberIsNotValid));
+
+            if (TxtFatherName.Text.IsNullOrEmpty())
+                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonFatherNameIsNotValid));
 
             if (errorMessage.IsNotNullOrEmpty())
             {
@@ -133,20 +150,20 @@ public partial class PersonListPage : ContentPage
             }
             if (_isNewRiceMill)
             {
-                var newRiceMill = new DtoCreateRiceMill(TxtTitle.Text, TxtAddress.Text, TxtWage.Text.ToByte(), Txtphone.Text, TxtPostalCode.Text, TxtDescription.Text, selectedOwner?.Id);
-                await _riceMillServices.Add(newRiceMill);
+                var newRiceMill = new DtoCreatePerson(TxtName.Text, TxtFamily.Text, selectedGender.Type, TxtPhoneNumber.Text, TxtHomeNumber.Text, selectedNotice.Type, TxtAddress.Text, TxtFatherName.Text, ApplicationStaticContext.CurrentUser.RiceMillId);
+                await _personServices.Add(newRiceMill);
             }
             else
             {
-                if (CVRiceMill.SelectedItem is not DtoRiceMill selectedRiceMill)
+                if (CVPerson.SelectedItem is not DtoPerson selectedPerson)
                     return;
 
-                var updateRiceMill = new DtoUpdateRiceMill(selectedRiceMill.Id, TxtTitle.Text, TxtAddress.Text, TxtWage.Text.ToByte(), Txtphone.Text, TxtPostalCode.Text, TxtDescription.Text, selectedOwner?.Id);
-                await _riceMillServices.Update(updateRiceMill);
+                var updateRiceMill = new DtoUpdatePerson(selectedPerson.Id, TxtName.Text, TxtFamily.Text, selectedGender.Type, TxtPhoneNumber.Text, TxtHomeNumber.Text, selectedNotice.Type, TxtAddress.Text, TxtFatherName.Text);
+                await _personServices.Update(updateRiceMill);
             }
             OnNewBtnClicked(null, null);
-            await RefreshRiceMillList();
-            CVRiceMill.ItemsSource = RiceMills.Items;
+            await RefreshPeopleList();
+            CVPerson.ItemsSource = People.Items;
         }
         catch (Exception ex)
         {
@@ -161,21 +178,7 @@ public partial class PersonListPage : ContentPage
         }
     }
 
-    private Task RefreshRiceMillList()
-    {
-        return Task.Run(() =>
-        {
-            var filter = new DtoRiceMillFilter();
-            if (!ApplicationStaticContext.IsAdmin)
-                filter.Id = ApplicationStaticContext.CurrentUser.RiceMillId;
-
-            var result = _riceMillServices.Get(filter);
-            RiceMills = result.Result.Data;
-            RiceMills.Items.ForEach(item => { item.OwnerFullName = People.Items.FirstOrDefault(x => x.Id.Equals(item.OwnerPersonId))?.FullName; });
-        });
-    }
-
-    private Task LoadPeople()
+    private Task RefreshPeopleList()
     {
         return Task.Run(() =>
         {

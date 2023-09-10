@@ -61,7 +61,7 @@ public partial class RiceMillListPage : ContentPage
         TxtDescription.Text = string.Empty;
         TxtTitle.Text = string.Empty;
         TxtAddress.Text = string.Empty;
-        Txtphone.Text = string.Empty;
+        TxtPhone.Text = string.Empty;
         TxtPostalCode.Text = string.Empty;
         TxtWage.Text = string.Empty;
         _isNewRiceMill = true;
@@ -97,7 +97,7 @@ public partial class RiceMillListPage : ContentPage
             TxtDescription.Text = selectedRiceMill.Description;
             TxtTitle.Text = selectedRiceMill.Title;
             TxtAddress.Text = selectedRiceMill.Address;
-            Txtphone.Text = selectedRiceMill.Phone;
+            TxtPhone.Text = selectedRiceMill.Phone;
             TxtPostalCode.Text = selectedRiceMill.PostalCode;
             TxtWage.Text = selectedRiceMill.Wage.ToString();
             PickerOwner.SelectedItem = People.Items.FirstOrDefault(x => x.Id.Equals(selectedRiceMill.OwnerPersonId));
@@ -137,7 +137,7 @@ public partial class RiceMillListPage : ContentPage
             }
             if (_isNewRiceMill)
             {
-                var newRiceMill = new DtoCreateRiceMill(TxtTitle.Text, TxtAddress.Text, TxtWage.Text.ToByte(), Txtphone.Text, TxtPostalCode.Text, TxtDescription.Text, selectedOwner?.Id);
+                var newRiceMill = new DtoCreateRiceMill(TxtTitle.Text, TxtAddress.Text, TxtWage.Text.ToByte(), TxtPhone.Text, TxtPostalCode.Text, TxtDescription.Text, selectedOwner?.Id);
                 await _riceMillServices.Add(newRiceMill);
             }
             else
@@ -145,7 +145,7 @@ public partial class RiceMillListPage : ContentPage
                 if (CVRiceMill.SelectedItem is not DtoRiceMill selectedRiceMill)
                     return;
 
-                var updateRiceMill = new DtoUpdateRiceMill(selectedRiceMill.Id, TxtTitle.Text, TxtAddress.Text, TxtWage.Text.ToByte(), Txtphone.Text, TxtPostalCode.Text, TxtDescription.Text, selectedOwner?.Id);
+                var updateRiceMill = new DtoUpdateRiceMill(selectedRiceMill.Id, TxtTitle.Text, TxtAddress.Text, TxtWage.Text.ToByte(), TxtPhone.Text, TxtPostalCode.Text, TxtDescription.Text, selectedOwner?.Id);
                 await _riceMillServices.Update(updateRiceMill);
             }
             OnNewBtnClicked(null, null);

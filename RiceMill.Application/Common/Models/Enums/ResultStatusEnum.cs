@@ -112,6 +112,7 @@
         PersonAddressLengthIsNotValid,
         PersonFatherNameIsNotValid,
         PersonFatherNameLengthIsNotValid,
+        PleaseSelectPerson,
 
         #endregion
 
