@@ -62,7 +62,6 @@ public partial class DryerListPage : ContentPage
                 await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectDryer), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
-
             await _dryerServices.Delete(selectedDryer.Id);
             OnNewBtnClicked(null, null);
             await RefreshList();
@@ -99,20 +98,23 @@ public partial class DryerListPage : ContentPage
                 await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.DryerTitleIsNotValid), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
-
             if (_isNewDryer)
             {
                 var newDryer = new DtoCreateDryer(TxtTitle.Text, ApplicationStaticContext.CurrentUser.RiceMillId);
                 await _dryerServices.Add(newDryer);
                 return;
             }
+            else
+            {
+                if (CVDryer.SelectedItem is not DtoDryer selectedDryer)
+                    return;
 
-            if (CVDryer.SelectedItem is not DtoDryer selectedDryer)
-                return;
-
-            var updateDryer = new DtoUpdateDryer(selectedDryer.Id, TxtTitle.Text);
-            await _dryerServices.Update(updateDryer);
-            return;
+                var updateDryer = new DtoUpdateDryer(selectedDryer.Id, TxtTitle.Text);
+                await _dryerServices.Update(updateDryer);
+            }
+            OnNewBtnClicked(null, null);
+            await RefreshList();
+            CVDryer.ItemsSource = Dryers.Items;
         }
         catch (Exception ex)
         {
@@ -120,9 +122,6 @@ public partial class DryerListPage : ContentPage
         }
         finally
         {
-            OnNewBtnClicked(null, null);
-            await RefreshList();
-            CVDryer.ItemsSource = Dryers.Items;
 #if ANDROID
             if (Platform.CurrentActivity.CurrentFocus != null)
                 Platform.CurrentActivity.HideKeyboard(Platform.CurrentActivity.CurrentFocus);

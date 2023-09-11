@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RiceMill.Ui.Pages.InputLoad.InputLoadListPage"
+             x:Class="RiceMill.Ui.Pages.Payment.PaymentListPage"
              NavigationPage.HasNavigationBar="False"
              xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
@@ -25,7 +25,6 @@
 
                 <Grid FlowDirection="RightToLeft">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -39,102 +38,96 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Entry x:Name="TxtNumberOfBags"
-                           Placeholder="تعداد کیسه دریافتی"
-                           MaxLength="3"
-                           Grid.Row="0"
+                    <Picker x:Name="PickerPaidPerson"
+                            Grid.Row="0" 
+                            Grid.Column="0"
+                            Title="پرداخت شده به"
+                            VerticalOptions="Center"        
+                            ItemDisplayBinding="{Binding FullName}" 
+                            FontAttributes="Bold"/>
+                    
+                    <Picker x:Name="PickerPaidConcern"
+                            Grid.Row="0" 
+                            Grid.Column="1"
+                            Title="علت پرداخت"
+                            VerticalOptions="Center"        
+                            ItemDisplayBinding="{Binding Title}" 
+                            FontAttributes="Bold"/>
+                    
+                    <controls:PersianDatePicker x:Name="PersianDatePicker" 
+                                                PlaceHolder="تاریخ پرداخت" 
+                                                MaximumHeightRequest="40"
+                                                Grid.Row="1"
+                                                Grid.Column="0"/>
+                    
+                    <TimePicker x:Name="TimePicker"
+                                Format = "HH:mm"
+                                Grid.Row="1"
+                                Grid.Column="1"/>
+
+                    <Entry x:Name="TxtUnbrokenRice"
+                           Placeholder="مقدار برنج سالم-کیلوگرم"
+                           MaxLength="4"
+                           Grid.Row="2"
                            Grid.Column="0"
                            VerticalOptions="Center" 
                            FontAttributes="Bold"
                            android:Entry.ImeOptions="Next"
                            Keyboard="Numeric"/>
 
-                    <Picker x:Name="PickerOwner"
-                            Grid.Row="0" 
-                            Grid.Column="1"
-                            Title="صاحب بار"
-                            VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
-                            FontAttributes="Bold"/>
+                    <Entry x:Name="TxtBrokenRice"
+                           Placeholder="مقدار برنج نیمه-کیلوگرم"
+                           MaxLength="4"
+                           Grid.Row="2"
+                           Grid.Column="1"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"
+                           android:Entry.ImeOptions="Next"
+                           Keyboard="Numeric"/>
 
-                    <Picker x:Name="PickerReceiver"
-                            Grid.Row="1" 
+                    <Entry x:Name="TxtFlour"
+                           Placeholder="مقدار آرد-کیلوگرم"
+                           MaxLength="4"
+                           Grid.Row="3"
+                           Grid.Column="0"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"
+                           android:Entry.ImeOptions="Next"
+                           Keyboard="Numeric"/>
+
+                    <Entry x:Name="TxtMoney"
+                           Placeholder="مقدار پول-تومان"
+                           MaxLength="9"
+                           Grid.Row="3"
+                           Grid.Column="1"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"
+                           android:Entry.ImeOptions="Next"
+                           Keyboard="Numeric"/>
+
+                    <Picker x:Name="PickerInputLoad"
+                            Grid.Row="4" 
                             Grid.Column="0"
-                            Title="فرد تحویل گیرنده"
+                            Title="بار ورودی"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
-                            FontAttributes="Bold"/>
-
-                    <Picker x:Name="PickerDeliverer"
-                            Grid.Row="1" 
-                            Grid.Column="1"
-                            Title="فرد تحویل دهنده"
-                            VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
-                            FontAttributes="Bold"/>
-                    
-                    <controls:PersianDatePicker x:Name="PersianDatePicker" 
-                                                PlaceHolder="تاریخ دریافت بار" 
-                                                MaximumHeightRequest="40"
-                                                Grid.Row="2"
-                                                Grid.Column="0"/>
-
-                    <Picker x:Name="PickerVillage"
-                            Grid.Row="2" 
-                            Grid.Column="1"
-                            Title="مبدا بار"
-                            VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding Title}" 
-                            FontAttributes="Bold"/>
-
-                    <TimePicker x:Name="TimePicker"
-                                Format = "HH:mm"
-                                Grid.Row="3"
-                                Grid.Column="0"/>
-                    
-                    <Picker x:Name="PickerCarrier"
-                            Grid.Row="3" 
-                            Grid.Column="1"
-                            Title="فرد حمل کننده"
-                            VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding PaymentInputLoadDetail}" 
                             FontAttributes="Bold"/>
 
                     <Entry x:Name="TxtDescription"
                            Placeholder="توضیحات"
                            MaxLength="200"
                            Grid.Row="4" 
-                           Grid.Column="0"
+                           Grid.Column="1"
                            VerticalOptions="Center" 
                            android:Entry.ImeOptions="Next"
                            FontAttributes="Bold"/>
 
-                    <Picker x:Name="PickerVehicle"
-                            Grid.Row="4" 
-                            Grid.Column="1"
-                            Title="وسیله نقیله حامل بار"
-                            VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding HumaneReadable}" 
-                            FontAttributes="Bold"/>
-
-                    <Entry x:Name="TxtNumberOfBagsInDryer"
-                           Placeholder="تعداد کیسه درون خشک کن"
-                           MaxLength="3"
-                           Grid.Row="5"
-                           Grid.Column="0"
-                           IsEnabled="False"
-                           VerticalOptions="Center" 
-                           ClearButtonVisibility="WhileEditing"
-                           FontAttributes="Bold"
-                           android:Entry.ImeOptions="Next"
-                           Keyboard="Numeric"/>
-                    
                     <Button x:Name="BtnSave"
                             Text="ذخیره" 
                             WidthRequest="150"
                             BackgroundColor="#3D9970"
                             CornerRadius="20"
-                            Grid.Row="6" 
+                            Grid.Row="5" 
                             FontAttributes="Bold"
                             Grid.ColumnSpan="2"
                             Clicked="OnBtnSaveClicked" />
@@ -142,13 +135,13 @@
             </StackLayout>
         </Frame>
 
-        <CollectionView x:Name="CVInputLoad"
+        <CollectionView x:Name="CVPayment"
                         VerticalOptions="FillAndExpand"
                         FlowDirection="RightToLeft"
                         Margin="20"
                         Grid.Row="1"
                         SelectionMode="Single"
-                        SelectionChanged="OnCVInputLoadSelectionChanged">
+                        SelectionChanged="OnCVPaymentSelectionChanged">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -159,14 +152,14 @@
                             <RowDefinition Height="1"/>
                         </Grid.RowDefinitions>
 
-                        <Label Text="{Binding OwnerFullName}"
+                        <Label Text="{Binding PaidPersonFullName}"
                                Padding="3"
                                VerticalTextAlignment="Center"
                                FontAttributes="Bold"
                                Grid.RowSpan="1"
                                Grid.Row="0"/>
 
-                        <Label Text="{Binding VillageTitle}"
+                        <Label Text="{Binding PaymentDetail}"
                                Padding="6"
                                VerticalTextAlignment="Center"
                                Grid.Row="1"/>

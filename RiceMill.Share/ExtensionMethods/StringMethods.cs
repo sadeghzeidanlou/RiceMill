@@ -141,6 +141,12 @@ namespace Shared.ExtensionMethods
             return res;
         }
 
+        public static float ToFloat(this string inputParameter)
+        {
+            _ = float.TryParse(inputParameter, out var res);
+            return res;
+        }
+
         public static int ExtractInt32(this string inputParameter)
         {
             _ = int.TryParse(new string(inputParameter.Where(char.IsDigit).ToArray()), out var res);

@@ -15,6 +15,8 @@ namespace RiceMill.Application.UseCases.InputLoadServices.Dto
 
         public Guid VillageId { get; set; }
 
+        public string VillageTitle { get; set; }
+
         //[SwaggerExclude]
         //public DtoVillage Village { get; set; }
 
@@ -34,6 +36,10 @@ namespace RiceMill.Application.UseCases.InputLoadServices.Dto
         //public DtoPerson CarrierPerson { get; set; }
 
         public Guid OwnerPersonId { get; set; }
+
+        public string OwnerFullName { get; set; }
+
+        public string PaymentInputLoadDetail { get; set; }
 
         //[SwaggerExclude]
         //public DtoPerson OwnerPerson { get; set; }

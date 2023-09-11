@@ -107,6 +107,9 @@ namespace RiceMill.Application.UseCases.InputLoadServices
             if (!_cacheService.GetVillages().Any(c => c.Id.Equals(inputLoad.VillageId)))
                 return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
 
+            if (!_cacheService.GetVehicles().Any(c => c.Id.Equals(inputLoad.VehicleId)))
+                return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
+
             var people = _cacheService.GetPeople().ToList();
             if (!people.Any(c => c.Id.Equals(inputLoad.DelivererPersonId)))
                 return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.InputLoadDelivererPersonNotFound), HttpStatusCode.NotFound);
@@ -119,9 +122,6 @@ namespace RiceMill.Application.UseCases.InputLoadServices
 
             if (!people.Any(c => c.Id.Equals(inputLoad.OwnerPersonId)))
                 return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.InputLoadOwnerPersonNotFound), HttpStatusCode.NotFound);
-
-            if (!people.Any(c => c.Id.Equals(inputLoad.VehicleId)))
-                return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(inputLoad.RiceMillId)))
                 return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);

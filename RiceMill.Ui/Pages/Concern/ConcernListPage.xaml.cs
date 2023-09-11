@@ -55,20 +55,22 @@ public partial class ConcernListPage : ContentPage
                 await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.ConcernTitleIsNotValid), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
-
             if (_isNewConcern)
             {
                 var newConcern = new DtoCreateConcern(TxtTitle.Text, ApplicationStaticContext.CurrentUser.RiceMillId);
                 await _concernServices.Add(newConcern);
-                return;
             }
+            else
+            {
+                if (CVConcern.SelectedItem is not DtoConcern selectedConcern)
+                    return;
 
-            if (CVConcern.SelectedItem is not DtoConcern selectedConcern)
-                return;
-
-            var updateConcern = new DtoUpdateConcern(selectedConcern.Id, TxtTitle.Text);
-            await _concernServices.Update(updateConcern);
-            return;
+                var updateConcern = new DtoUpdateConcern(selectedConcern.Id, TxtTitle.Text);
+                await _concernServices.Update(updateConcern);
+            }
+            OnNewBtnClicked(null, null);
+            await RefreshList();
+            CVConcern.ItemsSource = Concerns.Items;
         }
         catch (Exception ex)
         {
@@ -76,9 +78,6 @@ public partial class ConcernListPage : ContentPage
         }
         finally
         {
-            OnNewBtnClicked(null, null);
-            await RefreshList();
-            CVConcern.ItemsSource = Concerns.Items;
 #if ANDROID
             if (Platform.CurrentActivity.CurrentFocus != null)
                 Platform.CurrentActivity.HideKeyboard(Platform.CurrentActivity.CurrentFocus);
@@ -95,7 +94,6 @@ public partial class ConcernListPage : ContentPage
                 await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectConcern), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
-
             await _concernServices.Delete(selectedConcern.Id);
             OnNewBtnClicked(null, null);
             await RefreshList();

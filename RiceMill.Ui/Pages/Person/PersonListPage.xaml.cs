@@ -16,7 +16,7 @@ public partial class PersonListPage : ContentPage
 {
     private readonly IPersonServices _personServices;
     private PaginatedList<DtoPerson> People;
-    private bool _isNewRiceMill = true;
+    private bool _isNewPerson = true;
 
     public PersonListPage()
     {
@@ -62,7 +62,7 @@ public partial class PersonListPage : ContentPage
         TxtPhoneNumber.Text = string.Empty;
         TxtHomeNumber.Text = string.Empty;
         TxtFatherName.Text = string.Empty;
-        _isNewRiceMill = true;
+        _isNewPerson = true;
     }
 
     private async void OnBtnRemoveClicked(object sender, EventArgs e)
@@ -100,7 +100,7 @@ public partial class PersonListPage : ContentPage
             TxtFatherName.Text = selectedPerson.FatherName;
             PickerNoticeType.SelectedIndex = NoticesType.GetAll.FirstOrDefault(x => x.Type == selectedPerson.NoticesType).Index;
             PickerGender.SelectedIndex = GenderType.GetAll.FirstOrDefault(x => x.Type == selectedPerson.Gender).Index;
-            _isNewRiceMill = false;
+            _isNewPerson = false;
         }
         catch (Exception ex)
         {
@@ -112,7 +112,7 @@ public partial class PersonListPage : ContentPage
     {
         try
         {
-            if (_isNewRiceMill && ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty())
+            if (_isNewPerson && ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty())
                 return;
 
             var errorMessage = new StringBuilder();
@@ -148,7 +148,7 @@ public partial class PersonListPage : ContentPage
                 await Toast.Make(errorMessage.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
-            if (_isNewRiceMill)
+            if (_isNewPerson)
             {
                 var newRiceMill = new DtoCreatePerson(TxtName.Text, TxtFamily.Text, selectedGender.Type, TxtPhoneNumber.Text, TxtHomeNumber.Text, selectedNotice.Type, TxtAddress.Text, TxtFatherName.Text, ApplicationStaticContext.CurrentUser.RiceMillId);
                 await _personServices.Add(newRiceMill);

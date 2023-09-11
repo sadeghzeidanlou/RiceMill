@@ -18,6 +18,10 @@ namespace RiceMill.Application.UseCases.PaymentServices.Dto
 
         public Guid PaidPersonId { get; set; }
 
+        public string PaidPersonFullName { get; set; }
+
+        public string PaymentDetail => $"{UnbrokenRice} برنج بلند, {BrokenRice} برنج نیمه, {Money} پول, {Flour} آرد";
+
         //[SwaggerExclude]
         //public DtoPerson PaidPerson { get; set; }
 

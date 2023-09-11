@@ -141,6 +141,7 @@ namespace RiceMill.Ui.Common
                 {ResultStatusEnum.PaymentMoneyIsNotValid, "مقدار پول برای پرداخت معتبر نمی باشد" },
                 {ResultStatusEnum.PaymentDescriptionLengthIsNotValid, "طول توضیحات پرداخت معتبر نمی باشد" },
                 {ResultStatusEnum.PaymentPaidPersonIdIsNotValid, "شناسه فرد دریافت کننده معتبر نمی باشد" },
+                {ResultStatusEnum.PleaseSelectPayment, "لطفا یک پرداخت را انتخاب کنید" },
 
                 #endregion
 
@@ -160,6 +161,7 @@ namespace RiceMill.Ui.Common
                 {ResultStatusEnum.InputLoadCarrierPersonNotFound, "فرد حمل کننده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
                 {ResultStatusEnum.InputLoadOwnerPersonIdIsNotValid, "شناسه صاحب بار ورودی معتبر نمی باشد" },
                 {ResultStatusEnum.InputLoadOwnerPersonNotFound, "صاحب بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
+                {ResultStatusEnum.PleaseSelectInputLoad, "لطفا یک بار ورودی را انتخاب کنید" },
 
                 #endregion
 

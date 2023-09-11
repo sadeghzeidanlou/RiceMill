@@ -71,7 +71,9 @@ namespace RiceMill.Application.UseCases.PaymentServices
             if (payment == null)
                 return Result<DtoPayment>.Failure(Error.CreateError(ResultStatusEnum.PaymentNotFound), HttpStatusCode.NotFound);
 
-            var validateCreatePaymentResult = ValidatePayment(updatePayment.Adapt<DtoCreatePayment>());
+            var createPayment = updatePayment.Adapt<DtoCreatePayment>();
+            createPayment = createPayment with { RiceMillId = payment.RiceMillId };
+            var validateCreatePaymentResult = ValidatePayment(createPayment);
             if (validateCreatePaymentResult != null)
                 return validateCreatePaymentResult;
 

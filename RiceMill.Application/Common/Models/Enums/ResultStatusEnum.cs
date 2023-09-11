@@ -137,6 +137,7 @@
         PaymentMoneyIsNotValid,
         PaymentDescriptionLengthIsNotValid,
         PaymentPaidPersonIdIsNotValid,
+        PleaseSelectPayment,
 
         #endregion
 
@@ -157,6 +158,7 @@
         InputLoadCarrierPersonNotFound,
         InputLoadOwnerPersonIdIsNotValid,
         InputLoadOwnerPersonNotFound,
+        PleaseSelectInputLoad,
 
         #endregion
 

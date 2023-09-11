@@ -62,7 +62,6 @@ public partial class VillageListPage : ContentPage
                 await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectVillage), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
-
             await _villageServices.Delete(selectedVillage.Id);
             OnNewBtnClicked(null, null);
             await RefreshList();
@@ -99,20 +98,22 @@ public partial class VillageListPage : ContentPage
                 await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.VillageTitleIsNotValid), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
-
             if (_isNewVillage)
             {
                 var newVillage = new DtoCreateVillage(TxtTitle.Text, ApplicationStaticContext.CurrentUser.RiceMillId);
                 await _villageServices.Add(newVillage);
-                return;
             }
+            else
+            {
+                if (CVVillage.SelectedItem is not DtoVillage selectedVillage)
+                    return;
 
-            if (CVVillage.SelectedItem is not DtoVillage selectedVillage)
-                return;
-
-            var updateVillage = new DtoUpdateVillage(selectedVillage.Id, TxtTitle.Text);
-            await _villageServices.Update(updateVillage);
-            return;
+                var updateVillage = new DtoUpdateVillage(selectedVillage.Id, TxtTitle.Text);
+                await _villageServices.Update(updateVillage);
+            }
+            OnNewBtnClicked(null, null);
+            await RefreshList();
+            CVVillage.ItemsSource = Villages.Items;
         }
         catch (Exception ex)
         {
@@ -120,9 +121,6 @@ public partial class VillageListPage : ContentPage
         }
         finally
         {
-            OnNewBtnClicked(null, null);
-            await RefreshList();
-            CVVillage.ItemsSource = Villages.Items;
 #if ANDROID
             if (Platform.CurrentActivity.CurrentFocus != null)
                 Platform.CurrentActivity.HideKeyboard(Platform.CurrentActivity.CurrentFocus);

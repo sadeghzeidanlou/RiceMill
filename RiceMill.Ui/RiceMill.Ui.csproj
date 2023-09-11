@@ -155,6 +155,9 @@
 	  <MauiXaml Update="Pages\MainTabbedPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\Payment\PaymentListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Person\PersonListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
