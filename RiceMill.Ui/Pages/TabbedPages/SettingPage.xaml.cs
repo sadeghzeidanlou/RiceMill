@@ -1,4 +1,5 @@
 using RiceMill.Application.Common.Models.Resource;
+using System.Diagnostics;
 
 namespace RiceMill.Ui.Pages.TabbedPages;
 
@@ -31,7 +32,15 @@ public partial class SettingPage : ContentPage
 
     private void OnBtnExitClicked(object sender, EventArgs e)
     {
-        SecureStorage.Default.Remove(SharedResource.TokenKey);
-        System.Diagnostics.Process.GetCurrentProcess().Kill();
+        SecureStorage.Default.RemoveAll();
+        SecureStorage.RemoveAll();
+#if ANDROID
+        Process.GetCurrentProcess().Kill();
+#endif
+
+#if WINDOWS
+        Process.GetCurrentProcess().Kill();
+#endif
+
     }
 }

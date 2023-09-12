@@ -237,8 +237,8 @@ public partial class InputLoadListPage : ContentPage
     {
         foreach (var item in InputLoads.Items)
         {
-            item.OwnerFullName = People.Items.FirstOrDefault(x => x.Id.Equals(item.OwnerPersonId)).FullName;
-            item.VillageTitle = Villages.Items.FirstOrDefault(x => x.Id.Equals(item.VillageId)).Title;
+            item.OwnerFullName = $"{People.Items.FirstOrDefault(x => x.Id.Equals(item.OwnerPersonId)).FullName} در تاریخ {new PersianDateTime(item.ReceiveTime).ToShortDateTimeString()}";
+            item.VillageTitle = $"از {Villages.Items.FirstOrDefault(x => x.Id.Equals(item.VillageId)).Title} تعداد {item.NumberOfBags} کیسه";
         }
     }
 

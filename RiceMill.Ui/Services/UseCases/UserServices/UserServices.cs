@@ -3,6 +3,7 @@ using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.UserServices.Dto;
 using RiceMill.Ui.Common;
 using RiceMill.Ui.Common.Models;
+using Shared.ExtensionMethods;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace RiceMill.Ui.Services.UseCases.UserServices
@@ -22,6 +23,7 @@ namespace RiceMill.Ui.Services.UseCases.UserServices
             var userToken = await _sendRequestService.SendRequestAsync<DtoLogin, Result<DtoTokenInfo>>(dtoLogin, sendRequest);
             ApplicationStaticContext.Token = userToken.Data.Token;
             await SecureStorage.Default.SetAsync(SharedResource.TokenKey, ApplicationStaticContext.Token);
+            await SecureStorage.SetAsync(SharedResource.TokenKey, ApplicationStaticContext.Token);
         }
 
         public async Task<Result<PaginatedList<DtoUser>>> GetUsers(DtoUserFilter filter)
@@ -32,12 +34,13 @@ namespace RiceMill.Ui.Services.UseCases.UserServices
 
         public async Task<bool> TokenIsValid()
         {
-            string tokenValue = await SecureStorage.Default.GetAsync(SharedResource.TokenKey);
-            if (tokenValue == null)
+            string tokenValueDefault = await SecureStorage.Default.GetAsync(SharedResource.TokenKey);
+            string tokenValue = await SecureStorage.GetAsync(SharedResource.TokenKey);
+            if (tokenValue.IsNullOrEmpty() && tokenValueDefault.IsNullOrEmpty())
                 return false;
 
-            ApplicationStaticContext.Token = tokenValue;
-            var tokenDetail = ReadToken(tokenValue);
+            ApplicationStaticContext.Token = tokenValueDefault.IsNullOrEmpty() ? tokenValue : tokenValueDefault;
+            var tokenDetail = ReadToken(ApplicationStaticContext.Token);
             return tokenDetail?.ValidTo >= DateTime.UtcNow;
         }
 
