@@ -29,16 +29,10 @@ namespace RiceMill.Ui
         {
             try
             {
-#if ANDROID
+#if ANDROID || WINDOWS
                 if (!_isFirstView)
                     Process.GetCurrentProcess().Kill();
 #endif
-
-#if WINDOWS
-                if (!_isFirstView)
-                    Process.GetCurrentProcess().Kill();
-#endif
-
                 _isFirstView = false;
                 var isAuthenticated = await _userServices.TokenIsValid();
                 if (isAuthenticated)

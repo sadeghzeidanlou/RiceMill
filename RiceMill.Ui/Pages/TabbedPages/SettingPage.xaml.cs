@@ -34,13 +34,8 @@ public partial class SettingPage : ContentPage
     {
         SecureStorage.Default.RemoveAll();
         SecureStorage.RemoveAll();
-#if ANDROID
+#if ANDROID || WINDOWS
         Process.GetCurrentProcess().Kill();
 #endif
-
-#if WINDOWS
-        Process.GetCurrentProcess().Kill();
-#endif
-
     }
 }
