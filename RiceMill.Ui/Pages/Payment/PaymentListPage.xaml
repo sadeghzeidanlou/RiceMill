@@ -65,9 +65,9 @@
                                 Grid.Row="1"
                                 Grid.Column="1"/>
 
-                    <Entry x:Name="TxtUnbrokenRice"
-                           Placeholder="مقدار برنج سالم-کیلوگرم"
-                           MaxLength="4"
+                    <Entry x:Name="TxtMoney"
+                           Placeholder="مقدار پول-تومان"
+                           MaxLength="9"
                            Grid.Row="2"
                            Grid.Column="0"
                            VerticalOptions="Center" 
@@ -85,8 +85,8 @@
                            android:Entry.ImeOptions="Next"
                            Keyboard="Numeric"/>
 
-                    <Entry x:Name="TxtFlour"
-                           Placeholder="مقدار آرد-کیلوگرم"
+                    <Entry x:Name="TxtUnbrokenRice"
+                           Placeholder="مقدار برنج سالم-کیلوگرم"
                            MaxLength="4"
                            Grid.Row="3"
                            Grid.Column="0"
@@ -95,9 +95,9 @@
                            android:Entry.ImeOptions="Next"
                            Keyboard="Numeric"/>
 
-                    <Entry x:Name="TxtMoney"
-                           Placeholder="مقدار پول-تومان"
-                           MaxLength="9"
+                    <Entry x:Name="TxtFlour"
+                           Placeholder="مقدار آرد-کیلوگرم"
+                           MaxLength="4"
                            Grid.Row="3"
                            Grid.Column="1"
                            VerticalOptions="Center" 

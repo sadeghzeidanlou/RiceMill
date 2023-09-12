@@ -49,6 +49,7 @@
 	  <DebugType>portable</DebugType>
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
+	  <Debugger>Xamarin</Debugger>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
@@ -70,6 +71,8 @@
 	  <DebugType>portable</DebugType>
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <ApplicationTitle>RiceMill.Ui</ApplicationTitle>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <Debugger>Xamarin</Debugger>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">

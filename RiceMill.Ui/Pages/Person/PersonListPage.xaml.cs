@@ -39,11 +39,10 @@ public partial class PersonListPage : ContentPage
             BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
-            await RefreshPeopleList();
-            await RefreshPeopleList();
-            CVPerson.ItemsSource = People.Items;
             PickerGender.ItemsSource = GenderType.GetAll;
             PickerNoticeType.ItemsSource = NoticesType.GetAll;
+            await RefreshPeopleList();
+            CVPerson.ItemsSource = People.Items;
         }
         catch (Exception ex)
         {
@@ -71,7 +70,7 @@ public partial class PersonListPage : ContentPage
         {
             if (CVPerson.SelectedItem is not DtoPerson selectedPerson)
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectPerson), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.PleaseSelectPerson.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             await _personServices.Delete(selectedPerson.Id);
@@ -120,28 +119,28 @@ public partial class PersonListPage : ContentPage
             if (PickerGender.SelectedItem is GenderType genderType)
                 selectedGender = genderType;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonGenderIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.PersonGenderIsNotValid.GetErrorMessage());
 
             NoticesType selectedNotice = null;
             if (PickerNoticeType.SelectedItem is NoticesType noticeType)
                 selectedNotice = noticeType;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonNoticesTypeIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.PersonNoticesTypeIsNotValid.GetErrorMessage());
 
             if (TxtName.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonNameIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.PersonNameIsNotValid.GetErrorMessage());
 
             if (TxtFamily.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonFamilyIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.PersonFamilyIsNotValid.GetErrorMessage());
 
             if (TxtAddress.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonAddressIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.PersonAddressIsNotValid.GetErrorMessage());
 
             if (TxtPhoneNumber.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonMobileNumberIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.PersonMobileNumberIsNotValid.GetErrorMessage());
 
             if (TxtFatherName.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PersonFatherNameIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.PersonFatherNameIsNotValid.GetErrorMessage());
 
             if (errorMessage.IsNotNullOrEmpty())
             {

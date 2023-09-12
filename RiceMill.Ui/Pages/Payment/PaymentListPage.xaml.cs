@@ -65,6 +65,7 @@ public partial class PaymentListPage : ContentPage
             await LoadVillages();
             await LoadConcerns();
             await LoadInputLoads();
+            //_ = Task.WhenAll(LoadPeople(), LoadVillages(), LoadConcerns(), LoadInputLoads());
             await RefreshPaymentList();
             FillRequireData();
             FillInputLoadRequireData();
@@ -101,7 +102,7 @@ public partial class PaymentListPage : ContentPage
         {
             if (CVPayment.SelectedItem is not DtoPayment selectedPayment)
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectInputLoad), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.PleaseSelectInputLoad.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             await _paymentServices.Delete(selectedPayment.Id);
@@ -153,18 +154,18 @@ public partial class PaymentListPage : ContentPage
             if (PickerPaidPerson.SelectedItem is DtoPerson paidPerson)
                 selectedPaidPerson = paidPerson;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PaymentPaidPersonIdIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.PaymentPaidPersonIdIsNotValid.GetErrorMessage());
 
             DtoConcern selectedPaidConcern = null;
             if (PickerPaidConcern.SelectedItem is DtoConcern paidConcern)
                 selectedPaidConcern = paidConcern;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.ConcernNotFound));
+                errorMessage.AppendLine(ResultStatusEnum.ConcernNotFound.GetErrorMessage());
 
             if (PersianDatePicker.PersianDate.IsNullOrEmpty() || TimePicker.Time.TotalSeconds == 0 ||
                 PersianDateTime.Parse(PersianDatePicker.PersianDate).AddSeconds((int)TimePicker.Time.TotalSeconds) > PersianDateTime.Now)
             {
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.PaymentPaymentTimeIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.PaymentPaymentTimeIsNotValid.GetErrorMessage());
             }
             if (errorMessage.IsNotNullOrEmpty())
             {
@@ -227,7 +228,7 @@ public partial class PaymentListPage : ContentPage
         {
             var ownerFullName = People.Items.FirstOrDefault(x => x.Id.Equals(item.OwnerPersonId)).FullName;
             var villageTitle = Villages.Items.FirstOrDefault(x => x.Id.Equals(item.VillageId)).Title;
-            item.PaymentInputLoadDetail = $"بار {ownerFullName} از {villageTitle} به تعداد {item.NumberOfBags}";
+            item.PaymentInputLoadDetail = $"{ownerFullName} از {villageTitle} به تعداد {item.NumberOfBags} کیسه";
         }
     }
 

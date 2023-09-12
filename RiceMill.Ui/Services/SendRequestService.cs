@@ -31,10 +31,25 @@ namespace RiceMill.Ui.Services
             if (response.StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(responseText))
                 return responseText.DeserializeObject<TOut>();
 
-            var result = responseText.DeserializeObject<TOut>();
-            var defaultReturn = new Result<object>();
-            var finalResult = result.Adapt(defaultReturn);
-            throw new ApplicationException(string.Join(Environment.NewLine, finalResult.Errors.Select(e => e.Message)));
+            var ishandledException = false;
+            try
+            {
+                var result = responseText.DeserializeObject<TOut>();
+                var defaultReturn = new Result<object>();
+                var finalResult = result.Adapt(defaultReturn);
+                ishandledException = true;
+                throw new ApplicationException(string.Join(Environment.NewLine, finalResult.Errors.Select(e => e.Message)));
+            }
+            catch (Exception)
+            {
+                if (ishandledException)
+                    throw;
+
+                var result = responseText.DeserializeObject<Result<bool>>();
+                var defaultReturn = new Result<object>();
+                var finalResult = result.Adapt(defaultReturn);
+                throw new ApplicationException(string.Join(Environment.NewLine, finalResult.Errors.Select(e => e.Message)));
+            }
         }
 
         private static HttpClient CreateHttpClient(DtoSendRequest sendRequest)
@@ -116,8 +131,8 @@ namespace RiceMill.Ui.Services
 
         private static void HaveInternetAccess()
         {
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
-                throw new Exception(MessageDictionary.GetMessageText(ResultStatusEnum.NoInternetAccess));
+            if (Connectivity.NetworkAccess != Microsoft.Maui.Networking.NetworkAccess.Internet)
+                throw new Exception(ResultStatusEnum.NoInternetAccess.GetErrorMessage());
         }
     }
 }

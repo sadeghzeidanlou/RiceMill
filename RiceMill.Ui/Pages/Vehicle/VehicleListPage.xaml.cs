@@ -45,6 +45,7 @@ public partial class VehicleListPage : ContentPage
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
             await LoadPeople();
+            //_ = Task.WhenAny(LoadPeople());
             await RefreshVehicleList();
             CVVehicle.ItemsSource = Vehicles.Items;
             PickerOwner.ItemsSource = People.Items;
@@ -72,7 +73,7 @@ public partial class VehicleListPage : ContentPage
         {
             if (CVVehicle.SelectedItem is not DtoVehicle selectedVehicle)
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectVehicle), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.PleaseSelectVehicle.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             await _vehicleServices.Delete(selectedVehicle.Id);
@@ -117,16 +118,16 @@ public partial class VehicleListPage : ContentPage
             if (PickerType.SelectedItem is VehicleType type)
                 selectedType = type;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.VehicleVehicleTypeIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.VehicleVehicleTypeIsNotValid.GetErrorMessage());
 
             DtoPerson selectedOwner = null;
             if (PickerOwner.SelectedItem is DtoPerson owner)
                 selectedOwner = owner;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.VehicleOwnerPersonIdIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.VehicleOwnerPersonIdIsNotValid.GetErrorMessage());
 
             if (TxtPlate.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.VehiclePlateIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.VehiclePlateIsNotValid.GetErrorMessage());
 
             if (errorMessage.IsNotNullOrEmpty())
             {

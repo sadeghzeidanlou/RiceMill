@@ -95,7 +95,7 @@
                     <Picker x:Name="PickerCarrier"
                             Grid.Row="3" 
                             Grid.Column="1"
-                            Title="فرد حمل کننده"
+                            Title="راننده"
                             VerticalOptions="Center"        
                             ItemDisplayBinding="{Binding FullName}" 
                             FontAttributes="Bold"/>

@@ -37,7 +37,7 @@ public partial class VillageListPage : ContentPage
             BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
-            await RefreshList();
+            await RefreshVillageList();
             CVVillage.ItemsSource = Villages.Items;
         }
         catch (Exception ex)
@@ -59,12 +59,12 @@ public partial class VillageListPage : ContentPage
         {
             if (CVVillage.SelectedItem is not DtoVillage selectedVillage)
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectVillage), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.PleaseSelectVillage.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             await _villageServices.Delete(selectedVillage.Id);
             OnNewBtnClicked(null, null);
-            await RefreshList();
+            await RefreshVillageList();
             CVVillage.ItemsSource = Villages.Items;
         }
         catch (Exception ex)
@@ -95,7 +95,7 @@ public partial class VillageListPage : ContentPage
         {
             if (TxtTitle.Text.IsNullOrEmpty() || _isNewVillage && ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty())
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.VillageTitleIsNotValid), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.VillageTitleIsNotValid.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             if (_isNewVillage)
@@ -112,7 +112,7 @@ public partial class VillageListPage : ContentPage
                 await _villageServices.Update(updateVillage);
             }
             OnNewBtnClicked(null, null);
-            await RefreshList();
+            await RefreshVillageList();
             CVVillage.ItemsSource = Villages.Items;
         }
         catch (Exception ex)
@@ -128,7 +128,7 @@ public partial class VillageListPage : ContentPage
         }
     }
 
-    private Task RefreshList()
+    private Task RefreshVillageList()
     {
         return Task.Run(() =>
         {

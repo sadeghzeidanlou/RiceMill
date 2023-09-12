@@ -1,4 +1,5 @@
 ﻿using RiceMill.Application.UseCases.BaseDto;
+using System.Text;
 
 namespace RiceMill.Application.UseCases.PaymentServices.Dto
 {
@@ -20,7 +21,26 @@ namespace RiceMill.Application.UseCases.PaymentServices.Dto
 
         public string PaidPersonFullName { get; set; }
 
-        public string PaymentDetail => $"{UnbrokenRice} برنج بلند, {BrokenRice} برنج نیمه, {Money} پول, {Flour} آرد";
+        public string PaymentDetail
+        {
+            get
+            {
+                var sbDetail = new StringBuilder();
+                if (Money > 0)
+                    sbDetail.Append($"{Money} تومان,");
+
+                if (UnbrokenRice > 0)
+                    sbDetail.Append($" {UnbrokenRice} ک برنج بلند,");
+
+                if (BrokenRice > 0)
+                    sbDetail.Append($" {BrokenRice} ک برنج نیمه,");
+
+                if (Flour > 0)
+                    sbDetail.Append($" {Flour} ک آرد,");
+
+                return sbDetail.Remove(sbDetail.Length - 1, 1).ToString().TrimStart();
+            }
+        }
 
         //[SwaggerExclude]
         //public DtoPerson PaidPerson { get; set; }

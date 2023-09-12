@@ -59,6 +59,7 @@ public partial class InputLoadListPage : ContentPage
             await LoadPeople();
             await LoadVillages();
             await LoadVehicles();
+            //_ = Task.WhenAll(LoadPeople(), LoadVillages(), LoadVehicles());
             await RefreshInputLoadList();
             FillRequireData();
             CVInputLoad.ItemsSource = InputLoads.Items;
@@ -98,14 +99,14 @@ public partial class InputLoadListPage : ContentPage
         {
             if (CVInputLoad.SelectedItem is not DtoInputLoad selectedInputLoad)
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectInputLoad), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.PleaseSelectInputLoad.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             await _inputLoadServices.Delete(selectedInputLoad.Id);
             OnNewBtnClicked(null, null);
             await RefreshInputLoadList();
             FillRequireData();
-            CVInputLoad.ItemsSource = People.Items;
+            CVInputLoad.ItemsSource = InputLoads.Items;
         }
         catch (Exception ex)
         {
@@ -148,48 +149,48 @@ public partial class InputLoadListPage : ContentPage
 
             var errorMessage = new StringBuilder();
             if (TxtNumberOfBags.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.InputLoadNumberOfBagsIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.InputLoadNumberOfBagsIsNotValid.GetErrorMessage());
 
             if (PersianDatePicker.PersianDate.IsNullOrEmpty() || TimePicker.Time.TotalSeconds == 0 ||
                 PersianDateTime.Parse(PersianDatePicker.PersianDate).AddSeconds((int)TimePicker.Time.TotalSeconds) > PersianDateTime.Now)
             {
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.InputLoadReceiveTimeIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.InputLoadReceiveTimeIsNotValid.GetErrorMessage());
             }
             DtoPerson selectedCarrier = null;
             if (PickerCarrier.SelectedItem is DtoPerson carrierPerson)
                 selectedCarrier = carrierPerson;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.InputLoadCarrierPersonNotFound));
+                errorMessage.AppendLine(ResultStatusEnum.InputLoadCarrierPersonNotFound.GetErrorMessage());
 
             DtoPerson selectedReceiver = null;
             if (PickerReceiver.SelectedItem is DtoPerson receiverPerson)
                 selectedReceiver = receiverPerson;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.InputLoadReceiverPersonNotFound));
+                errorMessage.AppendLine(ResultStatusEnum.InputLoadReceiverPersonNotFound.GetErrorMessage());
 
             DtoPerson selectedDeliverer = null;
             if (PickerDeliverer.SelectedItem is DtoPerson delivererPerson)
                 selectedDeliverer = delivererPerson;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.InputLoadDelivererPersonNotFound));
+                errorMessage.AppendLine(ResultStatusEnum.InputLoadDelivererPersonNotFound.GetErrorMessage());
 
             DtoPerson selectedOwner = null;
             if (PickerOwner.SelectedItem is DtoPerson carrierOwner)
                 selectedOwner = carrierOwner;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.InputLoadOwnerPersonNotFound));
+                errorMessage.AppendLine(ResultStatusEnum.InputLoadOwnerPersonNotFound.GetErrorMessage());
 
             DtoVillage selectedVillage = null;
             if (PickerVillage.SelectedItem is DtoVillage village)
                 selectedVillage = village;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.VillageNotFound));
+                errorMessage.AppendLine(ResultStatusEnum.VillageNotFound.GetErrorMessage());
 
             DtoVehicle selectedVehicle = null;
             if (PickerVehicle.SelectedItem is DtoVehicle vehicle)
                 selectedVehicle = vehicle;
             else
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.VehicleNotFound));
+                errorMessage.AppendLine(ResultStatusEnum.VehicleNotFound.GetErrorMessage());
 
             if (errorMessage.IsNotNullOrEmpty())
             {

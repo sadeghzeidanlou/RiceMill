@@ -37,7 +37,7 @@ public partial class ConcernListPage : ContentPage
             BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
-            await RefreshList();
+            await RefreshConcernList();
             CVConcern.ItemsSource = Concerns.Items;
         }
         catch (Exception ex)
@@ -52,7 +52,7 @@ public partial class ConcernListPage : ContentPage
         {
             if (TxtTitle.Text.IsNullOrEmpty() || _isNewConcern && ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty())
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.ConcernTitleIsNotValid), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.ConcernTitleIsNotValid.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             if (_isNewConcern)
@@ -69,7 +69,7 @@ public partial class ConcernListPage : ContentPage
                 await _concernServices.Update(updateConcern);
             }
             OnNewBtnClicked(null, null);
-            await RefreshList();
+            await RefreshConcernList();
             CVConcern.ItemsSource = Concerns.Items;
         }
         catch (Exception ex)
@@ -91,12 +91,12 @@ public partial class ConcernListPage : ContentPage
         {
             if (CVConcern.SelectedItem is not DtoConcern selectedConcern)
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectConcern), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.PleaseSelectConcern.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             await _concernServices.Delete(selectedConcern.Id);
             OnNewBtnClicked(null, null);
-            await RefreshList();
+            await RefreshConcernList();
             CVConcern.ItemsSource = Concerns.Items;
         }
         catch (Exception ex)
@@ -128,7 +128,7 @@ public partial class ConcernListPage : ContentPage
         }
     }
 
-    private Task RefreshList()
+    private Task RefreshConcernList()
     {
         return Task.Run(() =>
         {

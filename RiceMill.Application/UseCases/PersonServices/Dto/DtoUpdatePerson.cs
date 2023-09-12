@@ -31,7 +31,7 @@ namespace RiceMill.Application.UseCases.PersonServices.Dto
                 .MaximumLength(11).WithErrorCode(ResultStatusEnum.PersonMobileNumberLengthIsNotValid.ToString());
 
             RuleFor(dto => dto.HomeNumber)
-                .Must((hn) => hn.IsNullOrEmpty() || hn.IsNotNullOrEmpty() && hn.IsPhoneNumber()).WithErrorCode(ResultStatusEnum.PersonHomeNumberIsNotValid.ToString())
+                .Must((hn) => (hn.IsNullOrEmpty() || hn.IsNullOrWhiteSpace()) || hn.IsNotNullOrEmpty() && hn.IsPhoneNumber()).WithErrorCode(ResultStatusEnum.PersonHomeNumberIsNotValid.ToString())
                 .MaximumLength(11).WithErrorCode(ResultStatusEnum.PersonHomeNumberLengthIsNotValid.ToString());
 
             RuleFor(dto => dto.NoticesType)

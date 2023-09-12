@@ -37,7 +37,7 @@ public partial class DryerListPage : ContentPage
             BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
-            await RefreshList();
+            await RefreshDryerList();
             CVDryer.ItemsSource = Dryers.Items;
         }
         catch (Exception ex)
@@ -59,12 +59,12 @@ public partial class DryerListPage : ContentPage
         {
             if (CVDryer.SelectedItem is not DtoDryer selectedDryer)
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectDryer), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.PleaseSelectDryer.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             await _dryerServices.Delete(selectedDryer.Id);
             OnNewBtnClicked(null, null);
-            await RefreshList();
+            await RefreshDryerList();
             CVDryer.ItemsSource = Dryers.Items;
         }
         catch (Exception ex)
@@ -95,7 +95,7 @@ public partial class DryerListPage : ContentPage
         {
             if (TxtTitle.Text.IsNullOrEmpty() || _isNewDryer && ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty())
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.DryerTitleIsNotValid), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.DryerTitleIsNotValid.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             if (_isNewDryer)
@@ -113,7 +113,7 @@ public partial class DryerListPage : ContentPage
                 await _dryerServices.Update(updateDryer);
             }
             OnNewBtnClicked(null, null);
-            await RefreshList();
+            await RefreshDryerList();
             CVDryer.ItemsSource = Dryers.Items;
         }
         catch (Exception ex)
@@ -129,7 +129,7 @@ public partial class DryerListPage : ContentPage
         }
     }
 
-    private Task RefreshList()
+    private Task RefreshDryerList()
     {
         return Task.Run(() =>
         {

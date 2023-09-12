@@ -113,6 +113,7 @@
         PersonFatherNameIsNotValid,
         PersonFatherNameLengthIsNotValid,
         PleaseSelectPerson,
+        PersonMobileNumberIsDuplicate,
 
         #endregion
 
@@ -222,7 +223,7 @@
     {
         private static readonly Dictionary<ResultStatusEnum, string> ResultStatusMessage = new()
             {
-                #region Genearl
+                  #region Genearl
                 
                 {ResultStatusEnum.Success,"عملیات '{0}' با موفقیت انجام شد" },
                 {ResultStatusEnum.Fail,"عملیات '{0}' دچار خطا شده است" },
@@ -231,15 +232,19 @@
                 {ResultStatusEnum.NotImplemented, "درحال حاضر عملیات مورد نظر در سیستم پشتیبانی نمی شود" },
                 {ResultStatusEnum.DatabaseError, "خطایی در سمت پایگاه داده رخ داده است" },
                 {ResultStatusEnum.UnHandleError, "خطای پیش بینی نشده اتفاق افتاده است" },
+                {ResultStatusEnum.Alert, "هشدار" },
+                {ResultStatusEnum.GoBack, "بازگشت" },
+                {ResultStatusEnum.NoInternetAccess, "لطفا ارتباط اینترنت خود را بررسی کنید" },
                 
                 #endregion
 
                 #region Concern
                 
-                {ResultStatusEnum.ConcernNotFound, "دلیل یافت نشد یا شما مجاز به دسترسی نمی باشید" },
-                {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل معتبر نمی باشد" },
-                {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل بیش از حد مجاز است" },
+                {ResultStatusEnum.ConcernNotFound, "دلیل پرداخت یافت نشد یا شما مجاز به دسترسی نمی باشید" },
+                {ResultStatusEnum.ConcernIdIsNotValid, "شناسه دلیل پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernTitleIsNotValid, "عنوان دلیل پرداخت معتبر نمی باشد" },
+                {ResultStatusEnum.ConcernTitleLengthIsNotValid, "طول عنوان دلیل پرداخت بیش از حد مجاز است" },
+                {ResultStatusEnum.PleaseSelectConcern, "لطفا یک دلیل پرداخت را انتخاب کنید" },
 
                 #endregion
 
@@ -247,9 +252,9 @@
 
                 {ResultStatusEnum.UserNotFound, "کاربر یافت نشد یا شما مجاز به دسترسی نمی باشید" },
                 {ResultStatusEnum.UserIdIsNotValid, "شناسه کاربر معتبر نمی باشد" },
-                {ResultStatusEnum.UserUsernameIsNotValid, "نام کاربری کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserUsernameIsNotValid, "نام کاربری معتبر نمی باشد" },
                 {ResultStatusEnum.UserUsernameLengthIsNotValid, "طول نام کاربری کاربر بیش از حد مجاز است" },
-                {ResultStatusEnum.UserPasswordIsNotValid, "رمز عبور کاربر معتبر نمی باشد" },
+                {ResultStatusEnum.UserPasswordIsNotValid, "رمز عبور معتبر نمی باشد" },
                 {ResultStatusEnum.UserRoleIsNotValid, "نقش کاربر معتبر نمی باشد" },
                 {ResultStatusEnum.UserUserPersonIdIsNotValid, "شناسه فردی برای کاربر معتبر نمی باشد" },
 
@@ -270,7 +275,8 @@
                 {ResultStatusEnum.RiceMillPostalCodeLengthIsNotValid, "طول کد پستی کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillDescriptionLengthIsNotValid, "طول توضیحات کارخانه بیش از حد مجاز است" },
                 {ResultStatusEnum.RiceMillOwnerPersonIdIsNotValid, "شناسه صاحب کارخانه معتبر نمی باشد" },
-
+                {ResultStatusEnum.PleaseSelectRiceMill, "لطفا یک کارخانه را انتخاب کنید" },
+                
                 #endregion
 
                 #region UserActivity
@@ -295,6 +301,7 @@
                 {ResultStatusEnum.VehicleDescriptionLengthIsNotValid, "طول توضیحات وسیله نقلیه بیش از حد مجاز است" },
                 {ResultStatusEnum.VehicleVehicleTypeIsNotValid, "نوع وسیله نقلیه معتبر نمی باشد" },
                 {ResultStatusEnum.VehicleOwnerPersonIdIsNotValid, "شناسه صاحب وسیله نقلیه معتبر نمی باشد" },
+                {ResultStatusEnum.PleaseSelectVehicle, "لطفا یک وسیله نقلیه را انتخاب کنید" },
 
                 #endregion
 
@@ -304,6 +311,7 @@
                 {ResultStatusEnum.VillageIdIsNotValid, "شناسه مبدا معتبر نمی باشد" },
                 {ResultStatusEnum.VillageTitleIsNotValid, "عنوان مبدا معتبر نمی باشد" },
                 {ResultStatusEnum.VillageTitleLengthIsNotValid, "طول عنوان مبدا بیش از حد مجاز است" },
+                {ResultStatusEnum.PleaseSelectVillage, "لطفا یک مبدا را انتخاب کنید" },
 
                 #endregion
 
@@ -325,6 +333,8 @@
                 {ResultStatusEnum.PersonAddressLengthIsNotValid, "طول آدرس فرد بیش از حد مجاز است" },
                 {ResultStatusEnum.PersonFatherNameIsNotValid, "نام پدر فرد معتبر نمی باشد" },
                 {ResultStatusEnum.PersonFatherNameLengthIsNotValid, "طول نام پدر فرد بیش از حد مجاز است" },
+                {ResultStatusEnum.PleaseSelectPerson, "لطفا یک نفر را انتخاب کنید" },
+                {ResultStatusEnum.PersonMobileNumberIsDuplicate, "شماره موبایل فرد تکراری است" },
 
                 #endregion
 
@@ -334,6 +344,7 @@
                 {ResultStatusEnum.DryerIdIsNotValid, "شناسه خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerTitleIsNotValid, "عنوان خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerTitleLengthIsNotValid, "طول عنوان خشک کن بیش از حد مجاز است" },
+                {ResultStatusEnum.PleaseSelectDryer, "لطفا یک خشک کن را انتخاب کنید" },
 
                 #endregion
 
@@ -348,6 +359,7 @@
                 {ResultStatusEnum.PaymentMoneyIsNotValid, "مقدار پول برای پرداخت معتبر نمی باشد" },
                 {ResultStatusEnum.PaymentDescriptionLengthIsNotValid, "طول توضیحات پرداخت معتبر نمی باشد" },
                 {ResultStatusEnum.PaymentPaidPersonIdIsNotValid, "شناسه فرد دریافت کننده معتبر نمی باشد" },
+                {ResultStatusEnum.PleaseSelectPayment, "لطفا یک پرداخت را انتخاب کنید" },
 
                 #endregion
 
@@ -367,6 +379,7 @@
                 {ResultStatusEnum.InputLoadCarrierPersonNotFound, "فرد حمل کننده بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
                 {ResultStatusEnum.InputLoadOwnerPersonIdIsNotValid, "شناسه صاحب بار ورودی معتبر نمی باشد" },
                 {ResultStatusEnum.InputLoadOwnerPersonNotFound, "صاحب بار ورودی یافت نشد یا شما مجاز به دسترسی نیستید" },
+                {ResultStatusEnum.PleaseSelectInputLoad, "لطفا یک بار ورودی را انتخاب کنید" },
 
                 #endregion
 

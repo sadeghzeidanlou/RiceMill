@@ -81,9 +81,11 @@ namespace Shared.ExtensionMethods
 
         public static bool IsNullOrEmpty(this string inputString) => string.IsNullOrEmpty(inputString);
 
+        public static bool IsNullOrWhiteSpace(this string inputString) => string.IsNullOrWhiteSpace(inputString);
+
         public static bool IsNotNullOrEmpty(this string inputString) => !string.IsNullOrEmpty(inputString);
 
-        public static string? MakeEmptyStringToNull(this string input) => input.Trim().IsNullOrEmpty() ? null : input;
+        public static string? MakeEmptyStringToNull(this string input) => input.IsNullOrWhiteSpace() ? null : input;
 
         public static bool IsNullOrEmpty(this StringBuilder inputString) => inputString.Length < 1;
 

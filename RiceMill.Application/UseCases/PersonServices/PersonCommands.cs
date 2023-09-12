@@ -45,6 +45,10 @@ namespace RiceMill.Application.UseCases.PersonServices
             if (!validationResult.IsValid)
                 return Result<DtoPerson>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
+            var isExist = IsExistMobileNumber(createPerson.MobileNumber, createPerson.RiceMillId, true, Guid.Empty);
+            if (isExist != null)
+                return isExist;
+
             var person = createPerson.Adapt<Person>();
             person.HomeNumber = person.HomeNumber.MakeEmptyStringToNull();
             _applicationDbContext.People.Add(person);
@@ -66,6 +70,10 @@ namespace RiceMill.Application.UseCases.PersonServices
             var person = GetPersonById(updatePerson.Id);
             if (person == null)
                 return Result<DtoPerson>.Failure(Error.CreateError(ResultStatusEnum.PersonNotFound), HttpStatusCode.NotFound);
+
+            var isExist = IsExistMobileNumber(updatePerson.MobileNumber, person.RiceMillId, false, person.Id);
+            if (isExist != null)
+                return isExist;
 
             var beforeEdit = person.SerializeObject();
             person = updatePerson.Adapt(person);
@@ -94,5 +102,21 @@ namespace RiceMill.Application.UseCases.PersonServices
         }
 
         private Person GetPersonById(Guid id) => _applicationDbContext.People.FirstOrDefault(c => c.Id == id);
+
+        private Result<DtoPerson> IsExistMobileNumber(string mobileNumber, Guid riceMillId, bool isAdd, Guid currentPerson)
+        {
+            Person people;
+            if (isAdd)
+            {
+                people = _cacheService.GetPeople().FirstOrDefault(x => x.RiceMillId.Equals(riceMillId) && x.MobileNumber.Equals(mobileNumber, StringComparison.InvariantCultureIgnoreCase));
+                if (people == null)
+                    return null;
+            }
+            people = _cacheService.GetPeople().FirstOrDefault(x => x.RiceMillId.Equals(riceMillId) && x.MobileNumber.Equals(mobileNumber, StringComparison.InvariantCultureIgnoreCase) && x.Id != currentPerson);
+            if (people == null)
+                return null;
+
+            return Result<DtoPerson>.Failure(Error.CreateError(ResultStatusEnum.PersonMobileNumberIsDuplicate), HttpStatusCode.BadRequest);
+        }
     }
 }

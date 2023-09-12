@@ -44,6 +44,7 @@ public partial class RiceMillListPage : ContentPage
             BtnSave.IsEnabled = ApplicationStaticContext.HaveAccessToRiceMill;
             BtnNew.IsEnabled = ApplicationStaticContext.IsAdmin;
             await LoadPeople();
+            //_ = Task.WhenAny(LoadPeople());
             await RefreshRiceMillList();
             CVRiceMill.ItemsSource = RiceMills.Items;
             PickerOwner.ItemsSource = People.Items;
@@ -73,7 +74,7 @@ public partial class RiceMillListPage : ContentPage
         {
             if (CVRiceMill.SelectedItem is not DtoRiceMill selectedRiceMill)
             {
-                await Toast.Make(MessageDictionary.GetMessageText(ResultStatusEnum.PleaseSelectRiceMill), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.PleaseSelectRiceMill.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             await _riceMillServices.Delete(selectedRiceMill.Id);
@@ -122,13 +123,13 @@ public partial class RiceMillListPage : ContentPage
                 selectedOwner = owner;
 
             if (TxtTitle.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillTitleIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.RiceMillTitleIsNotValid.GetErrorMessage());
 
             if (TxtAddress.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillAddressIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.RiceMillAddressIsNotValid.GetErrorMessage());
 
             if (TxtWage.Text.IsNullOrEmpty())
-                errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.RiceMillWageIsNotValid));
+                errorMessage.AppendLine(ResultStatusEnum.RiceMillWageIsNotValid.GetErrorMessage());
 
             if (errorMessage.IsNotNullOrEmpty())
             {

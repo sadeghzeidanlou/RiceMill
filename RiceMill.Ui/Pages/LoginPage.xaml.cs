@@ -62,10 +62,10 @@ namespace RiceMill.Ui
 #endif
                 var errorMessage = new StringBuilder();
                 if (TxtUserName.Text.IsNullOrEmpty())
-                    errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.UserUsernameIsNotValid));
+                    errorMessage.AppendLine(ResultStatusEnum.UserUsernameIsNotValid.GetErrorMessage());
 
                 if (TxtPassword.Text.IsNullOrEmpty())
-                    errorMessage.AppendLine(MessageDictionary.GetMessageText(ResultStatusEnum.UserPasswordIsNotValid));
+                    errorMessage.AppendLine(ResultStatusEnum.UserPasswordIsNotValid.GetErrorMessage());
 
                 if (errorMessage.IsNotNullOrEmpty())
                 {
@@ -100,7 +100,7 @@ namespace RiceMill.Ui
                     if (currentUserResult.Data.TotalCount > 0)
                         ApplicationStaticContext.CurrentUser = currentUserResult.Data.Items.First();
                     else
-                        throw new Exception(MessageDictionary.GetMessageText(ResultStatusEnum.UserNotFound));
+                        throw new Exception(ResultStatusEnum.UserNotFound.GetErrorMessage());
                 }
             }
         }
