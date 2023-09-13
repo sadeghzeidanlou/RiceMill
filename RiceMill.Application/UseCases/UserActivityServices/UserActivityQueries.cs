@@ -27,7 +27,7 @@ namespace RiceMill.Application.UseCases.UserActivityServices
             if (_currentRequestService.HasNotAccessToRiceMills)
                 return Result<PaginatedList<DtoUserActivity>>.Forbidden();
 
-            var userActivities = GetFilter(filter);
+            var userActivities = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoUserActivity>.Create(userActivities, pageNumber, pageSize);
             return Result<PaginatedList<DtoUserActivity>>.Success(result);

@@ -24,7 +24,7 @@ namespace RiceMill.Application.UseCases.ConcernServices
 
         public Result<PaginatedList<DtoConcern>> GetAll(DtoConcernFilter filter)
         {
-            var concerns = GetFilter(filter);
+            var concerns = GetFilter(filter).OrderByDescending(x=>x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoConcern>.Create(concerns, pageNumber, pageSize);
             return Result<PaginatedList<DtoConcern>>.Success(result);

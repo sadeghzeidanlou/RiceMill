@@ -6,10 +6,8 @@ using RiceMill.Application.Common.Models.ResultObject;
 using RiceMill.Application.UseCases.BaseServices;
 using RiceMill.Application.UseCases.RiceMillServices.Dto;
 using RiceMill.Application.UseCases.UserActivityServices;
-using RiceMill.Domain.Models;
 using Shared.Enums;
 using Shared.ExtensionMethods;
-using System;
 using System.Net;
 
 namespace RiceMill.Application.UseCases.RiceMillServices
@@ -45,6 +43,10 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             var validationResult = createRiceMill.Validate();
             if (!validationResult.IsValid)
                 return Result<DtoRiceMill>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
+
+            var validateRiceMill = ValidateRiceMill(createRiceMill);
+            if (validateRiceMill != null)
+                return validateRiceMill;
 
             var riceMill = createRiceMill.Adapt<Domain.Models.RiceMill>();
             riceMill.PostalCode = riceMill.PostalCode.MakeEmptyStringToNull();
@@ -85,6 +87,10 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             if (riceMill == null)
                 return Result<DtoRiceMill>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 
+            var validateRiceMill = ValidateRiceMill(updateRiceMill.Adapt<DtoCreateRiceMill>());
+            if (validateRiceMill != null)
+                return validateRiceMill;
+
             var beforeEdit = riceMill.SerializeObject();
             riceMill = updateRiceMill.Adapt(riceMill);
             riceMill.PostalCode = riceMill.PostalCode.MakeEmptyStringToNull();
@@ -94,6 +100,14 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             return Result<DtoRiceMill>.Success(riceMill.Adapt<DtoRiceMill>());
         }
 
-        private Domain.Models.RiceMill GetRiceMillById(Guid id) => _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id == id);
+        private Domain.Models.RiceMill GetRiceMillById(Guid id) => _applicationDbContext.RiceMills.FirstOrDefault(c => c.Id.Equals(id));
+
+        private Result<DtoRiceMill> ValidateRiceMill(DtoCreateRiceMill riceMill)
+        {
+            if (riceMill.OwnerPersonId.IsNotNullOrEmpty() && !_cacheService.GetPeople().Any(x => x.Id.Equals(riceMill.OwnerPersonId.Value)))
+                return Result<DtoRiceMill>.Failure(Error.CreateError(ResultStatusEnum.RiceMillOwnerPersonIdIsNotValid), HttpStatusCode.NotFound);
+
+            return null;
+        }
     }
 }

@@ -31,18 +31,18 @@ namespace RiceMill.Ui.Services
             if (response.StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(responseText))
                 return responseText.DeserializeObject<TOut>();
 
-            var ishandledException = false;
+            var isHandledException = false;
             try
             {
                 var result = responseText.DeserializeObject<TOut>();
                 var defaultReturn = new Result<object>();
                 var finalResult = result.Adapt(defaultReturn);
-                ishandledException = true;
+                isHandledException = true;
                 throw new ApplicationException(string.Join(Environment.NewLine, finalResult.Errors.Select(e => e.Message)));
             }
             catch (Exception)
             {
-                if (ishandledException)
+                if (isHandledException)
                     throw;
 
                 var result = responseText.DeserializeObject<Result<bool>>();

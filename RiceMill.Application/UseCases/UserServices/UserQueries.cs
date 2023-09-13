@@ -33,7 +33,7 @@ namespace RiceMill.Application.UseCases.UserServices
 
         public Result<PaginatedList<DtoUser>> GetAll(DtoUserFilter filter)
         {
-            var users = GetFilter(filter);
+            var users = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoUser>.Create(users, pageNumber, pageSize);
             return Result<PaginatedList<DtoUser>>.Success(result);

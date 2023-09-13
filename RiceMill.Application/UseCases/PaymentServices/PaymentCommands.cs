@@ -45,9 +45,9 @@ namespace RiceMill.Application.UseCases.PaymentServices
             if (!validationResult.IsValid)
                 return Result<DtoPayment>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var validateCreatePaymentResult = ValidatePayment(createPayment);
-            if (validateCreatePaymentResult != null)
-                return validateCreatePaymentResult;
+            var validatePayment = ValidatePayment(createPayment);
+            if (validatePayment != null)
+                return validatePayment;
 
             var payment = createPayment.Adapt<Payment>();
             payment.UserId = _currentRequestService.UserId;
@@ -73,9 +73,9 @@ namespace RiceMill.Application.UseCases.PaymentServices
 
             var createPayment = updatePayment.Adapt<DtoCreatePayment>();
             createPayment = createPayment with { RiceMillId = payment.RiceMillId };
-            var validateCreatePaymentResult = ValidatePayment(createPayment);
-            if (validateCreatePaymentResult != null)
-                return validateCreatePaymentResult;
+            var validatePayment = ValidatePayment(createPayment);
+            if (validatePayment != null)
+                return validatePayment;
 
             var beforeEdit = payment.SerializeObject();
             payment = updatePayment.Adapt(payment);
@@ -102,7 +102,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
             return Result<bool>.Success(true);
         }
 
-        private Payment GetPaymentById(Guid id) => _applicationDbContext.Payments.FirstOrDefault(c => c.Id == id);
+        private Payment GetPaymentById(Guid id) => _applicationDbContext.Payments.FirstOrDefault(c => c.Id.Equals(id));
 
         private Result<DtoPayment> ValidatePayment(DtoCreatePayment payment)
         {

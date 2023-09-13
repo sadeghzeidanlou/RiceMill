@@ -45,6 +45,10 @@ namespace RiceMill.Application.UseCases.DryerServices
             if (!validationResult.IsValid)
                 return Result<DtoDryer>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
+            var validateDryer = ValidateDryer(createDryer);
+            if (validateDryer != null)
+                return validateDryer;
+
             var dryer = createDryer.Adapt<Dryer>();
             dryer.UserId = _currentRequestService.UserId;
             _applicationDbContext.Dryers.Add(dryer);
@@ -66,6 +70,12 @@ namespace RiceMill.Application.UseCases.DryerServices
             var dryer = GetDryerById(updateDryer.Id);
             if (dryer == null)
                 return Result<DtoDryer>.Failure(Error.CreateError(ResultStatusEnum.DryerNotFound), HttpStatusCode.NotFound);
+
+            var createDryer = updateDryer.Adapt<DtoCreateDryer>();
+            createDryer = createDryer with { RiceMillId = dryer.RiceMillId };
+            var validateDryer = ValidateDryer(createDryer);
+            if (validateDryer != null)
+                return validateDryer;
 
             var beforeEdit = dryer.SerializeObject();
             dryer = updateDryer.Adapt(dryer);
@@ -92,6 +102,9 @@ namespace RiceMill.Application.UseCases.DryerServices
             return Result<bool>.Success(true);
         }
 
-        private Dryer GetDryerById(Guid id) => _applicationDbContext.Dryers.FirstOrDefault(c => c.Id == id);
+        private Dryer GetDryerById(Guid id) => _applicationDbContext.Dryers.FirstOrDefault(c => c.Id.Equals(id));
+
+        private Result<DtoDryer> ValidateDryer(DtoCreateDryer dryer) =>
+            !_cacheService.GetRiceMills().Any(x => x.Id.Equals(dryer.RiceMillId)) ? Result<DtoDryer>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound) : null;
     }
 }

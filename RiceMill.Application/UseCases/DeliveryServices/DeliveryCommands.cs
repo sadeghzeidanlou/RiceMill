@@ -47,9 +47,9 @@ namespace RiceMill.Application.UseCases.DeliveryServices
             if (!validationResult.IsValid)
                 return Result<DtoDelivery>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var validateCreateDeliveryResult = ValidateDelivery(createDelivery);
-            if (validateCreateDeliveryResult != null)
-                return validateCreateDeliveryResult;
+            var validateDelivery = ValidateDelivery(createDelivery);
+            if (validateDelivery != null)
+                return validateDelivery;
 
             var delivery = createDelivery.Adapt<Delivery>();
             delivery.UserId = _currentRequestService.UserId;
@@ -81,9 +81,11 @@ namespace RiceMill.Application.UseCases.DeliveryServices
             if (delivery == null)
                 return Result<DtoDelivery>.Failure(Error.CreateError(ResultStatusEnum.DeliveryNotFound), HttpStatusCode.NotFound);
 
-            var validateCreateDeliveryResult = ValidateDelivery(updateDelivery.Adapt<DtoCreateDelivery>());
-            if (validateCreateDeliveryResult != null)
-                return validateCreateDeliveryResult;
+            var createDelivery = updateDelivery.Adapt<DtoCreateDelivery>();
+            createDelivery = createDelivery with { RiceMillId = delivery.RiceMillId };
+            var validateDelivery = ValidateDelivery(createDelivery);
+            if (validateDelivery != null)
+                return validateDelivery;
 
             var beforeEdit = delivery.SerializeObject();
             delivery = updateDelivery.Adapt(delivery);
@@ -110,7 +112,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices
             return Result<bool>.Success(true);
         }
 
-        private Delivery GetDeliveryById(Guid id) => _applicationDbContext.Deliveries.FirstOrDefault(c => c.Id == id);
+        private Delivery GetDeliveryById(Guid id) => _applicationDbContext.Deliveries.FirstOrDefault(c => c.Id.Equals(id));
 
         private Result<DtoDelivery> ValidateDelivery(DtoCreateDelivery delivery)
         {

@@ -102,7 +102,6 @@ public partial class DryerListPage : ContentPage
             {
                 var newDryer = new DtoCreateDryer(TxtTitle.Text, ApplicationStaticContext.CurrentUser.RiceMillId);
                 await _dryerServices.Add(newDryer);
-                return;
             }
             else
             {

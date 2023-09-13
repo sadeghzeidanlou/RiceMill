@@ -26,7 +26,7 @@ namespace RiceMill.Application.UseCases.RiceMillServices
             if (_currentRequestService.HasNotAccessToRiceMills)
                 return Result<PaginatedList<DtoRiceMill>>.Forbidden();
 
-            var riceMilles = GetFilter(filter);
+            var riceMilles = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoRiceMill>.Create(riceMilles, pageNumber, pageSize);
             return Result<PaginatedList<DtoRiceMill>>.Success(result);

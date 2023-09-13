@@ -24,7 +24,7 @@ namespace RiceMill.Application.UseCases.IncomeServices
 
         public Result<PaginatedList<DtoIncome>> GetAll(DtoIncomeFilter filter)
         {
-            var dryers = GetFilter(filter);
+            var dryers = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoIncome>.Create(dryers, pageNumber, pageSize);
             return Result<PaginatedList<DtoIncome>>.Success(result);

@@ -45,9 +45,9 @@ namespace RiceMill.Application.UseCases.PersonServices
             if (!validationResult.IsValid)
                 return Result<DtoPerson>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var isExist = IsExistMobileNumber(createPerson.MobileNumber, createPerson.RiceMillId, true, Guid.Empty);
-            if (isExist != null)
-                return isExist;
+            var validatePerson = ValidatePerson(createPerson, true, Guid.Empty);
+            if (validatePerson != null)
+                return validatePerson;
 
             var person = createPerson.Adapt<Person>();
             person.HomeNumber = person.HomeNumber.MakeEmptyStringToNull();
@@ -71,9 +71,11 @@ namespace RiceMill.Application.UseCases.PersonServices
             if (person == null)
                 return Result<DtoPerson>.Failure(Error.CreateError(ResultStatusEnum.PersonNotFound), HttpStatusCode.NotFound);
 
-            var isExist = IsExistMobileNumber(updatePerson.MobileNumber, person.RiceMillId, false, person.Id);
-            if (isExist != null)
-                return isExist;
+            var createPerson = updatePerson.Adapt<DtoCreatePerson>();
+            createPerson = createPerson with { RiceMillId = person.RiceMillId };
+            var validatePerson = ValidatePerson(createPerson, false, person.Id);
+            if (validatePerson != null)
+                return validatePerson;
 
             var beforeEdit = person.SerializeObject();
             person = updatePerson.Adapt(person);
@@ -101,7 +103,15 @@ namespace RiceMill.Application.UseCases.PersonServices
             return Result<bool>.Success(true);
         }
 
-        private Person GetPersonById(Guid id) => _applicationDbContext.People.FirstOrDefault(c => c.Id == id);
+        private Person GetPersonById(Guid id) => _applicationDbContext.People.FirstOrDefault(c => c.Id.Equals(id));
+
+        private Result<DtoPerson> ValidatePerson(DtoCreatePerson createPerson, bool isAdding, Guid currentPersonId)
+        {
+            if (!_cacheService.GetRiceMills().Any(x => x.Id.Equals(createPerson.RiceMillId)))
+                return Result<DtoPerson>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+
+            return IsExistMobileNumber(createPerson.MobileNumber, createPerson.RiceMillId, isAdding, currentPersonId);
+        }
 
         private Result<DtoPerson> IsExistMobileNumber(string mobileNumber, Guid riceMillId, bool isAdd, Guid currentPerson)
         {

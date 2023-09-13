@@ -24,7 +24,7 @@ namespace RiceMill.Application.UseCases.InputLoadServices
 
         public Result<PaginatedList<DtoInputLoad>> GetAll(DtoInputLoadFilter filter)
         {
-            var inputLoads = GetFilter(filter);
+            var inputLoads = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoInputLoad>.Create(inputLoads, pageNumber, pageSize);
             return Result<PaginatedList<DtoInputLoad>>.Success(result);

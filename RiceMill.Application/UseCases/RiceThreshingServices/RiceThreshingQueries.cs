@@ -24,7 +24,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
 
         public Result<PaginatedList<DtoRiceThreshing>> GetAll(DtoRiceThreshingFilter filter)
         {
-            var dryers = GetFilter(filter);
+            var dryers = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoRiceThreshing>.Create(dryers, pageNumber, pageSize);
             return Result<PaginatedList<DtoRiceThreshing>>.Success(result);

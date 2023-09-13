@@ -1,5 +1,4 @@
 ﻿using Mapster;
-using Microsoft.Extensions.Primitives;
 using RiceMill.Application.Common.ExtensionMethods;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.Enums;
@@ -48,9 +47,9 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             if (!validationResult.IsValid)
                 return Result<DtoDryerHistory>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var validateCreateDryerHistoryResult = ValidateDryerHistory(createDryerHistory, true);
-            if (validateCreateDryerHistoryResult != null)
-                return validateCreateDryerHistoryResult;
+            var validateDryerHistory = ValidateDryerHistory(createDryerHistory, true);
+            if (validateDryerHistory != null)
+                return validateDryerHistory;
 
             var dryerHistory = createDryerHistory.Adapt<DryerHistory>();
             dryerHistory.UserId = _currentRequestService.UserId;
@@ -88,9 +87,11 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             if (dryerHistory == null)
                 return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.DryerHistoryNotFound), HttpStatusCode.NotFound);
 
-            var validateCreateDryerHistoryResult = ValidateDryerHistory(updateDryerHistory.Adapt<DtoCreateDryerHistory>(), false);
-            if (validateCreateDryerHistoryResult != null)
-                return validateCreateDryerHistoryResult;
+            var createDryerHistory = updateDryerHistory.Adapt<DtoCreateDryerHistory>();
+            createDryerHistory = createDryerHistory with { RiceMillId = dryerHistory.RiceMillId };
+            var validateDryerHistory = ValidateDryerHistory(createDryerHistory, false);
+            if (validateDryerHistory != null)
+                return validateDryerHistory;
 
             var beforeEdit = dryerHistory.SerializeObject();
             dryerHistory = updateDryerHistory.Adapt(dryerHistory);
@@ -117,9 +118,9 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             return Result<bool>.Success(true);
         }
 
-        private DryerHistory GetDryerHistoryById(Guid id) => _applicationDbContext.DryerHistories.FirstOrDefault(c => c.Id == id);
+        private DryerHistory GetDryerHistoryById(Guid id) => _applicationDbContext.DryerHistories.FirstOrDefault(c => c.Id.Equals(id));
 
-        private InputLoad GetInputLoadById(Guid id) => _applicationDbContext.InputLoads.FirstOrDefault(c => c.Id == id);
+        private InputLoad GetInputLoadById(Guid id) => _applicationDbContext.InputLoads.FirstOrDefault(c => c.Id.Equals(id));
 
         private Result<DtoDryerHistory> ValidateDryerHistory(DtoCreateDryerHistory dryerHistory, bool isNew)
         {

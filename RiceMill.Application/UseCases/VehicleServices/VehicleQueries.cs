@@ -24,7 +24,7 @@ namespace RiceMill.Application.UseCases.VehicleServices
 
         public Result<PaginatedList<DtoVehicle>> GetAll(DtoVehicleFilter filter)
         {
-            var vehicles = GetFilter(filter);
+            var vehicles = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoVehicle>.Create(vehicles, pageNumber, pageSize);
             return Result<PaginatedList<DtoVehicle>>.Success(result);

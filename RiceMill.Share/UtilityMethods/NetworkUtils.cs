@@ -51,12 +51,12 @@ namespace Shared.UtilityMethods
             process.Start();
         }
 
-        public static bool PingHost(string nameOrAddress, int timeOut = 1000)
+        public static bool PingHost(string nameOrAddress, int timeOut = 5000)
         {
             var ping = new Ping();
             try
             {
-                PingReply reply = ping.Send(string.Join(".", nameOrAddress.Split('.').Select(int.Parse).ToList()), timeOut);
+                PingReply reply = ping.Send(nameOrAddress, timeOut);
                 if (reply != null)
                     return reply.Status == IPStatus.Success;
             }

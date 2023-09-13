@@ -45,6 +45,10 @@ namespace RiceMill.Application.UseCases.VehicleServices
             if (!validationResult.IsValid)
                 return Result<DtoVehicle>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
+            var validateVehicle = ValidateVehicle(createVehicle);
+            if (validateVehicle != null)
+                return validateVehicle;
+
             var vehicle = createVehicle.Adapt<Vehicle>();
             vehicle.UserId = _currentRequestService.UserId;
             _applicationDbContext.Vehicles.Add(vehicle);
@@ -66,6 +70,12 @@ namespace RiceMill.Application.UseCases.VehicleServices
             var vehicle = GetVehicleById(updateVehicle.Id);
             if (vehicle == null)
                 return Result<DtoVehicle>.Failure(Error.CreateError(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
+
+            var createVehicle = updateVehicle.Adapt<DtoCreateVehicle>();
+            createVehicle = createVehicle with { RiceMillId = vehicle.RiceMillId };
+            var validateVehicle = ValidateVehicle(createVehicle);
+            if (validateVehicle != null)
+                return validateVehicle;
 
             var beforeEdit = vehicle.SerializeObject();
             vehicle = updateVehicle.Adapt(vehicle);
@@ -92,6 +102,17 @@ namespace RiceMill.Application.UseCases.VehicleServices
             return Result<bool>.Success(true);
         }
 
-        private Vehicle GetVehicleById(Guid id) => _applicationDbContext.Vehicles.FirstOrDefault(c => c.Id == id);
+        private Vehicle GetVehicleById(Guid id) => _applicationDbContext.Vehicles.FirstOrDefault(c => c.Id.Equals(id));
+
+        private Result<DtoVehicle> ValidateVehicle(DtoCreateVehicle vehicle)
+        {
+            if (!_cacheService.GetRiceMills().Any(x => x.Id.Equals(vehicle.RiceMillId)))
+                return Result<DtoVehicle>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+
+            if (!_cacheService.GetPeople().Any(x => x.Id.Equals(vehicle.OwnerPersonId)))
+                return Result<DtoVehicle>.Failure(Error.CreateError(ResultStatusEnum.VehicleOwnerPersonIdIsNotValid), HttpStatusCode.NotFound);
+
+            return null;
+        }
     }
 }

@@ -45,6 +45,10 @@ namespace RiceMill.Application.UseCases.ConcernServices
             if (!validationResult.IsValid)
                 return Result<DtoConcern>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
+            var validateConcern = ValidateConcern(createConcern);
+            if (validateConcern != null)
+                return validateConcern;
+
             var concern = createConcern.Adapt<Concern>();
             concern.UserId = _currentRequestService.UserId;
             _applicationDbContext.Concerns.Add(concern);
@@ -66,6 +70,12 @@ namespace RiceMill.Application.UseCases.ConcernServices
             var concern = GetConcernById(updateConcern.Id);
             if (concern == null)
                 return Result<DtoConcern>.Failure(Error.CreateError(ResultStatusEnum.ConcernNotFound), HttpStatusCode.NotFound);
+
+            var createConcern = updateConcern.Adapt<DtoCreateConcern>();
+            createConcern = createConcern with { RiceMillId = concern.RiceMillId };
+            var validateConcern = ValidateConcern(createConcern);
+            if (validateConcern != null)
+                return validateConcern;
 
             var beforeEdit = concern.SerializeObject();
             concern = updateConcern.Adapt(concern);
@@ -92,6 +102,9 @@ namespace RiceMill.Application.UseCases.ConcernServices
             return Result<bool>.Success(true);
         }
 
-        private Concern GetConcernById(Guid id) => _applicationDbContext.Concerns.FirstOrDefault(c => c.Id == id);
+        private Concern GetConcernById(Guid id) => _applicationDbContext.Concerns.FirstOrDefault(c => c.Id.Equals(id));
+
+        private Result<DtoConcern> ValidateConcern(DtoCreateConcern concern) =>
+            !_cacheService.GetRiceMills().Any(x => x.Id.Equals(concern.RiceMillId)) ? Result<DtoConcern>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound) : null;
     }
 }

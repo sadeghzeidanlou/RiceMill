@@ -45,9 +45,9 @@ namespace RiceMill.Application.UseCases.InputLoadServices
             if (!validationResult.IsValid)
                 return Result<DtoInputLoad>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var validateCreateInputLoadResult = ValidateInputLoad(createInputLoad);
-            if (validateCreateInputLoadResult != null)
-                return validateCreateInputLoadResult;
+            var validateInputLoad = ValidateInputLoad(createInputLoad);
+            if (validateInputLoad != null)
+                return validateInputLoad;
 
             var inputLoad = createInputLoad.Adapt<InputLoad>();
             inputLoad.UserId = _currentRequestService.UserId;
@@ -71,9 +71,11 @@ namespace RiceMill.Application.UseCases.InputLoadServices
             if (inputLoad == null)
                 return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
 
-            var validateCreateInputLoadResult = ValidateInputLoad(updateInputLoad.Adapt<DtoCreateInputLoad>());
-            if (validateCreateInputLoadResult != null)
-                return validateCreateInputLoadResult;
+            var createInputLoad = updateInputLoad.Adapt<DtoCreateInputLoad>();
+            createInputLoad = createInputLoad with { RiceMillId = inputLoad.RiceMillId };
+            var validateInputLoad = ValidateInputLoad(createInputLoad);
+            if (validateInputLoad != null)
+                return validateInputLoad;
 
             var beforeEdit = inputLoad.SerializeObject();
             inputLoad = updateInputLoad.Adapt(inputLoad);
@@ -100,16 +102,10 @@ namespace RiceMill.Application.UseCases.InputLoadServices
             return Result<bool>.Success(true);
         }
 
-        private InputLoad GetInputLoadById(Guid id) => _applicationDbContext.InputLoads.FirstOrDefault(c => c.Id == id);
+        private InputLoad GetInputLoadById(Guid id) => _applicationDbContext.InputLoads.FirstOrDefault(c => c.Id.Equals(id));
 
         private Result<DtoInputLoad> ValidateInputLoad(DtoCreateInputLoad inputLoad)
         {
-            if (!_cacheService.GetVillages().Any(c => c.Id.Equals(inputLoad.VillageId)))
-                return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
-
-            if (!_cacheService.GetVehicles().Any(c => c.Id.Equals(inputLoad.VehicleId)))
-                return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
-
             var people = _cacheService.GetPeople().ToList();
             if (!people.Any(c => c.Id.Equals(inputLoad.DelivererPersonId)))
                 return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.InputLoadDelivererPersonNotFound), HttpStatusCode.NotFound);
@@ -125,6 +121,12 @@ namespace RiceMill.Application.UseCases.InputLoadServices
 
             if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(inputLoad.RiceMillId)))
                 return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+
+            if (!_cacheService.GetVillages().Any(c => c.Id.Equals(inputLoad.VillageId)))
+                return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
+
+            if (!_cacheService.GetVehicles().Any(c => c.Id.Equals(inputLoad.VehicleId)))
+                return Result<DtoInputLoad>.Failure(Error.CreateError(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
 
             return null;
         }

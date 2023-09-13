@@ -1,7 +1,4 @@
-﻿using RiceMill.Application.UseCases.ConcernServices.Dto;
-using System.Reflection;
-
-namespace RiceMill.Application.Common.Models.ResultObject
+﻿namespace RiceMill.Application.Common.Models.ResultObject
 {
     public class PagingInfo
     {
@@ -9,11 +6,9 @@ namespace RiceMill.Application.Common.Models.ResultObject
 
         public int PageSize { get; set; }
 
-        public static short DefaultPageSize => 10;
+        public static short DefaultPageSize => 1000;
 
         public static short DefaultPageNumber => 1;
-
-        public static short MaximumPageSize => 50;
 
         public static void ApplyPaging<T>(T filter, out int pageNumber, out int pageSize)
         {
@@ -30,7 +25,7 @@ namespace RiceMill.Application.Common.Models.ResultObject
                     pageSize = (int)propertyPageSize.GetValue(filter);
             }
             pageNumber = pageNumber == 0 ? DefaultPageNumber : pageNumber;
-            pageSize = pageSize == 0 || pageSize > MaximumPageSize ? DefaultPageSize : pageSize;
+            pageSize = pageSize == 0 ? DefaultPageSize : pageSize;
         }
     }
 }

@@ -20,7 +20,6 @@ public partial class ConcernListPage : ContentPage
     {
         try
         {
-            _concernServices = new ConcernServices();
             InitializeComponent();
             InitializeAsync();
         }

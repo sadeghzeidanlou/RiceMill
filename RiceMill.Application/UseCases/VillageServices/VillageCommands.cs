@@ -45,6 +45,10 @@ namespace RiceMill.Application.UseCases.VillageServices
             if (!validationResult.IsValid)
                 return Result<DtoVillage>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
+            var validateVillage = ValidateVillage(createVillage);
+            if (validateVillage != null)
+                return validateVillage;
+
             var village = createVillage.Adapt<Village>();
             village.UserId = _currentRequestService.UserId;
             _applicationDbContext.Villages.Add(village);
@@ -66,6 +70,12 @@ namespace RiceMill.Application.UseCases.VillageServices
             var village = GetVillageById(updateVillage.Id);
             if (village == null)
                 return Result<DtoVillage>.Failure(Error.CreateError(ResultStatusEnum.VillageNotFound), HttpStatusCode.NotFound);
+
+            var createVillage = updateVillage.Adapt<DtoCreateVillage>();
+            createVillage = createVillage with { RiceMillId = village.RiceMillId };
+            var validateVillage = ValidateVillage(createVillage);
+            if (validateVillage != null)
+                return validateVillage;
 
             var beforeEdit = village.SerializeObject();
             village = updateVillage.Adapt(village);
@@ -92,6 +102,9 @@ namespace RiceMill.Application.UseCases.VillageServices
             return Result<bool>.Success(true);
         }
 
-        private Village GetVillageById(Guid id) => _applicationDbContext.Villages.FirstOrDefault(c => c.Id == id);
+        private Village GetVillageById(Guid id) => _applicationDbContext.Villages.FirstOrDefault(c => c.Id.Equals(id));
+
+        private Result<DtoVillage> ValidateVillage(DtoCreateVillage village) =>
+              !_cacheService.GetRiceMills().Any(x => x.Id.Equals(village.RiceMillId)) ? Result<DtoVillage>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound) : null;
     }
 }

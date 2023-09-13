@@ -24,7 +24,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices
 
         public Result<PaginatedList<DtoDelivery>> GetAll(DtoDeliveryFilter filter)
         {
-            var dryers = GetFilter(filter);
+            var dryers = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoDelivery>.Create(dryers, pageNumber, pageSize);
             return Result<PaginatedList<DtoDelivery>>.Success(result);

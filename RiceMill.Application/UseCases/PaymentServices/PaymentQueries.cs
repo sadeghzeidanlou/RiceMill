@@ -24,7 +24,7 @@ namespace RiceMill.Application.UseCases.PaymentServices
 
         public Result<PaginatedList<DtoPayment>> GetAll(DtoPaymentFilter filter)
         {
-            var payments = GetFilter(filter);
+            var payments = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoPayment>.Create(payments, pageNumber, pageSize);
             return Result<PaginatedList<DtoPayment>>.Success(result);

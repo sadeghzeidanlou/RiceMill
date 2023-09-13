@@ -24,7 +24,7 @@ namespace RiceMill.Application.UseCases.VillageServices
 
         public Result<PaginatedList<DtoVillage>> GetAll(DtoVillageFilter filter)
         {
-            var villages = GetFilter(filter);
+            var villages = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoVillage>.Create(villages, pageNumber, pageSize);
             return Result<PaginatedList<DtoVillage>>.Success(result);

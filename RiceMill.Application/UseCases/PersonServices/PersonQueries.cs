@@ -24,7 +24,7 @@ namespace RiceMill.Application.UseCases.PersonServices
 
         public Result<PaginatedList<DtoPerson>> GetAll(DtoPersonFilter filter)
         {
-            var people = GetFilter(filter);
+            var people = GetFilter(filter).OrderByDescending(x => x.UpdateTime);
             PagingInfo.ApplyPaging(filter, out var pageNumber, out var pageSize);
             var result = PaginatedList<DtoPerson>.Create(people, pageNumber, pageSize);
             return Result<PaginatedList<DtoPerson>>.Success(result);

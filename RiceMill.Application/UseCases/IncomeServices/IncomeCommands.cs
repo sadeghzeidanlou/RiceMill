@@ -45,9 +45,9 @@ namespace RiceMill.Application.UseCases.IncomeServices
             if (!validationResult.IsValid)
                 return Result<DtoIncome>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var validateCreateIncomeResult = ValidateIncome(createIncome);
-            if (validateCreateIncomeResult != null)
-                return validateCreateIncomeResult;
+            var validateIncome = ValidateIncome(createIncome);
+            if (validateIncome != null)
+                return validateIncome;
 
             var income = createIncome.Adapt<Income>();
             income.UserId = _currentRequestService.UserId;
@@ -71,9 +71,11 @@ namespace RiceMill.Application.UseCases.IncomeServices
             if (income == null)
                 return Result<DtoIncome>.Failure(Error.CreateError(ResultStatusEnum.IncomeNotFound), HttpStatusCode.NotFound);
 
-            var validateCreateIncomeResult = ValidateIncome(updateIncome.Adapt<DtoCreateIncome>());
-            if (validateCreateIncomeResult != null)
-                return validateCreateIncomeResult;
+            var createIncome = updateIncome.Adapt<DtoCreateIncome>();
+            createIncome = createIncome with { RiceMillId = income.RiceMillId };
+            var validateIncome = ValidateIncome(createIncome);
+            if (validateIncome != null)
+                return validateIncome;
 
             var beforeEdit = income.SerializeObject();
             income = updateIncome.Adapt(income);
@@ -100,14 +102,9 @@ namespace RiceMill.Application.UseCases.IncomeServices
             return Result<bool>.Success(true);
         }
 
-        private Income GetIncomeById(Guid id) => _applicationDbContext.Incomes.FirstOrDefault(c => c.Id == id);
+        private Income GetIncomeById(Guid id) => _applicationDbContext.Incomes.FirstOrDefault(c => c.Id.Equals(id));
 
-        private Result<DtoIncome> ValidateIncome(DtoCreateIncome income)
-        {
-            if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(income.RiceMillId)))
-                return Result<DtoIncome>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
-
-            return null;
-        }
+        private Result<DtoIncome> ValidateIncome(DtoCreateIncome income) =>
+            !_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(income.RiceMillId)) ? Result<DtoIncome>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound) : null;
     }
 }

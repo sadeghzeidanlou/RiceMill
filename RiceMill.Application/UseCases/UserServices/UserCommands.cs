@@ -45,10 +45,15 @@ namespace RiceMill.Application.UseCases.UserServices
             if (!validationResult.IsValid)
                 return Result<DtoUser>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var validateCreateUserResult = ValidateUser(createUser);
-            if (validateCreateUserResult != null)
-                return validateCreateUserResult;
+            var validateUser = ValidateUser(createUser);
+            if (validateUser != null)
+                return validateUser;
 
+            if (!_currentRequestService.IsAdmin)
+            {
+                var currentRequestUser = _cacheService.GetUsers().FirstOrDefault(x => x.Id.Equals(_currentRequestService.UserId));
+                createUser = createUser with { RiceMillId = currentRequestUser.RiceMillId.Value };
+            }
             var user = createUser.Adapt<User>();
             _applicationDbContext.Users.Add(user);
             _applicationDbContext.SaveChanges();
@@ -85,11 +90,11 @@ namespace RiceMill.Application.UseCases.UserServices
 
             var user = GetUserById(updateUser.Id);
             if (user == null)
-                return Result<DtoUser>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
+                return Result<DtoUser>.Failure(Error.CreateError(ResultStatusEnum.UserNotFound), HttpStatusCode.NotFound);
 
-            var validateCreateUserResult = ValidateUser(updateUser.Adapt<DtoCreateUser>());
-            if (validateCreateUserResult != null)
-                return validateCreateUserResult;
+            var validateUser = ValidateUser(updateUser.Adapt<DtoCreateUser>());
+            if (validateUser != null)
+                return validateUser;
 
             var beforeEdit = user.SerializeObject();
             user = updateUser.Adapt(user);
@@ -99,27 +104,17 @@ namespace RiceMill.Application.UseCases.UserServices
             return Result<DtoUser>.Success(user.Adapt<DtoUser>());
         }
 
+        private User GetUserById(Guid id) => _applicationDbContext.Users.FirstOrDefault(c => c.Id.Equals(id));
+
         private Result<DtoUser> ValidateUser(DtoCreateUser user)
         {
-            var requestedUser = GetUserById(_currentRequestService.UserId);
-            if (requestedUser == null)
-                return Result<DtoUser>.Forbidden();
+            if (user.RiceMillId.IsNotNullOrEmpty() && !_cacheService.GetRiceMills().Any(x => x.Id.Equals(user.RiceMillId.Value)))
+                return Result<DtoUser>.Failure(Error.CreateError(ResultStatusEnum.RiceMillIdIsNotValid), HttpStatusCode.BadRequest);
 
-            if (requestedUser.Role == RoleEnum.RiceMillManager)
-            {
-                _ = user with { RiceMillId = requestedUser.RiceMillId };
-            }
-            else
-            {
-                if (user.Role != RoleEnum.Admin && user.RiceMillId.IsNullOrEmpty())
-                    return Result<DtoUser>.Failure(Error.CreateError(ResultStatusEnum.RiceMillIdIsNotValid), HttpStatusCode.BadRequest);
+            if (user.UserPersonId.IsNotNullOrEmpty() && !_cacheService.GetPeople().Any(x => x.Id.Equals(user.UserPersonId.Value)))
+                return Result<DtoUser>.Failure(Error.CreateError(ResultStatusEnum.UserUserPersonIdIsNotValid), HttpStatusCode.BadRequest);
 
-                if (user.Role == RoleEnum.Admin)
-                    _ = user with { RiceMillId = null };
-            }
             return null;
         }
-
-        private User GetUserById(Guid id) => _applicationDbContext.Users.FirstOrDefault(c => c.Id == id);
     }
 }

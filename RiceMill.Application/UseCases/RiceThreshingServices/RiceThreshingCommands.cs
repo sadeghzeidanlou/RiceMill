@@ -46,9 +46,9 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
             if (!validationResult.IsValid)
                 return Result<DtoRiceThreshing>.Failure(validationResult.Errors.GetErrorEnums(), HttpStatusCode.BadRequest);
 
-            var validateCreateRiceThreshingResult = ValidateRiceThreshing(createRiceThreshing);
-            if (validateCreateRiceThreshingResult != null)
-                return validateCreateRiceThreshingResult;
+            var validateRiceThreshing = ValidateRiceThreshing(createRiceThreshing);
+            if (validateRiceThreshing != null)
+                return validateRiceThreshing;
 
             var riceThreshing = createRiceThreshing.Adapt<RiceThreshing>();
             riceThreshing.UserId = _currentRequestService.UserId;
@@ -81,9 +81,11 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
             if (riceThreshing == null)
                 return Result<DtoRiceThreshing>.Failure(Error.CreateError(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
 
-            var validateCreateRiceThreshingResult = ValidateRiceThreshing(updateRiceThreshing.Adapt<DtoCreateRiceThreshing>());
-            if (validateCreateRiceThreshingResult != null)
-                return validateCreateRiceThreshingResult;
+            var createRiceThreshing = updateRiceThreshing.Adapt<DtoCreateRiceThreshing>();
+            createRiceThreshing = createRiceThreshing with { RiceMillId = riceThreshing.RiceMillId };
+            var validateRiceThreshing = ValidateRiceThreshing(createRiceThreshing);
+            if (validateRiceThreshing != null)
+                return validateRiceThreshing;
 
             var beforeEdit = riceThreshing.SerializeObject();
             riceThreshing = updateRiceThreshing.Adapt(riceThreshing);
@@ -110,9 +112,9 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
             return Result<bool>.Success(true);
         }
 
-        private RiceThreshing GetRiceThreshingById(Guid id) => _applicationDbContext.RiceThreshings.FirstOrDefault(c => c.Id == id);
+        private RiceThreshing GetRiceThreshingById(Guid id) => _applicationDbContext.RiceThreshings.FirstOrDefault(c => c.Id.Equals(id));
 
-        private DryerHistory GetDryerHistoryById(Guid id) => _applicationDbContext.DryerHistories.FirstOrDefault(c => c.Id == id);
+        private DryerHistory GetDryerHistoryById(Guid id) => _applicationDbContext.DryerHistories.FirstOrDefault(c => c.Id.Equals(id));
 
         private Result<DtoRiceThreshing> ValidateRiceThreshing(DtoCreateRiceThreshing riceThreshing)
         {
