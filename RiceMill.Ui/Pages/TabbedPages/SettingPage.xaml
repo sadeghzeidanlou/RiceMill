@@ -86,7 +86,7 @@
         <Button x:Name="BtnExit"
                 Grid.Column="1"
                 Grid.Row="0"
-                Text="خروج از حساب کاربری" 
+                Text="خروج از برنامه" 
                 TextColor="White"
                 BackgroundColor="#3D9970"
                 CornerRadius="30"

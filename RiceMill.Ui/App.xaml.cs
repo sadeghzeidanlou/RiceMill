@@ -13,19 +13,19 @@ namespace RiceMill.Ui
 
         protected override void OnStart()
         {
-            LoginPage._isFirstView = true;
+            LoginPage.IsFirstView = true;
             base.OnStart();
         }
 
         protected override void OnSleep()
         {
-            LoginPage._isFirstView = true;
+            LoginPage.IsFirstView = true;
             base.OnSleep();
         }
 
         protected override void OnResume()
         {
-            LoginPage._isFirstView = true;
+            LoginPage.IsFirstView = true;
             base.OnResume();
         }
 

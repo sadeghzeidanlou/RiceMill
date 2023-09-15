@@ -12,7 +12,7 @@ using System.Text;
 
 namespace RiceMill.Ui.Pages.Person;
 
-public partial class PersonListPage : ContentPage
+public sealed partial class PersonListPage : ContentPage
 {
     private readonly IPersonServices _personServices;
     private PaginatedList<DtoPerson> People;

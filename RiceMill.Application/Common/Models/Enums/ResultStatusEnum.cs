@@ -139,6 +139,7 @@
         PaymentDescriptionLengthIsNotValid,
         PaymentPaidPersonIdIsNotValid,
         PleaseSelectPayment,
+        PaymentPaidCostIsNotValid,
 
         #endregion
 
@@ -170,6 +171,8 @@
         DryerHistoryOperationIsNotValid,
         DryerHistoryStartTimeIsNotValid,
         DryerHistoryStopTimeIsNotValid,
+        PleaseSelectDryerHistory,
+        DryerHistoryNumberOfBagIsNotValid,
 
         #endregion
 
@@ -196,6 +199,8 @@
         IncomeBrokenRiceIsNotValid,
         IncomeFlourIsNotValid,
         IncomeDescriptionLengthIsNotValid,
+        PleaseSelectIncome,
+        IncomeValueIsNotValid,
 
         #endregion
 
@@ -223,7 +228,7 @@
     {
         private static readonly Dictionary<ResultStatusEnum, string> ResultStatusMessage = new()
             {
-                  #region Genearl
+                #region Genearl
                 
                 {ResultStatusEnum.Success,"عملیات '{0}' با موفقیت انجام شد" },
                 {ResultStatusEnum.Fail,"عملیات '{0}' دچار خطا شده است" },
@@ -360,6 +365,7 @@
                 {ResultStatusEnum.PaymentDescriptionLengthIsNotValid, "طول توضیحات پرداخت معتبر نمی باشد" },
                 {ResultStatusEnum.PaymentPaidPersonIdIsNotValid, "شناسه فرد دریافت کننده معتبر نمی باشد" },
                 {ResultStatusEnum.PleaseSelectPayment, "لطفا یک پرداخت را انتخاب کنید" },
+                {ResultStatusEnum.PaymentPaidCostIsNotValid, "هزینه پرداختی معتبر نمی باشد" },
 
                 #endregion
 
@@ -390,6 +396,8 @@
                 {ResultStatusEnum.DryerHistoryOperationIsNotValid, "عملیات خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerHistoryStartTimeIsNotValid, "زمان شروع عملیات خشک کن معتبر نمی باشد" },
                 {ResultStatusEnum.DryerHistoryStopTimeIsNotValid, "زمان پایان عملیات خشک کن معتبر نمی باشد" },
+                {ResultStatusEnum.PleaseSelectDryerHistory, "لطفا یک ردیف را انتخاب کنید" },
+                {ResultStatusEnum.DryerHistoryNumberOfBagIsNotValid, "تعداد کیسه های درون خشک کن معتبر نمی باشد" },
 
                 #endregion
 
@@ -416,6 +424,8 @@
                 {ResultStatusEnum.IncomeBrokenRiceIsNotValid, "مقدار برنج شکسته درآمد معتبر نمی باشد" },
                 {ResultStatusEnum.IncomeFlourIsNotValid, "مقدار آرد درآمد معتبر نمی باشد" },
                 {ResultStatusEnum.IncomeDescriptionLengthIsNotValid, "طول توضیحات درآمد معتبر نمی باشد" },
+                {ResultStatusEnum.PleaseSelectIncome, "لطفا یک درآمد را انتخاب کنید" },
+                {ResultStatusEnum.IncomeValueIsNotValid, "مقدار درآمد معتبر نمی باشد" },
 
                 #endregion
 

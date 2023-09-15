@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RiceMill.Ui.Pages.Payment.PaymentListPage"
+             x:Class="RiceMill.Ui.Pages.Income.IncomeListPage"
              NavigationPage.HasNavigationBar="False"
              xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
@@ -29,8 +29,6 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -38,58 +36,32 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Picker x:Name="PickerPaidPerson"
-                            Grid.Row="0" 
-                            Grid.Column="0"
-                            Title="پرداخت شده به"
-                            VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
-                            FontAttributes="Bold"/>
-                    
-                    <Picker x:Name="PickerPaidConcern"
-                            Grid.Row="0" 
-                            Grid.Column="1"
-                            Title="علت پرداخت"
-                            VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding Title}" 
-                            FontAttributes="Bold"/>
-                    
                     <controls:PersianDatePicker x:Name="PersianDatePicker" 
-                                                PlaceHolder="تاریخ پرداخت" 
+                                                PlaceHolder="تاریخ درآمد"
                                                 MaximumHeightRequest="40"
-                                                Grid.Row="1"
+                                                Grid.Row="0"
                                                 Grid.Column="0"/>
-                    
+
                     <TimePicker x:Name="TimePicker"
                                 Format = "HH:mm"
-                                Grid.Row="1"
+                                Grid.Row="0"
                                 Grid.Column="1"/>
-
-                    <Entry x:Name="TxtMoney"
-                           Placeholder="مقدار پول-تومان"
-                           MaxLength="9"
-                           Grid.Row="2"
-                           Grid.Column="0"
-                           VerticalOptions="Center" 
-                           FontAttributes="Bold"
-                           android:Entry.ImeOptions="Next"
-                           Keyboard="Numeric"/>
-
-                    <Entry x:Name="TxtBrokenRice"
-                           Placeholder="مقدار برنج نیمه-کیلوگرم"
-                           MaxLength="4"
-                           Grid.Row="2"
-                           Grid.Column="1"
-                           VerticalOptions="Center" 
-                           FontAttributes="Bold"
-                           android:Entry.ImeOptions="Next"
-                           Keyboard="Numeric"/>
-
+                    
                     <Entry x:Name="TxtUnbrokenRice"
                            Placeholder="مقدار برنج سالم-کیلوگرم"
                            MaxLength="4"
-                           Grid.Row="3"
+                           Grid.Row="1"
                            Grid.Column="0"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"
+                           android:Entry.ImeOptions="Next"
+                           Keyboard="Numeric"/>
+                    
+                    <Entry x:Name="TxtBrokenRice"
+                           Placeholder="مقدار برنج نیمه-کیلوگرم"
+                           MaxLength="4"
+                           Grid.Row="1"
+                           Grid.Column="1"
                            VerticalOptions="Center" 
                            FontAttributes="Bold"
                            android:Entry.ImeOptions="Next"
@@ -98,25 +70,17 @@
                     <Entry x:Name="TxtFlour"
                            Placeholder="مقدار آرد-کیلوگرم"
                            MaxLength="4"
-                           Grid.Row="3"
-                           Grid.Column="1"
+                           Grid.Row="2"
+                           Grid.Column="0"
                            VerticalOptions="Center" 
                            FontAttributes="Bold"
                            android:Entry.ImeOptions="Next"
                            Keyboard="Numeric"/>
 
-                    <Picker x:Name="PickerInputLoad"
-                            Grid.Row="4" 
-                            Grid.Column="0"
-                            Title="بار ورودی"
-                            VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding InputLoadDetail}" 
-                            FontAttributes="Bold"/>
-
                     <Entry x:Name="TxtDescription"
                            Placeholder="توضیحات"
                            MaxLength="200"
-                           Grid.Row="4" 
+                           Grid.Row="2" 
                            Grid.Column="1"
                            VerticalOptions="Center" 
                            android:Entry.ImeOptions="Next"
@@ -127,7 +91,7 @@
                             WidthRequest="150"
                             BackgroundColor="#3D9970"
                             CornerRadius="20"
-                            Grid.Row="5" 
+                            Grid.Row="3" 
                             FontAttributes="Bold"
                             Grid.ColumnSpan="2"
                             Clicked="OnBtnSaveClicked" />
@@ -135,13 +99,13 @@
             </StackLayout>
         </Frame>
 
-        <CollectionView x:Name="CVPayment"
+        <CollectionView x:Name="CVIncome"
                         VerticalOptions="FillAndExpand"
                         FlowDirection="RightToLeft"
                         Margin="20"
                         Grid.Row="1"
                         SelectionMode="Single"
-                        SelectionChanged="OnCVPaymentSelectionChanged">
+                        SelectionChanged="OnCVIncomeSelectionChanged">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -152,14 +116,14 @@
                             <RowDefinition Height="1"/>
                         </Grid.RowDefinitions>
 
-                        <Label Text="{Binding PaidPersonFullName}"
+                        <Label Text="{Binding IncomeDetail}"
                                Padding="3"
                                VerticalTextAlignment="Center"
                                FontAttributes="Bold"
                                Grid.RowSpan="1"
                                Grid.Row="0"/>
 
-                        <Label Text="{Binding PaymentDetail}"
+                        <Label Text="{Binding IncomeTimeReadable}"
                                Padding="6"
                                VerticalTextAlignment="Center"
                                Grid.Row="1"/>

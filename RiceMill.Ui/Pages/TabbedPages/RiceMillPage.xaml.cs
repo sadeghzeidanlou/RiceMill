@@ -8,7 +8,7 @@ using RiceMill.Ui.Pages.Village;
 
 namespace RiceMill.Ui.Pages.TabbedPages;
 
-public partial class RiceMillPage : ContentPage
+public sealed partial class RiceMillPage : ContentPage
 {
     public RiceMillPage()
     {

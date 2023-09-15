@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using PersianDatePickerMAUI;
-using RiceMill.Ui.DependencyInjection;
 
 namespace RiceMill.Ui
 {
@@ -23,7 +22,6 @@ namespace RiceMill.Ui
             builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddMauiServices();
             return builder.Build();
         }
     }

@@ -10,7 +10,7 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Ui.Pages.Concern;
 
-public partial class ConcernListPage : ContentPage
+public sealed partial class ConcernListPage : ContentPage
 {
     private readonly IConcernServices _concernServices;
     private PaginatedList<DtoConcern> Concerns;
@@ -20,6 +20,7 @@ public partial class ConcernListPage : ContentPage
     {
         try
         {
+            _concernServices = new ConcernServices();
             InitializeComponent();
             InitializeAsync();
         }

@@ -13,7 +13,7 @@ using System.Text;
 
 namespace RiceMill.Ui.Pages.RiceMill;
 
-public partial class RiceMillListPage : ContentPage
+public sealed partial class RiceMillListPage : ContentPage
 {
     private readonly IRiceMillServices _riceMillServices;
     private readonly IPersonServices _personServices;
@@ -44,7 +44,6 @@ public partial class RiceMillListPage : ContentPage
             BtnSave.IsEnabled = ApplicationStaticContext.HaveAccessToRiceMill;
             BtnNew.IsEnabled = ApplicationStaticContext.IsAdmin;
             await LoadPeople();
-            //_ = Task.WhenAny(LoadPeople());
             await RefreshRiceMillList();
             CVRiceMill.ItemsSource = RiceMills.Items;
             PickerOwner.ItemsSource = People.Items;

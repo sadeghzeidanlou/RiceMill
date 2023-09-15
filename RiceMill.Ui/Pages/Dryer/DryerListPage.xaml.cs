@@ -10,7 +10,7 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Ui.Pages.Dryer;
 
-public partial class DryerListPage : ContentPage
+public sealed partial class DryerListPage : ContentPage
 {
     private readonly IDryerServices _dryerServices;
     private PaginatedList<DtoDryer> Dryers;

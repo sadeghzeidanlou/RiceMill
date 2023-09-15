@@ -1,4 +1,5 @@
-﻿using RiceMill.Application.UseCases.BaseDto;
+﻿using MD.PersianDateTime.Standard;
+using RiceMill.Application.UseCases.BaseDto;
 using Shared.Enums;
 
 namespace RiceMill.Application.UseCases.InputLoadServices.Dto
@@ -12,6 +13,15 @@ namespace RiceMill.Application.UseCases.InputLoadServices.Dto
         public string Description { get; set; }
 
         public DateTime ReceiveTime { get; set; }
+
+        public string ReceiveTimeReadable
+        {
+            get
+            {
+                var receiveTime = new PersianDateTime(ReceiveTime);
+                return $"روز {receiveTime.ToShortDateString()} ساعت {receiveTime.ToString("HH:mm")}";
+            }
+        }
 
         public Guid VillageId { get; set; }
 
@@ -39,7 +49,7 @@ namespace RiceMill.Application.UseCases.InputLoadServices.Dto
 
         public string OwnerFullName { get; set; }
 
-        public string PaymentInputLoadDetail { get; set; }
+        public string InputLoadDetail { get; set; }
 
         //[SwaggerExclude]
         //public DtoPerson OwnerPerson { get; set; }

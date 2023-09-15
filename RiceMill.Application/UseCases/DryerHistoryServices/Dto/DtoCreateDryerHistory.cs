@@ -22,9 +22,6 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
             RuleFor(dto => dto.DryerId)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.DryerIdIsNotValid.ToString());
 
-            RuleFor(dto => dto.RiceThreshingId)
-                .NotEmpty().WithErrorCode(ResultStatusEnum.RiceThreshingIdIsNotValid.ToString());
-
             RuleFor(dto => dto.InputLoadId)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.InputLoadIdIsNotValid.ToString());
 

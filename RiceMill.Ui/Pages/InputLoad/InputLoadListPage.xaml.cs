@@ -18,7 +18,7 @@ using System.Text;
 
 namespace RiceMill.Ui.Pages.InputLoad;
 
-public partial class InputLoadListPage : ContentPage
+public sealed partial class InputLoadListPage : ContentPage
 {
     private readonly IInputLoadServices _inputLoadServices;
     private readonly IPersonServices _personServices;
@@ -59,7 +59,6 @@ public partial class InputLoadListPage : ContentPage
             await LoadPeople();
             await LoadVillages();
             await LoadVehicles();
-            //_ = Task.WhenAll(LoadPeople(), LoadVillages(), LoadVehicles());
             await RefreshInputLoadList();
             FillRequireData();
             CVInputLoad.ItemsSource = InputLoads.Items;
@@ -197,12 +196,10 @@ public partial class InputLoadListPage : ContentPage
                 await Toast.Make(errorMessage.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
-            var receiveTime = PersianDateTime.Parse(PersianDatePicker.PersianDate).AddSeconds((int)TimePicker.Time.TotalSeconds);
+            var receiveTime = PersianDateTime.Parse(PersianDatePicker.PersianDate).AddSeconds((int)TimePicker.Time.TotalSeconds).ToDateTime();
             if (_isNewInputLoad)
             {
-                var newInputLoad = new DtoCreateInputLoad(TxtNumberOfBags.Text.ToShort(), TxtDescription.Text, receiveTime.ToDateTime(), selectedVillage.Id,
-                    selectedDeliverer.Id, selectedReceiver.Id, selectedCarrier.Id, selectedOwner.Id, selectedVehicle.Id, ApplicationStaticContext.CurrentUser.RiceMillId);
-
+                var newInputLoad = new DtoCreateInputLoad(TxtNumberOfBags.Text.ToShort(), TxtDescription.Text, receiveTime, selectedVillage.Id, selectedDeliverer.Id, selectedReceiver.Id, selectedCarrier.Id, selectedOwner.Id, selectedVehicle.Id, ApplicationStaticContext.CurrentUser.RiceMillId);
                 await _inputLoadServices.Add(newInputLoad);
             }
             else
@@ -210,9 +207,7 @@ public partial class InputLoadListPage : ContentPage
                 if (CVInputLoad.SelectedItem is not DtoInputLoad selectedInputLoad)
                     return;
 
-                var updateInputLoad = new DtoUpdateInputLoad(selectedInputLoad.Id, TxtNumberOfBags.Text.ToShort(), TxtDescription.Text, receiveTime.ToDateTime(),
-                    selectedVillage.Id, selectedDeliverer.Id, selectedReceiver.Id, selectedCarrier.Id, selectedOwner.Id, selectedVehicle.Id);
-
+                var updateInputLoad = new DtoUpdateInputLoad(selectedInputLoad.Id, TxtNumberOfBags.Text.ToShort(), TxtDescription.Text, receiveTime, selectedVillage.Id, selectedDeliverer.Id, selectedReceiver.Id, selectedCarrier.Id, selectedOwner.Id, selectedVehicle.Id);
                 await _inputLoadServices.Update(updateInputLoad);
             }
             OnNewBtnClicked(null, null);
@@ -237,9 +232,10 @@ public partial class InputLoadListPage : ContentPage
     {
         foreach (var item in InputLoads.Items)
         {
-            var receiveTime = new PersianDateTime(item.ReceiveTime);
-            item.OwnerFullName = $"{People.Items.FirstOrDefault(x => x.Id.Equals(item.OwnerPersonId)).FullName} روز {receiveTime.ToShortDateString()} ساعت {receiveTime.ToString("HH:mm")}";
-            item.VillageTitle = $"از {Villages.Items.FirstOrDefault(x => x.Id.Equals(item.VillageId)).Title} تعداد {item.NumberOfBags} کیسه";
+            var ownerDetail = People.Items.FirstOrDefault(x => x.Id.Equals(item.OwnerPersonId));
+            var villageDetail = Villages.Items.FirstOrDefault(x => x.Id.Equals(item.VillageId));
+            item.OwnerFullName = $"{ownerDetail?.FullName ?? "*نامشخص*"} {item.ReceiveTimeReadable}";
+            item.VillageTitle = $"از {villageDetail?.Title ?? "*نامشخص*"} تعداد {item.NumberOfBags} کیسه";
         }
     }
 

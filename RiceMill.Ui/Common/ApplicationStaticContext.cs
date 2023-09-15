@@ -1,4 +1,5 @@
-﻿using RiceMill.Application.UseCases.UserServices.Dto;
+﻿using RiceMill.Application.UseCases.PersonServices.Dto;
+using RiceMill.Application.UseCases.UserServices.Dto;
 using Shared.Enums;
 
 namespace RiceMill.Ui.Common
@@ -8,6 +9,8 @@ namespace RiceMill.Ui.Common
         public static string Token { get; set; }
 
         public static DtoUser CurrentUser { get; set; }
+
+        public static DtoPerson CurrentPerson { get; set; }
 
         public static bool IsAdmin => CurrentUser.Role == RoleEnum.Admin;
 

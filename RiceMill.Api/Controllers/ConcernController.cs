@@ -20,11 +20,6 @@ namespace RiceMill.Api.Controllers
             _concernQueries = concernQueries;
         }
 
-        /// <summary>
-        /// Get all active concerns based on filter that passed
-        /// </summary>
-        /// <param name="dtoFilter">filter for retrieve data</param>
-        /// <returns></returns>
         [HttpGet]
         public Result<PaginatedList<DtoConcern>> Get([FromQuery] DtoConcernFilter dtoFilter) => _concernQueries.GetAll(dtoFilter);
 

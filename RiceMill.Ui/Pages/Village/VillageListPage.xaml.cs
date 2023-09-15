@@ -10,7 +10,7 @@ using Shared.ExtensionMethods;
 
 namespace RiceMill.Ui.Pages.Village;
 
-public partial class VillageListPage : ContentPage
+public sealed partial class VillageListPage : ContentPage
 {
     private readonly IVillageServices _villageServices;
     private PaginatedList<DtoVillage> Villages;

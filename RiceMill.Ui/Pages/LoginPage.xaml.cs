@@ -3,9 +3,11 @@ using CommunityToolkit.Maui.Core;
 using Microsoft.Maui.Platform;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.Resource;
+using RiceMill.Application.UseCases.PersonServices.Dto;
 using RiceMill.Application.UseCases.UserServices.Dto;
 using RiceMill.Ui.Common;
 using RiceMill.Ui.Pages;
+using RiceMill.Ui.Services.UseCases.PersonServices;
 using RiceMill.Ui.Services.UseCases.UserServices;
 using Shared.ExtensionMethods;
 using Shared.UtilityMethods;
@@ -14,15 +16,18 @@ using System.Text;
 
 namespace RiceMill.Ui
 {
-    public partial class LoginPage : ContentPage
+    public sealed partial class LoginPage : ContentPage
     {
         private readonly IUserServices _userServices;
-        public static bool _isFirstView = true;
+        private readonly IPersonServices _personServices;
+        public static bool IsFirstView { get; set; }
 
         public LoginPage()
         {
-            InitializeComponent();
+            IsFirstView = true;
             _userServices = new UserServices();
+            _personServices = new PersonServices();
+            InitializeComponent();
         }
 
         protected override async void OnAppearing()
@@ -30,10 +35,10 @@ namespace RiceMill.Ui
             try
             {
 #if ANDROID || WINDOWS
-                if (!_isFirstView)
+                if (!IsFirstView)
                     Process.GetCurrentProcess().Kill();
 #endif
-                _isFirstView = false;
+                IsFirstView = false;
                 var isAuthenticated = await _userServices.TokenIsValid();
                 if (isAuthenticated)
                 {
@@ -76,6 +81,7 @@ namespace RiceMill.Ui
                 AciLoginProgress.IsRunning = true;
                 await _userServices.SetToken(new DtoLogin(TxtUserName.Text, TxtPassword.Text.ToSha512()));
                 await AssignCurrentUser();
+
                 await Navigation.PushAsync(new MainTabbedPage());
             }
             catch (Exception ex)
@@ -99,9 +105,25 @@ namespace RiceMill.Ui
                     var userId = Guid.Parse(claim.Value);
                     var currentUserResult = await _userServices.GetUsers(new DtoUserFilter { Id = userId });
                     if (currentUserResult.Data.TotalCount > 0)
+                    {
                         ApplicationStaticContext.CurrentUser = currentUserResult.Data.Items.First();
+                        if (ApplicationStaticContext.CurrentUser.UserPersonId.IsNotNullOrEmpty())
+                        {
+                            var currentPerson = await _personServices.Get(new DtoPersonFilter { Id = ApplicationStaticContext.CurrentUser.UserPersonId.Value });
+                            if (currentPerson.Data.TotalCount > 0)
+                            {
+                                ApplicationStaticContext.CurrentPerson = currentPerson.Data.Items.First();
+                            }
+                        }
+                        else
+                        {
+                            ApplicationStaticContext.CurrentPerson = null;
+                        }
+                    }
                     else
+                    {
                         throw new Exception(ResultStatusEnum.UserNotFound.GetErrorMessage());
+                    }
                 }
             }
         }

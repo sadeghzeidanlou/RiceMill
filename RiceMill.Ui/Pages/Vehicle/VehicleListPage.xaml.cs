@@ -14,7 +14,7 @@ using System.Text;
 
 namespace RiceMill.Ui.Pages.Vehicle;
 
-public partial class VehicleListPage : ContentPage
+public sealed partial class VehicleListPage : ContentPage
 {
     private readonly IVehicleServices _vehicleServices;
     private readonly IPersonServices _personServices;
@@ -45,7 +45,6 @@ public partial class VehicleListPage : ContentPage
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
             await LoadPeople();
-            //_ = Task.WhenAny(LoadPeople());
             await RefreshVehicleList();
             CVVehicle.ItemsSource = Vehicles.Items;
             PickerOwner.ItemsSource = People.Items;

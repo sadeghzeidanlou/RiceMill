@@ -20,7 +20,7 @@ using System.Text;
 
 namespace RiceMill.Ui.Pages.Payment;
 
-public partial class PaymentListPage : ContentPage
+public sealed partial class PaymentListPage : ContentPage
 {
     private readonly IPaymentServices _paymentServices;
     private readonly IInputLoadServices _inputLoadServices;
@@ -65,7 +65,6 @@ public partial class PaymentListPage : ContentPage
             await LoadVillages();
             await LoadConcerns();
             await LoadInputLoads();
-            //_ = Task.WhenAll(LoadPeople(), LoadVillages(), LoadConcerns(), LoadInputLoads());
             await RefreshPaymentList();
             FillRequireData();
             FillInputLoadRequireData();
@@ -102,7 +101,7 @@ public partial class PaymentListPage : ContentPage
         {
             if (CVPayment.SelectedItem is not DtoPayment selectedPayment)
             {
-                await Toast.Make(ResultStatusEnum.PleaseSelectInputLoad.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(ResultStatusEnum.PleaseSelectPayment.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
             await _paymentServices.Delete(selectedPayment.Id);
@@ -167,6 +166,13 @@ public partial class PaymentListPage : ContentPage
             {
                 errorMessage.AppendLine(ResultStatusEnum.PaymentPaymentTimeIsNotValid.GetErrorMessage());
             }
+            var unbrokenRiceAmount = TxtUnbrokenRice.Text.ToFloat();
+            var brokenRiceAmount = TxtBrokenRice.Text.ToFloat();
+            var flourAmount = TxtFlour.Text.ToFloat();
+            var moneyAmount = TxtMoney.Text.ToInt();
+            if (moneyAmount == 0 && unbrokenRiceAmount == 0 && brokenRiceAmount == 0 && flourAmount == 0)
+                errorMessage.AppendLine(ResultStatusEnum.PaymentPaidCostIsNotValid.GetErrorMessage());
+
             if (errorMessage.IsNotNullOrEmpty())
             {
                 await Toast.Make(errorMessage.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
@@ -179,7 +185,7 @@ public partial class PaymentListPage : ContentPage
 
             if (_isNewPayment)
             {
-                var newPayment = new DtoCreatePayment(receiveTime.ToDateTime(), TxtUnbrokenRice.Text.ToFloat(), TxtBrokenRice.Text.ToFloat(), TxtFlour.Text.ToFloat(), TxtMoney.Text.ToInt(),
+                var newPayment = new DtoCreatePayment(receiveTime.ToDateTime(), unbrokenRiceAmount, brokenRiceAmount, flourAmount, moneyAmount,
                     TxtDescription.Text, selectedPaidPerson.Id, selectedPaidConcern.Id, selectedInputLoad?.Id, ApplicationStaticContext.CurrentUser.RiceMillId);
 
                 await _paymentServices.Add(newPayment);
@@ -189,8 +195,8 @@ public partial class PaymentListPage : ContentPage
                 if (CVPayment.SelectedItem is not DtoPayment selectedPayment)
                     return;
 
-                var updatePayment = new DtoUpdatePayment(selectedPayment.Id, receiveTime.ToDateTime(), TxtUnbrokenRice.Text.ToFloat(), TxtBrokenRice.Text.ToFloat(),
-                    TxtFlour.Text.ToFloat(), TxtMoney.Text.ToInt(), TxtDescription.Text, selectedPaidPerson.Id, selectedPaidConcern.Id, selectedInputLoad?.Id);
+                var updatePayment = new DtoUpdatePayment(selectedPayment.Id, receiveTime.ToDateTime(), unbrokenRiceAmount, brokenRiceAmount, flourAmount, moneyAmount,
+                    TxtDescription.Text, selectedPaidPerson.Id, selectedPaidConcern.Id, selectedInputLoad?.Id);
 
                 await _paymentServices.Update(updatePayment);
             }
@@ -216,9 +222,9 @@ public partial class PaymentListPage : ContentPage
     {
         foreach (var item in Payments.Items)
         {
-            var paidPersonFullName = People.Items.FirstOrDefault(x => x.Id.Equals(item.PaidPersonId)).FullName;
-            var paidConcernTitle = Concerns.Items.FirstOrDefault(x => x.Id.Equals(item.ConcernId)).Title;
-            item.PaidPersonFullName = $"{paidPersonFullName} بابت {paidConcernTitle}";
+            var paidPersonDetail = People.Items.FirstOrDefault(x => x.Id.Equals(item.PaidPersonId));
+            var paidConcernDetail = Concerns.Items.FirstOrDefault(x => x.Id.Equals(item.ConcernId));
+            item.PaidPersonFullName = $"{paidPersonDetail?.FullName ?? "*نامشخص*"} بابت {paidConcernDetail?.Title ?? "*نامشخص*"}";
         }
     }
 
@@ -226,9 +232,9 @@ public partial class PaymentListPage : ContentPage
     {
         foreach (var item in InputLoads.Items)
         {
-            var ownerFullName = People.Items.FirstOrDefault(x => x.Id.Equals(item.OwnerPersonId)).FullName;
-            var villageTitle = Villages.Items.FirstOrDefault(x => x.Id.Equals(item.VillageId)).Title;
-            item.PaymentInputLoadDetail = $"{ownerFullName} از {villageTitle} به تعداد {item.NumberOfBags} کیسه";
+            var ownerDetail = People.Items.FirstOrDefault(x => x.Id.Equals(item.OwnerPersonId));
+            var villageDetail = Villages.Items.FirstOrDefault(x => x.Id.Equals(item.VillageId));
+            item.InputLoadDetail = $"{ownerDetail?.FullName ?? "نامشخص"} از {villageDetail?.Title ?? "نامشخص"} به تعداد {item.NumberOfBags} کیسه";
         }
     }
 
