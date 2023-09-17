@@ -1,4 +1,5 @@
 ﻿using RiceMill.Application.UseCases.BaseDto;
+using System.Text;
 
 namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 {
@@ -23,6 +24,28 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
         public Guid IncomeId { get; set; }
 
         public Guid InputLoadId { get; set; }
+
+        public string InputLoadInfo { get; set; }
+
+        public string RiceThreshingInfo {
+            get
+            {
+                var sbDetail = new StringBuilder();
+                if (UnbrokenRice > 0)
+                    sbDetail.Append($"{UnbrokenRice} ک بلند,");
+
+                if (BrokenRice > 0)
+                    sbDetail.Append($" {BrokenRice} ک نیمه,");
+
+                if (Flour > 0)
+                    sbDetail.Append($" {Flour} ک آرد,");
+
+                if (ChickenRice > 0)
+                    sbDetail.Append($" {ChickenRice} ک مرغی,");
+
+                return sbDetail.Remove(sbDetail.Length - 1, 1).ToString().TrimStart();
+            }
+        }
 
         //[SwaggerExclude]
         //public DtoIncome Income { get; set; }

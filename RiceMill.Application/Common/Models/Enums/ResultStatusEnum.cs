@@ -188,6 +188,7 @@
         RiceThreshingFlourIsNotValid,
         RiceThreshingDescriptionLengthIsNotValid,
         PleaseSelectRiceThreshing,
+        RiceThreshingEndTimeShouldGreaterThanStartTime,
 
         #endregion
 
@@ -414,6 +415,7 @@
                 {ResultStatusEnum.RiceThreshingFlourIsNotValid, "مقدار آرد شالیکوبی معتبر نمی باشد" },
                 {ResultStatusEnum.RiceThreshingDescriptionLengthIsNotValid, "طول توضیحات شالیکوبی معتبر نمی باشد" },
                 {ResultStatusEnum.PleaseSelectRiceThreshing, "لطفا یک شالیکوبی را انتخاب کنید" },
+                {ResultStatusEnum.RiceThreshingEndTimeShouldGreaterThanStartTime, "زمان پایان شالیکوبی باید از زمان شروع بزرگتر باشد" },
 
                 #endregion
 

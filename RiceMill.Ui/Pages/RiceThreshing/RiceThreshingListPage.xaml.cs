@@ -1,24 +1,25 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using MD.PersianDateTime.Standard;
-using PersianDatePickerMAUI.Controls;
+using Microsoft.Maui.Platform;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
-using RiceMill.Application.UseCases.ConcernServices.Dto;
 using RiceMill.Application.UseCases.IncomeServices.Dto;
 using RiceMill.Application.UseCases.InputLoadServices.Dto;
-using RiceMill.Application.UseCases.PaymentServices.Dto;
 using RiceMill.Application.UseCases.PersonServices.Dto;
+using RiceMill.Application.UseCases.RiceMillServices.Dto;
 using RiceMill.Application.UseCases.RiceThreshingServices.Dto;
 using RiceMill.Application.UseCases.VillageServices.Dto;
-using RiceMill.Domain.Models;
 using RiceMill.Ui.Common;
 using RiceMill.Ui.Services.UseCases.IncomeServices;
 using RiceMill.Ui.Services.UseCases.InputLoadServices;
 using RiceMill.Ui.Services.UseCases.PersonServices;
+using RiceMill.Ui.Services.UseCases.RiceMillServices;
 using RiceMill.Ui.Services.UseCases.RiceThreshingServices;
 using RiceMill.Ui.Services.UseCases.VillageServices;
 using Shared.ExtensionMethods;
+using System.Text;
+
 namespace RiceMill.Ui.Pages.RiceThreshing;
 
 public sealed partial class RiceThreshingListPage : ContentPage
@@ -28,11 +29,13 @@ public sealed partial class RiceThreshingListPage : ContentPage
     private readonly IPersonServices _personServices;
     private readonly IVillageServices _villageServices;
     private readonly IIncomeServices _incomeServices;
+    private readonly IRiceMillServices _riceMillServices;
     private PaginatedList<DtoRiceThreshing> RiceThresgings;
     private PaginatedList<DtoInputLoad> InputLoads;
     private PaginatedList<DtoPerson> People;
     private PaginatedList<DtoVillage> Villages;
     private PaginatedList<DtoIncome> Incomes;
+    private DtoRiceMill CurrentRiceMill;
     private bool _isNewRiceThreshing = true;
 
     public RiceThreshingListPage()
@@ -44,8 +47,18 @@ public sealed partial class RiceThreshingListPage : ContentPage
             _personServices = new PersonServices();
             _villageServices = new VillageServices();
             _incomeServices = new IncomeServices();
+            _riceMillServices = new RiceMillServices();
             InitializeComponent();
             InitializeAsync();
+            if (ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty() || CurrentRiceMill == null)
+            {
+                Toast.Make("کارخانه ای برای شما تعیین نشده", ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                BtnRemove.IsEnabled = false;
+                BtnSave.IsEnabled = false;
+                BtnNew.IsEnabled = false;
+                CVRiceThreshing.IsEnabled = false;
+                return;
+            }
         }
         catch (Exception ex)
         {
@@ -57,13 +70,14 @@ public sealed partial class RiceThreshingListPage : ContentPage
     {
         try
         {
-            BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
+            BtnRemove.IsEnabled = ApplicationStaticContext.IsManager || ApplicationStaticContext.IsAdmin;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
             await LoadPeople();
             await LoadVillages();
             await LoadInputLoads();
             await LoadIncomes();
+            await LoadRiceMill();
             await RefreshRiceThreshingList();
             FillInputLoadRequireData();
             FillRequireData();
@@ -104,6 +118,10 @@ public sealed partial class RiceThreshingListPage : ContentPage
                 await Toast.Make(ResultStatusEnum.PleaseSelectRiceThreshing.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
+            var questionResult = await DisplayAlert("تاییدیه", "آیا از حذف این مورد اطمینان دارید", "بله", "خیر", FlowDirection.RightToLeft);
+            if (!questionResult)
+                return;
+
             await _riceThreshingServices.Delete(selectedRiceThreshing.Id);
             OnNewBtnClicked(null, null);
             await RefreshRiceThreshingList();
@@ -143,18 +161,96 @@ public sealed partial class RiceThreshingListPage : ContentPage
         }
     }
 
-    private void OnBtnSaveClicked(object sender, EventArgs e)
+    private async void OnBtnSaveClicked(object sender, EventArgs e)
     {
+        try
+        {
+            if (_isNewRiceThreshing && ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty())
+                return;
 
+            var errorMessage = new StringBuilder();
+            DtoInputLoad selectedInputLoad = null;
+            if (PickerInputLoad.SelectedItem is DtoInputLoad inputLoad)
+                selectedInputLoad = inputLoad;
+            else
+                errorMessage.AppendLine(ResultStatusEnum.InputLoadNotFound.GetErrorMessage());
+
+            if (PersianDatePickerStart.PersianDate.IsNullOrEmpty() || TimePickerStart.Time.TotalSeconds == 0)
+                errorMessage.AppendLine(ResultStatusEnum.RiceThreshingStartTimeIsNotValid.GetErrorMessage());
+
+            if (PersianDatePickerEnd.PersianDate.IsNullOrEmpty() || TimePickerEnd.Time.TotalSeconds == 0)
+                errorMessage.AppendLine(ResultStatusEnum.RiceThreshingEndTimeIsNotValid.GetErrorMessage());
+
+            var startDate = PersianDateTime.Parse(PersianDatePickerStart.PersianDate).AddSeconds((int)TimePickerStart.Time.TotalSeconds);
+            var endDate = PersianDateTime.Parse(PersianDatePickerEnd.PersianDate).AddSeconds((int)TimePickerEnd.Time.TotalSeconds);
+            if (startDate > endDate)
+                errorMessage.AppendLine(ResultStatusEnum.RiceThreshingEndTimeShouldGreaterThanStartTime.GetErrorMessage());
+
+            var unbrokenRiceAmount = TxtUnbrokenRice.Text.ToFloat();
+            var brokenRiceAmount = TxtBrokenRice.Text.ToFloat();
+            if (unbrokenRiceAmount == 0)
+                errorMessage.AppendLine(ResultStatusEnum.RiceThreshingUnbrokenRiceIsNotValid.GetErrorMessage());
+
+            if (brokenRiceAmount == 0)
+                errorMessage.AppendLine(ResultStatusEnum.RiceThreshingBrokenRiceIsNotValid.GetErrorMessage());
+
+            if (errorMessage.IsNotNullOrEmpty())
+            {
+                await Toast.Make(errorMessage.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                return;
+            }
+            var flourAmount = TxtFlour.Text.ToFloat();
+            var chickenAmount = TxtChickenRice.Text.ToInt();
+            DtoIncome selectedIncome = null;
+            var addIncomeAutomatically = false;
+            if (PickerIncome.SelectedItem is DtoIncome income)
+                selectedIncome = income;
+            else
+            {
+                var wagePercent = CurrentRiceMill.Wage / (float)100;
+                var wageDetail = $"{wagePercent * unbrokenRiceAmount} بلند, {wagePercent * brokenRiceAmount} نیمه , {wagePercent * chickenAmount} مرغی, {wagePercent * flourAmount} آرد";
+                string result = await DisplayPromptAsync("آیا با ثبت خودکار کارمزد موافق هستید؟", wageDetail, "بله", "خیر", "درصورت عدم تایید به صورت توالی بالا مقادیر را وارد کنید");
+                if (!addIncomeAutomatically)
+                    errorMessage.AppendLine(ResultStatusEnum.ConcernNotFound.GetErrorMessage());
+            }
+
+            if (_isNewRiceThreshing)
+            {
+                var newRiceThreshing = new DtoCreateRiceThreshing(startDate.ToDateTime(), endDate.ToDateTime(), unbrokenRiceAmount, brokenRiceAmount, chickenAmount, flourAmount, TxtDescription.Text, selectedIncome.Id, ApplicationStaticContext.CurrentUser.RiceMillId);
+                await _riceThreshingServices.Add(newRiceThreshing);
+            }
+            else
+            {
+                if (CVRiceThreshing.SelectedItem is not DtoRiceThreshing selectedRiceThreshing)
+                    return;
+
+                var updatePayment = new DtoUpdateRiceThreshing(selectedRiceThreshing.Id, startDate.ToDateTime(), endDate.ToDateTime(), unbrokenRiceAmount, brokenRiceAmount, chickenAmount, flourAmount, TxtDescription.Text, selectedIncome.Id);
+                await _riceThreshingServices.Update(updatePayment);
+            }
+            OnNewBtnClicked(null, null);
+            await RefreshRiceThreshingList();
+            FillRequireData();
+            CVRiceThreshing.ItemsSource = RiceThresgings.Items;
+        }
+        catch (Exception ex)
+        {
+            await Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+        }
+        finally
+        {
+#if ANDROID
+            if (Platform.CurrentActivity.CurrentFocus != null)
+                Platform.CurrentActivity.HideKeyboard(Platform.CurrentActivity.CurrentFocus);
+#endif
+        }
     }
 
     private void FillRequireData()
     {
         foreach (var item in RiceThresgings.Items)
         {
-            //var paidPersonDetail = People.Items.FirstOrDefault(x => x.Id.Equals(item.PaidPersonId));
-            //var paidConcernDetail = Concerns.Items.FirstOrDefault(x => x.Id.Equals(item.ConcernId));
-            //item.PaidPersonFullName = $"{paidPersonDetail?.FullName ?? "*نامشخص*"} بابت {paidConcernDetail?.Title ?? "*نامشخص*"}";
+            var inputLoad = InputLoads.Items.FirstOrDefault(x => x.Id.Equals(item.InputLoadId));
+            item.InputLoadInfo = inputLoad.InputLoadDetail;
         }
     }
 
@@ -230,6 +326,16 @@ public sealed partial class RiceThreshingListPage : ContentPage
 
             var result = _incomeServices.Get(filter);
             Incomes = result.Result.Data;
+        });
+    }
+
+    private Task LoadRiceMill()
+    {
+        return Task.Run(() =>
+        {
+            var filter = new DtoRiceMillFilter { Id = ApplicationStaticContext.CurrentUser.RiceMillId };
+            var result = _riceMillServices.Get(filter);
+            CurrentRiceMill = result.Result.Data.Items.FirstOrDefault();
         });
     }
 }

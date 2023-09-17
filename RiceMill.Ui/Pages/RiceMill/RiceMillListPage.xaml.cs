@@ -76,6 +76,10 @@ public sealed partial class RiceMillListPage : ContentPage
                 await Toast.Make(ResultStatusEnum.PleaseSelectRiceMill.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
+            var questionResult = await DisplayAlert("تاییدیه", "آیا از حذف این مورد اطمینان دارید", "بله", "خیر", FlowDirection.RightToLeft);
+            if (!questionResult)
+                return;
+
             await _riceMillServices.Delete(selectedRiceMill.Id);
             OnNewBtnClicked(null, null);
             await RefreshRiceMillList();

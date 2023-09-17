@@ -75,6 +75,10 @@ public sealed partial class VehicleListPage : ContentPage
                 await Toast.Make(ResultStatusEnum.PleaseSelectVehicle.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
+            var questionResult = await DisplayAlert("تاییدیه", "آیا از حذف این مورد اطمینان دارید", "بله", "خیر", FlowDirection.RightToLeft);
+            if (!questionResult)
+                return;
+
             await _vehicleServices.Delete(selectedVehicle.Id);
             OnNewBtnClicked(null, null);
             await RefreshVehicleList();

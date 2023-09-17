@@ -162,14 +162,14 @@
                             <RowDefinition Height="1"/>
                         </Grid.RowDefinitions>
 
-                        <Label Text="{Binding PaidPersonFullName}"
+                        <Label Text="{Binding InputLoadInfo}"
                                Padding="3"
                                VerticalTextAlignment="Center"
                                FontAttributes="Bold"
                                Grid.RowSpan="1"
                                Grid.Row="0"/>
 
-                        <Label Text="{Binding PaymentDetail}"
+                        <Label Text="{Binding RiceThreshingInfo}"
                                Padding="6"
                                VerticalTextAlignment="Center"
                                Grid.Row="1"/>

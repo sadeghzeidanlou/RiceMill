@@ -62,6 +62,10 @@ public sealed partial class VillageListPage : ContentPage
                 await Toast.Make(ResultStatusEnum.PleaseSelectVillage.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
+            var questionResult = await DisplayAlert("تاییدیه", "آیا از حذف این مورد اطمینان دارید", "بله", "خیر", FlowDirection.RightToLeft);
+            if (!questionResult)
+                return;
+
             await _villageServices.Delete(selectedVillage.Id);
             OnNewBtnClicked(null, null);
             await RefreshVillageList();

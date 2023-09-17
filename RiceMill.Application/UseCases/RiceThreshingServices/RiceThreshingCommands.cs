@@ -121,9 +121,6 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
             if (!_cacheService.GetIncomes().Any(rm => rm.Id.Equals(riceThreshing.IncomeId)))
                 return Result<DtoRiceThreshing>.Failure(Error.CreateError(ResultStatusEnum.IncomeNotFound), HttpStatusCode.NotFound);
 
-            if (_cacheService.GetDryerHistories().Select(dh => dh.Id).Intersect(riceThreshing.DryerHistoryIds).Count() != riceThreshing.DryerHistoryIds.Count)
-                return Result<DtoRiceThreshing>.Failure(Error.CreateError(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);
-
             if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(riceThreshing.RiceMillId)))
                 return Result<DtoRiceThreshing>.Failure(Error.CreateError(ResultStatusEnum.RiceMillNotFound), HttpStatusCode.NotFound);
 

@@ -135,6 +135,10 @@ public sealed partial class IncomeListPage : ContentPage
                 await Toast.Make(ResultStatusEnum.PleaseSelectIncome.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
+            var questionResult = await DisplayAlert("تاییدیه", "آیا از حذف این مورد اطمینان دارید", "بله", "خیر", FlowDirection.RightToLeft);
+            if (!questionResult)
+                return;
+
             await _incomeServices.Delete(selectedIncome.Id);
             OnNewBtnClicked(null, null);
             await RefreshIncomeList();

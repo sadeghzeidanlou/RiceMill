@@ -104,6 +104,10 @@ public sealed partial class PaymentListPage : ContentPage
                 await Toast.Make(ResultStatusEnum.PleaseSelectPayment.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
+            var questionResult = await DisplayAlert("تاییدیه", "آیا از حذف این مورد اطمینان دارید", "بله", "خیر", FlowDirection.RightToLeft);
+            if (!questionResult)
+                return;
+
             await _paymentServices.Delete(selectedPayment.Id);
             OnNewBtnClicked(null, null);
             await RefreshPaymentList();
