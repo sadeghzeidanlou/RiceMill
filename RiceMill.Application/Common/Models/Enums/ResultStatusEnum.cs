@@ -187,6 +187,7 @@
         RiceThreshingChickenRiceIsNotValid,
         RiceThreshingFlourIsNotValid,
         RiceThreshingDescriptionLengthIsNotValid,
+        PleaseSelectRiceThreshing,
 
         #endregion
 
@@ -412,6 +413,7 @@
                 {ResultStatusEnum.RiceThreshingChickenRiceIsNotValid, "مقدار برنج مرغی شالیکوبی معتبر نمی باشد" },
                 {ResultStatusEnum.RiceThreshingFlourIsNotValid, "مقدار آرد شالیکوبی معتبر نمی باشد" },
                 {ResultStatusEnum.RiceThreshingDescriptionLengthIsNotValid, "طول توضیحات شالیکوبی معتبر نمی باشد" },
+                {ResultStatusEnum.PleaseSelectRiceThreshing, "لطفا یک شالیکوبی را انتخاب کنید" },
 
                 #endregion
 

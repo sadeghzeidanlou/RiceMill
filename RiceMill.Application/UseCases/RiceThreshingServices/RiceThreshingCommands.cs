@@ -27,7 +27,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
         private readonly ICacheService _cacheService;
         private readonly IUserActivityCommands _userActivityCommands;
         private readonly EntityTypeEnum _riceThreshingKey = EntityTypeEnum.RiceThreshings;
-        private readonly EntityTypeEnum _dryerHistoryKey = EntityTypeEnum.DryerHistories;
+        //private readonly EntityTypeEnum _dryerHistoryKey = EntityTypeEnum.DryerHistories;
 
         public RiceThreshingCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService, IUserActivityCommands userActivityCommands)
         {
@@ -56,15 +56,15 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _riceThreshingKey, string.Empty, riceThreshing.SerializeObject(), riceThreshing.RiceMillId);
             _cacheService.Maintain(_riceThreshingKey, riceThreshing);
-            foreach (var dryerHistoryId in createRiceThreshing.DryerHistoryIds)
-            {
-                var dryerHistory = GetDryerHistoryById(dryerHistoryId);
-                var beforeEdit = dryerHistory.SerializeObject();
-                dryerHistory.RiceThreshingId = riceThreshing.Id;
-                _applicationDbContext.SaveChanges();
-                _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _dryerHistoryKey, beforeEdit, dryerHistory.SerializeObject(), dryerHistory.RiceMillId);
-                _cacheService.Maintain(_dryerHistoryKey, dryerHistory);
-            }
+            //foreach (var dryerHistoryId in createRiceThreshing.DryerHistoryIds)
+            //{
+            //    var dryerHistory = GetDryerHistoryById(dryerHistoryId);
+            //    var beforeEdit = dryerHistory.SerializeObject();
+            //    dryerHistory.RiceThreshingId = riceThreshing.Id;
+            //    _applicationDbContext.SaveChanges();
+            //    _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _dryerHistoryKey, beforeEdit, dryerHistory.SerializeObject(), dryerHistory.RiceMillId);
+            //    _cacheService.Maintain(_dryerHistoryKey, dryerHistory);
+            //}
             return Result<DtoRiceThreshing>.Success(riceThreshing.Adapt<DtoRiceThreshing>());
         }
 
@@ -114,7 +114,7 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
 
         private RiceThreshing GetRiceThreshingById(Guid id) => _applicationDbContext.RiceThreshings.FirstOrDefault(c => c.Id.Equals(id));
 
-        private DryerHistory GetDryerHistoryById(Guid id) => _applicationDbContext.DryerHistories.FirstOrDefault(c => c.Id.Equals(id));
+        //private DryerHistory GetDryerHistoryById(Guid id) => _applicationDbContext.DryerHistories.FirstOrDefault(c => c.Id.Equals(id));
 
         private Result<DtoRiceThreshing> ValidateRiceThreshing(DtoCreateRiceThreshing riceThreshing)
         {

@@ -62,10 +62,6 @@ namespace RiceMill.Persistence.Configurations
                 .HasQueryFilter(p => !p.IsDeleted);
 
             builder
-                .HasIndex(p => new { p.MobileNumber, p.RiceMillId })
-                .IsUnique();
-
-            builder
                 .HasOne(p => p.RiceMill)
                 .WithMany(rm => rm.MemberPeople)
                 .HasForeignKey(p => p.RiceMillId)

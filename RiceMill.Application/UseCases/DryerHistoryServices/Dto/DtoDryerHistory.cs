@@ -8,7 +8,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
     {
         public DryerOperationEnum Operation { get; set; }
 
-        public string HumaneReadable => $"{DryerOperation.GetAll.FirstOrDefault(x => x.Operation == Operation)?.Title})";
+        public string OperationHumaneReadable => $"{DryerOperation.GetAll.FirstOrDefault(x => x.Operation == Operation)?.Title}";
 
         public DateTime StartTime { get; set; }
 
@@ -23,6 +23,18 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 
         public DateTime? EndTime { get; set; }
 
+        public string EndTimeReadable
+        {
+            get
+            {
+                if (!EndTime.HasValue)
+                    return string.Empty;
+
+                var endTime = new PersianDateTime(EndTime.Value);
+                return $"روز {endTime.ToShortDateString()} ساعت {endTime.ToString("HH:mm")}";
+            }
+        }
+
         public Guid DryerId { get; set; }
 
         public string DryerTitle { get; set; }
@@ -32,12 +44,16 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
         //[SwaggerExclude]
         //public DtoDryer Dryer { get; set; }
 
-        public Guid? RiceThreshingId { get; set; }
+        //public Guid? RiceThreshingId { get; set; }
 
         //[SwaggerExclude]
         //public DtoRiceThreshing RiceThreshing { get; set; }
 
         //[SwaggerExclude]
         //public ICollection<DtoInputLoad> InputLoads { get; set; }
+
+        public Guid InputLoadId { get; set; }
+
+        public string InputLoadReadable { get; set; }
     }
 }

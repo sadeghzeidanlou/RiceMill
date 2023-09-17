@@ -234,7 +234,7 @@ public sealed partial class PaymentListPage : ContentPage
         {
             var ownerDetail = People.Items.FirstOrDefault(x => x.Id.Equals(item.OwnerPersonId));
             var villageDetail = Villages.Items.FirstOrDefault(x => x.Id.Equals(item.VillageId));
-            item.InputLoadDetail = $"{ownerDetail?.FullName ?? "نامشخص"} از {villageDetail?.Title ?? "نامشخص"} به تعداد {item.NumberOfBags} کیسه";
+            item.InputLoadDetail = $"{ownerDetail?.FullName ?? "*نامشخص*"} از {villageDetail?.Title ?? "*نامشخص*"} به تعداد {item.NumberOfBags} کیسه";
         }
     }
 

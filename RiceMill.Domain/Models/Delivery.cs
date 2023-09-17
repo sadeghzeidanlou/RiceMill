@@ -78,8 +78,18 @@ namespace RiceMill.Domain.Models
         public Vehicle Vehicle { get; set; }
 
         /// <summary>
-        /// Collection of <see cref="DeliveryRiceThreshing"/> that delivered in this <see cref="Delivery"/>
+        /// This property used for reference navigation between this class and <see cref="RiceThreshing"/> that <see cref="Delivery"/> operated on that
         /// </summary>
-        public ICollection<DeliveryRiceThreshing> DeliveryRiceThreshings { get; set; }
+        public Guid RiceThreshingId { get; set; }
+
+        /// <summary>
+        /// This property Contain <see cref="RiceThreshing"/> detail in this class that <see cref="Delivery"/> operated on that
+        /// </summary>
+        public RiceThreshing RiceThreshing{ get; set; }
+
+        ///// <summary>
+        ///// Collection of <see cref="DeliveryRiceThreshing"/> that delivered in this <see cref="Delivery"/>
+        ///// </summary>
+        //public ICollection<DeliveryRiceThreshing> DeliveryRiceThreshings { get; set; }
     }
 }

@@ -58,13 +58,23 @@ namespace RiceMill.Domain.Models
         public Income Income { get; set; }
 
         /// <summary>
-        /// Collection of <see cref="DryerHistory"/> for this <see cref="RiceThreshing"/>
+        /// This property used for reference navigation between this class and <see cref="InputLoad"/> that <see cref="RiceThreshing"/> operated on that
         /// </summary>
-        public ICollection<DryerHistory> DryerHistories { get; set; }
+        public Guid InputLoadId { get; set; }
 
         /// <summary>
-        /// Collection of <see cref="DeliveryRiceThreshing"/> that delivered in this <see cref="RiceThreshing"/>
+        /// This property Contain <see cref="InputLoad"/> detail in this class that <see cref="RiceThreshing"/> operated on that
         /// </summary>
-        public ICollection<DeliveryRiceThreshing> DeliveryRiceThreshings { get; set; }
+        public InputLoad InputLoad { get; set; }
+
+        ///// <summary>
+        ///// Collection of <see cref="DryerHistory"/> for this <see cref="RiceThreshing"/>
+        ///// </summary>
+        //public ICollection<DryerHistory> DryerHistories { get; set; }
+
+        ///// <summary>
+        ///// Collection of <see cref="DeliveryRiceThreshing"/> that delivered in this <see cref="RiceThreshing"/>
+        ///// </summary>
+        //public ICollection<DeliveryRiceThreshing> DeliveryRiceThreshings { get; set; }
     }
 }

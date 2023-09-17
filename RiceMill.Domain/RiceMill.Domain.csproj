@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\DeliveryRiceThreshing.cs" />
+    <Compile Remove="Models\DryerHistoryInputLoad.cs" />
     <Compile Remove="Models\ReceiveType.cs" />
   </ItemGroup>
 

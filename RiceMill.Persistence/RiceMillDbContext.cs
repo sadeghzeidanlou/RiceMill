@@ -16,13 +16,13 @@ namespace RiceMill.Persistence
 
         public DbSet<Delivery> Deliveries { get; set; }
 
-        public DbSet<DeliveryRiceThreshing> DeliveryRiceThreshing { get; set; }
+        //public DbSet<DeliveryRiceThreshing> DeliveryRiceThreshing { get; set; }
 
         public DbSet<Dryer> Dryers { get; set; }
 
         public DbSet<DryerHistory> DryerHistories { get; set; }
 
-        public DbSet<DryerHistoryInputLoad> DryerHistoryInputLoad { get; set; }
+        //public DbSet<DryerHistoryInputLoad> DryerHistoryInputLoad { get; set; }
 
         public DbSet<Income> Incomes { get; set; }
 
@@ -69,8 +69,8 @@ namespace RiceMill.Persistence
                 {EntityTypeEnum.Users, Users.AsNoTracking().ToList() },
                 {EntityTypeEnum.Vehicles, Vehicles.AsNoTracking().ToList() },
                 {EntityTypeEnum.Villages, Villages.AsNoTracking().ToList() },
-                {EntityTypeEnum.DryerHistoryInputLoads, DryerHistoryInputLoad.AsNoTracking().ToList() },
-                {EntityTypeEnum.DeliveryRiceThreshings, DeliveryRiceThreshing.AsNoTracking().ToList() }
+                //{EntityTypeEnum.DryerHistoryInputLoads, DryerHistoryInputLoad.AsNoTracking().ToList() },
+                //{EntityTypeEnum.DeliveryRiceThreshings, DeliveryRiceThreshing.AsNoTracking().ToList() }
 
             };
             return data;
@@ -94,8 +94,8 @@ namespace RiceMill.Persistence
                 EntityTypeEnum.Users => Users.AsNoTracking().ToList(),
                 EntityTypeEnum.Vehicles => Vehicles.AsNoTracking().ToList(),
                 EntityTypeEnum.Villages => Villages.AsNoTracking().ToList(),
-                EntityTypeEnum.DryerHistoryInputLoads => DryerHistoryInputLoad.AsNoTracking().ToList(),
-                EntityTypeEnum.DeliveryRiceThreshings => DeliveryRiceThreshing.AsNoTracking().ToList(),
+                //EntityTypeEnum.DryerHistoryInputLoads => DryerHistoryInputLoad.AsNoTracking().ToList(),
+                //EntityTypeEnum.DeliveryRiceThreshings => DeliveryRiceThreshing.AsNoTracking().ToList(),
                 _ => throw new ArgumentOutOfRangeException($"{entityType}", "Entity type is not valid"),
             };
         }

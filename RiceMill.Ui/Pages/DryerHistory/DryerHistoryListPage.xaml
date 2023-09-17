@@ -67,11 +67,13 @@
                     <controls:PersianDatePicker x:Name="PersianDatePickerEnd" 
                                                 PlaceHolder="تاریخ پایان" 
                                                 MaximumHeightRequest="45"
+                                                IsEnabled="False"
                                                 Grid.Row="2"
                                                 Grid.Column="0"/>
 
                     <TimePicker x:Name="TimePickerEnd"
                                 Format = "HH:mm"
+                                IsEnabled="False"
                                 Grid.Row="2"
                                 Grid.Column="1"/>
 
@@ -130,7 +132,7 @@
                                Grid.RowSpan="1"
                                Grid.Row="0"/>
 
-                        <Label Text="{Binding StartTimeReadable}"
+                        <Label Text="{Binding InputLoadReadable}"
                                Padding="6"
                                VerticalTextAlignment="Center"
                                Grid.Row="1"/>

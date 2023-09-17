@@ -10,13 +10,13 @@ namespace RiceMill.Application.Common.Interfaces
 
         DbSet<Delivery> Deliveries { get; }
 
-        DbSet<DeliveryRiceThreshing> DeliveryRiceThreshing { get; set; }
+        //DbSet<DeliveryRiceThreshing> DeliveryRiceThreshing { get; set; }
 
         DbSet<Dryer> Dryers { get; }
 
         DbSet<DryerHistory> DryerHistories { get; }
 
-        DbSet<DryerHistoryInputLoad> DryerHistoryInputLoad { get; set; }
+        //DbSet<DryerHistoryInputLoad> DryerHistoryInputLoad { get; set; }
 
         DbSet<Income> Incomes { get; }
 

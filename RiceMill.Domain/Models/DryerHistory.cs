@@ -34,18 +34,28 @@ namespace RiceMill.Domain.Models
         public Dryer Dryer { get; set; }
 
         /// <summary>
-        /// This property used for reference navigation between this class and <see cref="RiceThreshing"/> that <see cref="DryerHistory"/> operated on that
+        /// This property used for reference navigation between this class and <see cref="InputLoad"/> that <see cref="DryerHistory"/> operated on that
         /// </summary>
-        public Guid? RiceThreshingId { get; set; }
+        public Guid InputLoadId { get; set; }
 
         /// <summary>
-        /// This property Contain <see cref="RiceThreshing"/> detail in this class that <see cref="DryerHistory"/> operated on that
+        /// This property Contain <see cref="InputLoad"/> detail in this class that <see cref="DryerHistory"/> operated on that
         /// </summary>
-        public RiceThreshing RiceThreshing { get; set; }
+        public InputLoad InputLoad { get; set; }
 
-        /// <summary>
-        /// Collection of <see cref="DeliveryRiceThreshing"/> that used in this <see cref="DryerHistory"/>
-        /// </summary>
-        public ICollection<DryerHistoryInputLoad> DryerHistoryInputLoads { get; set; }
+        ///// <summary>
+        ///// This property used for reference navigation between this class and <see cref="RiceThreshing"/> that <see cref="DryerHistory"/> operated on that
+        ///// </summary>
+        //public Guid? RiceThreshingId { get; set; }
+
+        ///// <summary>
+        ///// This property Contain <see cref="RiceThreshing"/> detail in this class that <see cref="DryerHistory"/> operated on that
+        ///// </summary>
+        //public RiceThreshing RiceThreshing { get; set; }
+
+        ///// <summary>
+        ///// Collection of <see cref="DeliveryRiceThreshing"/> that used in this <see cref="DryerHistory"/>
+        ///// </summary>
+        //public ICollection<DryerHistoryInputLoad> DryerHistoryInputLoads { get; set; }
     }
 }

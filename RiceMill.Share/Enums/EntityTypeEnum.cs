@@ -16,7 +16,7 @@
         Users,
         Vehicles,
         Villages,
-        DeliveryRiceThreshings,
-        DryerHistoryInputLoads
+        //DeliveryRiceThreshings,
+        //DryerHistoryInputLoads
     }
 }

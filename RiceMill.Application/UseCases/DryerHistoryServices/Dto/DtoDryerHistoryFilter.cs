@@ -25,8 +25,6 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices.Dto
 
         public Guid? DryerId { get; set; }
 
-        public Guid? RiceThreshingId { get; set; }
-
         public Guid? RiceMillId { get; set; }
     }
 }

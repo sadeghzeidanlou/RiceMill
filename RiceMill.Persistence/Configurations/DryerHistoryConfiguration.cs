@@ -13,11 +13,8 @@ namespace RiceMill.Persistence.Configurations
                 .ValueGeneratedOnAdd();
 
             builder.Property(dh => dh.Operation)
-                .HasConversion(o => o.ToString(), o => (DryerOperationEnum)Enum.Parse(typeof(DryerOperationEnum), o))
+                .HasConversion(o => (byte)o, o => (DryerOperationEnum)o)
                 .IsRequired();
-
-            builder.Property(dh => dh.RiceThreshingId)
-                .IsRequired(false);
 
             builder.Property(dh => dh.IsDeleted)
                 .IsRequired();
@@ -38,10 +35,9 @@ namespace RiceMill.Persistence.Configurations
                 .HasQueryFilter(dh => !dh.IsDeleted);
 
             builder
-                .HasOne(dh => dh.RiceThreshing)
-                .WithMany(rt => rt.DryerHistories)
-                .HasForeignKey(dh => dh.RiceThreshingId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasOne(dh => dh.InputLoad)
+                .WithOne(rt => rt.DryerHistory)
+                .HasForeignKey<DryerHistory>(dh => dh.InputLoadId);
 
             builder
                 .HasOne(dh => dh.User)

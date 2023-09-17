@@ -49,6 +49,11 @@ namespace RiceMill.Persistence.Configurations
                 .HasQueryFilter(rt => !rt.IsDeleted);
 
             builder
+                .HasOne(rt => rt.InputLoad)
+                .WithOne(il => il.RiceThreshing)
+                .HasForeignKey<RiceThreshing>(rt => rt.InputLoadId);
+
+            builder
                 .HasOne(rt => rt.User)
                 .WithMany(u => u.RiceThreshings)
                 .HasForeignKey(rt => rt.UserId)

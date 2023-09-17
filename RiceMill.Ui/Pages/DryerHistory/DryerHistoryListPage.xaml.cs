@@ -46,6 +46,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
             _villageServices = new VillageServices();
             InitializeComponent();
             InitializeAsync();
+            Toast.Make("لطفا در ثبت و ویرایش سابقه خشک کن ها دقت فرمایید", ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
         }
         catch (Exception ex)
         {
@@ -59,8 +60,6 @@ public sealed partial class DryerHistoryListPage : ContentPage
         {
             PersianDatePickerStart.PersianDate = new PersianDateTime(DateTime.Now).ToShortDateString();
             TimePickerStart.Time = DateTime.Now.TimeOfDay;
-            PersianDatePickerEnd.PersianDate = new PersianDateTime(DateTime.Now.AddDays(1)).ToShortDateString();
-            TimePickerEnd.Time = DateTime.Now.TimeOfDay;
             BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
@@ -69,12 +68,14 @@ public sealed partial class DryerHistoryListPage : ContentPage
             await LoadVillages();
             await LoadInputLoads();
             await RefreshDryerHistoryList();
-            FillRequireData();
             FillInputLoadRequireData();
+            FillRequireData();
             CVDryerHistory.ItemsSource = DryerHistories.Items;
             PickerDryer.ItemsSource = Dryers.Items;
             PickerInputLoad.ItemsSource = InputLoads.Items;
-            PickerDryerOperation.ItemsSource = DryerOperation.GetAll;
+            var operationSource = DryerOperation.GetAll.Where(x => x.Operation == DryerOperationEnum.Load).ToList();
+            PickerDryerOperation.ItemsSource = operationSource;
+            PickerDryerOperation.SelectedIndex = operationSource.First().Index;
         }
         catch (Exception ex)
         {
@@ -100,8 +101,14 @@ public sealed partial class DryerHistoryListPage : ContentPage
             if (PickerDryerOperation.SelectedItem is DryerOperation dryerOperation)
                 selectedDryerOperation = dryerOperation;
             else
-                errorMessage.AppendLine(ResultStatusEnum.InputLoadDelivererPersonNotFound.GetErrorMessage());
+                errorMessage.AppendLine(ResultStatusEnum.DryerHistoryOperationIsNotValid.GetErrorMessage());
 
+            if (!_isNewDryerHistory)
+            {
+                PersianDatePickerEnd.PersianDate = new PersianDateTime(DateTime.Now).ToShortDateString();
+                TimePickerEnd.Time = DateTime.Now.TimeOfDay;
+                selectedDryerOperation = DryerOperation.GetAll.First(x => x.Operation == DryerOperationEnum.Unload);
+            }
             if (PersianDatePickerStart.PersianDate.IsNullOrEmpty() || TimePickerStart.Time.TotalSeconds == 0 ||
                 PersianDateTime.Parse(PersianDatePickerStart.PersianDate).AddSeconds((int)TimePickerStart.Time.TotalSeconds) > PersianDateTime.Now)
             {
@@ -127,14 +134,13 @@ public sealed partial class DryerHistoryListPage : ContentPage
                 return;
             }
             var startTime = PersianDateTime.Parse(PersianDatePickerStart.PersianDate).AddSeconds((int)TimePickerStart.Time.TotalSeconds).ToDateTime();
-
             DateTime? endDate = null;
             if (PersianDatePickerEnd.PersianDate.IsNotNullOrEmpty() && TimePickerEnd.Time.TotalSeconds != 0)
                 endDate = PersianDateTime.Parse(PersianDatePickerEnd.PersianDate).AddSeconds((int)TimePickerEnd.Time.TotalSeconds).ToDateTime();
 
             if (_isNewDryerHistory)
             {
-                var newDryerHistory = new DtoCreateDryerHistory(selectedDryerOperation.Operation, startTime, endDate, selectedDryer.Id, null, selectedInputLoad.Id, TxtNumberOfBags.Text.ToShort(), ApplicationStaticContext.CurrentUser.RiceMillId);
+                var newDryerHistory = new DtoCreateDryerHistory(selectedDryerOperation.Operation, startTime, endDate, selectedDryer.Id, selectedInputLoad.Id, TxtNumberOfBags.Text.ToShort(), ApplicationStaticContext.CurrentUser.RiceMillId);
                 await _dryerHistoryServices.Add(newDryerHistory);
             }
             else
@@ -142,13 +148,13 @@ public sealed partial class DryerHistoryListPage : ContentPage
                 if (CVDryerHistory.SelectedItem is not DtoDryerHistory selectedDryerHistory)
                     return;
 
-                var updateInputLoad = new DtoUpdateDryerHistory(selectedDryerHistory.Id, selectedDryerOperation.Operation, startTime, endDate, selectedDryer.Id, selectedDryerHistory.RiceThreshingId, selectedInputLoad.Id);
-                await _dryerHistoryServices.Update(updateInputLoad);
+                var updateDryerHistory = new DtoUpdateDryerHistory(selectedDryerHistory.Id, selectedDryerOperation.Operation, startTime, endDate, selectedDryer.Id);
+                await _dryerHistoryServices.Update(updateDryerHistory);
             }
             OnNewBtnClicked(null, null);
             await RefreshDryerHistoryList();
             FillRequireData();
-            CVDryerHistory.ItemsSource = InputLoads.Items;
+            CVDryerHistory.ItemsSource = DryerHistories.Items;
         }
         catch (Exception ex)
         {
@@ -171,20 +177,29 @@ public sealed partial class DryerHistoryListPage : ContentPage
                 return;
 
             PickerDryer.SelectedItem = Dryers.Items.FirstOrDefault(x => x.Id.Equals(selectedDryerHistory.DryerId));
-            PickerDryerOperation.SelectedIndex = DryerOperation.GetAll.FirstOrDefault(x => x.Operation == selectedDryerHistory.Operation).Index;
-            //PickerInputLoad.SelectedItem = InputLoads.Items.FirstOrDefault(x => x.Id.Equals(selectedDryerHistory.));
+            PickerDryer.IsEnabled = false;
+            var operationSource = DryerOperation.GetAll.Where(x => x.Operation == selectedDryerHistory.Operation).ToList();
+            PickerDryerOperation.ItemsSource = operationSource;
+            PickerDryerOperation.SelectedIndex = operationSource.First().Index;
+            PickerDryerOperation.IsEnabled = false;
+            PickerInputLoad.SelectedItem = InputLoads.Items.FirstOrDefault(x => x.Id.Equals(selectedDryerHistory.InputLoadId));
+            PickerInputLoad.IsEnabled = false;
             PersianDatePickerStart.PersianDate = new PersianDateTime(selectedDryerHistory.StartTime).ToShortDateString();
+            PersianDatePickerStart.IsEnabled = false;
             TimePickerStart.Time = selectedDryerHistory.StartTime.TimeOfDay;
-            if (!selectedDryerHistory.EndTime.HasValue)
-            {
-                PersianDatePickerEnd.PersianDate = string.Empty;
-                TimePickerEnd.Time = TimeSpan.Zero;
-            }
-            else
+            TimePickerStart.IsEnabled = false;
+            if (selectedDryerHistory.EndTime.HasValue)
             {
                 PersianDatePickerEnd.PersianDate = new PersianDateTime(selectedDryerHistory.EndTime.Value).ToShortDateString();
                 TimePickerEnd.Time = selectedDryerHistory.EndTime.Value.TimeOfDay;
             }
+            else
+            {
+                PersianDatePickerEnd.PersianDate = string.Empty;
+                TimePickerEnd.Time = TimeSpan.Zero;
+            }
+            TxtNumberOfBags.IsEnabled = false;
+            BtnSave.Text = "تخلیه";
             _isNewDryerHistory = false;
         }
         catch (Exception ex)
@@ -202,7 +217,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
                 await Toast.Make(ResultStatusEnum.PleaseSelectDryerHistory.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
-            await _inputLoadServices.Delete(selectedDryerHistory.Id);
+            await _dryerHistoryServices.Delete(selectedDryerHistory.Id);
             OnNewBtnClicked(null, null);
             await RefreshDryerHistoryList();
             FillRequireData();
@@ -216,14 +231,24 @@ public sealed partial class DryerHistoryListPage : ContentPage
 
     private void OnNewBtnClicked(object sender, EventArgs e)
     {
-        PickerInputLoad.SelectedItem = null;
         CVDryerHistory.SelectedItem = null;
+        PickerInputLoad.SelectedItem = null;
+        PickerInputLoad.IsEnabled = true;
         PickerDryer.SelectedItem = null;
-        PickerDryerOperation.SelectedItem = null;
+        PickerDryer.IsEnabled = true;
+        var operationSource = DryerOperation.GetAll.Where(x => x.Operation == DryerOperationEnum.Load).ToList();
+        PickerDryerOperation.ItemsSource = operationSource;
+        PickerDryerOperation.SelectedIndex = operationSource.First().Index;
+        PickerDryerOperation.IsEnabled = true;
         PersianDatePickerStart.PersianDate = new PersianDateTime(DateTime.Now).ToShortDateString();
+        PersianDatePickerStart.IsEnabled = true;
         TimePickerStart.Time = DateTime.Now.TimeOfDay;
-        PersianDatePickerEnd.PersianDate = new PersianDateTime(DateTime.Now.AddDays(1)).ToShortDateString();
-        TimePickerEnd.Time = DateTime.Now.TimeOfDay;
+        TimePickerStart.IsEnabled = true;
+        PersianDatePickerEnd.PersianDate = string.Empty;
+        TimePickerEnd.Time = TimeSpan.Zero;
+        TxtNumberOfBags.Text = string.Empty;
+        TxtNumberOfBags.IsEnabled = true;
+        BtnSave.Text = "ذخیره";
         _isNewDryerHistory = true;
     }
 
@@ -233,7 +258,10 @@ public sealed partial class DryerHistoryListPage : ContentPage
         foreach (var item in DryerHistories.Items)
         {
             var dryer = Dryers.Items.FirstOrDefault(x => x.Id.Equals(item.DryerId));
-            item.DryerHistoryReadable = $"{item.HumaneReadable} خشک کن ({dryer?.Title ?? "*نامشخص*"})";
+            var dryerData = $"{(item.Operation == DryerOperationEnum.Load ? "به" : "از")} {dryer?.Title ?? "*نامشخص*"} در {(item.Operation == DryerOperationEnum.Load ? item.StartTimeReadable : item.EndTimeReadable)}";
+            item.DryerHistoryReadable = $"{item.OperationHumaneReadable} {dryerData}";
+            var inputLoad = InputLoads.Items.FirstOrDefault(x => x.Id.Equals(item.InputLoadId));
+            item.InputLoadReadable = inputLoad?.InputLoadDetail ?? "*بار ورودی نامشخص*";
         }
     }
 
@@ -243,7 +271,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
         {
             var ownerDetail = People.Items.FirstOrDefault(x => x.Id.Equals(item.OwnerPersonId));
             var villageDetail = Villages.Items.FirstOrDefault(x => x.Id.Equals(item.VillageId));
-            item.InputLoadDetail = $"{ownerDetail?.FullName ?? "نامشخص"} از {villageDetail?.Title ?? "نامشخص"} به تعداد {item.NumberOfBags} کیسه";
+            item.InputLoadDetail = $"{ownerDetail?.FullName ?? "*نامشخص*"} از {villageDetail?.Title ?? "*نامشخص*"} به تعداد {item.NumberOfBags} کیسه";
         }
     }
 

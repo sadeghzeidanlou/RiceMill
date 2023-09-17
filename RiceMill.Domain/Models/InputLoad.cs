@@ -93,8 +93,18 @@ namespace RiceMill.Domain.Models
         public Payment Payment { get; set; }
 
         /// <summary>
-        /// Collection of <see cref="DeliveryRiceThreshing"/> that used in this <see cref="InputLoad"/>
+        /// This property Contain <see cref="DryerHistory"/> detail in this class that determine <see cref="DryerHistory"/> info of this <see cref="InputLoad"/>
         /// </summary>
-        public ICollection<DryerHistoryInputLoad> DryerHistoryInputLoads { get; set; }
+        public DryerHistory DryerHistory { get; set; }
+
+        /// <summary>
+        /// This property Contain <see cref="RiceThreshing"/> detail in this class that determine <see cref="RiceThreshing"/> info of this <see cref="InputLoad"/>
+        /// </summary>
+        public RiceThreshing RiceThreshing { get; set; }
+
+        ///// <summary>
+        ///// Collection of <see cref="DeliveryRiceThreshing"/> that used in this <see cref="InputLoad"/>
+        ///// </summary>
+        //public ICollection<DryerHistoryInputLoad> DryerHistoryInputLoads { get; set; }
     }
 }

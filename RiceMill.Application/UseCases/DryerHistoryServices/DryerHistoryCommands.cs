@@ -28,7 +28,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
         private readonly IUserActivityCommands _userActivityCommands;
         private readonly EntityTypeEnum _dryerHistoryKey = EntityTypeEnum.DryerHistories;
         private readonly EntityTypeEnum _inputLoadKey = EntityTypeEnum.InputLoads;
-        private readonly EntityTypeEnum _dryerHistoryInputLoadKey = EntityTypeEnum.DryerHistoryInputLoads;
+        //private readonly EntityTypeEnum _dryerHistoryInputLoadKey = EntityTypeEnum.DryerHistoryInputLoads;
 
         public DryerHistoryCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService, IUserActivityCommands userActivityCommands)
         {
@@ -65,11 +65,11 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _inputLoadKey, beforeEdit, inputLoad.SerializeObject(), inputLoad.RiceMillId);
             _cacheService.Maintain(_inputLoadKey, inputLoad);
 
-            var dryerHistoryInputLoad = new DryerHistoryInputLoad { DryerHistoryId = dryerHistory.Id, InputLoadId = inputLoad.Id };
-            _applicationDbContext.DryerHistoryInputLoad.Add(dryerHistoryInputLoad);
-            _applicationDbContext.SaveChanges();
-            _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _dryerHistoryInputLoadKey, string.Empty, dryerHistoryInputLoad.SerializeObject(), inputLoad.RiceMillId);
-            _cacheService.Maintain(_dryerHistoryInputLoadKey, dryerHistoryInputLoad);
+            //var dryerHistoryInputLoad = new DryerHistoryInputLoad { DryerHistoryId = dryerHistory.Id, InputLoadId = inputLoad.Id };
+            //_applicationDbContext.DryerHistoryInputLoad.Add(dryerHistoryInputLoad);
+            //_applicationDbContext.SaveChanges();
+            //_userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _dryerHistoryInputLoadKey, string.Empty, dryerHistoryInputLoad.SerializeObject(), inputLoad.RiceMillId);
+            //_cacheService.Maintain(_dryerHistoryInputLoadKey, dryerHistoryInputLoad);
 
             return Result<DtoDryerHistory>.Success(dryerHistory.Adapt<DtoDryerHistory>());
         }
@@ -88,7 +88,7 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
                 return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.DryerHistoryNotFound), HttpStatusCode.NotFound);
 
             var createDryerHistory = updateDryerHistory.Adapt<DtoCreateDryerHistory>();
-            createDryerHistory = createDryerHistory with { RiceMillId = dryerHistory.RiceMillId };
+            createDryerHistory = createDryerHistory with { RiceMillId = dryerHistory.RiceMillId, InputLoadId = dryerHistory.InputLoadId };
             var validateDryerHistory = ValidateDryerHistory(createDryerHistory, false);
             if (validateDryerHistory != null)
                 return validateDryerHistory;
@@ -110,6 +110,15 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             if (dryerHistory == null)
                 return Result<bool>.Failure(Error.CreateError(ResultStatusEnum.DryerHistoryNotFound), HttpStatusCode.NotFound);
 
+            var inputLoad = GetInputLoadById(dryerHistory.InputLoadId);
+            if (inputLoad != null)
+            {
+                var inputLoadBeforeEdit = inputLoad.SerializeObject();
+                inputLoad.NumberOfBagsInDryer = 0;
+                _applicationDbContext.SaveChanges();
+                _userActivityCommands.CreateGeneral(UserActivityTypeEnum.Edit, _inputLoadKey, inputLoadBeforeEdit, inputLoad.SerializeObject(), inputLoad.RiceMillId);
+                _cacheService.Maintain(_inputLoadKey, inputLoad);
+            }
             var beforeEdit = dryerHistory.SerializeObject();
             _applicationDbContext.DryerHistories.Remove(dryerHistory);
             _applicationDbContext.SaveChanges();
@@ -132,9 +141,6 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
 
             if (!_cacheService.GetDryers().Any(c => c.Id.Equals(dryerHistory.DryerId)))
                 return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.DryerNotFound), HttpStatusCode.NotFound);
-
-            if (dryerHistory.RiceThreshingId.IsNotNullOrEmpty() && !_cacheService.GetRiceThreshings().Any(rt => rt.Id.Equals(dryerHistory.RiceThreshingId.Value)))
-                return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetInputLoads().Any(c => c.Id.Equals(dryerHistory.InputLoadId)))
                 return Result<DtoDryerHistory>.Failure(Error.CreateError(ResultStatusEnum.InputLoadNotFound), HttpStatusCode.NotFound);

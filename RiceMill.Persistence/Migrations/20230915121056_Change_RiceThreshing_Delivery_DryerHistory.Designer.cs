@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RiceMill.Persistence;
 
@@ -11,9 +12,11 @@ using RiceMill.Persistence;
 namespace RiceMill.Persistence.Migrations
 {
     [DbContext(typeof(RiceMillDbContext))]
-    partial class RiceMillDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230915121056_Change_RiceThreshing_Delivery_DryerHistory")]
+    partial class Change_RiceThreshing_Delivery_DryerHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,8 +205,9 @@ namespace RiceMill.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<byte>("Operation")
-                        .HasColumnType("tinyint");
+                    b.Property<string>("Operation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("RiceMillId")
                         .HasColumnType("uniqueidentifier");

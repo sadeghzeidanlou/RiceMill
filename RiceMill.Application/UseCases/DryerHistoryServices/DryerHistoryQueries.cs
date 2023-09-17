@@ -69,9 +69,6 @@ namespace RiceMill.Application.UseCases.DryerHistoryServices
             if (filter.DryerId.IsNotNullOrEmpty())
                 dryerHistories = dryerHistories.Where(dh => dh.DryerId.Equals(filter.DryerId.Value));
 
-            if (filter.RiceThreshingId.IsNotNullOrEmpty())
-                dryerHistories = dryerHistories.Where(dh => dh.RiceThreshingId.Equals(filter.RiceThreshingId.Value));
-
             return dryerHistories;
         }
     }

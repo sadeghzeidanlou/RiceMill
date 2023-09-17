@@ -22,6 +22,8 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 
         public Guid IncomeId { get; set; }
 
+        public Guid InputLoadId { get; set; }
+
         //[SwaggerExclude]
         //public DtoIncome Income { get; set; }
 

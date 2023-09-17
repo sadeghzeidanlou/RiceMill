@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.EntityFrameworkCore;
 using RiceMill.Application.Common.ExtensionMethods;
 using RiceMill.Application.Common.Interfaces;
 using RiceMill.Application.Common.Models.Enums;
@@ -9,6 +10,7 @@ using RiceMill.Application.UseCases.UserActivityServices;
 using RiceMill.Domain.Models;
 using Shared.Enums;
 using Shared.ExtensionMethods;
+using System.Linq.Expressions;
 using System.Net;
 
 namespace RiceMill.Application.UseCases.PersonServices
@@ -118,11 +120,11 @@ namespace RiceMill.Application.UseCases.PersonServices
             Person people;
             if (isAdd)
             {
-                people = _cacheService.GetPeople().FirstOrDefault(x => x.RiceMillId.Equals(riceMillId) && x.MobileNumber.Equals(mobileNumber, StringComparison.InvariantCultureIgnoreCase));
+                people = _applicationDbContext.People.Where(x => x.RiceMillId.Equals(riceMillId) && x.MobileNumber.Equals(mobileNumber, StringComparison.InvariantCultureIgnoreCase)).IgnoreQueryFilters().FirstOrDefault();
                 if (people == null)
                     return null;
             }
-            people = _cacheService.GetPeople().FirstOrDefault(x => x.RiceMillId.Equals(riceMillId) && x.MobileNumber.Equals(mobileNumber, StringComparison.InvariantCultureIgnoreCase) && x.Id != currentPerson);
+            people = _applicationDbContext.People.Where(x => x.RiceMillId.Equals(riceMillId) && x.MobileNumber.Equals(mobileNumber, StringComparison.InvariantCultureIgnoreCase) && x.Id != currentPerson).IgnoreQueryFilters().FirstOrDefault();
             if (people == null)
                 return null;
 

@@ -28,7 +28,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices
         private readonly ICacheService _cacheService;
         private readonly IUserActivityCommands _userActivityCommands;
         private readonly EntityTypeEnum _deliveryKey = EntityTypeEnum.Deliveries;
-        private readonly EntityTypeEnum _deliveryRiceThreshingKey = EntityTypeEnum.DeliveryRiceThreshings;
+        //private readonly EntityTypeEnum _deliveryRiceThreshingKey = EntityTypeEnum.DeliveryRiceThreshings;
 
         public DeliveryCommands(IApplicationDbContext applicationDbContext, ICurrentRequestService currentRequestService, ICacheService cacheService, IUserActivityCommands userActivityCommands)
         {
@@ -57,14 +57,14 @@ namespace RiceMill.Application.UseCases.DeliveryServices
             _applicationDbContext.SaveChanges();
             _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _deliveryKey, string.Empty, delivery.SerializeObject(), delivery.RiceMillId);
             _cacheService.Maintain(_deliveryKey, delivery);
-            foreach (var riceThreshingId in createDelivery.RiceThreshingIds)
-            {
-                var deliveryRiceThreshing = new DeliveryRiceThreshing { DeliveryId = delivery.Id, RiceThreshingId = riceThreshingId };
-                _applicationDbContext.DeliveryRiceThreshing.Add(deliveryRiceThreshing);
-                _applicationDbContext.SaveChanges();
-                _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _deliveryRiceThreshingKey, string.Empty, deliveryRiceThreshing.SerializeObject(), createDelivery.RiceMillId);
-                _cacheService.Maintain(_deliveryRiceThreshingKey, deliveryRiceThreshing);
-            }
+            //foreach (var riceThreshingId in createDelivery.RiceThreshingIds)
+            //{
+            //    var deliveryRiceThreshing = new DeliveryRiceThreshing { DeliveryId = delivery.Id, RiceThreshingId = riceThreshingId };
+            //    _applicationDbContext.DeliveryRiceThreshing.Add(deliveryRiceThreshing);
+            //    _applicationDbContext.SaveChanges();
+            //    _userActivityCommands.CreateGeneral(UserActivityTypeEnum.New, _deliveryRiceThreshingKey, string.Empty, deliveryRiceThreshing.SerializeObject(), createDelivery.RiceMillId);
+            //    _cacheService.Maintain(_deliveryRiceThreshingKey, deliveryRiceThreshing);
+            //}
             return Result<DtoDelivery>.Success(delivery.Adapt<DtoDelivery>());
         }
 

@@ -2,11 +2,228 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RiceMill.Ui.Pages.RiceThreshing.RiceThreshingListPage"
-             Title="RiceThreshingListPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             NavigationPage.HasNavigationBar="False"
+             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             xmlns:controls="https://codecell.ir/maui/controls/persianDatePicker">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Frame Grid.Row="0"
+               Padding="5"
+               BorderColor="#3D9970"
+               CornerRadius="20"
+               Margin="5">
+
+            <StackLayout Padding="5">
+
+                <Grid FlowDirection="RightToLeft">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <controls:PersianDatePicker x:Name="PersianDatePickerStart" 
+                                                PlaceHolder="تاریخ شروع" 
+                                                MaximumHeightRequest="45"
+                                                Grid.Row="0"
+                                                Grid.Column="0"/>
+
+                    <TimePicker x:Name="TimePickerStart"
+                                Format = "HH:mm"
+                                Grid.Row="0"
+                                Grid.Column="1"/>
+
+                    <controls:PersianDatePicker x:Name="PersianDatePickerEnd" 
+                                                PlaceHolder="تاریخ پایان" 
+                                                MaximumHeightRequest="45"
+                                                Grid.Row="1"
+                                                Grid.Column="0"/>
+
+                    <TimePicker x:Name="TimePickerEnd"
+                                Format = "HH:mm"
+                                Grid.Row="1"
+                                Grid.Column="1"/>
+
+                    <Entry x:Name="TxtUnbrokenRice"
+                           Placeholder="مقدار برنج سالم-کیلوگرم"
+                           MaxLength="4"
+                           Grid.Row="2"
+                           Grid.Column="0"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"
+                           android:Entry.ImeOptions="Next"
+                           Keyboard="Numeric"/>
+
+                    <Entry x:Name="TxtBrokenRice"
+                           Placeholder="مقدار برنج نیمه-کیلوگرم"
+                           MaxLength="4"
+                           Grid.Row="2"
+                           Grid.Column="1"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"
+                           android:Entry.ImeOptions="Next"
+                           Keyboard="Numeric"/>
+
+                    <Entry x:Name="TxtChickenRice"
+                           Placeholder="مقدار برنج مرغی-کیلوگرم"
+                           MaxLength="4"
+                           Grid.Row="3"
+                           Grid.Column="0"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"
+                           android:Entry.ImeOptions="Next"
+                           Keyboard="Numeric"/>
+
+                    <Entry x:Name="TxtFlour"
+                           Placeholder="مقدار آرد-کیلوگرم"
+                           MaxLength="4"
+                           Grid.Row="3"
+                           Grid.Column="1"
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold"
+                           android:Entry.ImeOptions="Next"
+                           Keyboard="Numeric"/>
+
+                    <Picker x:Name="PickerInputLoad"
+                            Grid.Row="4" 
+                            Grid.Column="0"
+                            Title="بار ورودی"
+                            VerticalOptions="Center"        
+                            ItemDisplayBinding="{Binding InputLoadDetail}" 
+                            FontAttributes="Bold"/>
+
+                    <Picker x:Name="PickerIncome"
+                            Grid.Row="4" 
+                            Grid.Column="1"
+                            Title="درآمد"
+                            VerticalOptions="Center"        
+                            ItemDisplayBinding="{Binding Title}" 
+                            FontAttributes="Bold"/>
+                    
+                    <Entry x:Name="TxtDescription"
+                           Placeholder="توضیحات"
+                           MaxLength="200"
+                           Grid.Row="5" 
+                           Grid.Column="0"
+                           VerticalOptions="Center" 
+                           android:Entry.ImeOptions="Next"
+                           FontAttributes="Bold"/>
+
+                    <Label x:Name="LblIsDeliverd"
+                           VerticalOptions="Center"
+                           Text="بار تحویل شده است"
+                           Grid.Row="5" 
+                           Grid.Column="1"/>
+
+                    <Button x:Name="BtnSave"
+                            Text="ذخیره" 
+                            WidthRequest="150"
+                            BackgroundColor="#3D9970"
+                            CornerRadius="20"
+                            Grid.Row="6" 
+                            FontAttributes="Bold"
+                            Grid.ColumnSpan="2"
+                            Clicked="OnBtnSaveClicked" />
+                </Grid>
+            </StackLayout>
+        </Frame>
+
+        <CollectionView x:Name="CVRiceThreshing"
+                        VerticalOptions="FillAndExpand"
+                        FlowDirection="RightToLeft"
+                        Margin="20"
+                        Grid.Row="1"
+                        SelectionMode="Single"
+                        SelectionChanged="OnCVRiceThreshingSelectionChanged">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="1"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="{Binding PaidPersonFullName}"
+                               Padding="3"
+                               VerticalTextAlignment="Center"
+                               FontAttributes="Bold"
+                               Grid.RowSpan="1"
+                               Grid.Row="0"/>
+
+                        <Label Text="{Binding PaymentDetail}"
+                               Padding="6"
+                               VerticalTextAlignment="Center"
+                               Grid.Row="1"/>
+
+                        <BoxView HeightRequest="1"
+                                 BackgroundColor="Black"
+                                 Grid.Row="2"
+                                 VerticalOptions="End"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <Frame Grid.Row="2"
+               Padding="10"
+               BorderColor="#3D9970"
+               CornerRadius="20"
+               Margin="5">
+
+            <StackLayout HeightRequest="50" 
+                         Padding="5">
+
+                <Grid FlowDirection="RightToLeft">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="BtnRemove"
+                            Text="حذف" 
+                            BackgroundColor="#3D9970"
+                            CornerRadius="20"
+                            Grid.Row="0" 
+                            Grid.Column="1" 
+                            FontAttributes="Bold"
+                            Margin="5,0,5,0"
+                            Clicked="OnBtnRemoveClicked" />
+
+                    <Button x:Name="BtnNew"
+                            Text="جدید" 
+                            BackgroundColor="#3D9970"
+                            CornerRadius="20"
+                            Grid.Row="0" 
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Margin="5,0,5,0"
+                            Clicked="OnNewBtnClicked" />
+                </Grid>
+            </StackLayout>
+        </Frame>
+    </Grid>
 </ContentPage>
