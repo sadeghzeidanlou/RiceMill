@@ -128,7 +128,7 @@
 
                     <Label x:Name="LblIsDeliverd"
                            VerticalOptions="Center"
-                           Text="بار تحویل شده است"
+                           Text=""
                            Grid.Row="5" 
                            Grid.Column="1"/>
 

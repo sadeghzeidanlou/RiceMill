@@ -50,15 +50,6 @@ public sealed partial class RiceThreshingListPage : ContentPage
             _riceMillServices = new RiceMillServices();
             InitializeComponent();
             InitializeAsync();
-            if (ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty() || CurrentRiceMill == null)
-            {
-                Toast.Make("کارخانه ای برای شما تعیین نشده", ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
-                BtnRemove.IsEnabled = false;
-                BtnSave.IsEnabled = false;
-                BtnNew.IsEnabled = false;
-                CVRiceThreshing.IsEnabled = false;
-                return;
-            }
         }
         catch (Exception ex)
         {
@@ -66,10 +57,28 @@ public sealed partial class RiceThreshingListPage : ContentPage
         }
     }
 
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
+        await LoadRiceMill();
+        if (ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty() || CurrentRiceMill == null)
+        {
+            await Toast.Make("کارخانه ای برای شما تعیین نشده", ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+            BtnRemove.IsEnabled = false;
+            BtnSave.IsEnabled = false;
+            BtnNew.IsEnabled = false;
+            CVRiceThreshing.IsEnabled = false;
+        }
+    }
+
     private async void InitializeAsync()
     {
         try
         {
+            PersianDatePickerStart.PersianDate = PersianDateTime.Now.ToShortDateString();
+            TimePickerStart.Time = PersianDateTime.Now.SetTime(8, 0).GetTime();
+            PersianDatePickerEnd.PersianDate = PersianDateTime.Now.ToShortDateString();
+            TimePickerEnd.Time = DateTime.Now.TimeOfDay;
             BtnRemove.IsEnabled = ApplicationStaticContext.IsManager || ApplicationStaticContext.IsAdmin;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
@@ -77,7 +86,6 @@ public sealed partial class RiceThreshingListPage : ContentPage
             await LoadVillages();
             await LoadInputLoads();
             await LoadIncomes();
-            await LoadRiceMill();
             await RefreshRiceThreshingList();
             FillInputLoadRequireData();
             FillRequireData();
@@ -101,10 +109,10 @@ public sealed partial class RiceThreshingListPage : ContentPage
         TxtChickenRice.Text = string.Empty;
         TxtFlour.Text = string.Empty;
         TxtDescription.Text = string.Empty;
-        PersianDatePickerStart.PersianDate = string.Empty;
-        TimePickerStart.Time = TimeSpan.Zero;
-        PersianDatePickerEnd.PersianDate = string.Empty;
-        TimePickerEnd.Time = TimeSpan.Zero;
+        PersianDatePickerStart.PersianDate = PersianDateTime.Now.ToShortDateString();
+        TimePickerStart.Time = PersianDateTime.Now.SetTime(8, 0).GetTime();
+        PersianDatePickerEnd.PersianDate = PersianDateTime.Now.ToShortDateString();
+        TimePickerEnd.Time = DateTime.Now.TimeOfDay;
         LblIsDeliverd.Text = string.Empty;
         _isNewRiceThreshing = true;
     }
@@ -202,21 +210,49 @@ public sealed partial class RiceThreshingListPage : ContentPage
             var flourAmount = TxtFlour.Text.ToFloat();
             var chickenAmount = TxtChickenRice.Text.ToInt();
             DtoIncome selectedIncome = null;
-            var addIncomeAutomatically = false;
             if (PickerIncome.SelectedItem is DtoIncome income)
+            {
                 selectedIncome = income;
+            }
             else
             {
                 var wagePercent = CurrentRiceMill.Wage / (float)100;
-                var wageDetail = $"{wagePercent * unbrokenRiceAmount} بلند, {wagePercent * brokenRiceAmount} نیمه , {wagePercent * chickenAmount} مرغی, {wagePercent * flourAmount} آرد";
-                string result = await DisplayPromptAsync("آیا با ثبت خودکار کارمزد موافق هستید؟", wageDetail, "بله", "خیر", "درصورت عدم تایید به صورت توالی بالا مقادیر را وارد کنید");
-                if (!addIncomeAutomatically)
-                    errorMessage.AppendLine(ResultStatusEnum.ConcernNotFound.GetErrorMessage());
+                var unbrokenWage = (wagePercent * unbrokenRiceAmount).ToString("n1");
+                var brokenWage = (wagePercent * brokenRiceAmount).ToString("n1");
+                var chickenWage = (wagePercent * chickenAmount).ToString("n1");
+                var flourWage = (wagePercent * flourAmount).ToString("n1");
+                var wageInfo = $"بلند: {unbrokenWage} کیلوگرم{Environment.NewLine}" +
+                    $"نیمه: {brokenWage} کیلوگرم{Environment.NewLine}" +
+                    $"مرغی: {chickenWage} کیلوگرم{Environment.NewLine}" +
+                    $"آرد: {flourWage} کیلوگرم{Environment.NewLine}" +
+                    "برای تایید بله را انتخاب و در صورت عدم تایید مقادیر را با - و ترتیب ذکر شده مانند نمونه وارد کنید";
+                string result = await DisplayPromptAsync("آیا با ثبت درآمد خودکار به شکل زیر موافق هستید؟", wageInfo, "بله", "خیر", initialValue: $"{unbrokenWage}-{brokenWage}-{chickenWage}-{flourWage}");
+                if (result == null)
+                {
+                    await Toast.Make(ResultStatusEnum.IncomeNotFound.GetErrorMessage().ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                    return;
+                }
+                if (result.IsNotNullOrEmpty())
+                {
+                    var wageDetail = result.Split("-");
+                    if (wageDetail.Length != 4 || wageDetail.Any(x => x.IsNullOrEmpty()))
+                    {
+                        await Toast.Make(ResultStatusEnum.IncomeValueIsNotValid.GetErrorMessage().ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                        return;
+                    }
+                    unbrokenWage = wageDetail[0];
+                    brokenWage = wageDetail[1];
+                    chickenWage = wageDetail[2];
+                    flourWage = wageDetail[3];
+                    var createIncome = new DtoCreateIncome(DateTime.Now, unbrokenWage.ToFloat(), brokenWage.ToFloat(), flourWage.ToFloat(), TxtDescription.Text, ApplicationStaticContext.CurrentUser.RiceMillId);
+                    var incomeData = await _incomeServices.Add(createIncome);
+                    selectedIncome = incomeData.Data;
+                    await LoadIncomes();
+                }
             }
-
             if (_isNewRiceThreshing)
             {
-                var newRiceThreshing = new DtoCreateRiceThreshing(startDate.ToDateTime(), endDate.ToDateTime(), unbrokenRiceAmount, brokenRiceAmount, chickenAmount, flourAmount, TxtDescription.Text, selectedIncome.Id, ApplicationStaticContext.CurrentUser.RiceMillId);
+                var newRiceThreshing = new DtoCreateRiceThreshing(startDate.ToDateTime(), endDate.ToDateTime(), unbrokenRiceAmount, brokenRiceAmount, chickenAmount, flourAmount, TxtDescription.Text, selectedInputLoad.Id, selectedIncome.Id, ApplicationStaticContext.CurrentUser.RiceMillId);
                 await _riceThreshingServices.Add(newRiceThreshing);
             }
             else
@@ -224,7 +260,7 @@ public sealed partial class RiceThreshingListPage : ContentPage
                 if (CVRiceThreshing.SelectedItem is not DtoRiceThreshing selectedRiceThreshing)
                     return;
 
-                var updatePayment = new DtoUpdateRiceThreshing(selectedRiceThreshing.Id, startDate.ToDateTime(), endDate.ToDateTime(), unbrokenRiceAmount, brokenRiceAmount, chickenAmount, flourAmount, TxtDescription.Text, selectedIncome.Id);
+                var updatePayment = new DtoUpdateRiceThreshing(selectedRiceThreshing.Id, startDate.ToDateTime(), endDate.ToDateTime(), unbrokenRiceAmount, brokenRiceAmount, chickenAmount, flourAmount, TxtDescription.Text, selectedInputLoad.Id, selectedIncome.Id);
                 await _riceThreshingServices.Update(updatePayment);
             }
             OnNewBtnClicked(null, null);

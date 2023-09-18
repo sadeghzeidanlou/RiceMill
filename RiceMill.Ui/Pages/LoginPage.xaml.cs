@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Platform;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.Resource;
@@ -28,6 +29,7 @@ namespace RiceMill.Ui
             _userServices = new UserServices();
             _personServices = new PersonServices();
             InitializeComponent();
+            LblInfo.Text = $"v{AppInfo.VersionString}";
         }
 
         protected override async void OnAppearing()

@@ -3,7 +3,7 @@ using RiceMill.Application.Common.Models.Enums;
 
 namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 {
-    public sealed record DtoCreateRiceThreshing(DateTime StartTime, DateTime EndTime, float UnbrokenRice, float BrokenRice, float ChickenRice, float Flour, string Description, Guid IncomeId, Guid RiceMillId);
+    public sealed record DtoCreateRiceThreshing(DateTime StartTime, DateTime EndTime, float UnbrokenRice, float BrokenRice, float ChickenRice, float Flour, string Description, Guid InputLoadId, Guid IncomeId, Guid RiceMillId);
 
     public sealed class DtoCreateRiceThreshingValidator : AbstractValidator<DtoCreateRiceThreshing>
     {
@@ -32,6 +32,9 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 
             RuleFor(dto => dto.Description)
                 .MaximumLength(200).WithErrorCode(ResultStatusEnum.RiceThreshingDescriptionLengthIsNotValid.ToString());
+
+            RuleFor(dto => dto.InputLoadId)
+                .NotEmpty().WithErrorCode(ResultStatusEnum.InputLoadIdIsNotValid.ToString());
 
             RuleFor(dto => dto.IncomeId)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.IncomeIdIsNotValid.ToString());

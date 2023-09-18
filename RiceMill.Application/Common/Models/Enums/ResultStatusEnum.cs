@@ -221,7 +221,9 @@
         DeliveryReceiverPersonIdIsNotValid,
         DeliveryReceiverPersonNotFound,
         DeliveryCarrierPersonIdIsNotValid,
-        DeliveryCarrierPersonNotFound
+        DeliveryCarrierPersonNotFound,
+        PleaseSelectDelivery,
+        DeliveryDeliveryValueIsNotValid,
 
         #endregion
     }
@@ -448,7 +450,9 @@
                 {ResultStatusEnum.DeliveryReceiverPersonIdIsNotValid, "شناسه فرد تحویل گیرنده بار معتبر نمی باشد" },
                 {ResultStatusEnum.DeliveryReceiverPersonNotFound, "فرد تحویل گیرنده بار یافت نشد یا شما مجاز به دسترسی نیستید" },
                 {ResultStatusEnum.DeliveryCarrierPersonIdIsNotValid, "شناسه فرد حمل کننده بار معتبر نمی باشد" },
-                {ResultStatusEnum.DeliveryCarrierPersonNotFound, "فرد حمل کننده بار تحویلی یافت نشد یا شما مجاز به دسترسی نیستید" }
+                {ResultStatusEnum.DeliveryCarrierPersonNotFound, "فرد حمل کننده بار تحویلی یافت نشد یا شما مجاز به دسترسی نیستید" },
+                {ResultStatusEnum.PleaseSelectDelivery, "لطفا یک تحویل را انتخاب کنید" },
+                {ResultStatusEnum.DeliveryDeliveryValueIsNotValid, "مقدار بار تحویلی معتبر نمی باشد" }
 
                 #endregion
             };

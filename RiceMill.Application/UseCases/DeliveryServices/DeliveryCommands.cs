@@ -129,7 +129,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices
             if (!_cacheService.GetVehicles().Any(c => c.Id.Equals(delivery.VehicleId)))
                 return Result<DtoDelivery>.Failure(Error.CreateError(ResultStatusEnum.VehicleNotFound), HttpStatusCode.NotFound);
 
-            if (_cacheService.GetRiceThreshings().Select(rt => rt.Id).Intersect(delivery.RiceThreshingIds).Count() != delivery.RiceThreshingIds.Count)
+            if (!_cacheService.GetRiceThreshings().Any(rt=>rt.Id.Equals(delivery.RiceThreshingId)))
                 return Result<DtoDelivery>.Failure(Error.CreateError(ResultStatusEnum.RiceThreshingNotFound), HttpStatusCode.NotFound);
 
             if (!_cacheService.GetRiceMills().Any(rm => rm.Id.Equals(delivery.RiceMillId)))

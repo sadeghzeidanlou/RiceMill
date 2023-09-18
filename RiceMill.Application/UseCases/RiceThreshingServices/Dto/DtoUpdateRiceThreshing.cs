@@ -3,7 +3,7 @@ using RiceMill.Application.Common.Models.Enums;
 
 namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
 {
-    public sealed record DtoUpdateRiceThreshing(Guid Id, DateTime StartTime, DateTime EndTime, float UnbrokenRice, float BrokenRice, float ChickenRice, float Flour, string Description, Guid IncomeId);
+    public sealed record DtoUpdateRiceThreshing(Guid Id, DateTime StartTime, DateTime EndTime, float UnbrokenRice, float BrokenRice, float ChickenRice, float Flour, string Description, Guid InputLoadId, Guid IncomeId);
 
     public sealed class DtoUpdateRiceThreshingValidator : AbstractValidator<DtoUpdateRiceThreshing>
     {
@@ -33,11 +33,14 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
             RuleFor(dto => dto.Flour)
                 .Must(f => f > -1).WithErrorCode(ResultStatusEnum.RiceThreshingFlourIsNotValid.ToString());
 
-            RuleFor(dto => dto.IncomeId)
-             .NotEmpty().WithErrorCode(ResultStatusEnum.IncomeIdIsNotValid.ToString());
-
             RuleFor(dto => dto.Description)
                 .MaximumLength(200).WithErrorCode(ResultStatusEnum.RiceThreshingDescriptionLengthIsNotValid.ToString());
+
+            RuleFor(dto => dto.InputLoadId)
+             .NotEmpty().WithErrorCode(ResultStatusEnum.InputLoadIdIsNotValid.ToString());
+
+            RuleFor(dto => dto.IncomeId)
+             .NotEmpty().WithErrorCode(ResultStatusEnum.IncomeIdIsNotValid.ToString());
         }
     }
 }

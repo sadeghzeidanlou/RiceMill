@@ -47,6 +47,8 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices.Dto
             }
         }
 
+        public string RiceThreshingHumanReadable { get; set; }
+
         //[SwaggerExclude]
         //public DtoIncome Income { get; set; }
 

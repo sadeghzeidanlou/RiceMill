@@ -58,7 +58,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
     {
         try
         {
-            PersianDatePickerStart.PersianDate = new PersianDateTime(DateTime.Now).ToShortDateString();
+            PersianDatePickerStart.PersianDate = PersianDateTime.Now.ToShortDateString();
             TimePickerStart.Time = DateTime.Now.TimeOfDay;
             BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
@@ -105,7 +105,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
 
             if (!_isNewDryerHistory)
             {
-                PersianDatePickerEnd.PersianDate = new PersianDateTime(DateTime.Now).ToShortDateString();
+                PersianDatePickerEnd.PersianDate = PersianDateTime.Now.ToShortDateString();
                 TimePickerEnd.Time = DateTime.Now.TimeOfDay;
                 selectedDryerOperation = DryerOperation.GetAll.First(x => x.Operation == DryerOperationEnum.Unload);
             }
@@ -244,7 +244,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
         PickerDryerOperation.ItemsSource = operationSource;
         PickerDryerOperation.SelectedIndex = operationSource.First().Index;
         PickerDryerOperation.IsEnabled = true;
-        PersianDatePickerStart.PersianDate = new PersianDateTime(DateTime.Now).ToShortDateString();
+        PersianDatePickerStart.PersianDate = PersianDateTime.Now.ToShortDateString();
         PersianDatePickerStart.IsEnabled = true;
         TimePickerStart.Time = DateTime.Now.TimeOfDay;
         TimePickerStart.IsEnabled = true;

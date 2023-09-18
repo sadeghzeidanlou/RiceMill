@@ -36,7 +36,7 @@ public sealed partial class IncomeListPage : ContentPage
     {
         try
         {
-            PersianDatePicker.PersianDate = new PersianDateTime(DateTime.Now).ToShortDateString();
+            PersianDatePicker.PersianDate = PersianDateTime.Now.ToShortDateString();
             TimePicker.Time = DateTime.Now.TimeOfDay;
             BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
@@ -157,7 +157,7 @@ public sealed partial class IncomeListPage : ContentPage
         TxtFlour.Text = string.Empty;
         TxtDescription.Text = string.Empty;
         TxtUnbrokenRice.Text = string.Empty;
-        PersianDatePicker.PersianDate = new PersianDateTime(DateTime.Now).ToShortDateString();
+        PersianDatePicker.PersianDate = PersianDateTime.Now.ToShortDateString();
         TimePicker.Time = DateTime.Now.TimeOfDay;
         _isNewIncome = true;
     }

@@ -35,9 +35,17 @@ namespace RiceMill.Application.UseCases.RiceMillServices
         private IQueryable<Domain.Models.RiceMill> GetFilter(DtoRiceMillFilter filter)
         {
             var riceMilles = _cacheService.GetRiceMills();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.Id.IsNullOrEmpty()))
+            if (filter == null)
                 return riceMilles.Where(rm => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                var userData = _cacheService.GetUsers().FirstOrDefault(x => x.Id.Equals(_currentRequestService.UserId));
+                if (userData == null)
+                    return riceMilles.Where(rm => false);
+
+                riceMilles = riceMilles.Where(rm => rm.Id.Equals(userData.RiceMillId));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 riceMilles = riceMilles.Where(rm => rm.Id.Equals(filter.Id.Value));
 

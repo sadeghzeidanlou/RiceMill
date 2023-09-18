@@ -31,10 +31,10 @@ namespace RiceMill.Application.UseCases.IncomeServices.Dto
             {
                 var sbDetail = new StringBuilder();
                 if (UnbrokenRice > 0)
-                    sbDetail.Append($"{UnbrokenRice} ک برنج بلند,");
+                    sbDetail.Append($"{UnbrokenRice} ک بلند,");
 
                 if (BrokenRice > 0)
-                    sbDetail.Append($" {BrokenRice} ک برنج نیمه,");
+                    sbDetail.Append($" {BrokenRice} ک نیمه,");
 
                 if (Flour > 0)
                     sbDetail.Append($" {Flour} ک آرد,");
@@ -42,6 +42,8 @@ namespace RiceMill.Application.UseCases.IncomeServices.Dto
                 return sbDetail.Remove(sbDetail.Length - 1, 1).ToString().TrimStart();
             }
         }
+
+        public string Title => $"{IncomeDetail}{Environment.NewLine}{IncomeTimeReadable}";
 
         //[SwaggerExclude]
         //public DtoRiceThreshing RiceThreshing { get; set; }

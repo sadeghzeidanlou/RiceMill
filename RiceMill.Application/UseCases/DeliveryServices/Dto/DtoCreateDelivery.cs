@@ -3,7 +3,7 @@ using RiceMill.Application.Common.Models.Enums;
 
 namespace RiceMill.Application.UseCases.DeliveryServices.Dto
 {
-    public sealed record DtoCreateDelivery(DateTime DeliveryTime, float UnbrokenRice, float BrokenRice, float ChickenRice, float Flour, string Description, Guid DelivererPersonId, Guid ReceiverPersonId, Guid CarrierPersonId, Guid VehicleId, List<Guid> RiceThreshingIds, Guid RiceMillId);
+    public sealed record DtoCreateDelivery(DateTime DeliveryTime, float UnbrokenRice, float BrokenRice, float ChickenRice, float Flour, string Description, Guid DelivererPersonId, Guid ReceiverPersonId, Guid CarrierPersonId, Guid VehicleId, Guid RiceThreshingId, Guid RiceMillId);
 
     public sealed class DtoCreateDeliveryValidator : AbstractValidator<DtoCreateDelivery>
     {
@@ -40,7 +40,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices.Dto
             RuleFor(dto => dto.VehicleId)
              .NotEmpty().WithErrorCode(ResultStatusEnum.VehicleIdIsNotValid.ToString());
 
-            RuleFor(dto => dto.RiceThreshingIds)
+            RuleFor(dto => dto.RiceThreshingId)
              .NotEmpty().WithErrorCode(ResultStatusEnum.RiceThreshingIdIsNotValid.ToString());
 
             RuleFor(dto => dto.RiceMillId)

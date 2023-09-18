@@ -11,7 +11,7 @@ namespace RiceMill.Application.UseCases.IncomeServices.Dto
         {
             RuleFor(dto => dto.IncomeTime)
                 .NotEmpty().WithErrorCode(ResultStatusEnum.IncomeIdIsNotValid.ToString())
-                .LessThanOrEqualTo(DateTime.Now).WithErrorCode(ResultStatusEnum.IncomeIncomeTimeIsNotValid.ToString());
+                .GreaterThan(DateTime.Now).WithErrorCode(ResultStatusEnum.IncomeIncomeTimeIsNotValid.ToString());
 
             RuleFor(dto => dto.UnbrokenRice)
                 .Must(ubr => ubr > -1).WithErrorCode(ResultStatusEnum.IncomeUnbrokenRiceIsNotValid.ToString());

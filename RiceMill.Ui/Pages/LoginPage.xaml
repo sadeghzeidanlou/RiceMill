@@ -69,6 +69,10 @@
             Margin="100"
             Color="#FBDA01"/>
 
+        <Label x:Name="LblInfo"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"/>
+
     </StackLayout>
 
 </ContentPage>

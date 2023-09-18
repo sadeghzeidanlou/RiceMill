@@ -1,4 +1,6 @@
-﻿using RiceMill.Application.UseCases.BaseDto;
+﻿using MD.PersianDateTime.Standard;
+using RiceMill.Application.UseCases.BaseDto;
+using System.Text;
 
 namespace RiceMill.Application.UseCases.DeliveryServices.Dto
 {
@@ -13,6 +15,15 @@ namespace RiceMill.Application.UseCases.DeliveryServices.Dto
         public short Flour { get; set; }
 
         public DateTime DeliveryTime { get; set; }
+
+        public string DeliveryTimeReadable
+        {
+            get
+            {
+                var deliveryTime = new PersianDateTime(DeliveryTime);
+                return $"روز {deliveryTime.ToShortDateString()} ساعت {deliveryTime.ToString("HH:mm")}";
+            }
+        }
 
         public string Description { get; set; }
 
@@ -33,10 +44,34 @@ namespace RiceMill.Application.UseCases.DeliveryServices.Dto
 
         public Guid VehicleId { get; set; }
 
+
         //[SwaggerExclude]
         //public DtoVehicle Vehicle { get; set; }
 
+        public Guid RiceThreshingId { get; set; }
+
         //[SwaggerExclude]
-        //public ICollection<DtoRiceThreshing> RiceThreshings { get; set; }
+        //public DtoRiceThreshing RiceThreshing { get; set; }
+
+        public string DeliveryInfo
+        {
+            get
+            {
+                var sbDetail = new StringBuilder();
+                if (UnbrokenRice > 0)
+                    sbDetail.Append($"{UnbrokenRice} ک بلند,");
+
+                if (BrokenRice > 0)
+                    sbDetail.Append($" {BrokenRice} ک نیمه,");
+
+                if (Flour > 0)
+                    sbDetail.Append($" {Flour} ک آرد,");
+
+                if (ChickenRice > 0)
+                    sbDetail.Append($" {ChickenRice} ک مرغی,");
+
+                return sbDetail.Remove(sbDetail.Length - 1, 1).ToString().TrimStart();
+            }
+        }
     }
 }
