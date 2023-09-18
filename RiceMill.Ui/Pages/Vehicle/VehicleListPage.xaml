@@ -57,7 +57,7 @@
                             Grid.Column="0"
                             Title="صاحب وسیله نقلیه"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding FullNameWithFatherName}" 
                             FontAttributes="Bold"/>
 
                     <Entry x:Name="TxtDescription"

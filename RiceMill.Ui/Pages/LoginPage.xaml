@@ -39,8 +39,7 @@
             HorizontalOptions="Center"
             WidthRequest="200"
             FlowDirection="RightToLeft"
-            ClearButtonVisibility="WhileEditing"
-            Text="Sadegh"/>
+            ClearButtonVisibility="WhileEditing"/>
 
         <Entry
             x:Name="TxtPassword"
@@ -49,8 +48,7 @@
             WidthRequest="200"
             FlowDirection="RightToLeft"
             IsPassword="True"
-            ClearButtonVisibility="WhileEditing"
-            Text="654"/>
+            ClearButtonVisibility="WhileEditing"/>
 
         <Button
             x:Name="BtnLogin"
@@ -71,7 +69,7 @@
 
         <Label x:Name="LblInfo"
                HorizontalOptions="Center"
-               VerticalOptions="Center"/>
+               VerticalOptions="End"/>
 
     </StackLayout>
 

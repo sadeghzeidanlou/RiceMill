@@ -100,7 +100,7 @@
                             Grid.Column="0"
                             Title="صاحب کارخانه"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding FullNameWithFatherName}" 
                             FontAttributes="Bold"/>
 
                     <Button x:Name="BtnSave"

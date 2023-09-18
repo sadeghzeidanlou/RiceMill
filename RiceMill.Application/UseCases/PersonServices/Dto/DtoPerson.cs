@@ -23,6 +23,8 @@ namespace RiceMill.Application.UseCases.PersonServices.Dto
 
         public string FullName => $"{Name} {Family}";
 
+        public string FullNameWithFatherName => $"{Name} {Family} فرزند {FatherName}";
+
         //[SwaggerExclude]
         //public DtoUser RelatedUser { get; set; }
 

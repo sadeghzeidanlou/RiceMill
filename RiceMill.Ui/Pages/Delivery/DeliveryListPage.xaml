@@ -40,7 +40,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Entry x:Name="TxtUnbrokenRice"
-                           Placeholder="تعداد کیسه سالم"
+                           Placeholder="مقدار برنج سالم-کیلوگرم"
                            MaxLength="4"
                            Grid.Row="0"
                            Grid.Column="0"
@@ -50,7 +50,7 @@
                            Keyboard="Numeric"/>
 
                     <Entry x:Name="TxtBrokenRice"
-                           Placeholder="تعداد کیسه نیمه"
+                           Placeholder="مقدار برنج نیمه-کیلوگرم"
                            MaxLength="4"
                            Grid.Row="0"
                            Grid.Column="1"
@@ -60,7 +60,7 @@
                            Keyboard="Numeric"/>
 
                     <Entry x:Name="TxtChickenRice"
-                           Placeholder="تعداد کیسه مرغی"
+                           Placeholder="مقدار برنج مرغی-کیلوگرم"
                            MaxLength="4"
                            Grid.Row="1"
                            Grid.Column="0"
@@ -70,7 +70,7 @@
                            Keyboard="Numeric"/>
 
                     <Entry x:Name="TxtFlour"
-                           Placeholder="تعداد کیسه آرد"
+                           Placeholder="مقدار آرد-کیلوگرم"
                            MaxLength="4"
                            Grid.Row="1"
                            Grid.Column="1"
@@ -95,7 +95,7 @@
                             Grid.Column="0"
                             Title="فرد تحویل دهنده"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding FullNameWithFatherName}" 
                             FontAttributes="Bold"/>
                     
                     <Picker x:Name="PickerReceiver"
@@ -103,7 +103,7 @@
                             Grid.Column="1"
                             Title="فرد تحویل گیرنده"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding FullNameWithFatherName}" 
                             FontAttributes="Bold"/>
                     
                     <Picker x:Name="PickerCarrier"
@@ -111,7 +111,7 @@
                             Grid.Column="0"
                             Title="راننده"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding FullNameWithFatherName}" 
                             FontAttributes="Bold"/>
                     
                     <Picker x:Name="PickerVehicle"
@@ -169,7 +169,7 @@
                             <RowDefinition Height="1"/>
                         </Grid.RowDefinitions>
 
-                        <Label Text="{Binding DelivererInfo}"
+                        <Label Text="{Binding DeliveryInfo}"
                                Padding="3"
                                VerticalTextAlignment="Center"
                                FontAttributes="Bold"
@@ -179,6 +179,7 @@
                         <Label Text="{Binding DeliveryDetail}"
                                Padding="6"
                                VerticalTextAlignment="Center"
+                               HeightRequest="60"
                                Grid.Row="1"/>
 
                         <BoxView HeightRequest="1"

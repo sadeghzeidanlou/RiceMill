@@ -53,7 +53,7 @@ namespace RiceMill.Application.UseCases.DeliveryServices.Dto
         //[SwaggerExclude]
         //public DtoRiceThreshing RiceThreshing { get; set; }
 
-        public string DeliveryInfo
+        public string DeliveryDetail
         {
             get
             {
@@ -70,8 +70,10 @@ namespace RiceMill.Application.UseCases.DeliveryServices.Dto
                 if (ChickenRice > 0)
                     sbDetail.Append($" {ChickenRice} ک مرغی,");
 
-                return sbDetail.Remove(sbDetail.Length - 1, 1).ToString().TrimStart();
+                return $"تحویل {sbDetail.Remove(sbDetail.Length - 1, 1).ToString().TrimStart()} در {DeliveryTimeReadable}";
             }
         }
+
+        public string DeliveryInfo { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using RiceMill.Application.Common.Models.Resource;
 using System.Diagnostics;
 
 namespace RiceMill.Ui.Pages.TabbedPages;
@@ -26,11 +27,10 @@ public sealed partial class SettingPage : ContentPage
 
     }
 
-    private void OnBtnExitClicked(object sender, EventArgs e)
+    private async void OnBtnExitClicked(object sender, EventArgs e)
     {
         SecureStorage.Default.RemoveAll();
-        Thread.Sleep(100);
-
+        string tokenValue = await SecureStorage.Default.GetAsync(SharedResource.TokenKey);
 #if ANDROID || WINDOWS
         Process.GetCurrentProcess().Kill();
 #endif

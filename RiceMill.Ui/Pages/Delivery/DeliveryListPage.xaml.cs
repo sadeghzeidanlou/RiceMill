@@ -10,6 +10,7 @@ using RiceMill.Application.UseCases.PersonServices.Dto;
 using RiceMill.Application.UseCases.RiceThreshingServices.Dto;
 using RiceMill.Application.UseCases.VehicleServices.Dto;
 using RiceMill.Application.UseCases.VillageServices.Dto;
+using RiceMill.Domain.Models;
 using RiceMill.Ui.Common;
 using RiceMill.Ui.Services.UseCases.DeliveryServices;
 using RiceMill.Ui.Services.UseCases.InputLoadServices;
@@ -261,7 +262,8 @@ public sealed partial class DeliveryListPage : ContentPage
         foreach (var item in Deliveries.Items)
         {
             var riceThreshing = RiceThreshings.Items.FirstOrDefault(x => x.Id.Equals(item.RiceThreshingId));
-            item.DeliveryInfo= $"از {villageDetail?.Title ?? "*نامشخص*"} تعداد {item.NumberOfBags} کیسه";
+            var inputLoad = InputLoads.Items.FirstOrDefault(x => x.Id.Equals(riceThreshing.InputLoadId));
+            item.DeliveryInfo = $"بار ورودی {inputLoad.InputLoadDetail}";
         }
     }
 
@@ -269,11 +271,11 @@ public sealed partial class DeliveryListPage : ContentPage
     {
         foreach (var item in RiceThreshings.Items)
         {
-            var inputLoadDetail = InputLoads.Items.FirstOrDefault(x => x.Id.Equals(item.InputLoadId));
-            var ownerDetail = People.Items.FirstOrDefault(x => x.Id.Equals(inputLoadDetail.OwnerPersonId));
-            var villageDetail = Villages.Items.FirstOrDefault(x => x.Id.Equals(inputLoadDetail.VillageId));
-            inputLoadDetail.InputLoadDetail = $"{ownerDetail?.FullName ?? "*نامشخص*"} از {villageDetail?.Title ?? "*نامشخص*"} به تعداد {inputLoadDetail.NumberOfBags} کیسه";
-            item.RiceThreshingHumanReadable = $"{inputLoadDetail.InputLoadDetail}{Environment.NewLine}{item.RiceThreshingInfo}";
+            var inputLoad = InputLoads.Items.FirstOrDefault(x => x.Id.Equals(item.InputLoadId));
+            var ownerDetail = People.Items.FirstOrDefault(x => x.Id.Equals(inputLoad?.OwnerPersonId));
+            var villageDetail = Villages.Items.FirstOrDefault(x => x.Id.Equals(inputLoad?.VillageId));
+            inputLoad.InputLoadDetail = $"{ownerDetail?.FullName ?? "*نامشخص*"} از {villageDetail?.Title ?? "*نامشخص*"} به تعداد {inputLoad?.NumberOfBags} کیسه";
+            item.RiceThreshingHumanReadable = $"{inputLoad.InputLoadDetail}{Environment.NewLine}{item.RiceThreshingInfo}";
         }
     }
 

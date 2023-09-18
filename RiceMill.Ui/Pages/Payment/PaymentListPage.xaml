@@ -43,7 +43,7 @@
                             Grid.Column="0"
                             Title="پرداخت شده به"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding FullNameWithFatherName}" 
                             FontAttributes="Bold"/>
                     
                     <Picker x:Name="PickerPaidConcern"

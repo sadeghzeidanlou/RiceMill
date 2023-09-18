@@ -54,7 +54,7 @@
                             Grid.Column="1"
                             Title="صاحب بار"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding FullNameWithFatherName}" 
                             FontAttributes="Bold"/>
 
                     <Picker x:Name="PickerReceiver"
@@ -62,7 +62,7 @@
                             Grid.Column="0"
                             Title="فرد تحویل گیرنده"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding FullNameWithFatherName}" 
                             FontAttributes="Bold"/>
 
                     <Picker x:Name="PickerDeliverer"
@@ -70,7 +70,7 @@
                             Grid.Column="1"
                             Title="فرد تحویل دهنده"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding FullNameWithFatherName}" 
                             FontAttributes="Bold"/>
                     
                     <controls:PersianDatePicker x:Name="PersianDatePicker" 
@@ -97,7 +97,7 @@
                             Grid.Column="1"
                             Title="راننده"
                             VerticalOptions="Center"        
-                            ItemDisplayBinding="{Binding FullName}" 
+                            ItemDisplayBinding="{Binding FullNameWithFatherName}" 
                             FontAttributes="Bold"/>
 
                     <Entry x:Name="TxtDescription"
