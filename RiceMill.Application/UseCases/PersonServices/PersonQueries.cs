@@ -33,9 +33,17 @@ namespace RiceMill.Application.UseCases.PersonServices
         private IQueryable<Person> GetFilter(DtoPersonFilter filter)
         {
             var people = _cacheService.GetPeople();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return people.Where(p => false);
+            if (filter == null)
+                return people.Where(rm => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                var userData = _cacheService.GetUsers().FirstOrDefault(x => x.Id.Equals(_currentRequestService.UserId));
+                if (userData == null)
+                    return people.Where(rm => false);
+
+                people = people.Where(rm => rm.RiceMillId.Equals(userData.RiceMillId));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 people = people.Where(p => p.Id.Equals(filter.Id.Value));
 

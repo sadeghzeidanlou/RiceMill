@@ -120,11 +120,11 @@ namespace RiceMill.Application.UseCases.PersonServices
             Person people;
             if (isAdd)
             {
-                people = _applicationDbContext.People.Where(x => x.RiceMillId.Equals(riceMillId) && x.MobileNumber.Equals(mobileNumber, StringComparison.InvariantCultureIgnoreCase)).IgnoreQueryFilters().FirstOrDefault();
+                people = _applicationDbContext.People.Where(x => x.RiceMillId.Equals(riceMillId) && x.MobileNumber.Equals(mobileNumber)).IgnoreQueryFilters().FirstOrDefault();
                 if (people == null)
                     return null;
             }
-            people = _applicationDbContext.People.Where(x => x.RiceMillId.Equals(riceMillId) && x.MobileNumber.Equals(mobileNumber, StringComparison.InvariantCultureIgnoreCase) && x.Id != currentPerson).IgnoreQueryFilters().FirstOrDefault();
+            people = _applicationDbContext.People.Where(x => x.RiceMillId.Equals(riceMillId) && x.MobileNumber.Equals(mobileNumber) && x.Id != currentPerson).IgnoreQueryFilters().FirstOrDefault();
             if (people == null)
                 return null;
 
