@@ -33,9 +33,16 @@ namespace RiceMill.Application.UseCases.VillageServices
         private IQueryable<Village> GetFilter(DtoVillageFilter filter)
         {
             var villages = _cacheService.GetVillages();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
+            if (filter == null)
                 return villages.Where(v => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
+                    return villages.Where(rm => false);
+
+                villages = villages.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 villages = villages.Where(v => v.Id.Equals(filter.Id.Value));
 

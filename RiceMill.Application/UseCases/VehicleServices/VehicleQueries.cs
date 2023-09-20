@@ -33,9 +33,16 @@ namespace RiceMill.Application.UseCases.VehicleServices
         private IQueryable<Vehicle> GetFilter(DtoVehicleFilter filter)
         {
             var vehicles = _cacheService.GetVehicles();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
+            if (filter == null)
                 return vehicles.Where(v => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
+                    return vehicles.Where(rm => false);
+
+                vehicles = vehicles.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 vehicles = vehicles.Where(v => v.Id.Equals(filter.Id.Value));
 

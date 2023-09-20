@@ -33,9 +33,16 @@ namespace RiceMill.Application.UseCases.RiceThreshingServices
         private IQueryable<RiceThreshing> GetFilter(DtoRiceThreshingFilter filter)
         {
             var riceThreshings = _cacheService.GetRiceThreshings();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return riceThreshings.Where(rt => false);
+            if (filter == null)
+                return riceThreshings.Where(v => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
+                    return riceThreshings.Where(rm => false);
+
+                riceThreshings = riceThreshings.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 riceThreshings = riceThreshings.Where(rt => rt.Id.Equals(filter.Id.Value));
 

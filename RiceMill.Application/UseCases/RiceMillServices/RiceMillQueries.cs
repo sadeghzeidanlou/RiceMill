@@ -40,11 +40,10 @@ namespace RiceMill.Application.UseCases.RiceMillServices
 
             if (_currentRequestService.IsNotAdmin)
             {
-                var userData = _cacheService.GetUsers().FirstOrDefault(x => x.Id.Equals(_currentRequestService.UserId));
-                if (userData == null)
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
                     return riceMilles.Where(rm => false);
 
-                riceMilles = riceMilles.Where(rm => rm.Id.Equals(userData.RiceMillId));
+                riceMilles = riceMilles.Where(rm => rm.Id.Equals(_currentRequestService.RiceMillId.Value));
             }
             if (filter.Id.IsNotNullOrEmpty())
                 riceMilles = riceMilles.Where(rm => rm.Id.Equals(filter.Id.Value));

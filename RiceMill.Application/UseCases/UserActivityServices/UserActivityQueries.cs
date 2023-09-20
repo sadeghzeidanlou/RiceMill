@@ -36,9 +36,16 @@ namespace RiceMill.Application.UseCases.UserActivityServices
         private IQueryable<UserActivity> GetFilter(DtoUserActivityFilter filter)
         {
             var userActivities = _cacheService.GetUserActivities();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return userActivities.Where(u => false);
+            if (filter == null)
+                return userActivities.Where(v => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
+                    return userActivities.Where(rm => false);
+
+                userActivities = userActivities.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
+            }
             if (filter.RiceMillId.IsNotNullOrEmpty())
                 userActivities = userActivities.Where(u => u.RiceMillId.Equals(filter.RiceMillId.Value));
 

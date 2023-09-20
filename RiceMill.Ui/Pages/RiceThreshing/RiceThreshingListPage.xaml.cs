@@ -271,6 +271,7 @@ public sealed partial class RiceThreshingListPage : ContentPage
         catch (Exception ex)
         {
             await Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+            if(_isNewRiceThreshing )
         }
         finally
         {

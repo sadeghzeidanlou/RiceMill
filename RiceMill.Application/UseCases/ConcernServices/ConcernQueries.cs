@@ -33,9 +33,16 @@ namespace RiceMill.Application.UseCases.ConcernServices
         private IQueryable<Concern> GetFilter(DtoConcernFilter filter)
         {
             var concerns = _cacheService.GetConcerns();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return concerns.Where(c => false);
+            if (filter == null)
+                return concerns.Where(v => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
+                    return concerns.Where(rm => false);
+
+                concerns = concerns.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 concerns = concerns.Where(c => c.Id.Equals(filter.Id.Value));
 

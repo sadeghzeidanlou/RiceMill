@@ -33,9 +33,16 @@ namespace RiceMill.Application.UseCases.DryerServices
         private IQueryable<Dryer> GetFilter(DtoDryerFilter filter)
         {
             var dryers = _cacheService.GetDryers();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return dryers.Where(d => false);
+            if (filter == null)
+                return dryers.Where(v => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
+                    return dryers.Where(rm => false);
+
+                dryers = dryers.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 dryers = dryers.Where(d => d.Id.Equals(filter.Id.Value));
 

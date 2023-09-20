@@ -33,9 +33,16 @@ namespace RiceMill.Application.UseCases.InputLoadServices
         private IQueryable<InputLoad> GetFilter(DtoInputLoadFilter filter)
         {
             var inputLoads = _cacheService.GetInputLoads();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return inputLoads.Where(il => false);
+            if (filter == null)
+                return inputLoads.Where(v => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
+                    return inputLoads.Where(rm => false);
+
+                inputLoads = inputLoads.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 inputLoads = inputLoads.Where(il => il.Id.Equals(filter.Id.Value));
 

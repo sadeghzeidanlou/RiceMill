@@ -33,9 +33,16 @@ namespace RiceMill.Application.UseCases.DeliveryServices
         private IQueryable<Delivery> GetFilter(DtoDeliveryFilter filter)
         {
             var deliveries = _cacheService.GetDeliveries();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return deliveries.Where(dh => false);
+            if (filter == null)
+                return deliveries.Where(v => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
+                    return deliveries.Where(rm => false);
+
+                deliveries = deliveries.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 deliveries = deliveries.Where(dh => dh.Id.Equals(filter.Id.Value));
 

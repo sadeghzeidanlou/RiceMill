@@ -60,6 +60,7 @@ namespace RiceMill.Api.Middleware
                 var userInfo = _cacheService.GetUsers().FirstOrDefault(x => x.Id.Equals(userId)) ?? throw new Exception("Unauthorized: User not found");
                 _currentRequestService.UserId = userId;
                 _currentRequestService.UserRole = userInfo.Role;
+                _currentRequestService.RiceMillId = userInfo.RiceMillId;
             }
         }
     }

@@ -33,9 +33,16 @@ namespace RiceMill.Application.UseCases.PaymentServices
         private IQueryable<Payment> GetFilter(DtoPaymentFilter filter)
         {
             var payments = _cacheService.GetPayments();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return payments.Where(p => false);
+            if (filter == null)
+                return payments.Where(v => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
+                    return payments.Where(rm => false);
+
+                payments = payments.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 payments = payments.Where(p => p.Id.Equals(filter.Id.Value));
 

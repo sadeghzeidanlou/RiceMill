@@ -33,9 +33,16 @@ namespace RiceMill.Application.UseCases.IncomeServices
         private IQueryable<Income> GetFilter(DtoIncomeFilter filter)
         {
             var incomes = _cacheService.GetIncomes();
-            if (filter == null || (_currentRequestService.IsNotAdmin && filter.RiceMillId.IsNullOrEmpty()))
-                return incomes.Where(rt => false);
+            if (filter == null)
+                return incomes.Where(v => false);
 
+            if (_currentRequestService.IsNotAdmin)
+            {
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
+                    return incomes.Where(rm => false);
+
+                incomes = incomes.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
+            }
             if (filter.Id.IsNotNullOrEmpty())
                 incomes = incomes.Where(rt => rt.Id.Equals(filter.Id.Value));
 

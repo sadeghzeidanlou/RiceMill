@@ -38,11 +38,10 @@ namespace RiceMill.Application.UseCases.PersonServices
 
             if (_currentRequestService.IsNotAdmin)
             {
-                var userData = _cacheService.GetUsers().FirstOrDefault(x => x.Id.Equals(_currentRequestService.UserId));
-                if (userData == null)
+                if (_currentRequestService.RiceMillId.IsNullOrEmpty())
                     return people.Where(rm => false);
 
-                people = people.Where(rm => rm.RiceMillId.Equals(userData.RiceMillId));
+                people = people.Where(rm => rm.RiceMillId.Equals(_currentRequestService.RiceMillId.Value));
             }
             if (filter.Id.IsNotNullOrEmpty())
                 people = people.Where(p => p.Id.Equals(filter.Id.Value));

@@ -9,6 +9,8 @@ namespace RiceMill.Application.Common.Interfaces
 
         public Guid UserId { get; set; }
 
+        public Guid? RiceMillId { get; set; }
+
         public RoleEnum UserRole { get; set; }
 
         bool IsAuthenticated => UserId.IsNotNullOrEmpty();
