@@ -271,7 +271,7 @@ public sealed partial class RiceThreshingListPage : ContentPage
         catch (Exception ex)
         {
             await Toast.Make(ex.Message.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
-            if(_isNewRiceThreshing )
+            //TODO Remove new Income if got error
         }
         finally
         {
@@ -306,7 +306,7 @@ public sealed partial class RiceThreshingListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoRiceThreshingFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _riceThreshingServices.Get(filter);
@@ -319,7 +319,7 @@ public sealed partial class RiceThreshingListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoInputLoadFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _inputLoadServices.Get(filter);
@@ -332,7 +332,7 @@ public sealed partial class RiceThreshingListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoPersonFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _personServices.Get(filter);
@@ -345,7 +345,7 @@ public sealed partial class RiceThreshingListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoVillageFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _villageServices.Get(filter);
@@ -358,7 +358,7 @@ public sealed partial class RiceThreshingListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoIncomeFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _incomeServices.Get(filter);

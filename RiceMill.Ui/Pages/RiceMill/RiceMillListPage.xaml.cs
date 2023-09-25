@@ -174,7 +174,7 @@ public sealed partial class RiceMillListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoRiceMillFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.Id = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _riceMillServices.Get(filter);
@@ -188,7 +188,7 @@ public sealed partial class RiceMillListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoPersonFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _personServices.Get(filter);

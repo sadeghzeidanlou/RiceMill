@@ -3,17 +3,22 @@ using CommunityToolkit.Maui.Core;
 using Microsoft.Maui.Platform;
 using RiceMill.Application.Common.Models.Enums;
 using RiceMill.Application.Common.Models.ResultObject;
+using RiceMill.Application.UseCases.RiceMillServices.Dto;
 using RiceMill.Application.UseCases.VillageServices.Dto;
 using RiceMill.Ui.Common;
+using RiceMill.Ui.Services.UseCases.RiceMillServices;
 using RiceMill.Ui.Services.UseCases.VillageServices;
 using Shared.ExtensionMethods;
+using System.Text;
 
 namespace RiceMill.Ui.Pages.Village;
 
 public sealed partial class VillageListPage : ContentPage
 {
     private readonly IVillageServices _villageServices;
+    private readonly IRiceMillServices _riceMillServices;
     private PaginatedList<DtoVillage> Villages;
+    private PaginatedList<DtoRiceMill> RiceMills;
     private bool _isNewVillage = true;
 
     public VillageListPage()
@@ -21,6 +26,7 @@ public sealed partial class VillageListPage : ContentPage
         try
         {
             _villageServices = new VillageServices();
+            _riceMillServices = new RiceMillServices();
             InitializeComponent();
             InitializeAsync();
         }
@@ -37,8 +43,13 @@ public sealed partial class VillageListPage : ContentPage
             BtnRemove.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnSave.IsEnabled = !ApplicationStaticContext.IsUser;
             BtnNew.IsEnabled = !ApplicationStaticContext.IsUser;
+            PickerRiceMill.IsEnabled = ApplicationStaticContext.IsAdmin;
+            await LoadRiceMillList();
             await RefreshVillageList();
             CVVillage.ItemsSource = Villages.Items;
+            PickerRiceMill.ItemsSource = RiceMills.Items;
+            if (ApplicationStaticContext.IsNotAdmin)
+                PickerRiceMill.SelectedItem = RiceMills.Items.FirstOrDefault();
         }
         catch (Exception ex)
         {
@@ -51,6 +62,7 @@ public sealed partial class VillageListPage : ContentPage
         _isNewVillage = true;
         TxtTitle.Text = string.Empty;
         CVVillage.SelectedItem = null;
+        PickerRiceMill.SelectedItem = ApplicationStaticContext.IsAdmin ? null : RiceMills.Items.FirstOrDefault();
     }
 
     private async void OnBtnRemoveClicked(object sender, EventArgs e)
@@ -85,6 +97,7 @@ public sealed partial class VillageListPage : ContentPage
                 return;
 
             TxtTitle.Text = selectedVillage.Title;
+            PickerRiceMill.SelectedItem = RiceMills.Items.FirstOrDefault(x => x.Id.Equals(selectedVillage.RiceMillId));
             _isNewVillage = false;
         }
         catch (Exception ex)
@@ -97,14 +110,26 @@ public sealed partial class VillageListPage : ContentPage
     {
         try
         {
-            if (TxtTitle.Text.IsNullOrEmpty() || _isNewVillage && ApplicationStaticContext.CurrentUser.RiceMillId.IsNullOrEmpty())
+            DtoRiceMill selectedRiceMill = null;
+            if (PickerRiceMill.SelectedItem is DtoRiceMill riceMill)
+                selectedRiceMill = riceMill;
+
+            var errorMessage = new StringBuilder();
+            if (_isNewVillage && selectedRiceMill == null)
+                errorMessage.AppendLine(ResultStatusEnum.RiceMillNotFound.GetErrorMessage());
+
+            if (TxtTitle.Text.IsNullOrEmpty())
+                errorMessage.AppendLine(ResultStatusEnum.VillageTitleIsNotValid.GetErrorMessage());
+
+            if (errorMessage.IsNotNullOrEmpty())
             {
-                await Toast.Make(ResultStatusEnum.VillageTitleIsNotValid.GetErrorMessage(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
+                await Toast.Make(errorMessage.ToString(), ToastDuration.Long, ApplicationStaticContext.ToastMessageSize).Show();
                 return;
             }
+
             if (_isNewVillage)
             {
-                var newVillage = new DtoCreateVillage(TxtTitle.Text, ApplicationStaticContext.CurrentUser.RiceMillId);
+                var newVillage = new DtoCreateVillage(TxtTitle.Text, selectedRiceMill.Id);
                 await _villageServices.Add(newVillage);
             }
             else
@@ -132,12 +157,25 @@ public sealed partial class VillageListPage : ContentPage
         }
     }
 
+    private Task LoadRiceMillList()
+    {
+        return Task.Run(() =>
+        {
+            var filter = new DtoRiceMillFilter();
+            if (ApplicationStaticContext.IsNotAdmin)
+                filter.Id = ApplicationStaticContext.CurrentUser.RiceMillId;
+
+            var result = _riceMillServices.Get(filter);
+            RiceMills = result.Result.Data;
+        });
+    }
+
     private Task RefreshVillageList()
     {
         return Task.Run(() =>
         {
             var filter = new DtoVillageFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _villageServices.Get(filter);

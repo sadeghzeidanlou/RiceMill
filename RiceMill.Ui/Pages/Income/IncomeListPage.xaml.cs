@@ -167,7 +167,7 @@ public sealed partial class IncomeListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoIncomeFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _incomeServices.Get(filter);

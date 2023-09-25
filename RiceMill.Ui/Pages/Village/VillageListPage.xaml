@@ -24,6 +24,7 @@
                 <Grid FlowDirection="RightToLeft">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
@@ -35,12 +36,19 @@
                            ClearButtonVisibility="WhileEditing"
                            FontAttributes="Bold"/>
 
+                    <Picker x:Name="PickerRiceMill"
+                            Grid.Row="1" 
+                            Title="کارخانه"
+                            VerticalOptions="Center"        
+                            ItemDisplayBinding="{Binding Title}" 
+                            FontAttributes="Bold"/>
+
                     <Button x:Name="BtnSave"
                             Text="ذخیره" 
                             WidthRequest="150"
                             BackgroundColor="#3D9970"
                             CornerRadius="20"
-                            Grid.Row="1" 
+                            Grid.Row="2" 
                             FontAttributes="Bold"
                             Grid.ColumnSpan="2"
                             Clicked="OnBtnSaveClicked" />

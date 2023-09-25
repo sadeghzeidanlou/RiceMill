@@ -247,7 +247,7 @@ public sealed partial class PaymentListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoPaymentFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _paymentServices.Get(filter);
@@ -260,7 +260,7 @@ public sealed partial class PaymentListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoInputLoadFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _inputLoadServices.Get(filter);
@@ -273,7 +273,7 @@ public sealed partial class PaymentListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoPersonFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _personServices.Get(filter);
@@ -286,7 +286,7 @@ public sealed partial class PaymentListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoVillageFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _villageServices.Get(filter);
@@ -299,7 +299,7 @@ public sealed partial class PaymentListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoConcernFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _concernServices.Get(filter);

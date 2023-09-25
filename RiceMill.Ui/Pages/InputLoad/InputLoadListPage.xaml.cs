@@ -248,7 +248,7 @@ public sealed partial class InputLoadListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoInputLoadFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _inputLoadServices.Get(filter);
@@ -261,7 +261,7 @@ public sealed partial class InputLoadListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoVillageFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _villageServices.Get(filter);
@@ -274,7 +274,7 @@ public sealed partial class InputLoadListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoVehicleFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _vehicleServices.Get(filter);
@@ -287,7 +287,7 @@ public sealed partial class InputLoadListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoPersonFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _personServices.Get(filter);

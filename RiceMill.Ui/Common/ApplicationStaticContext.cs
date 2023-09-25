@@ -14,6 +14,8 @@ namespace RiceMill.Ui.Common
 
         public static bool IsAdmin => CurrentUser.Role == RoleEnum.Admin;
 
+        public static bool IsNotAdmin => CurrentUser.Role != RoleEnum.Admin;
+
         public static bool IsManager => CurrentUser.Role == RoleEnum.RiceMillManager;
         
         public static bool IsSupperUser => CurrentUser.Role == RoleEnum.SuperUser;

@@ -137,7 +137,7 @@ public sealed partial class ConcernListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoConcernFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _concernServices.Get(filter);

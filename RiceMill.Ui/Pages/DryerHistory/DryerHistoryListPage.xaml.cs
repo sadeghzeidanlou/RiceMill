@@ -284,7 +284,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoDryerHistoryFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _dryerHistoryServices.Get(filter);
@@ -297,7 +297,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoDryerFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _dryerServices.Get(filter);
@@ -310,7 +310,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoPersonFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _personServices.Get(filter);
@@ -323,7 +323,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoVillageFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _villageServices.Get(filter);
@@ -336,7 +336,7 @@ public sealed partial class DryerHistoryListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoInputLoadFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _inputLoadServices.Get(filter);

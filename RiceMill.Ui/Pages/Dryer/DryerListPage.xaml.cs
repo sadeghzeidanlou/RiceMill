@@ -137,7 +137,7 @@ public sealed partial class DryerListPage : ContentPage
         return Task.Run(() =>
         {
             var filter = new DtoDryerFilter();
-            if (!ApplicationStaticContext.IsAdmin)
+            if (ApplicationStaticContext.IsNotAdmin)
                 filter.RiceMillId = ApplicationStaticContext.CurrentUser.RiceMillId;
 
             var result = _dryerServices.Get(filter);
